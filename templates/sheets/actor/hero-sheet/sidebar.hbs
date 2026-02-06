@@ -1,0 +1,107 @@
+<aside class="dsp-sidebar">
+  {{#if isPlay}}
+  <button type="button" class="sidebar-toggle" data-action="toggleSidebar">
+    <i class="fa-solid fa-angles-left"></i>
+  </button>
+
+  <div class="sidebar-content">
+    <section class="sidebar-section vitals-section">
+      <div class="sidebar-section-title">{{localize "DRAW_STEEL.SHEET.Resources"}}</div>
+
+      <div class="sidebar-resource">
+        <div class="sidebar-resource-header">
+          {{#if editable}}
+          <button type="button" data-action="spendStaminaHeroToken" data-tooltip="DRAW_STEEL.Setting.HeroTokens.RegainStamina.tooltip">
+            <i class="fa-solid fa-circle-bolt"></i> {{systemFields.stamina.label}}
+          </button>
+          {{else}}
+          <span>{{systemFields.stamina.label}}</span>
+          {{/if}}
+        </div>
+        <div class="sidebar-resource-fields">
+          <div class="sidebar-field">
+            <label>{{localize "DRAW_STEEL.Actor.base.FIELDS.stamina.value.label"}}</label>
+            <input type="number" name="system.stamina.value" value="{{system.stamina.value}}">
+          </div>
+          <div class="sidebar-field">
+            <label>Temp</label>
+            <input type="number" name="system.stamina.temporary" value="{{system.stamina.temporary}}">
+          </div>
+          <div class="sidebar-field">
+            <label>Max</label>
+            <span class="sidebar-static">{{system.stamina.max}}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="sidebar-resource">
+        <div class="sidebar-resource-header">
+          {{#if editable}}
+          <button type="button" data-action="spendRecovery" data-tooltip="DRAW_STEEL.Actor.base.SpendRecovery.tooltip">
+            <i class="fa-solid fa-heart-pulse"></i> {{systemFields.recoveries.label}}
+          </button>
+          {{else}}
+          <span>{{systemFields.recoveries.label}}</span>
+          {{/if}}
+        </div>
+        <div class="sidebar-resource-fields">
+          <div class="sidebar-field">
+            <label>Current</label>
+            <input type="number" name="system.recoveries.value" value="{{system.recoveries.value}}">
+          </div>
+          <div class="sidebar-field">
+            <label>Max</label>
+            <span class="sidebar-static">{{system.recoveries.max}}</span>
+          </div>
+          <div class="sidebar-field">
+            <label>Value</label>
+            <span class="sidebar-static">{{system.recoveries.recoveryValue}}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="sidebar-resource">
+        <div class="sidebar-resource-header">
+          {{#if editable}}
+          <button type="button" data-action="gainSurges" data-tooltip="DRAW_STEEL.Setting.HeroTokens.GainSurges.tooltip">
+            <i class="fa-solid fa-circle-bolt"></i> {{systemFields.hero.fields.surges.label}}
+          </button>
+          {{else}}
+          <span>{{systemFields.hero.fields.surges.label}}</span>
+          {{/if}}
+        </div>
+        <div class="sidebar-resource-fields">
+          <div class="sidebar-field">
+            <label>Current</label>
+            <input type="number" name="system.hero.surges" value="{{system.hero.surges}}">
+          </div>
+        </div>
+      </div>
+
+      {{formGroup systemFields.hero.fields.primary.fields.value value=system.hero.primary.value dataset=datasets.notSource label=system.hero.primary.label classes="sidebar-heroic"}}
+    </section>
+
+    <section class="sidebar-section combat-section">
+      <div class="sidebar-section-title">Combat & Movement</div>
+      {{> "systems/draw-steel/templates/sheets/actor/shared/partials/stats/combat.hbs"}}
+      {{> "systems/draw-steel/templates/sheets/actor/shared/partials/stats/movement.hbs"}}
+    </section>
+
+    <section class="sidebar-section immunities-section">
+      {{> "systems/draw-steel/templates/sheets/actor/shared/partials/stats/immunities-weaknesses.hbs"}}
+    </section>
+
+    <section class="sidebar-section skills-section">
+      <fieldset class="skills">
+        <legend>
+          {{systemFields.hero.fields.skills.label}}
+          {{#if unfilledSkill}}
+          <button type="button" class="icon fa-solid fa-clipboard-question" data-tooltip-text="{{localize "DRAW_STEEL.ADVANCEMENT.FillTrait.button" type=(localize "TYPES.Advancement.skill")}}" data-tooltip-direction="UP" data-action="fillTrait" data-type="skill"></button>
+          {{/if}}
+        </legend>
+        {{skills.list}}
+      </fieldset>
+    </section>
+  </div>
+  {{/if}}
+</aside>

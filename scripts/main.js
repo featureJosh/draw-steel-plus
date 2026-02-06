@@ -39,10 +39,30 @@ function registerSheets() {
           ...(super.PARTS?.header || {}),
           template: `${MODULE_PATH}/templates/sheets/actor/hero-sheet/header.hbs`,
         },
+        sidebar: {
+          template: `${MODULE_PATH}/templates/sheets/actor/hero-sheet/sidebar.hbs`,
+        },
       };
 
       get title() {
         return `${this.document.name} [DS+]`;
+      }
+
+      _onRender(context, options) {
+        super._onRender(context, options);
+
+        if (context.isPlay) {
+          this.element.classList.add("has-sidebar");
+        } else {
+          this.element.classList.remove("has-sidebar");
+        }
+
+        this.element.querySelectorAll('[data-action="toggleSidebar"]').forEach((btn) => {
+          btn.addEventListener("click", (e) => {
+            e.preventDefault();
+            this.element.classList.toggle("sidebar-collapsed");
+          });
+        });
       }
     };
 

@@ -30,8 +30,23 @@
 
 .draw-steel-plus.sheet.application .window-content {
 	flex: 1;
-	display: flex;
-	flex-flow: column nowrap;
+	display: grid;
+	grid-template-columns: 1fr;
+	grid-template-rows: auto auto 1fr;
 	padding: unset !important;
 	overflow: hidden;
+	position: relative;
+}
+
+.draw-steel-plus.sheet.has-sidebar .window-content {
+	grid-template-columns: auto 1fr;
+}
+
+.draw-steel-plus.sheet:not(.has-sidebar) .dsp-sidebar {
+	display: none;
+}
+
+.draw-steel-plus.sheet .dsp-sidebar {
+	grid-column: 1;
+	grid-row: 1 / -1;
 }

@@ -764,9 +764,9 @@
   box-shadow: 0 0 8px var(--dsp-accent-dim);
 }
 
-.draw-steel-plus.sheet button {
+/*.draw-steel-plus.sheet button {
   font-family: inherit;
-}
+}*/
 
 .draw-steel-plus.sheet .tab .flexrow {
   gap: 8px;

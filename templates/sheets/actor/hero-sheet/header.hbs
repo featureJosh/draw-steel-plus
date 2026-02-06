@@ -74,52 +74,6 @@
         </div>
       </div>
 
-      {{#if editable}}
-      <details class="vitals-expand">
-        <summary class="vitals-expand-toggle"><i class="fa-solid fa-chevron-down"></i></summary>
-        <div class="vitals-edit-panel">
-          <div class="edit-row">
-            <label>{{systemFields.stamina.label}}</label>
-            <div class="edit-fields">
-              <input type="number" name="system.stamina.value" value="{{system.stamina.value}}">
-              <span class="edit-sep">/</span>
-              <span class="edit-max">{{system.stamina.max}}</span>
-            </div>
-          </div>
-          <div class="edit-row">
-            <label>Temp</label>
-            <div class="edit-fields">
-              <input type="number" name="system.stamina.temporary" value="{{system.stamina.temporary}}">
-            </div>
-          </div>
-          <div class="edit-row">
-            <label>{{systemFields.recoveries.label}}</label>
-            <div class="edit-fields">
-              <input type="number" name="system.recoveries.value" value="{{system.recoveries.value}}">
-              <span class="edit-sep">/</span>
-              <span class="edit-max">{{system.recoveries.max}}</span>
-            </div>
-          </div>
-          <div class="edit-row">
-            <label>{{systemFields.hero.fields.surges.label}}</label>
-            <div class="edit-fields">
-              <input type="number" name="system.hero.surges" value="{{system.hero.surges}}">
-            </div>
-          </div>
-          <div class="edit-actions">
-            <button type="button" data-action="spendStaminaHeroToken" data-tooltip="DRAW_STEEL.Setting.HeroTokens.RegainStamina.tooltip">
-              <i class="fa-solid fa-circle-bolt"></i> {{systemFields.stamina.label}}
-            </button>
-            <button type="button" data-action="spendRecovery" data-tooltip="DRAW_STEEL.Actor.base.SpendRecovery.tooltip">
-              <i class="fa-solid fa-heart-pulse"></i> {{systemFields.recoveries.label}}
-            </button>
-            <button type="button" data-action="gainSurges" data-tooltip="DRAW_STEEL.Setting.HeroTokens.GainSurges.tooltip">
-              <i class="fa-solid fa-circle-bolt"></i> {{systemFields.hero.fields.surges.label}}
-            </button>
-          </div>
-        </div>
-      </details>
-      {{/if}}
     </div>
     {{/if}}
   </div>

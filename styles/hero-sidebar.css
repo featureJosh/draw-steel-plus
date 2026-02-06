@@ -1,0 +1,213 @@
+.draw-steel-plus.sheet .dsp-sidebar {
+  position: relative;
+  overflow: visible;
+}
+
+.draw-steel-plus.sheet .sidebar-toggle {
+  position: absolute;
+  top: 10px;
+  right: 0;
+  transform: translateX(100%);
+  z-index: 25;
+  width: 20px;
+  height: 34px;
+  background: var(--dsp-surface);
+  border: 1px solid var(--dsp-border);
+  border-left: none;
+  border-radius: 0 var(--dsp-radius-sm) var(--dsp-radius-sm) 0;
+  color: var(--dsp-text-faint);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.5rem;
+  transition: color var(--dsp-transition), background var(--dsp-transition), border-color var(--dsp-transition);
+}
+
+.draw-steel-plus.sheet .sidebar-toggle:hover {
+  color: var(--dsp-accent);
+  border-color: var(--dsp-accent);
+  background: var(--dsp-surface-raised);
+}
+
+.draw-steel-plus.sheet .sidebar-toggle i {
+  transition: transform var(--dsp-transition-slow);
+}
+
+.draw-steel-plus.sheet.sidebar-collapsed .sidebar-toggle i {
+  transform: rotate(180deg);
+}
+
+.draw-steel-plus.sheet .sidebar-content {
+  width: 240px;
+  height: 100%;
+  background: var(--dsp-surface);
+  border-right: 1px solid var(--dsp-border);
+  overflow-y: auto;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: width var(--dsp-transition-slow), border-color var(--dsp-transition-slow);
+}
+
+.draw-steel-plus.sheet.sidebar-collapsed .sidebar-content {
+  width: 0;
+  border-right-color: transparent;
+}
+
+.draw-steel-plus.sheet .sidebar-content::-webkit-scrollbar {
+  width: 4px;
+}
+
+.draw-steel-plus.sheet .sidebar-content::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.draw-steel-plus.sheet .sidebar-content::-webkit-scrollbar-thumb {
+  background: var(--dsp-border);
+  border-radius: 2px;
+}
+
+.draw-steel-plus.sheet .sidebar-section {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--dsp-border);
+  min-width: 240px;
+}
+
+.draw-steel-plus.sheet .sidebar-section-title {
+  font-size: 0.6rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--dsp-text-faint);
+  margin-bottom: 8px;
+}
+
+.draw-steel-plus.sheet .sidebar-resource {
+  margin-bottom: 10px;
+}
+
+.draw-steel-plus.sheet .sidebar-resource:last-child {
+  margin-bottom: 0;
+}
+
+.draw-steel-plus.sheet .sidebar-resource-header {
+  margin-bottom: 6px;
+}
+
+.draw-steel-plus.sheet .sidebar-resource-header button {
+  background: none;
+  border: none;
+  color: var(--dsp-text-light);
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  padding: 3px 6px;
+  border-radius: var(--dsp-radius-sm);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: color var(--dsp-transition), background var(--dsp-transition);
+}
+
+.draw-steel-plus.sheet .sidebar-resource-header button:hover {
+  color: var(--dsp-accent);
+  background: rgba(200, 170, 110, 0.08);
+}
+
+.draw-steel-plus.sheet .sidebar-resource-header span {
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--dsp-text-light);
+  padding: 3px 6px;
+}
+
+.draw-steel-plus.sheet .sidebar-resource-fields {
+  display: flex;
+  gap: 6px;
+  align-items: flex-end;
+  flex-wrap: wrap;
+}
+
+.draw-steel-plus.sheet .sidebar-field {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+  min-width: 45px;
+}
+
+.draw-steel-plus.sheet .sidebar-field label {
+  font-size: 0.5rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--dsp-text-faint);
+}
+
+.draw-steel-plus.sheet .sidebar-field input {
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid var(--dsp-border);
+  border-radius: var(--dsp-radius-sm);
+  color: var(--dsp-text);
+  font-size: 0.85rem;
+  font-weight: 700;
+  padding: 4px 6px;
+  text-align: center;
+  outline: none;
+  width: 100%;
+  transition: border-color var(--dsp-transition);
+}
+
+.draw-steel-plus.sheet .sidebar-field input:focus {
+  border-color: var(--dsp-accent);
+}
+
+.draw-steel-plus.sheet .sidebar-static {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--dsp-text);
+  text-align: center;
+  padding: 4px 6px;
+  background: rgba(0, 0, 0, 0.15);
+  border: 1px solid transparent;
+  border-radius: var(--dsp-radius-sm);
+}
+
+.draw-steel-plus.sheet .sidebar-section .sidebar-heroic {
+  margin-top: 8px;
+}
+
+.draw-steel-plus.sheet .sidebar-section .form-group.sidebar-heroic label {
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--dsp-text-light);
+}
+
+.draw-steel-plus.sheet .sidebar-section .combat-section,
+.draw-steel-plus.sheet .sidebar-section .immunities-section,
+.draw-steel-plus.sheet .sidebar-section .skills-section {
+  padding: 10px 12px;
+}
+
+.draw-steel-plus.sheet .dsp-sidebar .skills {
+  border: none;
+  padding: 0;
+  background: none;
+}
+
+.draw-steel-plus.sheet .dsp-sidebar .skills legend {
+  font-size: 0.6rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--dsp-text-faint);
+  padding: 0;
+  margin-bottom: 6px;
+}
