@@ -1,0 +1,90 @@
+.draw-steel-plus.sheet.dsp-has-floating-tabs {
+  overflow: visible !important;
+}
+
+.draw-steel-plus.sheet.dsp-has-floating-tabs nav.sheet-tabs {
+  display: none !important;
+}
+
+.draw-steel-plus.sheet.dsp-has-floating-tabs .window-content {
+  grid-template-rows: auto 1fr;
+}
+
+.dsp-floating-tabs {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  z-index: -1;
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+
+.dsp-floating-tabs.tabs-right {
+  left: 100%;
+  align-items: flex-start;
+}
+
+.dsp-floating-tabs > .dsp-float-tab {
+  --dsp-tab-full: 44px;
+  --dsp-tab-inactive: 38px;
+  width: var(--dsp-tab-full);
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 12px;
+  background: var(--dsp-background);
+  color: var(--dsp-accent);
+  border: 1px solid transparent;
+  border-radius: 0 8px 8px 0;
+  margin-left: calc((var(--dsp-tab-full) - var(--dsp-tab-inactive)) * -1);
+  transition: all 250ms ease;
+  cursor: pointer;
+  text-decoration: none;
+  position: relative;
+  flex: none;
+}
+
+.dsp-floating-tabs > .dsp-float-tab i {
+  font-size: 14px;
+  margin: 0;
+}
+
+.dsp-floating-tabs > .dsp-float-tab.active,
+.dsp-floating-tabs > .dsp-float-tab:hover {
+  border-color: var(--dsp-accent);
+  box-shadow: 0 0 6px var(--dsp-accent-dim);
+  margin-left: 0;
+  text-shadow: none;
+}
+
+.dsp-floating-tabs > .dsp-float-tab.active {
+  background: var(--dsp-surface);
+}
+
+.dsp-floating-tabs > .dsp-float-tab::after {
+  content: "";
+  position: absolute;
+  inset: 4px 4px 4px 0;
+  border: 1px solid var(--dsp-accent);
+  border-radius: 0 5px 5px 0;
+  border-left: none;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 250ms ease;
+}
+
+.dsp-floating-tabs > .dsp-float-tab.active::after {
+  opacity: 0.3;
+}
+
+.dsp-floating-tabs > .dsp-float-tab:hover::after {
+  opacity: 0.5;
+}
+
+.draw-steel-plus.sheet.dsp-has-floating-tabs.minimized .dsp-floating-tabs,
+.draw-steel-plus.sheet.dsp-has-floating-tabs.minimizing .dsp-floating-tabs {
+  display: none;
+}

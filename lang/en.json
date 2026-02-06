@@ -2,7 +2,62 @@
   "DRAW_STEEL_PLUS": {
     "Sheet": {
       "Hero": "DS+ Hero Sheet",
-      "NPC": "DS+ NPC Sheet"
+      "NPC": "DS+ NPC Sheet",
+      "Item": "DS+ Item Sheet"
+    },
+    "Settings": {
+      "heroWidth": {
+        "name": "Hero Sheet Width",
+        "hint": "Default opening width in pixels"
+      },
+      "heroHeight": {
+        "name": "Hero Sheet Height",
+        "hint": "Default opening height in pixels"
+      },
+      "heroMinWidth": {
+        "name": "Hero Sheet Min Width",
+        "hint": "Minimum width the hero sheet can be resized to"
+      },
+      "heroMinHeight": {
+        "name": "Hero Sheet Min Height",
+        "hint": "Minimum height the hero sheet can be resized to"
+      },
+      "npcWidth": {
+        "name": "NPC Sheet Width",
+        "hint": "Default opening width in pixels"
+      },
+      "npcHeight": {
+        "name": "NPC Sheet Height",
+        "hint": "Default opening height in pixels"
+      },
+      "npcMinWidth": {
+        "name": "NPC Sheet Min Width",
+        "hint": "Minimum width the NPC sheet can be resized to"
+      },
+      "npcMinHeight": {
+        "name": "NPC Sheet Min Height",
+        "hint": "Minimum height the NPC sheet can be resized to"
+      },
+      "itemWidth": {
+        "name": "Item Sheet Width",
+        "hint": "Default opening width in pixels"
+      },
+      "itemHeight": {
+        "name": "Item Sheet Height",
+        "hint": "Default opening height in pixels"
+      },
+      "itemMinWidth": {
+        "name": "Item Sheet Min Width",
+        "hint": "Minimum width the item sheet can be resized to"
+      },
+      "itemMinHeight": {
+        "name": "Item Sheet Min Height",
+        "hint": "Minimum height the item sheet can be resized to"
+      },
+      "floatingNavTabs": {
+        "name": "Floating Navigation Tabs",
+        "hint": "Replace the horizontal tab bar with floating vertical tabs on the right side of sheets"
+      }
     }
   }
 }
