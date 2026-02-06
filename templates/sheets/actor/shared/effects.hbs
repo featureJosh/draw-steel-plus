@@ -1,0 +1,64 @@
+{{! Effects Tab }}
+<section class="tab effects {{tab.cssClass}} standard-form" data-group="primary" data-tab="effects">
+  <fieldset class="status-effects">
+    <legend>{{localize "DRAW_STEEL.ActiveEffect.StatusConditions"}}</legend>
+    <div class="status-container">
+      {{#each statuses as |status id|}}
+      <button type="button" class="status-control {{status.active}}" {{disabled status.disabled}} data-status-id="{{id}}" data-tooltip-html="{{status.tooltip}}" data-action="toggleStatus">
+        <img src="{{status.img}}" alt="{{status.name}}">
+        <span>{{status.name}}</span>
+      </button>
+      {{/each}}
+    </div>
+  </fieldset>
+  <div class="effect-list-container">
+    <ol class="effect-list">
+      {{#each effects as |section sid|}}
+      <li class="effect-header" data-effect-type="{{section.type}}">
+        <div class="effect-name flexrow">
+          {{section.label}}
+        </div>
+        <div class="effect-source">
+          {{localize "DRAW_STEEL.ActiveEffect.Source"}}
+        </div>
+        <div class="effect-duration">{{localize "EFFECT.TABS.duration"}}</div>
+        <div class="effect-controls flexrow">
+          <a
+            class="effect-control effect-create fa-solid fa-fw fa-plus"
+            {{#if (eq section.type "inactive")}}
+            data-disabled="true"
+            {{! eslint-disable-next-line @html-eslint/no-duplicate-attrs }}
+            {{else if (eq section.type "temporary")}}
+            data-system.end.type="turn"
+            {{/if}}
+          >
+          </a>
+        </div>
+      </li>
+      <ol class="effect-list">
+        {{#each section.effects as |effect|}}
+        <li class="effect draggable expandable-document" data-document-uuid="{{effect.uuid}}">
+          <div class="effect-row">
+            <div class="effect-name">
+              <img class="effect-image" src="{{effect.img}}" alt="{{effect.name}}">
+              <div class="name">
+                <div class="label">{{effect.name}}</div>
+              </div>
+            </div>
+            <div class="effect-source">{{effect.sourceName}}</div>
+            <div class="effect-duration">{{effect.duration.label}}</div>
+            <div class="effect-controls">
+              <a class="fa-fw fa-solid fa-ellipsis-vertical" data-action="documentListContext"></a>
+              <a class="fa-fw fa-solid fa-angle-{{ifThen effect.expanded 'down' 'right'}}" data-action="toggleDocumentDescription"></a>
+            </div>
+          </div>
+          <div class="document-description effect-description {{#if effect.expanded}}expanded{{/if}}">
+            {{#if effect.expanded}}{{{effect.enrichedDescription.outerHTML}}}{{/if}}
+          </div>
+        </li>
+        {{/each}}
+      </ol>
+      {{/each}}
+    </ol>
+  </div>
+</section>

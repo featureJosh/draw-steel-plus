@@ -1,0 +1,37 @@
+.draw-steel-plus.sheet {
+  --dsp-primary: #7a1b1b;
+  --dsp-primary-light: #a82828;
+  --dsp-primary-dark: #4a0e0e;
+  --dsp-primary-glow: rgba(168, 40, 40, 0.3);
+  --dsp-secondary: #1a1a2e;
+  --dsp-accent: #c8aa6e;
+  --dsp-accent-bright: #ddc088;
+  --dsp-accent-dim: rgba(200, 170, 110, 0.2);
+  --dsp-background: #0d0d0d;
+  --dsp-surface: #161616;
+  --dsp-surface-raised: #1e1e1e;
+  --dsp-text: #e8e0d4;
+  --dsp-text-light: #9a8e80;
+  --dsp-text-faint: #5a5248;
+  --dsp-border: #2a2020;
+  --dsp-border-light: #3a302a;
+  --dsp-shadow: rgba(0, 0, 0, 0.6);
+  --dsp-shadow-heavy: rgba(0, 0, 0, 0.85);
+  --dsp-danger: #e05555;
+  --dsp-radius-sm: 4px;
+  --dsp-radius-md: 8px;
+  --dsp-radius-lg: 16px;
+  --dsp-radius-xl: 24px;
+  --dsp-radius-full: 9999px;
+  --dsp-transition-fast: 0.15s ease;
+  --dsp-transition: 0.25s ease;
+  --dsp-transition-slow: 0.4s ease;
+}
+
+.draw-steel-plus.sheet.application .window-content {
+	flex: 1;
+	display: flex;
+	flex-flow: column nowrap;
+	padding: unset !important;
+	overflow: hidden;
+}

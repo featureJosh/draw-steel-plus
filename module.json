@@ -1,0 +1,42 @@
+{
+  "id": "draw-steel-plus",
+  "title": "Draw Steel Plus",
+  "description": "A module that improves upon the default Draw Steel system UI/UX",
+  "version": "1.0.0",
+  "compatibility": {
+    "minimum": "13",
+    "verified": "13",
+    "maximum": ""
+  },
+  "authors": [
+    {
+      "name": "featureJosh"
+    }
+  ],
+  "relationships": {
+    "systems": [
+      {
+        "id": "draw-steel",
+        "type": "system",
+        "compatibility": {
+          "minimum": "0.8.0"
+        }
+      }
+    ]
+  },
+  "esmodules": [
+    "scripts/main.js"
+  ],
+  "styles": [
+    "styles/main.css"
+  ],
+  "languages": [
+    {
+      "lang": "en",
+      "name": "English",
+      "path": "lang/en.json"
+    }
+  ],
+  "download": "",
+  "manifest": ""
+}

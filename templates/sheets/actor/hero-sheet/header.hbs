@@ -1,0 +1,221 @@
+{{#*inline "headerTag"}}
+{{#if originDoc}}
+<span class="tag-content" data-document-uuid="{{lookup originDoc "uuid"}}">
+  <a class="filled" data-action="viewDoc">
+    {{lookup originDoc "name"}}
+  </a>
+  {{#unless (or @root.isPlay noEdit)}}
+  <a data-action="deleteDoc" class="delete-icon">
+    <i class="fa-solid fa-trash-can"></i>
+  </a>
+  {{/unless}}
+</span>
+{{else}}
+{{#if @root.isPlay}}
+<span class="unfilled">
+  {{localize "DRAW_STEEL.SHEET.NoDocument" documentName=(localize (concat "TYPES.Item." originType))}}
+</span>
+{{else}}
+{{#unless noEdit}}
+<a class="unfilled add-icon" data-action="addOrigin" data-type="{{originType}}">
+  <i class="fa-solid fa-plus"></i> {{localize "DRAW_STEEL.SHEET.Add" itemName=(localize (concat "TYPES.Item." originType))}}
+</a>
+{{/unless}}
+{{/if}}
+{{/if}}
+{{/inline}}
+
+<header class="sheet-header">
+
+  <img class="header-bg-art" src="{{document.img}}" aria-hidden="true">
+  <div class="header-bg-overlay"></div>
+
+  <div class="header-portrait">
+    <div class="portrait-frame">
+      <img
+        class="profile-img"
+        src="{{document.img}}"
+        alt="{{document.name}}"
+        data-action="{{ifThen isPlay "showPortraitArtwork" "editImage"}}"
+        data-edit="img"
+        title="{{document.name}}"
+      >
+      <div class="level-badge" title="{{localize "DRAW_STEEL.Item.class.FIELDS.level.label"}}">
+        {{#if system.advancementReady}}
+        <a data-action="levelUp" data-tooltip="DRAW_STEEL.SHEET.LevelUp">
+          <i class="fa-solid fa-arrow-up"></i>
+        </a>
+        {{else}}
+        {{system.level}}
+        {{/if}}
+      </div>
+    </div>
+
+    {{#if isPlay}}
+    <div class="header-vitals">
+      <div class="stamina-bar" style="--stam-current: {{system.stamina.value}}; --stam-max: {{system.stamina.max}}; --stam-temp: {{system.stamina.temporary}};">
+        <div class="stam-fill"></div>
+        {{#if system.stamina.temporary}}
+        <div class="stam-temp"></div>
+        {{/if}}
+        <span class="stam-display">
+          {{system.stamina.value}}{{#if system.stamina.temporary}} <span class="stam-temp-text">(+{{system.stamina.temporary}})</span>{{/if}} / {{system.stamina.max}}
+        </span>
+      </div>
+
+      <div class="vitals-row">
+        <div class="vital-box rec-box" data-tooltip="DRAW_STEEL.Actor.base.SpendRecovery.tooltip">
+          <i class="fa-solid fa-heart-pulse"></i>
+          <span class="vital-nums">{{system.recoveries.value}}<span class="vital-sep">/</span>{{system.recoveries.max}}</span>
+        </div>
+        <div class="vital-box srg-box" data-tooltip="DRAW_STEEL.Setting.HeroTokens.GainSurges.tooltip">
+          <i class="fa-solid fa-circle-bolt"></i>
+          <span class="vital-nums">{{system.hero.surges}}</span>
+        </div>
+      </div>
+
+      {{#if editable}}
+      <details class="vitals-expand">
+        <summary class="vitals-expand-toggle"><i class="fa-solid fa-chevron-down"></i></summary>
+        <div class="vitals-edit-panel">
+          <div class="edit-row">
+            <label>{{systemFields.stamina.label}}</label>
+            <div class="edit-fields">
+              <input type="number" name="system.stamina.value" value="{{system.stamina.value}}">
+              <span class="edit-sep">/</span>
+              <span class="edit-max">{{system.stamina.max}}</span>
+            </div>
+          </div>
+          <div class="edit-row">
+            <label>Temp</label>
+            <div class="edit-fields">
+              <input type="number" name="system.stamina.temporary" value="{{system.stamina.temporary}}">
+            </div>
+          </div>
+          <div class="edit-row">
+            <label>{{systemFields.recoveries.label}}</label>
+            <div class="edit-fields">
+              <input type="number" name="system.recoveries.value" value="{{system.recoveries.value}}">
+              <span class="edit-sep">/</span>
+              <span class="edit-max">{{system.recoveries.max}}</span>
+            </div>
+          </div>
+          <div class="edit-row">
+            <label>{{systemFields.hero.fields.surges.label}}</label>
+            <div class="edit-fields">
+              <input type="number" name="system.hero.surges" value="{{system.hero.surges}}">
+            </div>
+          </div>
+          <div class="edit-actions">
+            <button type="button" data-action="spendStaminaHeroToken" data-tooltip="DRAW_STEEL.Setting.HeroTokens.RegainStamina.tooltip">
+              <i class="fa-solid fa-circle-bolt"></i> {{systemFields.stamina.label}}
+            </button>
+            <button type="button" data-action="spendRecovery" data-tooltip="DRAW_STEEL.Actor.base.SpendRecovery.tooltip">
+              <i class="fa-solid fa-heart-pulse"></i> {{systemFields.recoveries.label}}
+            </button>
+            <button type="button" data-action="gainSurges" data-tooltip="DRAW_STEEL.Setting.HeroTokens.GainSurges.tooltip">
+              <i class="fa-solid fa-circle-bolt"></i> {{systemFields.hero.fields.surges.label}}
+            </button>
+          </div>
+        </div>
+      </details>
+      {{/if}}
+    </div>
+    {{/if}}
+  </div>
+
+  <div class="header-body">
+    <div class="identity-block">
+      <div class="name-row">
+        {{#if isPlay}}
+        <h1 class="char-name">{{document.name}}</h1>
+        {{else}}
+        {{formInput fields.name value=source.name placeholder=(localize "Name") class="char-name-input"}}
+        {{/if}}
+      </div>
+
+      <div class="origins-row">
+        <div class="ancestry tag">
+          {{> headerTag originDoc=document.system.ancestry originType="ancestry"}}
+        </div>
+        <div class="culture tag">
+          {{> headerTag originDoc=document.system.culture originType="culture"}}
+        </div>
+        <div class="career tag">
+          {{> headerTag originDoc=document.system.career originType="career"}}
+        </div>
+        <div class="class tag">
+          {{> headerTag originDoc=document.system.class originType="class"}}
+        </div>
+        {{#each document.system.subclasses as |subclass|}}
+        <div class="subclass tag">
+          {{> headerTag originDoc=subclass originType="subclass" noEdit=true}}
+        </div>
+        {{/each}}
+      </div>
+    </div>
+
+    <div class="stats-block">
+      {{#if isPlay}}
+      <div class="resource-row">
+        <div class="resource-group xp-group">
+          <div class="stat-label">{{systemFields.hero.fields.xp.label}}</div>
+          <div class="stat-value">
+            <span class="current">{{system.hero.xp}}</span>
+            {{#if system.nextLevelXP}}
+            <span class="sep">/</span>
+            <span class="max">{{system.nextLevelXP}}</span>
+            {{/if}}
+          </div>
+          {{#if system.nextLevelXP}}
+          <div class="xp-bar" style="--xp-current: {{system.hero.xp}}; --xp-max: {{system.nextLevelXP}};">
+            <div class="xp-fill"></div>
+          </div>
+          {{/if}}
+        </div>
+
+        <div class="resource-group victories-group">
+          <div class="stat-label">{{systemFields.hero.fields.victories.label}}</div>
+          <div class="stat-value">
+            <span class="current">{{system.hero.victories}}</span>
+            {{#if system.victoriesMax}}
+            <span class="sep">/</span>
+            <span class="max">{{system.victoriesMax}}</span>
+            {{/if}}
+          </div>
+        </div>
+      </div>
+
+      <div class="take-respite">
+        <a class="respite-btn" data-action="takeRespite">
+          <i class="fa-solid fa-bed"></i>
+          {{localize "DRAW_STEEL.Actor.hero.TakeRespite"}}
+        </a>
+      </div>
+      {{/if}}
+
+      {{#unless isPlay}}
+      <div class="actor-data hero-data">
+        {{formGroup systemFields.hero.fields.xp value=systemSource.hero.xp classes="xp"}}
+        {{formGroup systemFields.hero.fields.victories value=systemSource.hero.victories classes="victories"}}
+      </div>
+      {{/unless}}
+    </div>
+
+    <div class="header-characteristics">
+      {{#each system.characteristics as |chr key|}}
+      <a
+        class="char-badge {{disabled (not @root.owner)}}"
+        data-action="roll"
+        data-roll-type="characteristic"
+        data-characteristic="{{key}}"
+        {{disabled (not @root.isPlay)}}
+      >
+        <span class="char-label">{{key}}</span>
+        <span class="char-value">{{numberFormat chr.value sign=true}}</span>
+      </a>
+      {{/each}}
+    </div>
+  </div>
+
+</header>

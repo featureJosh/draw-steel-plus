@@ -1,0 +1,142 @@
+.draw-steel-plus.sheet .window-header {
+  background: var(--dsp-background);
+  border: none;
+  padding: 3px 8px 0;
+  margin: 0;
+  min-height: unset;
+  gap: 4px;
+}
+
+.draw-steel-plus.sheet .window-header .window-icon {
+  display: none;
+}
+
+.draw-steel-plus.sheet .window-header .window-title {
+  font-size: 0.6rem;
+  color: var(--dsp-text-faint);
+  opacity: 0.4;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0;
+  margin: 0;
+  line-height: 1;
+  transition: opacity var(--dsp-transition);
+}
+
+.draw-steel-plus.sheet .window-header:hover .window-title {
+  opacity: 0.7;
+}
+
+.draw-steel-plus.sheet .window-header .header-control {
+  color: var(--dsp-text-faint);
+  background: none;
+  border: none;
+  padding: 4px 6px;
+  margin: 0;
+  cursor: pointer;
+  opacity: 0.4;
+  transition: color var(--dsp-transition), opacity var(--dsp-transition), text-shadow var(--dsp-transition);
+  border-radius: var(--dsp-radius-sm);
+}
+
+.draw-steel-plus.sheet .window-header .header-control:hover {
+  color: var(--dsp-accent);
+  opacity: 1;
+  text-shadow: 0 0 10px var(--dsp-accent-dim);
+  background: rgba(200, 170, 110, 0.06);
+}
+
+.draw-steel-plus.sheet .window-header .header-control[data-action="close"] {
+  opacity: 0.45;
+}
+
+.draw-steel-plus.sheet .window-header .header-control[data-action="close"]:hover {
+  color: var(--dsp-danger);
+  opacity: 1;
+  text-shadow: 0 0 10px rgba(224, 85, 85, 0.3);
+  background: rgba(224, 85, 85, 0.08);
+}
+
+.draw-steel-plus.sheet .window-header .header-control[data-action="toggleMode"]:hover {
+  color: var(--dsp-primary-light);
+  text-shadow: 0 0 10px var(--dsp-primary-glow);
+  background: rgba(168, 40, 40, 0.08);
+}
+
+.draw-steel-plus.sheet nav.sheet-tabs {
+  background: var(--dsp-surface);
+  border: none;
+  border-bottom: 1px solid var(--dsp-border);
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+  padding: 0 20px;
+  margin: 0;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.draw-steel-plus.sheet nav.sheet-tabs::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 10%;
+  right: 10%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--dsp-border-light) 30%, var(--dsp-border-light) 70%, transparent);
+  pointer-events: none;
+}
+
+.draw-steel-plus.sheet nav.sheet-tabs a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 16px;
+  color: var(--dsp-text-faint);
+  text-decoration: none;
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  border: none;
+  border-bottom: 2px solid transparent;
+  background: transparent;
+  cursor: pointer;
+  transition: color var(--dsp-transition), border-color var(--dsp-transition), background var(--dsp-transition), text-shadow var(--dsp-transition);
+  position: relative;
+  white-space: nowrap;
+  margin: 0;
+}
+
+.draw-steel-plus.sheet nav.sheet-tabs a span {
+  position: relative;
+  z-index: 1;
+}
+
+.draw-steel-plus.sheet nav.sheet-tabs a:hover {
+  color: var(--dsp-text-light);
+  background: rgba(255, 255, 255, 0.025);
+  border-bottom-color: var(--dsp-border-light);
+}
+
+.draw-steel-plus.sheet nav.sheet-tabs a.active {
+  color: var(--dsp-text);
+  border-bottom-color: var(--dsp-primary-light);
+  background: linear-gradient(180deg, transparent 0%, rgba(122, 27, 27, 0.08) 100%);
+}
+
+.draw-steel-plus.sheet nav.sheet-tabs a.active::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 20%;
+  right: 20%;
+  height: 2px;
+  border-radius: 2px 2px 0 0;
+  box-shadow: 0 0 8px var(--dsp-primary-glow), 0 0 16px rgba(168, 40, 40, 0.2);
+}
+
+.draw-steel-plus.sheet nav.sheet-tabs a.active:hover {
+  background: linear-gradient(180deg, transparent 0%, rgba(122, 27, 27, 0.12) 100%);
+}

@@ -1,0 +1,38 @@
+{{! Shared Features Section }}
+<section class="item-list-container feature-list-container">
+  <div class="item-header">
+    <div class="item-column item-name">{{localize "TYPES.Item.feature"}}</div>
+    <div class="item-column item-type">{{localize "DOCUMENT.FIELDS.type.label"}}</div>
+    <div class="item-column item-controls">
+      {{#unless isPlay}}
+      {{#with (localize "DRAW_STEEL.SHEET.Add" itemName=(localize "TYPES.Item.feature")) as |addItemTooltip|}}
+      <a class="createDoc" data-action="createDoc" data-document-class="Item" data-type="feature" data-render-sheet="true" data-tooltip-text="{{addItemTooltip}}">
+        <i class="fa-solid fa-plus"></i>
+      </a>
+      {{/with}}
+      {{/unless}}
+    </div>
+  </div>
+  <ol class="item-list feature-list">
+    {{#each features as |featureContext|}}
+    <li class="item feature draggable expandable-document" data-document-uuid="{{featureContext.item.uuid}}">
+      <div class="item-row">
+        <div class="item-column item-name">
+          <img class="item-image" src="{{featureContext.item.img}}" alt="{{featureContext.item.name}}">
+          <div class="name">
+            <div class="label">{{featureContext.item.name}}</div>
+          </div>
+        </div>
+        <div class="item-column item-type">{{localize typeLabel}}</div>
+        <div class="item-column item-controls">
+          <a class="fa-fw fa-solid fa-ellipsis-vertical" data-action="documentListContext"></a>
+          <a class="fa-fw fa-solid fa-angle-{{ifThen featureContext.expanded "down" "right"}}" data-action="toggleDocumentDescription"></a>
+        </div>
+      </div>
+      <div class="document-description item-embed {{#if featureContext.expanded}}expanded{{/if}}">
+        {{#if featureContext.expanded}}{{{featureContext.embed.outerHTML}}}{{/if}}
+      </div>
+    </li>
+    {{/each}}
+  </ol>
+</section>

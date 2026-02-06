@@ -1,0 +1,22 @@
+<header class="sheet-header">
+  <img class="profile-img" src="{{document.img}}" data-edit="img" data-action="{{ifThen isPlay "showImage" "editImage"}}" title="{{document.name}}" alt="{{document.name}}">
+  <div class="header-center">
+    <div class="document-name">
+      {{#if isPlay}}
+      <h2>{{document.name}}</h2>
+      {{else}}
+      {{formInput
+      fields.name
+      name="name"
+      value=document._source.name
+      placeholder=(localize "Name")
+      }}
+      {{/if}}
+    </div>
+  </div>
+  <div class="header-right">
+    <div class="item-source">
+      {{document.system.source.label}}
+    </div>
+  </div>
+</header>

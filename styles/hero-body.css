@@ -1,0 +1,1030 @@
+.draw-steel-plus.sheet .tab {
+  background: var(--dsp-background);
+  color: var(--dsp-text);
+  padding: 12px 16px;
+  gap: 12px;
+}
+
+.draw-steel-plus.sheet .tab.active {
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.draw-steel-plus.sheet .tab::-webkit-scrollbar {
+  width: 6px;
+}
+
+.draw-steel-plus.sheet .tab::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.draw-steel-plus.sheet .tab::-webkit-scrollbar-thumb {
+  background: var(--dsp-border);
+  border-radius: 3px;
+}
+
+.draw-steel-plus.sheet .tab::-webkit-scrollbar-thumb:hover {
+  background: var(--dsp-border-light);
+}
+
+.draw-steel-plus.sheet fieldset {
+  border: 1px solid var(--dsp-border);
+  border-radius: var(--dsp-radius-md);
+  background: var(--dsp-surface);
+  padding: 10px 12px;
+  margin: 0;
+}
+
+.draw-steel-plus.sheet fieldset legend {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--dsp-text-light);
+  padding: 0 8px;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.draw-steel-plus.sheet fieldset legend button {
+  background: none;
+  border: none;
+  color: var(--dsp-text-light);
+  cursor: pointer;
+  font-size: inherit;
+  font-weight: inherit;
+  text-transform: inherit;
+  letter-spacing: inherit;
+  padding: 2px 4px;
+  border-radius: var(--dsp-radius-sm);
+  transition: color var(--dsp-transition), background var(--dsp-transition);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.draw-steel-plus.sheet fieldset legend button:hover {
+  color: var(--dsp-accent);
+  background: rgba(200, 170, 110, 0.08);
+}
+
+.draw-steel-plus.sheet fieldset legend button i {
+  font-size: 0.65rem;
+}
+
+.draw-steel-plus.sheet .item-list-container {
+  background: var(--dsp-surface);
+  border: 1px solid var(--dsp-border);
+  border-radius: var(--dsp-radius-md);
+}
+
+.draw-steel-plus.sheet .item-header {
+  display: flex;
+  align-items: center;
+  padding: 6px 10px;
+  background: rgba(0, 0, 0, 0.3);
+  border-bottom: 1px solid var(--dsp-border);
+  gap: 8px;
+}
+
+.draw-steel-plus.sheet .item-header .item-column {
+  font-size: 0.6rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--dsp-text-faint);
+}
+
+.draw-steel-plus.sheet .item-header .item-name {
+  flex: 1;
+}
+
+.draw-steel-plus.sheet .item-header .item-controls {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.draw-steel-plus.sheet .item-header .item-controls a {
+  color: var(--dsp-text-faint);
+  text-decoration: none;
+  font-size: 0.7rem;
+  padding: 2px 4px;
+  border-radius: var(--dsp-radius-sm);
+  transition: color var(--dsp-transition), background var(--dsp-transition);
+}
+
+.draw-steel-plus.sheet .item-header .item-controls a:hover {
+  color: var(--dsp-accent);
+  background: rgba(200, 170, 110, 0.08);
+}
+
+.draw-steel-plus.sheet .item-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.draw-steel-plus.sheet .item-list .item {
+  border-bottom: 1px solid rgba(42, 32, 32, 0.5);
+  transition: background var(--dsp-transition-fast);
+}
+
+.draw-steel-plus.sheet .item-list .item:last-child {
+  border-bottom: none;
+}
+
+.draw-steel-plus.sheet .item-list .item:hover {
+  background: rgba(122, 27, 27, 0.06);
+}
+
+.draw-steel-plus.sheet .item-list .item-row {
+  display: flex;
+  align-items: center;
+  padding: 6px 10px;
+  gap: 8px;
+  min-height: 32px;
+}
+
+.draw-steel-plus.sheet .item-list .item-column {
+  font-size: 0.75rem;
+  color: var(--dsp-text-light);
+}
+
+.draw-steel-plus.sheet .item-list .item-column.item-name {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  color: var(--dsp-text);
+  font-weight: 600;
+}
+
+.draw-steel-plus.sheet .item-list .item-column.item-name .name {
+  min-width: 0;
+  flex: 1;
+}
+
+.draw-steel-plus.sheet .item-list .item-column.item-name .label {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.draw-steel-plus.sheet .item-list .item-column.item-name .keywords {
+  font-size: 0.6rem;
+  color: var(--dsp-text-faint);
+  font-weight: 400;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.draw-steel-plus.sheet .item-list .item-column.rollable {
+  cursor: pointer;
+}
+
+.draw-steel-plus.sheet .item-list .item-column.rollable:hover .label {
+  color: var(--dsp-accent);
+}
+
+.draw-steel-plus.sheet .item-image {
+  width: 26px;
+  height: 26px;
+  object-fit: cover;
+  border-radius: var(--dsp-radius-sm);
+  border: 1px solid var(--dsp-border);
+  flex-shrink: 0;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.draw-steel-plus.sheet .item-list .item-column.item-controls {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 2px;
+  flex-shrink: 0;
+}
+
+.draw-steel-plus.sheet .item-list .item-column.item-controls a {
+  color: var(--dsp-text-faint);
+  text-decoration: none;
+  font-size: 0.7rem;
+  padding: 3px 4px;
+  border-radius: var(--dsp-radius-sm);
+  transition: color var(--dsp-transition), background var(--dsp-transition);
+  opacity: 0.5;
+}
+
+.draw-steel-plus.sheet .item-list .item:hover .item-column.item-controls a {
+  opacity: 1;
+}
+
+.draw-steel-plus.sheet .item-list .item-column.item-controls a:hover {
+  color: var(--dsp-accent);
+  background: rgba(200, 170, 110, 0.08);
+}
+
+.draw-steel-plus.sheet .document-description.expanded {
+  padding: 8px 10px 10px;
+  background: rgba(0, 0, 0, 0.2);
+  border-top: 1px solid var(--dsp-border);
+  font-size: 0.8rem;
+  line-height: 1.5;
+  color: var(--dsp-text-light);
+}
+
+.draw-steel-plus.sheet .item-column.item-melee-bonus,
+.draw-steel-plus.sheet .item-column.item-ranged-bonus,
+.draw-steel-plus.sheet .item-column.item-cost,
+.draw-steel-plus.sheet .item-column.item-distance,
+.draw-steel-plus.sheet .item-column.item-target,
+.draw-steel-plus.sheet .item-column.item-order,
+.draw-steel-plus.sheet .item-column.item-echelon,
+.draw-steel-plus.sheet .item-column.item-quantity,
+.draw-steel-plus.sheet .item-column.item-points,
+.draw-steel-plus.sheet .item-column.item-type {
+  text-align: center;
+  min-width: 60px;
+  flex-shrink: 0;
+}
+
+.draw-steel-plus.sheet .quantity-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.draw-steel-plus.sheet .quantity-controls a {
+  color: var(--dsp-text-faint);
+  text-decoration: none;
+  font-size: 0.65rem;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  border: 1px solid var(--dsp-border);
+  transition: color var(--dsp-transition), border-color var(--dsp-transition), background var(--dsp-transition);
+}
+
+.draw-steel-plus.sheet .quantity-controls a:hover {
+  color: var(--dsp-accent);
+  border-color: var(--dsp-accent);
+  background: rgba(200, 170, 110, 0.08);
+}
+
+.draw-steel-plus.sheet .quantity-controls .quantity {
+  font-weight: 700;
+  min-width: 20px;
+  text-align: center;
+}
+
+.draw-steel-plus.sheet .tab.stats fieldset.resources {
+  display: flex;
+  gap: 10px;
+  align-items: stretch;
+  flex-wrap: wrap;
+}
+
+.draw-steel-plus.sheet .tab.stats .resource {
+  flex: 1;
+  min-width: 140px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 8px 10px;
+  background: rgba(0, 0, 0, 0.15);
+  border: 1px solid var(--dsp-border);
+  border-radius: var(--dsp-radius-md);
+}
+
+.draw-steel-plus.sheet .tab.stats .resource-label {
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--dsp-text-light);
+  text-align: center;
+}
+
+.draw-steel-plus.sheet .tab.stats .resource-label button {
+  background: none;
+  border: none;
+  color: var(--dsp-text-light);
+  cursor: pointer;
+  font-size: inherit;
+  font-weight: inherit;
+  text-transform: inherit;
+  letter-spacing: inherit;
+  padding: 2px 6px;
+  border-radius: var(--dsp-radius-sm);
+  transition: color var(--dsp-transition), background var(--dsp-transition);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.draw-steel-plus.sheet .tab.stats .resource-label button:hover {
+  color: var(--dsp-accent);
+  background: rgba(200, 170, 110, 0.08);
+}
+
+.draw-steel-plus.sheet .tab.stats .resource-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+.draw-steel-plus.sheet .tab.stats .resource-content .form-group.stacked {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.draw-steel-plus.sheet .tab.stats .resource-content .form-group.stacked label,
+.draw-steel-plus.sheet .tab.stats .input-placeholder-label {
+  font-size: 0.55rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--dsp-text-faint);
+  text-align: center;
+}
+
+.draw-steel-plus.sheet .tab.stats .input-placeholder {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: var(--dsp-text);
+  text-align: center;
+  min-width: 30px;
+}
+
+.draw-steel-plus.sheet .tab.stats .resource-max {
+  color: var(--dsp-text-light);
+}
+
+.draw-steel-plus.sheet .tab.stats .resource .form-group.slim {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+}
+
+.draw-steel-plus.sheet .tab.stats .resource .form-group.slim label {
+  font-size: 0.65rem;
+  font-weight: 600;
+  color: var(--dsp-text-light);
+  flex-shrink: 0;
+}
+
+.draw-steel-plus.sheet .tab.stats .resource .surges button {
+  background: none;
+  border: none;
+  color: var(--dsp-text-light);
+  cursor: pointer;
+  font-size: 0.65rem;
+  font-weight: 600;
+  padding: 2px 4px;
+  border-radius: var(--dsp-radius-sm);
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  transition: color var(--dsp-transition), background var(--dsp-transition);
+}
+
+.draw-steel-plus.sheet .tab.stats .resource .surges button:hover {
+  color: var(--dsp-accent);
+  background: rgba(200, 170, 110, 0.08);
+}
+
+.draw-steel-plus.sheet .tab.stats fieldset.skills {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.draw-steel-plus.sheet .tab.stats fieldset.skills .ds-tag-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.draw-steel-plus.sheet .restricted-warning {
+  color: #d4a017;
+  font-size: 0.7rem;
+  flex-shrink: 0;
+}
+
+.draw-steel-plus.sheet .tab.effects fieldset.status-effects {
+  margin-bottom: 8px;
+}
+
+.draw-steel-plus.sheet .tab.effects .status-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  padding-top: 6px;
+}
+
+.draw-steel-plus.sheet .tab.effects .status-control {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px;
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--dsp-border);
+  border-radius: var(--dsp-radius-sm);
+  color: var(--dsp-text-faint);
+  font-size: 0.65rem;
+  cursor: pointer;
+  transition: all var(--dsp-transition-fast);
+}
+
+.draw-steel-plus.sheet .tab.effects .status-control img {
+  width: 16px;
+  height: 16px;
+  opacity: 0.6;
+  transition: opacity var(--dsp-transition-fast);
+}
+
+.draw-steel-plus.sheet .tab.effects .status-control:hover {
+  border-color: var(--dsp-border-light);
+  color: var(--dsp-text-light);
+  background: rgba(122, 27, 27, 0.1);
+}
+
+.draw-steel-plus.sheet .tab.effects .status-control:hover img {
+  opacity: 1;
+}
+
+.draw-steel-plus.sheet .tab.effects .status-control.active {
+  background: rgba(122, 27, 27, 0.3);
+  border-color: var(--dsp-primary);
+  color: var(--dsp-text);
+}
+
+.draw-steel-plus.sheet .tab.effects .status-control.active img {
+  opacity: 1;
+}
+
+.draw-steel-plus.sheet .tab.effects .status-control:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.draw-steel-plus.sheet .effect-list-container {
+  background: var(--dsp-surface);
+  border: 1px solid var(--dsp-border);
+  border-radius: var(--dsp-radius-md);
+}
+
+.draw-steel-plus.sheet .effect-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.draw-steel-plus.sheet .effect-header {
+  display: flex;
+  align-items: center;
+  padding: 6px 10px;
+  background: rgba(0, 0, 0, 0.3);
+  border-bottom: 1px solid var(--dsp-border);
+  gap: 8px;
+}
+
+.draw-steel-plus.sheet .effect-header .effect-name,
+.draw-steel-plus.sheet .effect-header .effect-source,
+.draw-steel-plus.sheet .effect-header .effect-duration {
+  font-size: 0.6rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--dsp-text-faint);
+}
+
+.draw-steel-plus.sheet .effect-header .effect-name {
+  flex: 1;
+}
+
+.draw-steel-plus.sheet .effect-header .effect-controls {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.draw-steel-plus.sheet .effect-header .effect-controls a {
+  color: var(--dsp-text-faint);
+  text-decoration: none;
+  font-size: 0.7rem;
+  padding: 2px 4px;
+  border-radius: var(--dsp-radius-sm);
+  transition: color var(--dsp-transition), background var(--dsp-transition);
+}
+
+.draw-steel-plus.sheet .effect-header .effect-controls a:hover {
+  color: var(--dsp-accent);
+  background: rgba(200, 170, 110, 0.08);
+}
+
+.draw-steel-plus.sheet .effect-list .effect {
+  border-bottom: 1px solid rgba(42, 32, 32, 0.5);
+  transition: background var(--dsp-transition-fast);
+}
+
+.draw-steel-plus.sheet .effect-list .effect:last-child {
+  border-bottom: none;
+}
+
+.draw-steel-plus.sheet .effect-list .effect:hover {
+  background: rgba(122, 27, 27, 0.06);
+}
+
+.draw-steel-plus.sheet .effect-row {
+  display: flex;
+  align-items: center;
+  padding: 6px 10px;
+  gap: 8px;
+  min-height: 32px;
+}
+
+.draw-steel-plus.sheet .effect-row .effect-name {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  font-weight: 600;
+  font-size: 0.8rem;
+  color: var(--dsp-text);
+}
+
+.draw-steel-plus.sheet .effect-row .effect-name .name {
+  min-width: 0;
+}
+
+.draw-steel-plus.sheet .effect-row .effect-name .label {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.draw-steel-plus.sheet .effect-image {
+  width: 24px;
+  height: 24px;
+  object-fit: cover;
+  border-radius: var(--dsp-radius-sm);
+  border: 1px solid var(--dsp-border);
+  flex-shrink: 0;
+}
+
+.draw-steel-plus.sheet .effect-row .effect-source,
+.draw-steel-plus.sheet .effect-row .effect-duration {
+  font-size: 0.7rem;
+  color: var(--dsp-text-faint);
+  min-width: 60px;
+  text-align: center;
+}
+
+.draw-steel-plus.sheet .effect-row .effect-controls {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.draw-steel-plus.sheet .effect-row .effect-controls a {
+  color: var(--dsp-text-faint);
+  text-decoration: none;
+  font-size: 0.7rem;
+  padding: 3px 4px;
+  border-radius: var(--dsp-radius-sm);
+  transition: color var(--dsp-transition), background var(--dsp-transition);
+  opacity: 0.5;
+}
+
+.draw-steel-plus.sheet .effect-list .effect:hover .effect-controls a {
+  opacity: 1;
+}
+
+.draw-steel-plus.sheet .effect-row .effect-controls a:hover {
+  color: var(--dsp-accent);
+  background: rgba(200, 170, 110, 0.08);
+}
+
+.draw-steel-plus.sheet .effect-description.expanded {
+  padding: 8px 10px 10px;
+  background: rgba(0, 0, 0, 0.2);
+  border-top: 1px solid var(--dsp-border);
+  font-size: 0.8rem;
+  line-height: 1.5;
+  color: var(--dsp-text-light);
+}
+
+.draw-steel-plus.sheet .tab.biography .demographics {
+  display: grid;
+  grid-template-columns: auto 1fr auto 1fr auto 1fr;
+  gap: 4px 10px;
+  padding: 10px 12px;
+  background: var(--dsp-surface);
+  border: 1px solid var(--dsp-border);
+  border-radius: var(--dsp-radius-md);
+  margin: 0;
+}
+
+.draw-steel-plus.sheet .tab.biography .demographics dt {
+  font-size: 0.6rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--dsp-text-faint);
+  display: flex;
+  align-items: center;
+}
+
+.draw-steel-plus.sheet .tab.biography .demographics dd {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--dsp-text);
+  margin: 0;
+  display: flex;
+  align-items: center;
+}
+
+.draw-steel-plus.sheet .tab.biography .demographics dt.blank,
+.draw-steel-plus.sheet .tab.biography .demographics dd.blank {
+  visibility: hidden;
+}
+
+.draw-steel-plus.sheet .tab.biography .rewards,
+.draw-steel-plus.sheet .tab.biography .appearance {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.draw-steel-plus.sheet .tab.biography .rewards .form-group,
+.draw-steel-plus.sheet .tab.biography .appearance .form-group {
+  flex: 1;
+  min-width: 120px;
+}
+
+.draw-steel-plus.sheet .form-group {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+}
+
+.draw-steel-plus.sheet .form-group label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--dsp-text-light);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.draw-steel-plus.sheet .form-group .form-fields {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.draw-steel-plus.sheet input[type="text"],
+.draw-steel-plus.sheet input[type="number"],
+.draw-steel-plus.sheet input[type="search"] {
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--dsp-border);
+  border-radius: var(--dsp-radius-sm);
+  color: var(--dsp-text);
+  font-size: 0.8rem;
+  padding: 4px 8px;
+  transition: border-color var(--dsp-transition), box-shadow var(--dsp-transition);
+  outline: none;
+  width: 100%;
+}
+
+.draw-steel-plus.sheet input[type="text"]:focus,
+.draw-steel-plus.sheet input[type="number"]:focus,
+.draw-steel-plus.sheet input[type="search"]:focus {
+  border-color: var(--dsp-accent);
+  box-shadow: 0 0 8px var(--dsp-accent-dim);
+}
+
+.draw-steel-plus.sheet select {
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--dsp-border);
+  border-radius: var(--dsp-radius-sm);
+  color: var(--dsp-text);
+  font-size: 0.8rem;
+  padding: 4px 8px;
+  cursor: pointer;
+  transition: border-color var(--dsp-transition);
+  outline: none;
+}
+
+.draw-steel-plus.sheet select:focus {
+  border-color: var(--dsp-accent);
+}
+
+.draw-steel-plus.sheet select option {
+  background: var(--dsp-surface);
+  color: var(--dsp-text);
+}
+
+.draw-steel-plus.sheet textarea {
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--dsp-border);
+  border-radius: var(--dsp-radius-sm);
+  color: var(--dsp-text);
+  font-size: 0.8rem;
+  padding: 8px;
+  line-height: 1.5;
+  resize: vertical;
+  transition: border-color var(--dsp-transition), box-shadow var(--dsp-transition);
+  outline: none;
+  width: 100%;
+}
+
+.draw-steel-plus.sheet textarea:focus {
+  border-color: var(--dsp-accent);
+  box-shadow: 0 0 8px var(--dsp-accent-dim);
+}
+
+.draw-steel-plus.sheet button {
+  font-family: inherit;
+}
+
+.draw-steel-plus.sheet .tab .flexrow {
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.draw-steel-plus.sheet .tab .flexcol {
+  gap: 4px;
+}
+
+.draw-steel-plus.sheet .characteristics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  justify-content: center;
+  padding: 8px 0;
+}
+
+.draw-steel-plus.sheet .characteristic {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 6px 10px;
+  background: rgba(0, 0, 0, 0.15);
+  border: 1px solid var(--dsp-border);
+  border-radius: var(--dsp-radius-md);
+  min-width: 55px;
+  transition: border-color var(--dsp-transition), box-shadow var(--dsp-transition);
+}
+
+.draw-steel-plus.sheet .characteristic:hover {
+  border-color: var(--dsp-border-light);
+  box-shadow: 0 0 10px rgba(122, 27, 27, 0.12);
+}
+
+.draw-steel-plus.sheet .characteristic .label,
+.draw-steel-plus.sheet .characteristic label {
+  font-size: 0.55rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--dsp-text-faint);
+  text-align: center;
+}
+
+.draw-steel-plus.sheet .characteristic .value,
+.draw-steel-plus.sheet .characteristic .score {
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: var(--dsp-text);
+  text-align: center;
+  line-height: 1;
+}
+
+.draw-steel-plus.sheet .characteristic .modifier {
+  font-size: 0.65rem;
+  color: var(--dsp-text-light);
+  text-align: center;
+}
+
+.draw-steel-plus.sheet .characteristics .characteristic.rollable {
+  cursor: pointer;
+}
+
+.draw-steel-plus.sheet .characteristics .characteristic.rollable:hover {
+  border-color: var(--dsp-primary-light);
+  box-shadow: 0 0 14px var(--dsp-primary-glow);
+}
+
+.draw-steel-plus.sheet .characteristics .characteristic.rollable:hover .value,
+.draw-steel-plus.sheet .characteristics .characteristic.rollable:hover .score {
+  color: var(--dsp-accent);
+}
+
+.draw-steel-plus.sheet .combat-stats,
+.draw-steel-plus.sheet .movement-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 6px 0;
+}
+
+.draw-steel-plus.sheet .combat-stat,
+.draw-steel-plus.sheet .movement-stat {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  background: rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--dsp-border);
+  border-radius: var(--dsp-radius-sm);
+  font-size: 0.75rem;
+}
+
+.draw-steel-plus.sheet .combat-stat .label,
+.draw-steel-plus.sheet .movement-stat .label {
+  color: var(--dsp-text-faint);
+  font-weight: 600;
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.draw-steel-plus.sheet .combat-stat .value,
+.draw-steel-plus.sheet .movement-stat .value {
+  color: var(--dsp-text);
+  font-weight: 700;
+}
+
+.draw-steel-plus.sheet .immunities-weaknesses {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  padding: 4px 0;
+}
+
+.draw-steel-plus.sheet .editor,
+.draw-steel-plus.sheet .prosemirror {
+  background: rgba(0, 0, 0, 0.15);
+  border: 1px solid var(--dsp-border);
+  border-radius: var(--dsp-radius-md);
+  color: var(--dsp-text-light);
+  min-height: 100px;
+}
+
+.draw-steel-plus.sheet .editor .editor-content,
+.draw-steel-plus.sheet .prosemirror .editor-content,
+.draw-steel-plus.sheet .editor .ProseMirror,
+.draw-steel-plus.sheet .prosemirror .ProseMirror {
+  padding: 10px;
+  color: var(--dsp-text-light);
+  font-size: 0.85rem;
+  line-height: 1.6;
+}
+
+.draw-steel-plus.sheet .editor-menu {
+  background: var(--dsp-surface);
+  border-bottom: 1px solid var(--dsp-border);
+}
+
+.draw-steel-plus.sheet .editor-menu button {
+  color: var(--dsp-text-faint);
+  background: none;
+  border: none;
+  padding: 4px 6px;
+  cursor: pointer;
+  transition: color var(--dsp-transition);
+}
+
+.draw-steel-plus.sheet .editor-menu button:hover {
+  color: var(--dsp-accent);
+}
+
+.draw-steel-plus.sheet .ds-tag-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.draw-steel-plus.sheet .ds-tag-group .ds-tag,
+.draw-steel-plus.sheet .ds-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  background: rgba(74, 14, 14, 0.4);
+  border: 1px solid var(--dsp-border);
+  border-radius: var(--dsp-radius-full);
+  font-size: 0.65rem;
+  font-weight: 600;
+  color: var(--dsp-text-light);
+  transition: background var(--dsp-transition), border-color var(--dsp-transition), color var(--dsp-transition);
+}
+
+.draw-steel-plus.sheet .ds-tag:hover {
+  background: rgba(122, 27, 27, 0.5);
+  border-color: var(--dsp-primary-light);
+  color: var(--dsp-text);
+}
+
+.draw-steel-plus.sheet .i-fa-star {
+  color: var(--dsp-accent);
+  font-size: 0.7rem;
+}
+
+.draw-steel-plus.sheet a {
+  color: var(--dsp-text-light);
+  transition: color var(--dsp-transition);
+}
+
+.draw-steel-plus.sheet a:hover {
+  color: var(--dsp-accent);
+}
+
+.draw-steel-plus.sheet .content-embed {
+  font-size: 0.8rem;
+  line-height: 1.5;
+  color: var(--dsp-text-light);
+}
+
+.draw-steel-plus.sheet .content-embed h1,
+.draw-steel-plus.sheet .content-embed h2,
+.draw-steel-plus.sheet .content-embed h3 {
+  color: var(--dsp-text);
+  border-bottom: 1px solid var(--dsp-border);
+  padding-bottom: 4px;
+  margin: 8px 0 4px;
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.draw-steel-plus.sheet .content-embed p {
+  margin: 4px 0;
+}
+
+.draw-steel-plus.sheet .content-embed table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.75rem;
+}
+
+.draw-steel-plus.sheet .content-embed table th {
+  background: rgba(0, 0, 0, 0.2);
+  color: var(--dsp-text-light);
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 0.6rem;
+  letter-spacing: 0.06em;
+  padding: 4px 8px;
+  border: 1px solid var(--dsp-border);
+  text-align: left;
+}
+
+.draw-steel-plus.sheet .content-embed table td {
+  padding: 4px 8px;
+  border: 1px solid var(--dsp-border);
+  color: var(--dsp-text-light);
+}
+
+.draw-steel-plus.sheet .content-embed table tr:hover td {
+  background: rgba(122, 27, 27, 0.06);
+}
+
+.draw-steel-plus.sheet .content-embed ul,
+.draw-steel-plus.sheet .content-embed ol {
+  padding-left: 20px;
+  margin: 4px 0;
+}
+
+.draw-steel-plus.sheet .content-embed li {
+  margin: 2px 0;
+}
+
+.draw-steel-plus.sheet .content-embed strong {
+  color: var(--dsp-text);
+}
+
+.draw-steel-plus.sheet .content-embed em {
+  color: var(--dsp-text-light);
+  font-style: italic;
+}
