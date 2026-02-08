@@ -117,10 +117,10 @@
   position: absolute;
   top: -10px;
   right: -10px;
-  width: 42px;
-  height: 42px;
-  background: radial-gradient(circle at 40% 35%, var(--dsp-primary-light), var(--dsp-primary-dark));
-  border: 3px solid var(--dsp-accent);
+  width: 36px;
+  height: 36px;
+  background: var(--dsp-primary);
+  border: 2px solid var(--dsp-accent);
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -129,10 +129,9 @@
   font-weight: 900;
   color: var(--dsp-text);
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.9);
-  box-shadow:
-    0 2px 12px var(--dsp-shadow),
-    0 0 18px var(--dsp-primary-glow),
-    inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  box-shadow: 0 2px 12px var(--dsp-shadow),
+  0 0 18px var(--dsp-primary-glow),
+  inset 0 1px 0 rgba(255, 255, 255, 0.12);
   z-index: 3;
   margin: 0;
   padding: 0;
@@ -162,7 +161,7 @@
   transform: translateX(-50%);
   width: 36px;
   height: 36px;
-  background: radial-gradient(circle at 40% 35%, var(--dsp-primary-light), var(--dsp-primary-dark));
+  background: var(--dsp-primary);
   border: 2px solid var(--dsp-accent);
   border-radius: var(--dsp-radius-md);
   display: flex;
@@ -179,10 +178,6 @@
 .draw-steel-plus.sheet .sheet-header .portrait-frame .respite-btn:hover {
   background: radial-gradient(circle at 40% 35%, var(--dsp-primary), var(--dsp-primary-light));
   border-color: var(--dsp-accent-bright);
-  box-shadow:
-    0 4px 16px var(--dsp-shadow),
-    0 0 28px rgba(168, 40, 40, 0.5),
-    inset 0 1px 0 rgba(255, 255, 255, 0.18);
   transform: translateX(-50%) scale(1.1);
 }
 

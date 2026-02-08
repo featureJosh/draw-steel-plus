@@ -82,6 +82,10 @@
   background: transparent;
 }
 
+.draw-steel-plus.sheet a:hover {
+  text-shadow: unset;
+}
+
 .draw-steel-plus.sheet.application .window-content {
 	flex: 1;
 	display: grid;
