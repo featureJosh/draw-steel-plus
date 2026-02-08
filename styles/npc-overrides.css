@@ -1,6 +1,6 @@
 .draw-steel-plus.dsp-npc {
   --dsp-npc-bg: #1a0808;
-  --dsp-npc-surface: #1c0c0c;
+  --dsp-npc-surface: #1a1515;
   --dsp-npc-surface-raised: #241212;
   --dsp-npc-tint: rgba(122, 27, 27, 0.15);
   --dsp-npc-tint-strong: rgba(122, 27, 27, 0.3);
@@ -41,6 +41,15 @@
   background: rgba(168, 40, 40, 0.65);
 }
 
+.draw-steel-plus.dsp-npc .sheet-header .npc-attribution {
+  font-size: 0.75rem;
+  font-weight: 400;
+  font-style: italic;
+  color: var(--dsp-text-faint);
+  letter-spacing: 0.02em;
+  line-height: 1;
+}
+
 .draw-steel-plus.dsp-npc .sidebar-content {
   background: var(--dsp-npc-surface);
 }
@@ -62,12 +71,18 @@
 }
 
 .draw-steel-plus.dsp-npc .sidebar-field input {
-  background: rgba(26, 8, 8, 0.5);
+  background: rgba(26, 8, 8, 0.4);
+  border-color: var(--dsp-border);
+}
+
+.draw-steel-plus.dsp-npc .sidebar-field input:focus {
+  background: rgba(26, 8, 8, 0.6);
+  border-color: var(--dsp-accent);
 }
 
 .draw-steel-plus.dsp-npc .sidebar-static {
-  background: rgba(0, 0, 0, 0.3);
-  border-color: var(--dsp-border);
+  background: rgb(0 0 0 / 14%);
+  border-color: transparent;
 }
 
 .draw-steel-plus.dsp-npc .sidebar-dual-row {

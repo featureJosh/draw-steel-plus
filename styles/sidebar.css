@@ -270,7 +270,7 @@
 .draw-steel-plus.sheet .sidebar-static {
   font-size: 0.85rem;
   font-weight: 700;
-  color: var(--dsp-text);
+  color: var(--dsp-text-faint);
   text-align: center;
   padding: 4px 6px;
   background: rgba(0, 0, 0, 0.15);
@@ -400,18 +400,31 @@
   background: rgba(0, 0, 0, 0.1);
 }
 
+.draw-steel-plus.sheet .sidebar-edit-section fieldset.flexrow {
+  flex-direction: column;
+  flex-wrap: nowrap;
+  gap: 6px;
+}
+
 .draw-steel-plus.sheet .sidebar-edit-section .flexrow {
-  flex-wrap: wrap;
   gap: 6px;
 }
 
 .draw-steel-plus.sheet .sidebar-edit-section .form-group {
-  flex: 1 1 auto;
+  flex: 0 0 auto;
   min-width: 0;
+  width: 100%;
+  flex-direction: column;
 }
 
-.draw-steel-plus.sheet .sidebar-edit-section .form-group.stacked {
-  min-width: 0;
+.draw-steel-plus.sheet .sidebar-edit-section .form-group .form-fields {
+  width: 100%;
+}
+
+.draw-steel-plus.sheet .sidebar-edit-section .form-group .form-fields input,
+.draw-steel-plus.sheet .sidebar-edit-section .form-group .form-fields select,
+.draw-steel-plus.sheet .sidebar-edit-section .form-group .form-fields multi-select {
+  width: 100%;
 }
 
 .draw-steel-plus.sheet .sidebar-edit-section .immunities-weaknesses {

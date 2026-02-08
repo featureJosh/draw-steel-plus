@@ -30,10 +30,14 @@
       </div>
 
       <div class="progression-subtitle">
-        {{#if system.source.label}}
-        <span class="prog-label">{{system.source.label}}</span>
-        {{/if}}
+        <span class="prog-value">{{systemSource.monster.level}}</span> <span class="prog-label">{{systemFields.monster.fields.level.label}}</span>
+        <span class="prog-sep">|</span>
+        <span class="prog-value">{{system.monster.evLabel}}</span> <span class="prog-label">{{localize "DRAW_STEEL.Actor.npc.EVLabel.Label"}}</span>
       </div>
+
+      {{#if system.source.label}}
+      <div class="npc-attribution">{{system.source.label}}</div>
+      {{/if}}
 
       <div class="origins-row">
         {{#each monsterKeywords as |keyword|}}
@@ -56,16 +60,6 @@
     </div>
 
     <div class="stats-block">
-      <div class="resource-row">
-        <div class="resource-group">
-          <span class="stat-label">{{systemFields.monster.fields.level.label}}</span>
-          <span class="stat-value">{{systemSource.monster.level}}</span>
-        </div>
-        <div class="resource-group">
-          <span class="stat-label">{{localize "DRAW_STEEL.Actor.npc.EVLabel.Label"}}</span>
-          <span class="stat-value">{{system.monster.evLabel}}</span>
-        </div>
-      </div>
       {{#if showMalice}}
       <div class="resource-row">
         <div class="resource-group">
