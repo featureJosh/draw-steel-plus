@@ -47,24 +47,9 @@ function registerSettings() {
 
 function loadSheetSizes() {
   return {
-    hero: {
-      width: game.settings.get(MODULE_ID, "heroWidth"),
-      height: game.settings.get(MODULE_ID, "heroHeight"),
-      minWidth: game.settings.get(MODULE_ID, "heroMinWidth"),
-      minHeight: game.settings.get(MODULE_ID, "heroMinHeight"),
-    },
-    npc: {
-      width: game.settings.get(MODULE_ID, "npcWidth"),
-      height: game.settings.get(MODULE_ID, "npcHeight"),
-      minWidth: game.settings.get(MODULE_ID, "npcMinWidth"),
-      minHeight: game.settings.get(MODULE_ID, "npcMinHeight"),
-    },
-    item: {
-      width: game.settings.get(MODULE_ID, "itemWidth"),
-      height: game.settings.get(MODULE_ID, "itemHeight"),
-      minWidth: game.settings.get(MODULE_ID, "itemMinWidth"),
-      minHeight: game.settings.get(MODULE_ID, "itemMinHeight"),
-    },
+    hero: { ...SHEET_SIZE_DEFAULTS.hero },
+    npc: { ...SHEET_SIZE_DEFAULTS.npc },
+    item: { ...SHEET_SIZE_DEFAULTS.item },
   };
 }
 

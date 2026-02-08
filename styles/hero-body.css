@@ -12,23 +12,6 @@
   flex: 1;
 }
 
-.draw-steel-plus.sheet .tab::-webkit-scrollbar {
-  width: 6px;
-}
-
-.draw-steel-plus.sheet .tab::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.draw-steel-plus.sheet .tab::-webkit-scrollbar-thumb {
-  background: var(--dsp-border);
-  border-radius: 3px;
-}
-
-.draw-steel-plus.sheet .tab::-webkit-scrollbar-thumb:hover {
-  background: var(--dsp-border-light);
-}
-
 .draw-steel-plus.sheet fieldset {
   border: 1px solid var(--dsp-border);
   border-radius: var(--dsp-radius-md);

@@ -26,6 +26,60 @@
   --dsp-transition-fast: 0.15s ease;
   --dsp-transition: 0.25s ease;
   --dsp-transition-slow: 0.4s ease;
+
+  --dsp-scrollbar-size: 6px;
+  --dsp-scrollbar-track: transparent;
+  --dsp-scrollbar-thumb: transparent;
+  --dsp-scrollbar-thumb-hover: var(--dsp-border-light);
+  --dsp-scrollbar-thumb-active: var(--dsp-primary-light);
+}
+
+.draw-steel-plus.sheet .window-content,
+.draw-steel-plus.sheet .window-content * {
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+}
+
+.draw-steel-plus.sheet .window-content:hover,
+.draw-steel-plus.sheet .window-content *:hover {
+  scrollbar-color: var(--dsp-border) transparent;
+}
+
+.draw-steel-plus.sheet .window-content::-webkit-scrollbar,
+.draw-steel-plus.sheet .window-content *::-webkit-scrollbar {
+  width: var(--dsp-scrollbar-size);
+  height: var(--dsp-scrollbar-size);
+}
+
+.draw-steel-plus.sheet .window-content::-webkit-scrollbar-track,
+.draw-steel-plus.sheet .window-content *::-webkit-scrollbar-track {
+  background: var(--dsp-scrollbar-track);
+}
+
+.draw-steel-plus.sheet .window-content::-webkit-scrollbar-thumb,
+.draw-steel-plus.sheet .window-content *::-webkit-scrollbar-thumb {
+  background: var(--dsp-scrollbar-thumb);
+  border-radius: var(--dsp-radius-full);
+}
+
+.draw-steel-plus.sheet .window-content:hover::-webkit-scrollbar-thumb,
+.draw-steel-plus.sheet .window-content *:hover::-webkit-scrollbar-thumb {
+  background: var(--dsp-border);
+}
+
+.draw-steel-plus.sheet .window-content::-webkit-scrollbar-thumb:hover,
+.draw-steel-plus.sheet .window-content *::-webkit-scrollbar-thumb:hover {
+  background: var(--dsp-scrollbar-thumb-hover);
+}
+
+.draw-steel-plus.sheet .window-content::-webkit-scrollbar-thumb:active,
+.draw-steel-plus.sheet .window-content *::-webkit-scrollbar-thumb:active {
+  background: var(--dsp-scrollbar-thumb-active);
+}
+
+.draw-steel-plus.sheet .window-content::-webkit-scrollbar-corner,
+.draw-steel-plus.sheet .window-content *::-webkit-scrollbar-corner {
+  background: transparent;
 }
 
 .draw-steel-plus.sheet.application .window-content {
@@ -59,4 +113,8 @@
 
 .draw-steel-plus.sheet .item-controls > * {
   line-height: 20px;
+}
+
+.draw-steel-plus.sheet section.tab {
+  --scroll-margin: 0rem;
 }

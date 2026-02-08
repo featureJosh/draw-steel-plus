@@ -7,7 +7,6 @@
 {{! Equipment Tab }}
 <section class="tab equipment {{tab.cssClass}}" data-group="primary" data-tab="equipment">
   {{! Kits List}}
-  {{#if (or system.class.system.kits kits.length)}}
   <section class="item-list-container kit-list-container">
     <div class="item-header">
       <div class="item-column item-name">{{localize "TYPES.Item.kit"}}</div>
@@ -50,12 +49,10 @@
       {{/each}}
     </ol>
   </section>
-  {{/if}}
 
   {{! Treasures List}}
   {{#each treasure as |treasureType|}}
   {{!-- Don't show the "Other" category if there's no other treasures --}}
-  {{#if treasureType.showHeader}}
   <section class="item-list-container treasure-list-container">
     <div class="item-header">
       <div class="item-column item-name">{{treasureType.label}}</div>
@@ -102,6 +99,5 @@
       {{/each}}
     </ol>
   </section>
-  {{/if}}
   {{/each}}
 </section>

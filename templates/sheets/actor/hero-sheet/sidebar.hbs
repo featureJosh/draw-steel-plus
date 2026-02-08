@@ -4,6 +4,7 @@
   </button>
 
   <div class="sidebar-content">
+    {{#if isPlay}}
     <section class="sidebar-section">
       <div class="sidebar-section-title">{{localize "DRAW_STEEL.SHEET.Resources"}}</div>
 
@@ -97,6 +98,7 @@
         </div>
       </div>
     </section>
+    {{/if}}
 
     <section class="sidebar-section">
       <div class="sidebar-section-title">Combat & Movement</div>
@@ -164,13 +166,15 @@
         <button type="button" class="icon fa-solid fa-clipboard-question" data-tooltip-text="{{localize "DRAW_STEEL.ADVANCEMENT.FillTrait.button" type=(localize "TYPES.Advancement.skill")}}" data-tooltip-direction="UP" data-action="fillTrait" data-type="skill"></button>
         {{/if}}
       </div>
+      {{#if isPlay}}
       <div class="sidebar-tags sidebar-skills">
-        {{#if isPlay}}
         {{skills.list}}
-        {{else}}
-        {{formInput systemFields.hero.fields.skills value=systemSource.hero.skills options=skills.options dataset=datasets.isSource}}
-        {{/if}}
       </div>
+      {{else}}
+      <div class="sidebar-skills-edit">
+        {{formInput systemFields.hero.fields.skills value=systemSource.hero.skills options=skills.options dataset=datasets.isSource}}
+      </div>
+      {{/if}}
     </section>
   </div>
 </aside>

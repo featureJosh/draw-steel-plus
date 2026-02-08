@@ -99,6 +99,11 @@
         <span class="prog-sep">|</span>
         <span class="prog-value">{{system.hero.victories}}</span> <span class="prog-label">Victories</span>
       </div>
+      {{else}}
+      <div class="progression-edit">
+        {{formGroup systemFields.hero.fields.xp value=systemSource.hero.xp classes="xp-edit"}}
+        {{formGroup systemFields.hero.fields.victories value=systemSource.hero.victories classes="victories-edit"}}
+      </div>
       {{/if}}
 
       <div class="origins-row">
@@ -123,12 +128,6 @@
     </div>
 
     <div class="stats-block">
-      {{#unless isPlay}}
-      <div class="actor-data hero-data">
-        {{formGroup systemFields.hero.fields.xp value=systemSource.hero.xp classes="xp"}}
-        {{formGroup systemFields.hero.fields.victories value=systemSource.hero.victories classes="victories"}}
-      </div>
-      {{/unless}}
     </div>
 
     <div class="header-characteristics">

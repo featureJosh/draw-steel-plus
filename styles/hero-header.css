@@ -495,6 +495,61 @@
   font-weight: 400;
 }
 
+.draw-steel-plus.sheet .sheet-header .identity-block .progression-edit {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.draw-steel-plus.sheet .sheet-header .identity-block .progression-edit .form-group {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0;
+  margin: 0;
+  background: none;
+  border: none;
+  border-radius: 0;
+}
+
+.draw-steel-plus.sheet .sheet-header .identity-block .progression-edit .form-group:hover {
+  border-color: transparent;
+}
+
+.draw-steel-plus.sheet .sheet-header .identity-block .progression-edit .form-group label {
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--dsp-text-light);
+  white-space: nowrap;
+  flex-shrink: 0;
+  margin: 0;
+  padding: 0;
+}
+
+.draw-steel-plus.sheet .sheet-header .identity-block .progression-edit .form-group .form-fields {
+  flex: 0 0 auto;
+}
+
+.draw-steel-plus.sheet .sheet-header .identity-block .progression-edit .form-group .form-fields input {
+  width: 55px;
+  text-align: center;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid var(--dsp-border);
+  border-radius: var(--dsp-radius-sm);
+  color: var(--dsp-accent);
+  font-size: 0.9rem;
+  font-weight: 800;
+  padding: 3px 6px;
+  transition: border-color var(--dsp-transition), box-shadow var(--dsp-transition);
+}
+
+.draw-steel-plus.sheet .sheet-header .identity-block .progression-edit .form-group .form-fields input:focus {
+  border-color: var(--dsp-accent);
+  box-shadow: 0 0 8px var(--dsp-accent-dim);
+}
+
 .draw-steel-plus.sheet .sheet-header .origins-row {
   display: flex;
   flex-wrap: wrap;
