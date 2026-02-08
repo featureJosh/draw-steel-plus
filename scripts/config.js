@@ -1,9 +1,9 @@
 export const SHEET_SIZE_DEFAULTS = {
   hero: {
-    width: 875,
+    width: 880,
     height: 800,
     minWidth: 740,
-    minHeight: 600,
+    minHeight: 800,
   },
 
   npc: {

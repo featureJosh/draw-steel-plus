@@ -16,23 +16,23 @@ Hooks.once("init", () => {
 });
 
 function registerSettings() {
-  const types = ["hero", "npc", "item"];
-  const props = ["width", "height", "minWidth", "minHeight"];
+  // const types = ["hero", "npc", "item"];
+  // const props = ["width", "height", "minWidth", "minHeight"];
 
-  for (const type of types) {
-    for (const prop of props) {
-      const key = `${type}${prop.charAt(0).toUpperCase() + prop.slice(1)}`;
-      game.settings.register(MODULE_ID, key, {
-        name: `DRAW_STEEL_PLUS.Settings.${key}.name`,
-        hint: `DRAW_STEEL_PLUS.Settings.${key}.hint`,
-        scope: "world",
-        config: true,
-        type: Number,
-        default: SHEET_SIZE_DEFAULTS[type][prop],
-        requiresReload: true,
-      });
-    }
-  }
+  // for (const type of types) {
+  //   for (const prop of props) {
+  //     const key = `${type}${prop.charAt(0).toUpperCase() + prop.slice(1)}`;
+  //     game.settings.register(MODULE_ID, key, {
+  //       name: `DRAW_STEEL_PLUS.Settings.${key}.name`,
+  //       hint: `DRAW_STEEL_PLUS.Settings.${key}.hint`,
+  //       scope: "world",
+  //       config: true,
+  //       type: Number,
+  //       default: SHEET_SIZE_DEFAULTS[type][prop],
+  //       requiresReload: true,
+  //     });
+  //   }
+  // }
 
   game.settings.register(MODULE_ID, "floatingNavTabs", {
     name: "DRAW_STEEL_PLUS.Settings.floatingNavTabs.name",
