@@ -92,6 +92,10 @@
 	position: relative;
 }
 
+.draw-steel-plus.sheet.application .window-content:hover .label {
+  text-shadow: unset;
+}
+
 .draw-steel-plus.sheet.has-sidebar .window-content {
 	grid-template-columns: auto 1fr;
 }

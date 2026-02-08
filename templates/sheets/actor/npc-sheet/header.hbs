@@ -61,13 +61,11 @@
 
     <div class="stats-block">
       {{#if showMalice}}
-      <div class="resource-row">
-        <div class="resource-group">
-          <span class="stat-label">{{malice.label}}</span>
-          <span class="stat-value">
-            <input type="number" step="1" data-setting="malice" value="{{malice.value}}">
-          </span>
-        </div>
+      <div class="malice-badge">
+        <span class="stat-label">{{malice.label}}</span>
+        <span class="stat-value">
+          <input type="number" step="1" data-setting="malice" value="{{malice.value}}">
+        </span>
       </div>
       {{/if}}
     </div>

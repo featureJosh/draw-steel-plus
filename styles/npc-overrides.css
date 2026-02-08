@@ -113,11 +113,65 @@
   background: rgba(26, 8, 8, 0.7);
 }
 
-.draw-steel-plus.dsp-npc .sheet-header .stats-block .resource-group .stat-value input[type="number"] {
+.draw-steel-plus.dsp-npc .sheet-header .stats-block .malice-badge {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 72px;
+  height: 65px;
+  cursor: default;
+  padding-bottom: 10px;
+  gap: 2px;
+}
+
+.draw-steel-plus.dsp-npc .sheet-header .stats-block .malice-badge::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  clip-path: polygon(0% 0%, 0% 75%, 50% 100%, 100% 75%, 100% 0%);
+  background: var(--dsp-border-light);
+  z-index: 0;
+}
+
+.draw-steel-plus.dsp-npc .sheet-header .stats-block .malice-badge::after {
+  content: "";
+  position: absolute;
+  inset: 2px;
+  clip-path: polygon(0% 0%, 0% 75%, 50% 100%, 100% 75%, 100% 0%);
+  background: var(--dsp-surface);
+  z-index: 0;
+}
+
+.draw-steel-plus.dsp-npc .sheet-header .stats-block .malice-badge .stat-label {
+  position: relative;
+  z-index: 1;
+  font-size: 0.5rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--dsp-text-faint);
+  text-align: center;
+  line-height: 1;
+  margin: 0;
+}
+
+.draw-steel-plus.dsp-npc .sheet-header .stats-block .malice-badge .stat-value {
+  position: relative;
+  z-index: 1;
+  font-size: 1.05rem;
+  font-weight: 900;
+  color: var(--dsp-text);
+  text-align: center;
+  line-height: 1;
+  margin: 0;
+}
+
+.draw-steel-plus.dsp-npc .sheet-header .stats-block .malice-badge .stat-value input[type="number"] {
   width: 48px;
   background: transparent;
   border: none;
-  border-bottom: 1px solid var(--dsp-border);
   color: var(--dsp-text);
   font-size: 0.9rem;
   font-weight: 800;
@@ -133,13 +187,13 @@
   appearance: textfield;
 }
 
-.draw-steel-plus.dsp-npc .sheet-header .stats-block .resource-group .stat-value input[type="number"]:focus {
+.draw-steel-plus.dsp-npc .sheet-header .stats-block .malice-badge .stat-value input[type="number"]:focus {
   border-bottom-color: var(--dsp-accent);
   box-shadow: 0 1px 8px var(--dsp-accent-dim);
 }
 
-.draw-steel-plus.dsp-npc .sheet-header .stats-block .resource-group .stat-value input[type="number"]::-webkit-inner-spin-button,
-.draw-steel-plus.dsp-npc .sheet-header .stats-block .resource-group .stat-value input[type="number"]::-webkit-outer-spin-button {
+.draw-steel-plus.dsp-npc .sheet-header .stats-block .malice-badge .stat-value input[type="number"]::-webkit-inner-spin-button,
+.draw-steel-plus.dsp-npc .sheet-header .stats-block .malice-badge .stat-value input[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
