@@ -364,7 +364,6 @@
 
 .draw-steel-plus.sheet .sidebar-stat-badge:hover {
   border-color: var(--dsp-border-light);
-  box-shadow: 0 0 14px rgba(122, 27, 27, 0.18);
   transform: translateY(-1px);
 }
 

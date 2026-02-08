@@ -62,18 +62,18 @@
   background: var(--dsp-npc-surface-raised);
 }
 
-.draw-steel-plus.dsp-npc .sidebar-stat-badge {
+/*.draw-steel-plus.dsp-npc .sidebar-stat-badge {
   background: rgba(26, 8, 8, 0.5);
-}
+}*/
 
-.draw-steel-plus.dsp-npc .sidebar-stat-badge:hover {
+/*.draw-steel-plus.dsp-npc .sidebar-stat-badge:hover {
   box-shadow: 0 0 14px rgba(168, 40, 40, 0.25);
 }
-
+ /*
 .draw-steel-plus.dsp-npc .sidebar-field input {
   background: rgba(26, 8, 8, 0.4);
   border-color: var(--dsp-border);
-}
+}*/
 
 .draw-steel-plus.dsp-npc .sidebar-field input:focus {
   background: rgba(26, 8, 8, 0.6);
