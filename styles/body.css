@@ -118,6 +118,7 @@
 .draw-steel-plus.sheet .item-list .item {
   border-bottom: 1px solid rgba(42, 32, 32, 0.5);
   transition: background var(--dsp-transition-fast);
+  margin: 0;
 }
 
 .draw-steel-plus.sheet .item-list .item:last-child {

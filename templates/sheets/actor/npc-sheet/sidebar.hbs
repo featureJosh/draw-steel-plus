@@ -1,0 +1,169 @@
+<aside class="dsp-sidebar">
+  <button type="button" class="sidebar-toggle" data-action="toggleSidebar">
+    <i class="fa-solid fa-angles-left"></i>
+  </button>
+
+  <div class="sidebar-content">
+    <section class="sidebar-section">
+      <div class="sidebar-section-title">{{localize "DRAW_STEEL.SHEET.Resources"}}</div>
+
+      <div class="sidebar-resource">
+        <div class="sidebar-resource-header">
+          <span><i class="fa-solid fa-heart"></i> {{systemFields.stamina.label}}</span>
+        </div>
+        {{#if isPlay}}
+        <div class="stam-bar-wrap" style="--stam-current: {{system.stamina.value}}; --stam-max: {{system.stamina.max}}; --stam-temp: {{system.stamina.temporary}};">
+          <div class="stam-bar-track">
+            <div class="stam-bar-fill"></div>
+            {{#if system.stamina.temporary}}
+            <div class="stam-bar-temp"></div>
+            {{/if}}
+          </div>
+          <div class="stam-bar-text">
+            <span class="stam-val">
+              {{#if isSingleSquadMinion}}
+              {{combatGroup.system.staminaValue}}
+              {{else}}
+              {{system.stamina.value}}
+              {{/if}}
+            </span>
+            <span class="stam-sep">/</span>
+            <span class="stam-max-text">
+              {{#if isSingleSquadMinion}}
+              {{combatGroup.system.staminaMax}}
+              {{else}}
+              {{system.stamina.max}}
+              {{/if}}
+            </span>
+            {{#if system.stamina.temporary}}
+            <span class="stam-temp-text">(+{{system.stamina.temporary}})</span>
+            {{/if}}
+          </div>
+        </div>
+        <div class="sidebar-resource-fields">
+          {{#if isSingleSquadMinion}}
+          <div class="sidebar-field">
+            <label>Squad</label>
+            <input type="number" name="squadStaminaValue" value="{{combatGroup.system.staminaValue}}">
+          </div>
+          {{else}}
+          <div class="sidebar-field">
+            <label>Current</label>
+            <input type="number" name="system.stamina.value" value="{{system.stamina.value}}">
+          </div>
+          {{/if}}
+          <div class="sidebar-field">
+            <label>Temp</label>
+            <input type="number" name="system.stamina.temporary" value="{{system.stamina.temporary}}">
+          </div>
+          <div class="sidebar-field">
+            <label>Max</label>
+            <span class="sidebar-static">
+              {{#if isSingleSquadMinion}}
+              {{combatGroup.system.staminaMax}}
+              {{else}}
+              {{system.stamina.max}}
+              {{/if}}
+            </span>
+          </div>
+        </div>
+        {{else}}
+        <div class="sidebar-resource-fields">
+          <div class="sidebar-field">
+            <label>Max</label>
+            {{formInput systemFields.stamina.fields.max value=systemSource.stamina.max dataset=datasets.isSource}}
+          </div>
+        </div>
+        {{/if}}
+      </div>
+
+      <div class="sidebar-resource">
+        <div class="sidebar-resource-header">
+          {{#if isPlay}}
+          {{#if gm}}
+          <button type="button" data-action="freeStrike">
+            <i class="fa-solid fa-burst"></i> {{systemFields.monster.fields.freeStrike.label}}
+          </button>
+          {{else}}
+          <span><i class="fa-solid fa-burst"></i> {{systemFields.monster.fields.freeStrike.label}}</span>
+          {{/if}}
+          {{else}}
+          <span><i class="fa-solid fa-burst"></i> {{systemFields.monster.fields.freeStrike.label}}</span>
+          {{/if}}
+        </div>
+        {{#if isPlay}}
+        <div class="sidebar-resource-fields">
+          <div class="sidebar-field">
+            <span class="sidebar-static">{{system.monster.freeStrike}}</span>
+          </div>
+        </div>
+        {{else}}
+        <div class="sidebar-resource-fields">
+          <div class="sidebar-field">
+            {{formInput systemFields.monster.fields.freeStrike value=systemSource.monster.freeStrike dataset=datasets.isSource}}
+          </div>
+        </div>
+        {{/if}}
+      </div>
+    </section>
+
+    <section class="sidebar-section">
+      <div class="sidebar-section-title">Combat & Movement</div>
+
+      {{#if isPlay}}
+      <div class="sidebar-stat-grid">
+        <div class="sidebar-stat-badge">
+          <span class="stat-val">{{system.combat.size}}</span>
+          <span class="stat-lbl">Size</span>
+        </div>
+        <div class="sidebar-stat-badge">
+          <span class="stat-val">{{system.combat.stability}}</span>
+          <span class="stat-lbl">Stability</span>
+        </div>
+        <div class="sidebar-stat-badge">
+          <span class="stat-val">{{system.movement.value}}</span>
+          <span class="stat-lbl">{{movement.list}}</span>
+        </div>
+        <div class="sidebar-stat-badge">
+          <span class="stat-val">{{system.movement.disengage}}</span>
+          <span class="stat-lbl">Disengage</span>
+        </div>
+      </div>
+      {{else}}
+      <div class="sidebar-edit-section">
+        {{> "systems/draw-steel/templates/sheets/actor/shared/partials/stats/combat.hbs"}}
+        {{> "systems/draw-steel/templates/sheets/actor/shared/partials/stats/movement.hbs"}}
+      </div>
+      {{/if}}
+    </section>
+
+    <section class="sidebar-section">
+      {{#if isPlay}}
+      <div class="sidebar-tag-section">
+        <div class="sidebar-tag-header"><i class="fa-solid fa-shield-heart"></i> Immunities</div>
+        <div class="sidebar-tags" data-tag-type="immunities">
+          {{#if damageIW.immunities}}
+          {{{damageIW.immunities}}}
+          {{else}}
+          <span class="sidebar-tag sidebar-tag-none">None</span>
+          {{/if}}
+        </div>
+      </div>
+      <div class="sidebar-tag-section">
+        <div class="sidebar-tag-header"><i class="fa-solid fa-heart-crack"></i> Weaknesses</div>
+        <div class="sidebar-tags" data-tag-type="weaknesses">
+          {{#if damageIW.weaknesses}}
+          {{{damageIW.weaknesses}}}
+          {{else}}
+          <span class="sidebar-tag sidebar-tag-none">None</span>
+          {{/if}}
+        </div>
+      </div>
+      {{else}}
+      <div class="sidebar-edit-section">
+        {{> "systems/draw-steel/templates/sheets/actor/shared/partials/stats/immunities-weaknesses.hbs"}}
+      </div>
+      {{/if}}
+    </section>
+  </div>
+</aside>

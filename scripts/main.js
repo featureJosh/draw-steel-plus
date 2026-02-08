@@ -279,6 +279,30 @@ function registerSheets() {
         },
       };
 
+      static PARTS = {
+        ...super.PARTS,
+        header: {
+          ...(super.PARTS?.header || {}),
+          template: `${MODULE_PATH}/templates/sheets/actor/npc-sheet/header.hbs`,
+        },
+        stats: {
+          ...(super.PARTS?.stats || {}),
+          template: `${MODULE_PATH}/templates/sheets/actor/npc-sheet/stats.hbs`,
+        },
+        sidebar: {
+          template: `${MODULE_PATH}/templates/sheets/actor/npc-sheet/sidebar.hbs`,
+        },
+      };
+
+      static TABS = {
+        ...super.TABS,
+        primary: {
+          ...super.TABS?.primary,
+          tabs: super.TABS?.primary?.tabs?.filter(t => t.id !== "stats") || [],
+          initial: "features",
+        },
+      };
+
       get title() {
         return `${this.document.name} [DS+]`;
       }
@@ -287,6 +311,17 @@ function registerSheets() {
         super._onRender(context, options);
         applyMinSize(this.element, SHEET_SIZES.npc);
         setupScrollbarAutoHide(this.element);
+
+        this.element.classList.add("has-sidebar");
+
+        this.element.querySelectorAll('[data-action="toggleSidebar"]').forEach((btn) => {
+          btn.addEventListener("click", (e) => {
+            e.preventDefault();
+            this.element.classList.toggle("sidebar-collapsed");
+          });
+        });
+
+        processSidebarTags(this.element);
         applyFloatingTabs(this);
       }
     };

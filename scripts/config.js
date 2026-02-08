@@ -7,10 +7,10 @@ export const SHEET_SIZE_DEFAULTS = {
   },
 
   npc: {
-    width: 700,
-    height: 600,
-    minWidth: 600,
-    minHeight: 500,
+    width: 880,
+    height: 800,
+    minWidth: 740,
+    minHeight: 700,
   },
 
   item: {

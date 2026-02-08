@@ -1,0 +1,97 @@
+<header class="sheet-header">
+
+  <img class="header-bg-art" src="modules/draw-steel-plus/assets/sketch-images/s2.jpg" aria-hidden="true">
+  <div class="header-bg-overlay"></div>
+
+  <div class="header-portrait">
+    <div class="portrait-frame">
+      <img
+        class="profile-img"
+        src="{{document.img}}"
+        alt="{{document.name}}"
+        data-action="{{ifThen isPlay "showPortraitArtwork" "editImage"}}"
+        data-edit="img"
+        title="{{document.name}}"
+      >
+      <div class="level-badge" title="{{systemFields.monster.fields.level.label}}">
+        {{systemSource.monster.level}}
+      </div>
+    </div>
+  </div>
+
+  <div class="header-body">
+    <div class="identity-block">
+      <div class="name-row">
+        {{#if isPlay}}
+        <h1 class="char-name">{{document.name}}</h1>
+        {{else}}
+        {{formInput fields.name value=source.name placeholder=(localize "Name") class="char-name-input"}}
+        {{/if}}
+      </div>
+
+      <div class="progression-subtitle">
+        {{#if system.source.label}}
+        <span class="prog-label">{{system.source.label}}</span>
+        {{/if}}
+      </div>
+
+      <div class="origins-row">
+        {{#each monsterKeywords as |keyword|}}
+        <div class="tag">{{keyword}}</div>
+        {{/each}}
+        {{#if system.monster.organizationLabel}}
+        <div class="tag">{{system.monster.organizationLabel}}</div>
+        {{/if}}
+        {{#if system.monster.roleLabel}}
+        <div class="tag">{{system.monster.roleLabel}}</div>
+        {{/if}}
+        {{#unless isPlay}}
+        <div class="tag">
+          <a data-action="editMonsterMetadata" class="filled">
+            <i class="fa-solid fa-gear"></i>
+          </a>
+        </div>
+        {{/unless}}
+      </div>
+    </div>
+
+    <div class="stats-block">
+      <div class="resource-row">
+        <div class="resource-group">
+          <span class="stat-label">{{systemFields.monster.fields.level.label}}</span>
+          <span class="stat-value">{{systemSource.monster.level}}</span>
+        </div>
+        <div class="resource-group">
+          <span class="stat-label">{{localize "DRAW_STEEL.Actor.npc.EVLabel.Label"}}</span>
+          <span class="stat-value">{{system.monster.evLabel}}</span>
+        </div>
+      </div>
+      {{#if showMalice}}
+      <div class="resource-row">
+        <div class="resource-group">
+          <span class="stat-label">{{malice.label}}</span>
+          <span class="stat-value">
+            <input type="number" step="1" data-setting="malice" value="{{malice.value}}">
+          </span>
+        </div>
+      </div>
+      {{/if}}
+    </div>
+
+    <div class="header-characteristics">
+      {{#each system.characteristics as |chr key|}}
+      <a
+        class="char-badge {{disabled (not @root.owner)}}"
+        data-action="roll"
+        data-roll-type="characteristic"
+        data-characteristic="{{key}}"
+        {{disabled (not @root.isPlay)}}
+      >
+        <span class="char-label">{{key}}</span>
+        <span class="char-value">{{numberFormat chr.value sign=true}}</span>
+      </a>
+      {{/each}}
+    </div>
+  </div>
+
+</header>
