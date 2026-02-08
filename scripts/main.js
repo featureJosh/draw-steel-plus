@@ -112,6 +112,26 @@ function applyFloatingTabs(sheet) {
   element.appendChild(nav);
 }
 
+const _scrollTimers = new WeakMap();
+
+function setupScrollbarAutoHide(element) {
+  if (element.dataset.dspScrollSetup) return;
+  element.dataset.dspScrollSetup = "true";
+
+  element.addEventListener("scroll", (e) => {
+    const target = e.target;
+    target.classList.add("dsp-scrolling");
+
+    const existing = _scrollTimers.get(target);
+    if (existing) clearTimeout(existing);
+
+    _scrollTimers.set(target, setTimeout(() => {
+      target.classList.remove("dsp-scrolling");
+      _scrollTimers.delete(target);
+    }, 3000));
+  }, { capture: true, passive: true });
+}
+
 function applyMinSize(element, sizeConfig) {
   if (sizeConfig.minWidth) element.style.minWidth = `${sizeConfig.minWidth}px`;
   if (sizeConfig.minHeight) element.style.minHeight = `${sizeConfig.minHeight}px`;
@@ -220,6 +240,7 @@ function registerSheets() {
       _onRender(context, options) {
         super._onRender(context, options);
         applyMinSize(this.element, SHEET_SIZES.hero);
+        setupScrollbarAutoHide(this.element);
 
         this.element.classList.add("has-sidebar");
 
@@ -265,6 +286,7 @@ function registerSheets() {
       _onRender(context, options) {
         super._onRender(context, options);
         applyMinSize(this.element, SHEET_SIZES.npc);
+        setupScrollbarAutoHide(this.element);
         applyFloatingTabs(this);
       }
     };
@@ -301,6 +323,7 @@ function registerSheets() {
         _onRender(context, options) {
           super._onRender(context, options);
           applyMinSize(this.element, SHEET_SIZES.item);
+          setupScrollbarAutoHide(this.element);
           applyFloatingTabs(this);
         }
       };

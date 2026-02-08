@@ -66,6 +66,7 @@
 }
 
 .draw-steel-plus.sheet .item-header {
+  position: static;
   display: flex;
   align-items: center;
   padding: 6px 10px;

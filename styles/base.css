@@ -40,8 +40,8 @@
   scrollbar-color: transparent transparent;
 }
 
-.draw-steel-plus.sheet .window-content:hover,
-.draw-steel-plus.sheet .window-content *:hover {
+.draw-steel-plus.sheet .window-content.dsp-scrolling,
+.draw-steel-plus.sheet .window-content *.dsp-scrolling {
   scrollbar-color: var(--dsp-border) transparent;
 }
 
@@ -62,18 +62,18 @@
   border-radius: var(--dsp-radius-full);
 }
 
-.draw-steel-plus.sheet .window-content:hover::-webkit-scrollbar-thumb,
-.draw-steel-plus.sheet .window-content *:hover::-webkit-scrollbar-thumb {
+.draw-steel-plus.sheet .window-content .dsp-scrolling::-webkit-scrollbar-thumb,
+.draw-steel-plus.sheet .window-content.dsp-scrolling::-webkit-scrollbar-thumb {
   background: var(--dsp-border);
 }
 
-.draw-steel-plus.sheet .window-content::-webkit-scrollbar-thumb:hover,
-.draw-steel-plus.sheet .window-content *::-webkit-scrollbar-thumb:hover {
+.draw-steel-plus.sheet .window-content .dsp-scrolling::-webkit-scrollbar-thumb:hover,
+.draw-steel-plus.sheet .window-content.dsp-scrolling::-webkit-scrollbar-thumb:hover {
   background: var(--dsp-scrollbar-thumb-hover);
 }
 
-.draw-steel-plus.sheet .window-content::-webkit-scrollbar-thumb:active,
-.draw-steel-plus.sheet .window-content *::-webkit-scrollbar-thumb:active {
+.draw-steel-plus.sheet .window-content .dsp-scrolling::-webkit-scrollbar-thumb:active,
+.draw-steel-plus.sheet .window-content.dsp-scrolling::-webkit-scrollbar-thumb:active {
   background: var(--dsp-scrollbar-thumb-active);
 }
 
