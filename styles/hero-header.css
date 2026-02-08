@@ -49,21 +49,20 @@
 .draw-steel-plus.sheet .sheet-header .header-bg-overlay {
   position: absolute;
   inset: 0;
-  background:
-    linear-gradient(
-      to right,
-      var(--dsp-background) 0%,
-      rgba(13, 13, 13, 0.92) 20%,
-      rgba(13, 13, 13, 0.6) 45%,
-      rgba(13, 13, 13, 0.25) 65%,
-      transparent 85%
-    ),
-    radial-gradient(
-      ellipse at 0% 50%,
-      rgba(122, 27, 27, 0.35) 0%,
-      rgba(122, 27, 27, 0.15) 30%,
-      transparent 60%
-    );
+  background: linear-gradient(
+    to right,
+    var(--dsp-background) 0%,
+    rgba(13, 13, 13, 0.92) 40%,
+    rgba(13, 13, 13, 0.6) 60%,
+    rgba(13, 13, 13, 0.25) 85%,
+    transparent 86%
+  ),
+  radial-gradient(
+    ellipse at 0% 50%,
+    rgba(122, 27, 27, 0.35) 0%,
+    rgba(122, 27, 27, 0.15) 30%,
+    transparent 60%
+  );
   pointer-events: none;
   z-index: 0;
 }
@@ -100,9 +99,6 @@
   object-fit: cover;
   border: 2px solid var(--dsp-accent);
   border-radius: var(--dsp-radius-md);
-  box-shadow:
-    0 4px 24px var(--dsp-shadow-heavy),
-    0 0 40px var(--dsp-primary-glow);
   cursor: pointer;
   transition: border-color var(--dsp-transition), box-shadow var(--dsp-transition), transform var(--dsp-transition);
   display: block;
@@ -112,10 +108,6 @@
 
 .draw-steel-plus.sheet .sheet-header .portrait-frame .profile-img:hover {
   border-color: var(--dsp-accent-bright);
-  box-shadow:
-    0 6px 30px var(--dsp-shadow-heavy),
-    0 0 50px rgba(200, 170, 110, 0.25),
-    0 0 70px var(--dsp-primary-glow);
   transform: scale(1.03);
 }
 

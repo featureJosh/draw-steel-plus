@@ -347,13 +347,14 @@
   gap: 6px;
 }
 
-.draw-steel-plus.sheet .dsp-floating-tabs > .dsp-float-tab.active, 
+.draw-steel-plus.sheet .dsp-floating-tabs > .dsp-float-tab.active,
 .draw-steel-plus.sheet .dsp-floating-tabs > .dsp-float-tab:hover {
   border-color: var(--dsp-accent);
   box-shadow: 0 0 6px var(--dsp-accent-dim);
   margin-left: 0;
   text-shadow: none;
   border-left: none;
+  color: var(--dsp-accent);
 }
 
 .draw-steel-plus.sheet .sidebar-stat-badge {
