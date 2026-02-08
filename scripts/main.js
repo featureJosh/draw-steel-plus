@@ -237,6 +237,16 @@ function registerSheets() {
         return `${this.document.name} [DS+]`;
       }
 
+      _getHeaderControls() {
+        const controls = super._getHeaderControls();
+        const seen = new Set();
+        return controls.filter(c => {
+          if (seen.has(c.action)) return false;
+          seen.add(c.action);
+          return true;
+        });
+      }
+
       _onRender(context, options) {
         super._onRender(context, options);
         applyMinSize(this.element, SHEET_SIZES.hero);
@@ -271,7 +281,7 @@ function registerSheets() {
     const DrawSteelPlusNPCSheet = class extends sheets.DrawSteelNPCSheet {
       static DEFAULT_OPTIONS = {
         ...super.DEFAULT_OPTIONS,
-        classes: [...super.DEFAULT_OPTIONS.classes, "draw-steel-plus"],
+        classes: [...super.DEFAULT_OPTIONS.classes, "draw-steel-plus", "dsp-npc"],
         position: {
           ...super.DEFAULT_OPTIONS.position,
           width: SHEET_SIZES.npc.width,
@@ -305,6 +315,16 @@ function registerSheets() {
 
       get title() {
         return `${this.document.name} [DS+]`;
+      }
+
+      _getHeaderControls() {
+        const controls = super._getHeaderControls();
+        const seen = new Set();
+        return controls.filter(c => {
+          if (seen.has(c.action)) return false;
+          seen.add(c.action);
+          return true;
+        });
       }
 
       _onRender(context, options) {

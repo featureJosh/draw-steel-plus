@@ -1,0 +1,130 @@
+.draw-steel-plus.dsp-npc {
+  --dsp-npc-bg: #1a0808;
+  --dsp-npc-surface: #1c0c0c;
+  --dsp-npc-surface-raised: #241212;
+  --dsp-npc-tint: rgba(122, 27, 27, 0.15);
+  --dsp-npc-tint-strong: rgba(122, 27, 27, 0.3);
+}
+
+.draw-steel-plus.dsp-npc .sheet-header {
+  background: var(--dsp-npc-bg);
+}
+
+.draw-steel-plus.dsp-npc .sheet-header .header-bg-overlay {
+  background: linear-gradient(
+    to right,
+    var(--dsp-npc-bg) 0%,
+    rgba(26, 8, 8, 0.92) 40%,
+    rgba(26, 8, 8, 0.6) 60%,
+    rgba(26, 8, 8, 0.25) 85%,
+    transparent 86%
+  ),
+  radial-gradient(
+    ellipse at 0% 50%,
+    rgba(168, 40, 40, 0.45) 0%,
+    rgba(168, 40, 40, 0.2) 30%,
+    transparent 60%
+  );
+}
+
+.draw-steel-plus.dsp-npc .sheet-header .header-bg-art {
+  filter: saturate(0.6) brightness(0.7) sepia(0.3) hue-rotate(-10deg);
+  opacity: 0.45;
+}
+
+
+.draw-steel-plus.dsp-npc .sheet-header .origins-row .tag {
+  background: rgba(122, 27, 27, 0.5);
+}
+
+.draw-steel-plus.dsp-npc .sheet-header .origins-row .tag:hover {
+  background: rgba(168, 40, 40, 0.65);
+}
+
+.draw-steel-plus.dsp-npc .sidebar-content {
+  background: var(--dsp-npc-surface);
+}
+
+.draw-steel-plus.dsp-npc .sidebar-toggle {
+  background: var(--dsp-npc-surface);
+}
+
+.draw-steel-plus.dsp-npc .sidebar-toggle:hover {
+  background: var(--dsp-npc-surface-raised);
+}
+
+.draw-steel-plus.dsp-npc .sidebar-stat-badge {
+  background: rgba(26, 8, 8, 0.5);
+}
+
+.draw-steel-plus.dsp-npc .sidebar-stat-badge:hover {
+  box-shadow: 0 0 14px rgba(168, 40, 40, 0.25);
+}
+
+.draw-steel-plus.dsp-npc .sidebar-field input {
+  background: rgba(26, 8, 8, 0.5);
+}
+
+.draw-steel-plus.dsp-npc .sidebar-static {
+  background: rgba(0, 0, 0, 0.3);
+  border-color: var(--dsp-border);
+}
+
+.draw-steel-plus.dsp-npc .sidebar-dual-row {
+  background: rgba(26, 8, 8, 0.3);
+}
+
+.draw-steel-plus.dsp-npc .sidebar-dual-input {
+  background: rgba(26, 8, 8, 0.5);
+}
+
+.draw-steel-plus.dsp-npc .sidebar-tag {
+  background: rgba(26, 8, 8, 0.4);
+}
+
+.draw-steel-plus.dsp-npc .sidebar-tag:hover {
+  background: rgba(168, 40, 40, 0.45);
+}
+
+.draw-steel-plus.dsp-npc .sidebar-tag-none {
+  background: rgba(26, 8, 8, 0.2);
+}
+
+.draw-steel-plus.dsp-npc .sidebar-edit-section fieldset {
+  background: rgba(26, 8, 8, 0.2);
+}
+
+.draw-steel-plus.dsp-npc .stam-bar-track {
+  background: rgba(26, 8, 8, 0.7);
+}
+
+.draw-steel-plus.dsp-npc .sheet-header .stats-block .resource-group .stat-value input[type="number"] {
+  width: 48px;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--dsp-border);
+  color: var(--dsp-text);
+  font-size: 0.9rem;
+  font-weight: 800;
+  line-height: 1;
+  text-align: center;
+  padding: 2px 4px;
+  margin: 0;
+  border-radius: 0;
+  outline: none;
+  box-shadow: none;
+  transition: border-color var(--dsp-transition), box-shadow var(--dsp-transition);
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+.draw-steel-plus.dsp-npc .sheet-header .stats-block .resource-group .stat-value input[type="number"]:focus {
+  border-bottom-color: var(--dsp-accent);
+  box-shadow: 0 1px 8px var(--dsp-accent-dim);
+}
+
+.draw-steel-plus.dsp-npc .sheet-header .stats-block .resource-group .stat-value input[type="number"]::-webkit-inner-spin-button,
+.draw-steel-plus.dsp-npc .sheet-header .stats-block .resource-group .stat-value input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
