@@ -1,7 +1,7 @@
 export const SHEET_SIZE_DEFAULTS = {
   hero: {
-    width: 800,
-    height: 720,
+    width: 875,
+    height: 800,
     minWidth: 740,
     minHeight: 600,
   },
@@ -22,7 +22,6 @@ export const SHEET_SIZE_DEFAULTS = {
 };
 
 export const FLOATING_TAB_ICONS = {
-  stats: "fas fa-shield-halved",
   abilities: "fas fa-hand-fist",
   features: "fas fa-star",
   biography: "fas fa-book-open",

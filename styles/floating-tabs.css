@@ -14,7 +14,7 @@
   position: absolute;
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
+  gap: .5rem;
   z-index: -1;
   border: none;
   padding: 0;
@@ -58,10 +58,11 @@
   box-shadow: 0 0 6px var(--dsp-accent-dim);
   margin-left: 0;
   text-shadow: none;
+  border-left: none;
 }
 
 .dsp-floating-tabs > .dsp-float-tab.active {
-  background: var(--dsp-surface);
+  background: var(--dsp-background);
 }
 
 .dsp-floating-tabs > .dsp-float-tab::after {

@@ -50,3 +50,13 @@
 	grid-column: 1;
 	grid-row: 1 / -1;
 }
+
+
+.draw-steel-plus.sheet a.button:focus, .draw-steel-plus.sheet button:focus {
+	outline: unset;
+	box-shadow: unset;
+}
+
+.draw-steel-plus.sheet .item-controls > * {
+  line-height: 20px;
+}

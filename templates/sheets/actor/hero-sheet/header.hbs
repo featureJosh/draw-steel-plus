@@ -27,7 +27,7 @@
 
 <header class="sheet-header">
 
-  <img class="header-bg-art" src="{{document.img}}" aria-hidden="true">
+  <img class="header-bg-art" src="modules/draw-steel-plus/assets/sketch-images/s2.jpg" aria-hidden="true">
   <div class="header-bg-overlay"></div>
 
   <div class="header-portrait">
@@ -49,6 +49,11 @@
         {{system.level}}
         {{/if}}
       </div>
+      {{#if isPlay}}
+      <a class="respite-btn" data-action="takeRespite" data-tooltip="DRAW_STEEL.Actor.hero.TakeRespite">
+        <i class="fa-solid fa-bed"></i>
+      </a>
+      {{/if}}
     </div>
 
     {{#if isPlay}}
@@ -88,6 +93,14 @@
         {{/if}}
       </div>
 
+      {{#if isPlay}}
+      <div class="progression-subtitle">
+        <span class="prog-value">{{system.hero.xp}}</span> <span class="prog-label">XP</span>
+        <span class="prog-sep">|</span>
+        <span class="prog-value">{{system.hero.victories}}</span> <span class="prog-label">Victories</span>
+      </div>
+      {{/if}}
+
       <div class="origins-row">
         <div class="ancestry tag">
           {{> headerTag originDoc=document.system.ancestry originType="ancestry"}}
@@ -110,44 +123,6 @@
     </div>
 
     <div class="stats-block">
-      {{#if isPlay}}
-      <div class="resource-row">
-        <div class="resource-group xp-group">
-          <div class="stat-label">{{systemFields.hero.fields.xp.label}}</div>
-          <div class="stat-value">
-            <span class="current">{{system.hero.xp}}</span>
-            {{#if system.nextLevelXP}}
-            <span class="sep">/</span>
-            <span class="max">{{system.nextLevelXP}}</span>
-            {{/if}}
-          </div>
-          {{#if system.nextLevelXP}}
-          <div class="xp-bar" style="--xp-current: {{system.hero.xp}}; --xp-max: {{system.nextLevelXP}};">
-            <div class="xp-fill"></div>
-          </div>
-          {{/if}}
-        </div>
-
-        <div class="resource-group victories-group">
-          <div class="stat-label">{{systemFields.hero.fields.victories.label}}</div>
-          <div class="stat-value">
-            <span class="current">{{system.hero.victories}}</span>
-            {{#if system.victoriesMax}}
-            <span class="sep">/</span>
-            <span class="max">{{system.victoriesMax}}</span>
-            {{/if}}
-          </div>
-        </div>
-      </div>
-
-      <div class="take-respite">
-        <a class="respite-btn" data-action="takeRespite">
-          <i class="fa-solid fa-bed"></i>
-          {{localize "DRAW_STEEL.Actor.hero.TakeRespite"}}
-        </a>
-      </div>
-      {{/if}}
-
       {{#unless isPlay}}
       <div class="actor-data hero-data">
         {{formGroup systemFields.hero.fields.xp value=systemSource.hero.xp classes="xp"}}

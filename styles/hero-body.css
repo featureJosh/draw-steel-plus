@@ -217,7 +217,7 @@
   color: var(--dsp-text-faint);
   text-decoration: none;
   font-size: 0.7rem;
-  padding: 3px 4px;
+  padding: 0;
   border-radius: var(--dsp-radius-sm);
   transition: color var(--dsp-transition), background var(--dsp-transition);
   opacity: 0.5;

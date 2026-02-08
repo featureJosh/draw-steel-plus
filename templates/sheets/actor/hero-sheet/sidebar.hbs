@@ -1,11 +1,10 @@
 <aside class="dsp-sidebar">
-  {{#if isPlay}}
   <button type="button" class="sidebar-toggle" data-action="toggleSidebar">
     <i class="fa-solid fa-angles-left"></i>
   </button>
 
   <div class="sidebar-content">
-    <section class="sidebar-section vitals-section">
+    <section class="sidebar-section">
       <div class="sidebar-section-title">{{localize "DRAW_STEEL.SHEET.Resources"}}</div>
 
       <div class="sidebar-resource">
@@ -15,8 +14,24 @@
             <i class="fa-solid fa-circle-bolt"></i> {{systemFields.stamina.label}}
           </button>
           {{else}}
-          <span>{{systemFields.stamina.label}}</span>
+          <span><i class="fa-solid fa-circle-bolt"></i> {{systemFields.stamina.label}}</span>
           {{/if}}
+        </div>
+        <div class="stam-bar-wrap" style="--stam-current: {{system.stamina.value}}; --stam-max: {{system.stamina.max}}; --stam-temp: {{system.stamina.temporary}};">
+          <div class="stam-bar-track">
+            <div class="stam-bar-fill"></div>
+            {{#if system.stamina.temporary}}
+            <div class="stam-bar-temp"></div>
+            {{/if}}
+          </div>
+          <div class="stam-bar-text">
+            <span class="stam-val">{{system.stamina.value}}</span>
+            <span class="stam-sep">/</span>
+            <span class="stam-max-text">{{system.stamina.max}}</span>
+            {{#if system.stamina.temporary}}
+            <span class="stam-temp-text">(+{{system.stamina.temporary}})</span>
+            {{/if}}
+          </div>
         </div>
         <div class="sidebar-resource-fields">
           <div class="sidebar-field">
@@ -41,7 +56,7 @@
             <i class="fa-solid fa-heart-pulse"></i> {{systemFields.recoveries.label}}
           </button>
           {{else}}
-          <span>{{systemFields.recoveries.label}}</span>
+          <span><i class="fa-solid fa-heart-pulse"></i> {{systemFields.recoveries.label}}</span>
           {{/if}}
         </div>
         <div class="sidebar-resource-fields">
@@ -60,48 +75,102 @@
         </div>
       </div>
 
-      <div class="sidebar-resource">
-        <div class="sidebar-resource-header">
-          {{#if editable}}
-          <button type="button" data-action="gainSurges" data-tooltip="DRAW_STEEL.Setting.HeroTokens.GainSurges.tooltip">
-            <i class="fa-solid fa-circle-bolt"></i> {{systemFields.hero.fields.surges.label}}
-          </button>
-          {{else}}
-          <span>{{systemFields.hero.fields.surges.label}}</span>
-          {{/if}}
-        </div>
-        <div class="sidebar-resource-fields">
-          <div class="sidebar-field">
-            <label>Current</label>
-            <input type="number" name="system.hero.surges" value="{{system.hero.surges}}">
+      <div class="sidebar-dual-row">
+        <div class="sidebar-dual-col">
+          <div class="sidebar-resource-header">
+            {{#if editable}}
+            <button type="button" data-action="gainSurges" data-tooltip="DRAW_STEEL.Setting.HeroTokens.GainSurges.tooltip">
+              <i class="fa-solid fa-circle-bolt"></i> {{systemFields.hero.fields.surges.label}}
+            </button>
+            {{else}}
+            <span><i class="fa-solid fa-circle-bolt"></i> {{systemFields.hero.fields.surges.label}}</span>
+            {{/if}}
           </div>
+          <input type="number" name="system.hero.surges" value="{{system.hero.surges}}" class="sidebar-dual-input">
+        </div>
+        <div class="sidebar-dual-divider"></div>
+        <div class="sidebar-dual-col">
+          <div class="sidebar-resource-header">
+            <span><i class="fa-solid fa-brain"></i> {{system.hero.primary.label}}</span>
+          </div>
+          <input type="number" name="system.hero.primary.value" value="{{system.hero.primary.value}}" class="sidebar-dual-input">
         </div>
       </div>
-
-      {{formGroup systemFields.hero.fields.primary.fields.value value=system.hero.primary.value dataset=datasets.notSource label=system.hero.primary.label classes="sidebar-heroic"}}
     </section>
 
-    <section class="sidebar-section combat-section">
+    <section class="sidebar-section">
       <div class="sidebar-section-title">Combat & Movement</div>
-      {{> "systems/draw-steel/templates/sheets/actor/shared/partials/stats/combat.hbs"}}
-      {{> "systems/draw-steel/templates/sheets/actor/shared/partials/stats/movement.hbs"}}
+
+      {{#if isPlay}}
+      <div class="sidebar-stat-grid">
+        <div class="sidebar-stat-badge" data-tooltip-html="{{combatTooltip}}">
+          <span class="stat-val">{{system.combat.size}}</span>
+          <span class="stat-lbl">Size</span>
+        </div>
+        <div class="sidebar-stat-badge" data-tooltip-html="{{combatTooltip}}">
+          <span class="stat-val">{{system.combat.stability}}</span>
+          <span class="stat-lbl">Stability</span>
+        </div>
+        <div class="sidebar-stat-badge">
+          <span class="stat-val">{{system.movement.value}}</span>
+          <span class="stat-lbl">{{movement.list}}</span>
+        </div>
+        <div class="sidebar-stat-badge">
+          <span class="stat-val">{{system.movement.disengage}}</span>
+          <span class="stat-lbl">Disengage</span>
+        </div>
+      </div>
+      {{else}}
+      <div class="sidebar-edit-section">
+        {{> "systems/draw-steel/templates/sheets/actor/shared/partials/stats/combat.hbs"}}
+        {{> "systems/draw-steel/templates/sheets/actor/shared/partials/stats/movement.hbs"}}
+      </div>
+      {{/if}}
     </section>
 
-    <section class="sidebar-section immunities-section">
-      {{> "systems/draw-steel/templates/sheets/actor/shared/partials/stats/immunities-weaknesses.hbs"}}
-    </section>
-
-    <section class="sidebar-section skills-section">
-      <fieldset class="skills">
-        <legend>
-          {{systemFields.hero.fields.skills.label}}
-          {{#if unfilledSkill}}
-          <button type="button" class="icon fa-solid fa-clipboard-question" data-tooltip-text="{{localize "DRAW_STEEL.ADVANCEMENT.FillTrait.button" type=(localize "TYPES.Advancement.skill")}}" data-tooltip-direction="UP" data-action="fillTrait" data-type="skill"></button>
+    <section class="sidebar-section">
+      {{#if isPlay}}
+      <div class="sidebar-tag-section">
+        <div class="sidebar-tag-header"><i class="fa-solid fa-shield-heart"></i> {{systemFields.damage.fields.immunities.label}}</div>
+        <div class="sidebar-tags" data-tag-type="immunities">
+          {{#if damageIW.immunities}}
+          {{{damageIW.immunities}}}
+          {{else}}
+          <span class="sidebar-tag sidebar-tag-none">None</span>
           {{/if}}
-        </legend>
+        </div>
+      </div>
+      <div class="sidebar-tag-section">
+        <div class="sidebar-tag-header"><i class="fa-solid fa-heart-crack"></i> {{systemFields.damage.fields.weaknesses.label}}</div>
+        <div class="sidebar-tags" data-tag-type="weaknesses">
+          {{#if damageIW.weaknesses}}
+          {{{damageIW.weaknesses}}}
+          {{else}}
+          <span class="sidebar-tag sidebar-tag-none">None</span>
+          {{/if}}
+        </div>
+      </div>
+      {{else}}
+      <div class="sidebar-edit-section">
+        {{> "systems/draw-steel/templates/sheets/actor/shared/partials/stats/immunities-weaknesses.hbs"}}
+      </div>
+      {{/if}}
+    </section>
+
+    <section class="sidebar-section">
+      <div class="sidebar-tag-header">
+        <i class="fa-solid fa-list-check"></i> {{systemFields.hero.fields.skills.label}}
+        {{#if unfilledSkill}}
+        <button type="button" class="icon fa-solid fa-clipboard-question" data-tooltip-text="{{localize "DRAW_STEEL.ADVANCEMENT.FillTrait.button" type=(localize "TYPES.Advancement.skill")}}" data-tooltip-direction="UP" data-action="fillTrait" data-type="skill"></button>
+        {{/if}}
+      </div>
+      <div class="sidebar-tags sidebar-skills">
+        {{#if isPlay}}
         {{skills.list}}
-      </fieldset>
+        {{else}}
+        {{formInput systemFields.hero.fields.skills value=systemSource.hero.skills options=skills.options dataset=datasets.isSource}}
+        {{/if}}
+      </div>
     </section>
   </div>
-  {{/if}}
 </aside>

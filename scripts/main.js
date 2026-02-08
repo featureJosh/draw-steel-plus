@@ -11,6 +11,7 @@ Hooks.once("init", () => {
   registerSettings();
   SHEET_SIZES = loadSheetSizes();
   console.log(`${MODULE_ID} | Sheet sizes loaded:`, SHEET_SIZES);
+
   registerSheets();
 });
 
@@ -93,7 +94,7 @@ function applyFloatingTabs(sheet) {
 
   const nav = document.createElement("nav");
   nav.className = "dsp-floating-tabs tabs-right";
-  nav.style.top = `${navTop}px`;
+  nav.style.top = `35%`;
 
   tabLinks.forEach((originalLink) => {
     const tabName = originalLink.dataset.tab;
@@ -129,6 +130,47 @@ function applyFloatingTabs(sheet) {
 function applyMinSize(element, sizeConfig) {
   if (sizeConfig.minWidth) element.style.minWidth = `${sizeConfig.minWidth}px`;
   if (sizeConfig.minHeight) element.style.minHeight = `${sizeConfig.minHeight}px`;
+}
+
+function processSidebarTags(element) {
+  element.querySelectorAll('.sidebar-tags[data-tag-type]').forEach((container) => {
+    if (container.querySelector('.sidebar-tag, .sidebar-tag-none')) return;
+
+    const text = container.textContent.trim();
+    if (!text) return;
+
+    const items = text.split(/,\s*(?:and\s+)?/).map(s => s.trim()).filter(Boolean);
+    container.innerHTML = '';
+
+    if (items.length === 0 || (items.length === 1 && items[0].toLowerCase() === 'none')) {
+      const tag = document.createElement('span');
+      tag.className = 'sidebar-tag sidebar-tag-none';
+      tag.textContent = 'None';
+      container.appendChild(tag);
+    } else {
+      items.forEach(item => {
+        const tag = document.createElement('span');
+        tag.className = 'sidebar-tag';
+        tag.textContent = item;
+        container.appendChild(tag);
+      });
+    }
+  });
+
+  const skillsContainer = element.querySelector('.sidebar-skills');
+  if (skillsContainer && !skillsContainer.querySelector('.ds-tag, .sidebar-tag')) {
+    const text = skillsContainer.textContent.trim();
+    if (text) {
+      const items = text.split(/,\s*(?:and\s+)?/).map(s => s.trim()).filter(Boolean);
+      skillsContainer.innerHTML = '';
+      items.forEach(item => {
+        const tag = document.createElement('span');
+        tag.className = 'sidebar-tag';
+        tag.textContent = item;
+        skillsContainer.appendChild(tag);
+      });
+    }
+  }
 }
 
 function registerSheets() {
@@ -168,8 +210,21 @@ function registerSheets() {
           ...(super.PARTS?.header || {}),
           template: `${MODULE_PATH}/templates/sheets/actor/hero-sheet/header.hbs`,
         },
+        stats: {
+          ...(super.PARTS?.stats || {}),
+          template: `${MODULE_PATH}/templates/sheets/actor/hero-sheet/stats.hbs`,
+        },
         sidebar: {
           template: `${MODULE_PATH}/templates/sheets/actor/hero-sheet/sidebar.hbs`,
+        },
+      };
+
+      static TABS = {
+        ...super.TABS,
+        primary: {
+          ...super.TABS?.primary,
+          tabs: super.TABS?.primary?.tabs?.filter(t => t.id !== "stats") || [],
+          initial: "features",
         },
       };
 
@@ -181,11 +236,7 @@ function registerSheets() {
         super._onRender(context, options);
         applyMinSize(this.element, SHEET_SIZES.hero);
 
-        if (context.isPlay) {
-          this.element.classList.add("has-sidebar");
-        } else {
-          this.element.classList.remove("has-sidebar");
-        }
+        this.element.classList.add("has-sidebar");
 
         this.element.querySelectorAll('[data-action="toggleSidebar"]').forEach((btn) => {
           btn.addEventListener("click", (e) => {
@@ -194,6 +245,7 @@ function registerSheets() {
           });
         });
 
+        processSidebarTags(this.element);
         applyFloatingTabs(this);
       }
     };
