@@ -34,6 +34,54 @@ export const FLOATING_TAB_ICONS = {
   impact: "fas fa-crosshairs",
 };
 
+export const COLOR_DEFAULTS = {
+  primary: "#7a1b1b",
+  primaryLight: "#a82828",
+  primaryDark: "#4a0e0e",
+  secondary: "#1a1a2e",
+  accent: "#c8aa6e",
+  accentBright: "#ddc088",
+  background: "#0d0d0d",
+  surface: "#161616",
+  surfaceRaised: "#1e1e1e",
+  text: "#e8e0d4",
+  textLight: "#9a8e80",
+  textFaint: "#5a5248",
+  border: "#2a2020",
+  borderLight: "#3a302a",
+  danger: "#e05555",
+};
+
+export const COLOR_CSS_MAP = {
+  primary: "--dsp-primary",
+  primaryLight: "--dsp-primary-light",
+  primaryDark: "--dsp-primary-dark",
+  secondary: "--dsp-secondary",
+  accent: "--dsp-accent",
+  accentBright: "--dsp-accent-bright",
+  background: "--dsp-background",
+  surface: "--dsp-surface",
+  surfaceRaised: "--dsp-surface-raised",
+  text: "--dsp-text",
+  textLight: "--dsp-text-light",
+  textFaint: "--dsp-text-faint",
+  border: "--dsp-border",
+  borderLight: "--dsp-border-light",
+  danger: "--dsp-danger",
+};
+
+export const HEADER_DEFAULTS = {
+  heroHeaderEnabled: true,
+  npcHeaderEnabled: true,
+  heroHeaderImage: "",
+  npcHeaderImage: "",
+};
+
+export const DEFAULT_HEADER_IMAGES = {
+  hero: "modules/draw-steel-plus/assets/sketch-images/s1.jpg",
+  npc: "modules/draw-steel-plus/assets/sketch-images/s2.jpg",
+};
+
 export const MODULE_CONFIG = {
   id: "draw-steel-plus",
   systemId: "draw-steel",

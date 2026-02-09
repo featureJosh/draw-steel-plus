@@ -402,6 +402,66 @@
   color: var(--dsp-accent);
 }
 
+.draw-steel-plus.sheet .sheet-header .header-characteristics .char-edit-btn {
+	position: relative;
+	z-index: 1;
+	background: rgba(0, 0, 0, 0.35);
+	border: 1px solid var(--dsp-border);
+	border-radius: var(--dsp-radius-sm);
+	color: var(--dsp-text-faint);
+	font-size: 0.7rem;
+	padding: 4px 8px;
+	cursor: pointer;
+	align-self: center;
+	transition: color var(--dsp-transition), border-color var(--dsp-transition), background var(--dsp-transition);
+	font-family: "Font Awesome 6 Pro";
+}
+
+.draw-steel-plus.sheet .sheet-header .header-characteristics .char-edit-btn:hover {
+  color: var(--dsp-accent);
+  border-color: var(--dsp-accent);
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.draw-steel-plus.sheet .sheet-header .header-characteristics .char-badge.edit {
+  cursor: default;
+}
+
+.draw-steel-plus.sheet .sheet-header .header-characteristics .char-badge.edit:hover {
+  transform: none;
+  filter: none;
+}
+
+.draw-steel-plus.sheet .sheet-header .header-characteristics .char-badge.edit input {
+	position: relative;
+	z-index: 1;
+	width: 36px;
+	background: transparent;
+	border: none;
+	color: var(--dsp-text);
+	font-size: 1rem;
+	font-weight: 800;
+	text-align: center;
+	padding: 0;
+	margin: 0;
+	outline: none;
+	box-shadow: none;
+	border-radius: 0;
+	-moz-appearance: textfield;
+	appearance: textfield;
+	height: 1.25em;
+}
+
+.draw-steel-plus.sheet .sheet-header .header-characteristics .char-badge.edit input:focus {
+  border: 1px solid var(--dsp-accent);
+}
+
+.draw-steel-plus.sheet .sheet-header .header-characteristics .char-badge.edit input::-webkit-inner-spin-button,
+.draw-steel-plus.sheet .sheet-header .header-characteristics .char-badge.edit input::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
 .draw-steel-plus.sheet .sheet-header .identity-block {
   display: flex;
   flex-direction: column;

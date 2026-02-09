@@ -6,6 +6,43 @@
       "Item": "DS+ Item Sheet"
     },
     "Settings": {
+      "colors": {
+        "primary": "Primary",
+        "primaryLight": "Primary Light",
+        "primaryDark": "Primary Dark",
+        "secondary": "Secondary",
+        "accent": "Accent",
+        "accentBright": "Accent Bright",
+        "background": "Background",
+        "surface": "Surface",
+        "surfaceRaised": "Surface Raised",
+        "text": "Text",
+        "textLight": "Text Light",
+        "textFaint": "Text Faint",
+        "border": "Border",
+        "borderLight": "Border Light",
+        "danger": "Danger"
+      },
+      "floatingNavTabs": {
+        "name": "Floating Navigation Tabs",
+        "hint": "Display floating icon tabs on the right side of character sheets for quick navigation."
+      },
+      "heroHeaderEnabled": {
+        "name": "Hero Header Art",
+        "hint": "Show the background art banner in the Hero sheet header."
+      },
+      "heroHeaderImage": {
+        "name": "Custom Hero Header Image",
+        "hint": "Upload a custom image for the Hero sheet header. Leave blank to use the default."
+      },
+      "npcHeaderEnabled": {
+        "name": "NPC Header Art",
+        "hint": "Show the background art banner in the NPC sheet header."
+      },
+      "npcHeaderImage": {
+        "name": "Custom NPC Header Image",
+        "hint": "Upload a custom image for the NPC sheet header. Leave blank to use the default."
+      }
     }
   }
 }

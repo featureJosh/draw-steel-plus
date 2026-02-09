@@ -1,4 +1,5 @@
-import { MODULE_CONFIG, SHEET_SIZE_DEFAULTS, FLOATING_TAB_ICONS } from "./config.js";
+import { MODULE_CONFIG, SHEET_SIZE_DEFAULTS, FLOATING_TAB_ICONS, COLOR_DEFAULTS, HEADER_DEFAULTS } from "./config.js";
+import { applyColorOverrides } from "./color-settings.js";
 
 const MODULE_ID = MODULE_CONFIG.id;
 const SYSTEM_ID = MODULE_CONFIG.systemId;
@@ -15,24 +16,25 @@ Hooks.once("init", () => {
   registerSheets();
 });
 
-function registerSettings() {
-  // const types = ["hero", "npc", "item"];
-  // const props = ["width", "height", "minWidth", "minHeight"];
+Hooks.once("ready", () => {
+  applyColorOverrides();
+});
 
-  // for (const type of types) {
-  //   for (const prop of props) {
-  //     const key = `${type}${prop.charAt(0).toUpperCase() + prop.slice(1)}`;
-  //     game.settings.register(MODULE_ID, key, {
-  //       name: `DRAW_STEEL_PLUS.Settings.${key}.name`,
-  //       hint: `DRAW_STEEL_PLUS.Settings.${key}.hint`,
-  //       scope: "world",
-  //       config: true,
-  //       type: Number,
-  //       default: SHEET_SIZE_DEFAULTS[type][prop],
-  //       requiresReload: true,
-  //     });
-  //   }
-  // }
+function colorSettingKey(key) {
+  return `color${key.charAt(0).toUpperCase()}${key.slice(1)}`;
+}
+
+function registerSettings() {
+  for (const [key, defaultVal] of Object.entries(COLOR_DEFAULTS)) {
+    game.settings.register(MODULE_ID, colorSettingKey(key), {
+      name: `DRAW_STEEL_PLUS.Settings.colors.${key}`,
+      scope: "world",
+      config: true,
+      type: new foundry.data.fields.ColorField(),
+      default: defaultVal,
+      onChange: () => applyColorOverrides(),
+    });
+  }
 
   game.settings.register(MODULE_ID, "floatingNavTabs", {
     name: "DRAW_STEEL_PLUS.Settings.floatingNavTabs.name",
@@ -43,6 +45,65 @@ function registerSettings() {
     default: true,
     requiresReload: false,
   });
+
+  game.settings.register(MODULE_ID, "heroHeaderEnabled", {
+    name: "DRAW_STEEL_PLUS.Settings.heroHeaderEnabled.name",
+    hint: "DRAW_STEEL_PLUS.Settings.heroHeaderEnabled.hint",
+    scope: "world",
+    config: true,
+    type: Boolean,
+    default: HEADER_DEFAULTS.heroHeaderEnabled,
+    requiresReload: false,
+  });
+
+  game.settings.register(MODULE_ID, "heroHeaderImage", {
+    name: "DRAW_STEEL_PLUS.Settings.heroHeaderImage.name",
+    hint: "DRAW_STEEL_PLUS.Settings.heroHeaderImage.hint",
+    scope: "world",
+    config: true,
+    type: String,
+    default: HEADER_DEFAULTS.heroHeaderImage,
+    filePicker: "image",
+    requiresReload: false,
+  });
+
+  game.settings.register(MODULE_ID, "npcHeaderEnabled", {
+    name: "DRAW_STEEL_PLUS.Settings.npcHeaderEnabled.name",
+    hint: "DRAW_STEEL_PLUS.Settings.npcHeaderEnabled.hint",
+    scope: "world",
+    config: true,
+    type: Boolean,
+    default: HEADER_DEFAULTS.npcHeaderEnabled,
+    requiresReload: false,
+  });
+
+  game.settings.register(MODULE_ID, "npcHeaderImage", {
+    name: "DRAW_STEEL_PLUS.Settings.npcHeaderImage.name",
+    hint: "DRAW_STEEL_PLUS.Settings.npcHeaderImage.hint",
+    scope: "world",
+    config: true,
+    type: String,
+    default: HEADER_DEFAULTS.npcHeaderImage,
+    filePicker: "image",
+    requiresReload: false,
+  });
+}
+
+function applyHeaderArt(element, sheetType) {
+  const enabled = game.settings.get(MODULE_ID, `${sheetType}HeaderEnabled`);
+  const customImage = game.settings.get(MODULE_ID, `${sheetType}HeaderImage`);
+
+  const headerArt = element.querySelector(".header-bg-art");
+  const headerOverlay = element.querySelector(".header-bg-overlay");
+
+  if (!enabled) {
+    if (headerArt) headerArt.style.display = "none";
+    if (headerOverlay) headerOverlay.style.display = "none";
+  } else {
+    if (headerArt) headerArt.style.display = "";
+    if (headerOverlay) headerOverlay.style.display = "";
+    if (customImage && headerArt) headerArt.src = customImage;
+  }
 }
 
 function loadSheetSizes() {
@@ -251,6 +312,7 @@ function registerSheets() {
         super._onRender(context, options);
         applyMinSize(this.element, SHEET_SIZES.hero);
         setupScrollbarAutoHide(this.element);
+        applyHeaderArt(this.element, "hero");
 
         this.element.classList.add("has-sidebar");
 
@@ -331,6 +393,7 @@ function registerSheets() {
         super._onRender(context, options);
         applyMinSize(this.element, SHEET_SIZES.npc);
         setupScrollbarAutoHide(this.element);
+        applyHeaderArt(this.element, "npc");
 
         this.element.classList.add("has-sidebar");
 

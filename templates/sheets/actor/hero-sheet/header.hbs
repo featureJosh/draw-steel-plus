@@ -27,7 +27,7 @@
 
 <header class="sheet-header">
 
-  <img class="header-bg-art" src="modules/draw-steel-plus/assets/sketch-images/s2.jpg" aria-hidden="true">
+  <img class="header-bg-art" src="modules/draw-steel-plus/assets/sketch-images/s1.jpg" aria-hidden="true">
   <div class="header-bg-overlay"></div>
 
   <div class="header-portrait">
@@ -131,6 +131,9 @@
     </div>
 
     <div class="header-characteristics">
+      {{#unless isPlay}}
+      <button type="button" class="char-edit-btn fa-solid fa-cog" data-action="editCharacteristics"></button>
+      {{/unless}}
       {{#each system.characteristics as |chr key|}}
       <a
         class="char-badge {{disabled (not @root.owner)}}"

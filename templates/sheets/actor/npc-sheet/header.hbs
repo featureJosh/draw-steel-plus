@@ -72,16 +72,22 @@
 
     <div class="header-characteristics">
       {{#each system.characteristics as |chr key|}}
+      {{#if @root.isPlay}}
       <a
         class="char-badge {{disabled (not @root.owner)}}"
         data-action="roll"
         data-roll-type="characteristic"
         data-characteristic="{{key}}"
-        {{disabled (not @root.isPlay)}}
       >
         <span class="char-label">{{key}}</span>
         <span class="char-value">{{numberFormat chr.value sign=true}}</span>
       </a>
+      {{else}}
+      <label class="char-badge edit">
+        <span class="char-label">{{key}}</span>
+        <input type="number" name="system.characteristics.{{key}}.value" value="{{chr.value}}" placeholder="0">
+      </label>
+      {{/if}}
       {{/each}}
     </div>
   </div>
