@@ -3,10 +3,11 @@ import { MODULE_CONFIG, COLOR_DEFAULTS, COLOR_CSS_MAP } from "./config.js";
 const MODULE_ID = MODULE_CONFIG.id;
 
 function hexToRgb(hex) {
+  const str = String(hex);
   return {
-    r: parseInt(hex.slice(1, 3), 16),
-    g: parseInt(hex.slice(3, 5), 16),
-    b: parseInt(hex.slice(5, 7), 16),
+    r: parseInt(str.slice(1, 3), 16),
+    g: parseInt(str.slice(3, 5), 16),
+    b: parseInt(str.slice(5, 7), 16),
   };
 }
 
@@ -18,7 +19,8 @@ export function applyColorOverrides() {
   const merged = {};
   for (const [key, defaultVal] of Object.entries(COLOR_DEFAULTS)) {
     try {
-      merged[key] = game.settings.get(MODULE_ID, colorSettingKey(key)) || defaultVal;
+      const raw = game.settings.get(MODULE_ID, colorSettingKey(key));
+      merged[key] = (raw ? String(raw) : null) || defaultVal;
     } catch {
       merged[key] = defaultVal;
     }

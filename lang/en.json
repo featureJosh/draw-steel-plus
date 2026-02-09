@@ -6,6 +6,29 @@
       "Item": "DS+ Item Sheet"
     },
     "Settings": {
+      "menus": {
+        "colors": {
+          "name": "Color Settings",
+          "label": "Configure Colors",
+          "hint": "Customize the color scheme of Draw Steel Plus sheets.",
+          "groups": {
+            "primary": "Primary",
+            "accent": "Accent",
+            "background": "Background",
+            "text": "Text",
+            "other": "Other"
+          }
+        },
+        "headers": {
+          "name": "Header Settings",
+          "label": "Configure Headers",
+          "hint": "Customize the header art for actor sheets.",
+          "heroSection": "Hero Sheet",
+          "npcSection": "NPC Sheet"
+        }
+      },
+      "resetDefaults": "Reset Defaults",
+      "saveChanges": "Save Changes",
       "colors": {
         "primary": "Primary",
         "primaryLight": "Primary Light",

@@ -1,10 +1,11 @@
 .draw-steel-plus.sheet .window-header {
-  background: var(--dsp-background);
-  border: none;
-  padding: 3px 8px 0;
-  margin: 0;
-  min-height: unset;
-  gap: 4px;
+	background: var(--dsp-background);
+	border: none;
+	padding: 3px 8px 0;
+	margin: 0;
+	min-height: unset;
+	gap: 4px;
+	border-radius: 6px 6px 0 0;
 }
 
 .draw-steel-plus.sheet .window-header .window-icon {

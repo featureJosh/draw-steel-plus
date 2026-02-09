@@ -1,5 +1,7 @@
 import { MODULE_CONFIG, SHEET_SIZE_DEFAULTS, FLOATING_TAB_ICONS, COLOR_DEFAULTS, HEADER_DEFAULTS } from "./config.js";
 import { applyColorOverrides } from "./color-settings.js";
+import ColorSettingsMenu from "./color-settings-menu.js";
+import HeaderSettingsMenu from "./header-settings-menu.js";
 
 const MODULE_ID = MODULE_CONFIG.id;
 const SYSTEM_ID = MODULE_CONFIG.systemId;
@@ -25,11 +27,29 @@ function colorSettingKey(key) {
 }
 
 function registerSettings() {
+  game.settings.registerMenu(MODULE_ID, "colorSettingsMenu", {
+    name: "DRAW_STEEL_PLUS.Settings.menus.colors.name",
+    label: "DRAW_STEEL_PLUS.Settings.menus.colors.label",
+    hint: "DRAW_STEEL_PLUS.Settings.menus.colors.hint",
+    icon: "fa-solid fa-palette",
+    type: ColorSettingsMenu,
+    restricted: true,
+  });
+
+  game.settings.registerMenu(MODULE_ID, "headerSettingsMenu", {
+    name: "DRAW_STEEL_PLUS.Settings.menus.headers.name",
+    label: "DRAW_STEEL_PLUS.Settings.menus.headers.label",
+    hint: "DRAW_STEEL_PLUS.Settings.menus.headers.hint",
+    icon: "fa-solid fa-image",
+    type: HeaderSettingsMenu,
+    restricted: true,
+  });
+
   for (const [key, defaultVal] of Object.entries(COLOR_DEFAULTS)) {
     game.settings.register(MODULE_ID, colorSettingKey(key), {
       name: `DRAW_STEEL_PLUS.Settings.colors.${key}`,
       scope: "world",
-      config: true,
+      config: false,
       type: new foundry.data.fields.ColorField(),
       default: defaultVal,
       onChange: () => applyColorOverrides(),
@@ -50,7 +70,7 @@ function registerSettings() {
     name: "DRAW_STEEL_PLUS.Settings.heroHeaderEnabled.name",
     hint: "DRAW_STEEL_PLUS.Settings.heroHeaderEnabled.hint",
     scope: "world",
-    config: true,
+    config: false,
     type: Boolean,
     default: HEADER_DEFAULTS.heroHeaderEnabled,
     requiresReload: false,
@@ -60,7 +80,7 @@ function registerSettings() {
     name: "DRAW_STEEL_PLUS.Settings.heroHeaderImage.name",
     hint: "DRAW_STEEL_PLUS.Settings.heroHeaderImage.hint",
     scope: "world",
-    config: true,
+    config: false,
     type: String,
     default: HEADER_DEFAULTS.heroHeaderImage,
     filePicker: "image",
@@ -71,7 +91,7 @@ function registerSettings() {
     name: "DRAW_STEEL_PLUS.Settings.npcHeaderEnabled.name",
     hint: "DRAW_STEEL_PLUS.Settings.npcHeaderEnabled.hint",
     scope: "world",
-    config: true,
+    config: false,
     type: Boolean,
     default: HEADER_DEFAULTS.npcHeaderEnabled,
     requiresReload: false,
@@ -81,7 +101,7 @@ function registerSettings() {
     name: "DRAW_STEEL_PLUS.Settings.npcHeaderImage.name",
     hint: "DRAW_STEEL_PLUS.Settings.npcHeaderImage.hint",
     scope: "world",
-    config: true,
+    config: false,
     type: String,
     default: HEADER_DEFAULTS.npcHeaderImage,
     filePicker: "image",

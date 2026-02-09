@@ -1,0 +1,31 @@
+<div>
+  <fieldset>
+    <legend>{{heroSection}}</legend>
+    {{formGroup heroEnabled.field value=heroEnabled.value name="heroHeaderEnabled" label=heroEnabled.label hint=heroEnabled.hint}}
+    <div class="form-group">
+      <label>{{heroImage.label}}</label>
+      <div class="form-fields">
+        <button type="button" data-action="filePicker" class="icon" tabindex="-1">
+          <i class="fas fa-file-import fa-fw"></i>
+        </button>
+        <input type="text" name="heroHeaderImage" value="{{heroImage.value}}" placeholder="">
+      </div>
+      <p class="hint">{{heroImage.hint}}</p>
+    </div>
+  </fieldset>
+
+  <fieldset>
+    <legend>{{npcSection}}</legend>
+    {{formGroup npcEnabled.field value=npcEnabled.value name="npcHeaderEnabled" label=npcEnabled.label hint=npcEnabled.hint}}
+    <div class="form-group">
+      <label>{{npcImage.label}}</label>
+      <div class="form-fields">
+        <button type="button" data-action="filePicker" class="icon" tabindex="-1">
+          <i class="fas fa-file-import fa-fw"></i>
+        </button>
+        <input type="text" name="npcHeaderImage" value="{{npcImage.value}}" placeholder="">
+      </div>
+      <p class="hint">{{npcImage.hint}}</p>
+    </div>
+  </fieldset>
+</div>

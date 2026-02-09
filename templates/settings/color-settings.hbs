@@ -1,0 +1,10 @@
+<div>
+  {{#each groups}}
+  <fieldset>
+    <legend>{{this.legend}}</legend>
+    {{#each this.colors}}
+    {{formGroup this.field value=this.value name=this.name label=this.label}}
+    {{/each}}
+  </fieldset>
+  {{/each}}
+</div>

@@ -94,6 +94,7 @@
 	padding: unset !important;
 	overflow: hidden;
 	position: relative;
+	border-radius: 0 0 6px 6px;
 }
 
 .draw-steel-plus.sheet.application .window-content:hover .label {

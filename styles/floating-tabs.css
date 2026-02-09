@@ -70,7 +70,7 @@
   position: absolute;
   inset: 4px 4px 4px 0;
   border: 1px solid var(--dsp-accent);
-  border-radius: 0 5px 5px 0;
+  border-radius: 0 6px 6px 0;
   border-left: none;
   pointer-events: none;
   opacity: 0;
