@@ -1,0 +1,95 @@
+name: Release to Foundry VTT
+
+on:
+  push:
+    tags:
+      - "*.*.*"
+  release:
+    types: [published]
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18"
+
+      - name: Get version from tag
+        id: version
+        run: |
+          echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+
+      - name: Update module.json version
+        run: |
+          VERSION=${{ steps.version.outputs.VERSION }}
+          jq --arg version "$VERSION" '.version = $version' module.json > module.json.tmp
+          mv module.json.tmp module.json
+
+      - name: Create GitHub Release (if not exists)
+        if: github.event_name == 'push'
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ steps.version.outputs.VERSION }}
+          body: |
+            Release ${{ steps.version.outputs.VERSION }} of Draw Steel Plus
+
+            See the full changelog at: https://github.com/${{ github.repository }}/releases/tag/${{ github.ref_name }}
+          draft: false
+          prerelease: false
+
+      - name: Create release archive
+        run: |
+          zip -r draw-steel-plus-${{ steps.version.outputs.VERSION }}.zip . -x "*.git*" "*.github*" "*.DS_Store*" "node_modules/*" "*.md" "*.cursor*"
+
+      - name: Upload module.json (if new release)
+        if: github.event_name == 'push'
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./module.json
+          asset_name: module.json
+          asset_content_type: application/json
+
+      - name: Upload release archive (if new release)
+        if: github.event_name == 'push'
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./draw-steel-plus-${{ steps.version.outputs.VERSION }}.zip
+          asset_name: draw-steel-plus-${{ steps.version.outputs.VERSION }}.zip
+          asset_content_type: application/zip
+
+      - name: Publish to Foundry VTT
+        env:
+          FOUNDRY_TOKEN: ${{ secrets.FOUNDRY_RELEASE_TOKEN }}
+        run: |
+          curl -X POST "https://foundryvtt.com/_api/packages/release_version/" \
+            -H "Content-Type: application/json" \
+            -H "Authorization: $FOUNDRY_TOKEN" \
+            -d '{
+              "id": "draw-steel-plus",
+              "release": {
+                "version": "${{ steps.version.outputs.VERSION }}",
+                "manifest": "https://github.com/${{ github.repository }}/releases/download/${{ github.ref_name }}/module.json",
+                "notes": "https://github.com/${{ github.repository }}/releases/tag/${{ github.ref_name }}",
+                "compatibility": {
+                  "minimum": "13",
+                  "verified": "13",
+                  "maximum": ""
+                }
+              }
+            }'
