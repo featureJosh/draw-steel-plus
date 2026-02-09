@@ -1,9 +1,6 @@
 name: Release to Foundry VTT
 
 on:
-  push:
-    tags:
-      - "*.*.*"
   release:
     types: [published]
 
@@ -31,47 +28,18 @@ jobs:
           jq --arg version "$VERSION" '.version = $version' module.json > module.json.tmp
           mv module.json.tmp module.json
 
-      - name: Create GitHub Release (if not exists)
-        if: github.event_name == 'push'
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ steps.version.outputs.VERSION }}
-          body: |
-            Release ${{ steps.version.outputs.VERSION }} of Draw Steel Plus
-
-            See the full changelog at: https://github.com/${{ github.repository }}/releases/tag/${{ github.ref_name }}
-          draft: false
-          prerelease: false
-
       - name: Create release archive
         run: |
           zip -r draw-steel-plus-${{ steps.version.outputs.VERSION }}.zip . -x "*.git*" "*.github*" "*.DS_Store*" "node_modules/*" "*.md" "*.cursor*"
 
-      - name: Upload module.json (if new release)
-        if: github.event_name == 'push'
-        uses: actions/upload-release-asset@v1
+      - name: Upload release assets
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            module.json
+            draw-steel-plus-${{ steps.version.outputs.VERSION }}.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./module.json
-          asset_name: module.json
-          asset_content_type: application/json
-
-      - name: Upload release archive (if new release)
-        if: github.event_name == 'push'
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./draw-steel-plus-${{ steps.version.outputs.VERSION }}.zip
-          asset_name: draw-steel-plus-${{ steps.version.outputs.VERSION }}.zip
-          asset_content_type: application/zip
 
       - name: Publish to Foundry VTT
         env:
