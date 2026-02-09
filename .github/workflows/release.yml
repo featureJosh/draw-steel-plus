@@ -12,32 +12,32 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: "18"
-
       - name: Get version from tag
         id: version
-        run: |
-          echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+        run: echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
 
-      - name: Update module.json version
+      - name: Update module.json
         run: |
           VERSION=${{ steps.version.outputs.VERSION }}
-          jq --arg version "$VERSION" '.version = $version' module.json > module.json.tmp
+          jq \
+            --arg version "$VERSION" \
+            --arg download "https://github.com/${{ github.repository }}/archive/refs/tags/${VERSION}.zip" \
+            --arg manifest "https://github.com/${{ github.repository }}/releases/latest/download/module.json" \
+            '.version = $version | .download = $download | .manifest = $manifest' \
+            module.json > module.json.tmp
           mv module.json.tmp module.json
 
       - name: Create release archive
         run: |
-          zip -r draw-steel-plus-${{ steps.version.outputs.VERSION }}.zip . -x "*.git*" "*.github*" "*.DS_Store*" "node_modules/*" "*.md" "*.cursor*"
+          zip -r draw-steel-plus.zip . \
+            -x "*.git*" "*.github*" "*.DS_Store*" "node_modules/*" "*.md" "*.cursor*"
 
       - name: Upload release assets
         uses: softprops/action-gh-release@v2
         with:
           files: |
             module.json
-            draw-steel-plus-${{ steps.version.outputs.VERSION }}.zip
+            draw-steel-plus.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -52,8 +52,8 @@ jobs:
               "id": "draw-steel-plus",
               "release": {
                 "version": "${{ steps.version.outputs.VERSION }}",
-                "manifest": "https://github.com/${{ github.repository }}/releases/download/${{ github.ref_name }}/module.json",
-                "notes": "https://github.com/${{ github.repository }}/releases/tag/${{ github.ref_name }}",
+                "manifest": "https://github.com/${{ github.repository }}/releases/latest/download/module.json",
+                "notes": "https://github.com/${{ github.repository }}/releases/tag/${{ steps.version.outputs.VERSION }}",
                 "compatibility": {
                   "minimum": "13",
                   "verified": "13",
