@@ -1,0 +1,116 @@
+<div class="dsp-mc-container {{#unless isExpanded}}dsp-mc-compact{{/unless}}">
+
+  {{#if isExpanded}}
+
+  <div class="dsp-mc-body">
+    <div class="dsp-mc-section dsp-mc-hero-tokens">
+      <div class="dsp-mc-value-group">
+        <span class="dsp-mc-value dsp-mc-hero-value">{{heroTokens}}</span>
+        <span class="dsp-mc-label">{{heroTokensLabel}}</span>
+      </div>
+      {{#if isGM}}
+      <div class="dsp-mc-controls">
+        <button class="dsp-mc-btn dsp-mc-btn-give" type="button" data-action="giveToken" data-tooltip="{{localize 'DRAW_STEEL_PLUS.MetaCurrency.giveToken'}}">
+          <i class="fa-solid fa-plus" inert></i>
+        </button>
+        <button class="dsp-mc-btn dsp-mc-btn-spend" type="button" data-action="spendToken" data-tooltip="{{localize 'DRAW_STEEL_PLUS.MetaCurrency.spendToken'}}">
+          <i class="fa-solid fa-minus" inert></i>
+        </button>
+        <button class="dsp-mc-btn dsp-mc-btn-reset" type="button" data-action="resetTokens" data-tooltip="{{localize 'DRAW_STEEL_PLUS.MetaCurrency.resetTokens'}}">
+          <i class="fa-solid fa-rotate-right" inert></i>
+        </button>
+      </div>
+      {{else}}
+      <div class="dsp-mc-controls">
+        <button class="dsp-mc-btn dsp-mc-btn-spend" type="button" data-action="spendToken" data-tooltip="{{localize 'DRAW_STEEL_PLUS.MetaCurrency.spendToken'}}">
+          <i class="fa-solid fa-minus" inert></i>
+        </button>
+      </div>
+      {{/if}}
+    </div>
+
+    {{#if showMalice}}
+    <div class="dsp-mc-divider"></div>
+    <div class="dsp-mc-section dsp-mc-malice">
+      <div class="dsp-mc-value-group">
+        <span class="dsp-mc-value dsp-mc-malice-value">{{malice}}</span>
+        <span class="dsp-mc-label">{{maliceLabel}}</span>
+      </div>
+      {{#if isGM}}
+      <div class="dsp-mc-controls">
+        <button class="dsp-mc-btn dsp-mc-btn-adjust" type="button" data-action="adjustMalice" data-tooltip="{{localize 'DRAW_STEEL_PLUS.MetaCurrency.adjustMalice'}}">
+          <i class="fa-solid fa-plus-minus" inert></i>
+        </button>
+        <button class="dsp-mc-btn dsp-mc-btn-reset" type="button" data-action="resetMalice" data-tooltip="{{localize 'DRAW_STEEL_PLUS.MetaCurrency.resetMalice'}}">
+          <i class="fa-solid fa-rotate-right" inert></i>
+        </button>
+      </div>
+      {{/if}}
+    </div>
+    {{/if}}
+  </div>
+
+  <div class="dsp-mc-toolbar">
+    <div class="dsp-mc-drag-handle" data-tooltip="Drag to move">
+      <i class="fa-solid fa-grip-vertical" inert></i>
+    </div>
+    <button class="dsp-mc-toolbar-btn" type="button" data-action="toggleExpanded" data-tooltip="{{localize 'DRAW_STEEL_PLUS.MetaCurrency.minimize'}}">
+      <i class="fa-solid fa-compress" inert></i>
+    </button>
+    <button class="dsp-mc-toolbar-btn" type="button" data-action="toggleLock" data-tooltip="{{#if isLocked}}{{localize 'DRAW_STEEL_PLUS.MetaCurrency.unlock'}}{{else}}{{localize 'DRAW_STEEL_PLUS.MetaCurrency.lock'}}{{/if}}">
+      <i class="fa-solid {{#if isLocked}}fa-lock{{else}}fa-lock-open{{/if}}" inert></i>
+    </button>
+    <button class="dsp-mc-toolbar-btn" type="button" data-action="resetPosition" data-tooltip="{{localize 'DRAW_STEEL_PLUS.MetaCurrency.resetPosition'}}">
+      <i class="fa-solid fa-crosshairs" inert></i>
+    </button>
+  </div>
+
+  {{else}}
+
+  <div class="dsp-mc-body dsp-mc-body-compact">
+    <div class="dsp-mc-compact-item dsp-mc-hero-tokens">
+      <i class="fa-solid fa-shield-halved dsp-mc-compact-icon dsp-mc-hero-icon" inert></i>
+      <span class="dsp-mc-value dsp-mc-hero-value">{{heroTokens}}</span>
+    </div>
+    {{#if showMalice}}
+    <div class="dsp-mc-compact-divider"></div>
+    <div class="dsp-mc-compact-item dsp-mc-malice">
+      <i class="fa-solid fa-skull dsp-mc-compact-icon dsp-mc-malice-icon" inert></i>
+      <span class="dsp-mc-value dsp-mc-malice-value">{{malice}}</span>
+    </div>
+    {{/if}}
+  </div>
+
+  <div class="dsp-mc-toolbar dsp-mc-toolbar-compact">
+    <div class="dsp-mc-drag-handle" data-tooltip="Drag to move">
+      <i class="fa-solid fa-grip-vertical" inert></i>
+    </div>
+    <button class="dsp-mc-toolbar-btn" type="button" data-action="toggleExpanded" data-tooltip="{{localize 'DRAW_STEEL_PLUS.MetaCurrency.expand'}}">
+      <i class="fa-solid fa-expand" inert></i>
+    </button>
+    {{#if isGM}}
+    <button class="dsp-mc-toolbar-btn" type="button" data-action="giveToken" data-tooltip="{{localize 'DRAW_STEEL_PLUS.MetaCurrency.giveToken'}}">
+      <i class="fa-solid fa-plus" inert></i>
+    </button>
+    {{/if}}
+    <button class="dsp-mc-toolbar-btn" type="button" data-action="spendToken" data-tooltip="{{localize 'DRAW_STEEL_PLUS.MetaCurrency.spendToken'}}">
+      <i class="fa-solid fa-minus" inert></i>
+    </button>
+    {{#if isGM}}
+    {{#if showMalice}}
+    <button class="dsp-mc-toolbar-btn" type="button" data-action="adjustMalice" data-tooltip="{{localize 'DRAW_STEEL_PLUS.MetaCurrency.adjustMalice'}}">
+      <i class="fa-solid fa-plus-minus" inert></i>
+    </button>
+    {{/if}}
+    {{/if}}
+    <button class="dsp-mc-toolbar-btn" type="button" data-action="toggleLock" data-tooltip="{{#if isLocked}}{{localize 'DRAW_STEEL_PLUS.MetaCurrency.unlock'}}{{else}}{{localize 'DRAW_STEEL_PLUS.MetaCurrency.lock'}}{{/if}}">
+      <i class="fa-solid {{#if isLocked}}fa-lock{{else}}fa-lock-open{{/if}}" inert></i>
+    </button>
+    <button class="dsp-mc-toolbar-btn" type="button" data-action="resetPosition" data-tooltip="{{localize 'DRAW_STEEL_PLUS.MetaCurrency.resetPosition'}}">
+      <i class="fa-solid fa-crosshairs" inert></i>
+    </button>
+  </div>
+
+  {{/if}}
+
+</div>

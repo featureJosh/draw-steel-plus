@@ -82,6 +82,12 @@ export const DEFAULT_HEADER_IMAGES = {
   npc: "modules/draw-steel-plus/assets/sketch-images/s2.jpg",
 };
 
+export const META_CURRENCY_DEFAULTS = {
+  position: null,
+  expanded: true,
+  locked: false,
+};
+
 export const MODULE_CONFIG = {
   id: "draw-steel-plus",
   systemId: "draw-steel",

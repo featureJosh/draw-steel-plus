@@ -1,7 +1,8 @@
-import { MODULE_CONFIG, SHEET_SIZE_DEFAULTS, FLOATING_TAB_ICONS, COLOR_DEFAULTS, HEADER_DEFAULTS } from "./config.js";
+import { MODULE_CONFIG, SHEET_SIZE_DEFAULTS, FLOATING_TAB_ICONS, COLOR_DEFAULTS, HEADER_DEFAULTS, META_CURRENCY_DEFAULTS } from "./config.js";
 import { applyColorOverrides } from "./color-settings.js";
 import ColorSettingsMenu from "./color-settings-menu.js";
 import HeaderSettingsMenu from "./header-settings-menu.js";
+import { MetaCurrencyTracker } from "./meta-currency.js";
 
 const MODULE_ID = MODULE_CONFIG.id;
 const SYSTEM_ID = MODULE_CONFIG.systemId;
@@ -20,6 +21,23 @@ Hooks.once("init", () => {
 
 Hooks.once("ready", () => {
   applyColorOverrides();
+  MetaCurrencyTracker.initialize();
+});
+
+Hooks.on("renderPlayers", () => {
+  if (MetaCurrencyTracker.instance?.rendered) MetaCurrencyTracker.instance.render();
+});
+
+Hooks.on("createCombat", () => {
+  if (MetaCurrencyTracker.instance?.rendered) MetaCurrencyTracker.instance.render();
+});
+
+Hooks.on("deleteCombat", () => {
+  if (MetaCurrencyTracker.instance?.rendered) MetaCurrencyTracker.instance.render();
+});
+
+Hooks.on("updateCombat", () => {
+  if (MetaCurrencyTracker.instance?.rendered) MetaCurrencyTracker.instance.render();
 });
 
 function colorSettingKey(key) {
@@ -106,6 +124,27 @@ function registerSettings() {
     default: HEADER_DEFAULTS.npcHeaderImage,
     filePicker: "image",
     requiresReload: false,
+  });
+
+  game.settings.register(MODULE_ID, "metaCurrencyPosition", {
+    scope: "client",
+    config: false,
+    type: Object,
+    default: META_CURRENCY_DEFAULTS.position,
+  });
+
+  game.settings.register(MODULE_ID, "metaCurrencyExpanded", {
+    scope: "client",
+    config: false,
+    type: Boolean,
+    default: META_CURRENCY_DEFAULTS.expanded,
+  });
+
+  game.settings.register(MODULE_ID, "metaCurrencyLocked", {
+    scope: "client",
+    config: false,
+    type: Boolean,
+    default: META_CURRENCY_DEFAULTS.locked,
   });
 }
 
