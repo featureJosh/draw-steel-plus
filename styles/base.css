@@ -37,7 +37,7 @@
 .draw-steel-plus.sheet .window-content,
 .draw-steel-plus.sheet .window-content * {
   scrollbar-width: thin;
-  scrollbar-color: transparent transparent;
+  scrollbar-color: rgba(255, 255, 255, 0.08) transparent;
 }
 
 .draw-steel-plus.sheet .window-content.dsp-scrolling,
@@ -58,7 +58,7 @@
 
 .draw-steel-plus.sheet .window-content::-webkit-scrollbar-thumb,
 .draw-steel-plus.sheet .window-content *::-webkit-scrollbar-thumb {
-  background: var(--dsp-scrollbar-thumb);
+  background: rgba(255, 255, 255, 0.08);
   border-radius: var(--dsp-radius-full);
 }
 
@@ -126,4 +126,17 @@
 
 .draw-steel-plus.sheet section.tab {
   --scroll-margin: 0rem;
+}
+
+.draw-steel-plus.sheet .window-content::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0.06;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='5' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 512px 512px;
+  mix-blend-mode: soft-light;
 }

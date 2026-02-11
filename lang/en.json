@@ -65,6 +65,10 @@
       "npcHeaderImage": {
         "name": "Custom NPC Header Image",
         "hint": "Upload a custom image for the NPC sheet header. Leave blank to use the default."
+      },
+      "parallaxHeaderArt": {
+        "name": "Parallax Header Art",
+        "hint": "Enable a subtle parallax drift effect on the header background art when hovering."
       }
     },
     "MetaCurrency": {

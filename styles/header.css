@@ -113,6 +113,29 @@
   transform: scale(1.03);
 }
 
+.draw-steel-plus.sheet .sheet-header .portrait-frame.dsp-dead .profile-img {
+  border-color: var(--dsp-danger);
+  filter: sepia(0.8) saturate(5) hue-rotate(-10deg) brightness(0.55) !important;
+}
+
+.draw-steel-plus.sheet .sheet-header .portrait-frame.dsp-dead::after {
+  content: "\f54c";
+  font-family: "Font Awesome 6 Pro";
+  font-weight: 900;
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+  color: rgba(224, 85, 85, 0.85);
+  background: rgba(80, 10, 10, 0.55);
+  border-radius: var(--dsp-radius-md);
+  z-index: 2;
+  pointer-events: none;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.9), 0 0 30px rgba(224, 85, 85, 0.4);
+}
+
 .draw-steel-plus.sheet .sheet-header .portrait-frame .level-badge {
   position: absolute;
   top: -10px;

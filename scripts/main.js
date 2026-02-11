@@ -126,6 +126,16 @@ function registerSettings() {
     requiresReload: false,
   });
 
+  game.settings.register(MODULE_ID, "parallaxHeaderArt", {
+    name: "DRAW_STEEL_PLUS.Settings.parallaxHeaderArt.name",
+    hint: "DRAW_STEEL_PLUS.Settings.parallaxHeaderArt.hint",
+    scope: "client",
+    config: true,
+    type: Boolean,
+    default: false,
+    requiresReload: false,
+  });
+
   game.settings.register(MODULE_ID, "metaCurrencyPosition", {
     scope: "client",
     config: false,
@@ -146,6 +156,214 @@ function registerSettings() {
     type: Boolean,
     default: META_CURRENCY_DEFAULTS.locked,
   });
+}
+
+function setupItemPreviews(element) {
+  let previewEl = null;
+  let hoverTimer = null;
+  let pinned = false;
+
+  const clearPreview = (force) => {
+    if (pinned && !force) return;
+    if (hoverTimer) {
+      clearTimeout(hoverTimer);
+      hoverTimer = null;
+    }
+    if (previewEl) {
+      previewEl.remove();
+      previewEl = null;
+    }
+    pinned = false;
+  };
+
+  const positionPreview = (row) => {
+    if (!previewEl) return;
+    const rowRect = row.getBoundingClientRect();
+    const sheetRect = element.getBoundingClientRect();
+
+    previewEl.style.position = "absolute";
+    previewEl.style.left = `${rowRect.left - sheetRect.left}px`;
+    previewEl.style.top = `${rowRect.bottom - sheetRect.top + 4}px`;
+    previewEl.style.zIndex = "100";
+
+    const previewRect = previewEl.getBoundingClientRect();
+    if (previewRect.bottom > sheetRect.bottom) {
+      previewEl.style.top = `${rowRect.top - sheetRect.top - previewRect.height - 4}px`;
+    }
+    if (previewRect.right > sheetRect.right) {
+      previewEl.style.left = `${sheetRect.width - previewRect.width - 8}px`;
+    }
+  };
+
+  element.addEventListener("mouseenter", (e) => {
+    const row = e.target.closest(".item-list .item-row, .effect-list .effect-row");
+    if (!row || pinned) return;
+
+    const li = row.closest("[data-document-uuid]");
+    if (!li) return;
+
+    clearPreview(true);
+
+    hoverTimer = setTimeout(async () => {
+      const uuid = li.dataset.documentUuid;
+      if (!uuid) return;
+
+      const doc = await fromUuid(uuid);
+      if (!doc) return;
+
+      const desc = doc.system?.description?.value || doc.system?.effect?.description || "";
+      if (!desc) return;
+
+      const enriched = await foundry.applications.ux.TextEditor.implementation.enrichHTML(desc, { async: true, relativeTo: doc });
+      if (!enriched || !enriched.trim()) return;
+
+      previewEl = document.createElement("div");
+      previewEl.className = "dsp-item-preview";
+      previewEl.innerHTML = enriched;
+
+      const hint = document.createElement("div");
+      hint.className = "dsp-preview-hint";
+      hint.textContent = "Middle-click to pin";
+      previewEl.appendChild(hint);
+
+      element.appendChild(previewEl);
+      positionPreview(row);
+    }, 350);
+  }, { capture: true });
+
+  element.addEventListener("mouseleave", (e) => {
+    const row = e.target.closest(".item-list .item-row, .effect-list .effect-row");
+    if (!row) return;
+    clearPreview();
+  }, { capture: true });
+
+  element.addEventListener("mousedown", (e) => {
+    if (e.button === 1 && previewEl && !pinned) {
+      e.preventDefault();
+      pinned = true;
+      previewEl.classList.add("dsp-pinned");
+      const hint = previewEl.querySelector(".dsp-preview-hint");
+      if (hint) hint.textContent = "Click anywhere to close";
+    } else if (pinned) {
+      if (!e.target.closest(".dsp-item-preview")) {
+        clearPreview(true);
+      }
+    }
+  }, { capture: true });
+
+  element.addEventListener("scroll", () => clearPreview(), { capture: true, passive: true });
+}
+
+const _sidebarCollapseState = new WeakMap();
+
+function setupSidebarCollapse(element) {
+  let stateMap = _sidebarCollapseState.get(element);
+  if (!stateMap) {
+    stateMap = {};
+    _sidebarCollapseState.set(element, stateMap);
+  }
+
+  element.querySelectorAll(".sidebar-section").forEach((section) => {
+    const title = section.querySelector(":scope > .sidebar-section-title");
+    if (!title) return;
+
+    const key = title.textContent.trim();
+    if (stateMap[key]) section.classList.add("dsp-collapsed");
+
+    title.style.cursor = "pointer";
+    title.addEventListener("click", (e) => {
+      if (e.target.closest("button, a, input, select")) return;
+      section.classList.toggle("dsp-collapsed");
+      stateMap[key] = section.classList.contains("dsp-collapsed");
+    });
+  });
+
+  element.querySelectorAll(".sidebar-tag-section").forEach((tagSection) => {
+    const header = tagSection.querySelector(":scope > .sidebar-tag-header");
+    if (!header) return;
+
+    const key = header.textContent.trim();
+    if (stateMap[key]) tagSection.classList.add("dsp-collapsed");
+
+    header.style.cursor = "pointer";
+    header.addEventListener("click", (e) => {
+      if (e.target.closest("button, a, input, select")) return;
+      tagSection.classList.toggle("dsp-collapsed");
+      stateMap[key] = tagSection.classList.contains("dsp-collapsed");
+    });
+  });
+}
+
+const _parallaxHandlers = new WeakMap();
+
+function applyParallaxHeader(element) {
+  const enabled = game.settings.get(MODULE_ID, "parallaxHeaderArt");
+  const art = element.querySelector(".header-bg-art");
+
+  const existing = _parallaxHandlers.get(element);
+  if (existing) {
+    element.removeEventListener("mousemove", existing.move);
+    element.removeEventListener("mouseleave", existing.leave);
+    _parallaxHandlers.delete(element);
+    if (art) {
+      art.style.transition = "";
+      art.style.transform = "";
+    }
+  }
+
+  if (!enabled || !art) return;
+
+  const header = element.querySelector(".sheet-header");
+  if (!header) return;
+
+  art.style.transition = "transform 0.6s ease-out";
+
+  const onMove = (e) => {
+    const rect = header.getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
+    const y = ((e.clientY - rect.top) / rect.height - 0.5) * 2;
+    const clampX = Math.max(-1, Math.min(1, x));
+    const clampY = Math.max(-1, Math.min(1, y));
+    art.style.transition = "transform 0.1s ease-out";
+    art.style.transform = `translate(${clampX * 8}px, ${clampY * 5}px) scale(1.03)`;
+  };
+
+  const onLeave = () => {
+    art.style.transition = "transform 0.8s ease-out";
+    art.style.transform = "translate(0px, 0px) scale(1.0)";
+  };
+
+  element.addEventListener("mousemove", onMove, { passive: true });
+  element.addEventListener("mouseleave", onLeave, { passive: true });
+  _parallaxHandlers.set(element, { move: onMove, leave: onLeave });
+}
+
+function applyStaminaPortraitTint(element, actor) {
+  const frame = element.querySelector(".portrait-frame");
+  if (!frame) return;
+
+  const img = frame.querySelector(".profile-img");
+  if (!img) return;
+
+  const stamina = actor.system?.stamina;
+  if (!stamina) return;
+
+  const current = stamina.value ?? 0;
+  const max = stamina.max ?? 1;
+  const ratio = Math.max(max, 1) > 0 ? Math.min(Math.max(current / Math.max(max, 1), 0), 1) : 1;
+  const tint = 1 - ratio;
+
+  frame.classList.toggle("dsp-dead", current <= 0 && max > 0);
+  frame.style.setProperty("--dsp-stam-tint", tint.toFixed(3));
+
+  if (tint > 0) {
+    const sepia = (tint * 0.8).toFixed(3);
+    const saturate = (1 + tint * 4).toFixed(3);
+    const brightness = (1 - tint * 0.25).toFixed(3);
+    img.style.filter = `sepia(${sepia}) saturate(${saturate}) hue-rotate(-10deg) brightness(${brightness})`;
+  } else {
+    img.style.filter = "";
+  }
 }
 
 function applyHeaderArt(element, sheetType) {
@@ -372,6 +590,7 @@ function registerSheets() {
         applyMinSize(this.element, SHEET_SIZES.hero);
         setupScrollbarAutoHide(this.element);
         applyHeaderArt(this.element, "hero");
+        applyParallaxHeader(this.element);
 
         this.element.classList.add("has-sidebar");
 
@@ -382,6 +601,9 @@ function registerSheets() {
           });
         });
 
+        applyStaminaPortraitTint(this.element, this.document);
+        setupSidebarCollapse(this.element);
+        setupItemPreviews(this.element);
         processSidebarTags(this.element);
         applyFloatingTabs(this);
       }
@@ -389,7 +611,7 @@ function registerSheets() {
 
     console.log(`${MODULE_ID} | DS+ hero sheet PARTS keys:`, Object.keys(DrawSteelPlusHeroSheet.PARTS));
 
-    Actors.registerSheet(MODULE_ID, DrawSteelPlusHeroSheet, {
+    foundry.documents.collections.Actors.registerSheet(MODULE_ID, DrawSteelPlusHeroSheet, {
       types: ["hero"],
       makeDefault: false,
       label: "DS+ Hero Sheet",
@@ -453,6 +675,7 @@ function registerSheets() {
         applyMinSize(this.element, SHEET_SIZES.npc);
         setupScrollbarAutoHide(this.element);
         applyHeaderArt(this.element, "npc");
+        applyParallaxHeader(this.element);
 
         this.element.classList.add("has-sidebar");
 
@@ -463,12 +686,15 @@ function registerSheets() {
           });
         });
 
+        applyStaminaPortraitTint(this.element, this.document);
+        setupSidebarCollapse(this.element);
+        setupItemPreviews(this.element);
         processSidebarTags(this.element);
         applyFloatingTabs(this);
       }
     };
 
-    Actors.registerSheet(MODULE_ID, DrawSteelPlusNPCSheet, {
+    foundry.documents.collections.Actors.registerSheet(MODULE_ID, DrawSteelPlusNPCSheet, {
       types: ["npc"],
       makeDefault: false,
       label: "DS+ NPC Sheet",
@@ -505,7 +731,7 @@ function registerSheets() {
         }
       };
 
-      Items.registerSheet(MODULE_ID, DrawSteelPlusItemSheet, {
+      foundry.documents.collections.Items.registerSheet(MODULE_ID, DrawSteelPlusItemSheet, {
         types: itemTypes,
         makeDefault: false,
         label: "DS+ Item Sheet",
