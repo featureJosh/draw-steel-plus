@@ -8,3 +8,6 @@ Item preview tooltips
 
 Meta-Currency UI
 ![Meta Currency UI](https://github.com/user-attachments/assets/ab2d0d97-01d5-42ea-80ff-43f109c0d32c)
+
+Quick Expand & Quick Send
+![firefox_8MuBoPLds4](https://github.com/user-attachments/assets/221de3f1-b0e9-4d57-94da-25255b2e777e)
