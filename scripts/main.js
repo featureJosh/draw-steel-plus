@@ -3,6 +3,7 @@ import { applyColorOverrides } from "./color-settings.js";
 import ColorSettingsMenu from "./color-settings-menu.js";
 import HeaderSettingsMenu from "./header-settings-menu.js";
 import { MetaCurrencyTracker } from "./meta-currency.js";
+import { TooltipsDSP } from "./tooltips.js";
 
 const MODULE_ID = MODULE_CONFIG.id;
 const SYSTEM_ID = MODULE_CONFIG.systemId;
@@ -22,6 +23,10 @@ Hooks.once("init", () => {
 Hooks.once("ready", () => {
   applyColorOverrides();
   MetaCurrencyTracker.initialize();
+  TooltipsDSP.activateListeners();
+  const tooltips = new TooltipsDSP();
+  tooltips.observe();
+  game.modules.get(MODULE_ID).tooltips = tooltips;
 });
 
 Hooks.on("renderPlayers", () => {
@@ -158,100 +163,18 @@ function registerSettings() {
   });
 }
 
-function setupItemPreviews(element) {
-  let previewEl = null;
-  let hoverTimer = null;
-  let pinned = false;
-
-  const clearPreview = (force) => {
-    if (pinned && !force) return;
-    if (hoverTimer) {
-      clearTimeout(hoverTimer);
-      hoverTimer = null;
-    }
-    if (previewEl) {
-      previewEl.remove();
-      previewEl = null;
-    }
-    pinned = false;
-  };
-
-  const positionPreview = (row) => {
-    if (!previewEl) return;
-    const rowRect = row.getBoundingClientRect();
-    const sheetRect = element.getBoundingClientRect();
-
-    previewEl.style.position = "absolute";
-    previewEl.style.left = `${rowRect.left - sheetRect.left}px`;
-    previewEl.style.top = `${rowRect.bottom - sheetRect.top + 4}px`;
-    previewEl.style.zIndex = "100";
-
-    const previewRect = previewEl.getBoundingClientRect();
-    if (previewRect.bottom > sheetRect.bottom) {
-      previewEl.style.top = `${rowRect.top - sheetRect.top - previewRect.height - 4}px`;
-    }
-    if (previewRect.right > sheetRect.right) {
-      previewEl.style.left = `${sheetRect.width - previewRect.width - 8}px`;
-    }
-  };
-
-  element.addEventListener("mouseenter", (e) => {
-    const row = e.target.closest(".item-list .item-row, .effect-list .effect-row");
-    if (!row || pinned) return;
-
-    const li = row.closest("[data-document-uuid]");
-    if (!li) return;
-
-    clearPreview(true);
-
-    hoverTimer = setTimeout(async () => {
-      const uuid = li.dataset.documentUuid;
-      if (!uuid) return;
-
-      const doc = await fromUuid(uuid);
-      if (!doc) return;
-
-      const desc = doc.system?.description?.value || doc.system?.effect?.description || "";
-      if (!desc) return;
-
-      const enriched = await foundry.applications.ux.TextEditor.implementation.enrichHTML(desc, { async: true, relativeTo: doc });
-      if (!enriched || !enriched.trim()) return;
-
-      previewEl = document.createElement("div");
-      previewEl.className = "dsp-item-preview";
-      previewEl.innerHTML = enriched;
-
-      const hint = document.createElement("div");
-      hint.className = "dsp-preview-hint";
-      hint.textContent = "Middle-click to pin";
-      previewEl.appendChild(hint);
-
-      element.appendChild(previewEl);
-      positionPreview(row);
-    }, 350);
-  }, { capture: true });
-
-  element.addEventListener("mouseleave", (e) => {
-    const row = e.target.closest(".item-list .item-row, .effect-list .effect-row");
-    if (!row) return;
-    clearPreview();
-  }, { capture: true });
-
-  element.addEventListener("mousedown", (e) => {
-    if (e.button === 1 && previewEl && !pinned) {
-      e.preventDefault();
-      pinned = true;
-      previewEl.classList.add("dsp-pinned");
-      const hint = previewEl.querySelector(".dsp-preview-hint");
-      if (hint) hint.textContent = "Click anywhere to close";
-    } else if (pinned) {
-      if (!e.target.closest(".dsp-item-preview")) {
-        clearPreview(true);
-      }
-    }
-  }, { capture: true });
-
-  element.addEventListener("scroll", () => clearPreview(), { capture: true, passive: true });
+function _applyItemTooltips(element) {
+  if ("tooltipHtml" in element.dataset) return;
+  const target = element.closest("[data-document-uuid]");
+  if (!target?.dataset.documentUuid) return;
+  const uuid = target.dataset.documentUuid;
+  element.dataset.tooltipHtml = `
+    <section class="loading" data-uuid="${uuid}">
+      <i class="fas fa-spinner fa-spin-pulse"></i>
+    </section>
+  `;
+  element.dataset.tooltipClass = "dsp-tooltip item-tooltip";
+  element.dataset.tooltipDirection ??= "LEFT";
 }
 
 const _sidebarCollapseState = new WeakMap();
@@ -560,6 +483,27 @@ function registerSheets() {
         sidebar: {
           template: `${MODULE_PATH}/templates/sheets/actor/hero-sheet/sidebar.hbs`,
         },
+        features: {
+          ...(super.PARTS?.features || {}),
+          template: `${MODULE_PATH}/templates/sheets/actor/hero-sheet/features.hbs`,
+          templates: [`${MODULE_PATH}/templates/sheets/actor/shared/partials/features/features.hbs`],
+        },
+        equipment: {
+          ...(super.PARTS?.equipment || {}),
+          template: `${MODULE_PATH}/templates/sheets/actor/hero-sheet/equipment.hbs`,
+        },
+        projects: {
+          ...(super.PARTS?.projects || {}),
+          template: `${MODULE_PATH}/templates/sheets/actor/hero-sheet/projects.hbs`,
+        },
+        abilities: {
+          ...(super.PARTS?.abilities || {}),
+          template: `${MODULE_PATH}/templates/sheets/actor/shared/abilities.hbs`,
+        },
+        effects: {
+          ...(super.PARTS?.effects || {}),
+          template: `${MODULE_PATH}/templates/sheets/actor/shared/effects.hbs`,
+        },
       };
 
       static TABS = {
@@ -603,9 +547,15 @@ function registerSheets() {
 
         applyStaminaPortraitTint(this.element, this.document);
         setupSidebarCollapse(this.element);
-        setupItemPreviews(this.element);
         processSidebarTags(this.element);
         applyFloatingTabs(this);
+        this.element.querySelectorAll(".item-tooltip").forEach(_applyItemTooltips);
+        if (!this.element.dataset.dspTooltipPrevent) {
+          this.element.dataset.dspTooltipPrevent = "1";
+          this.element.addEventListener("pointerdown", (e) => {
+            if (e.button === 1 && document.getElementById("tooltip")?.classList.contains("active")) e.preventDefault();
+          });
+        }
       }
     };
 
@@ -644,6 +594,19 @@ function registerSheets() {
         },
         sidebar: {
           template: `${MODULE_PATH}/templates/sheets/actor/npc-sheet/sidebar.hbs`,
+        },
+        features: {
+          ...(super.PARTS?.features || {}),
+          template: `${MODULE_PATH}/templates/sheets/actor/npc/features.hbs`,
+          templates: [`${MODULE_PATH}/templates/sheets/actor/shared/partials/features/features.hbs`],
+        },
+        abilities: {
+          ...(super.PARTS?.abilities || {}),
+          template: `${MODULE_PATH}/templates/sheets/actor/shared/abilities.hbs`,
+        },
+        effects: {
+          ...(super.PARTS?.effects || {}),
+          template: `${MODULE_PATH}/templates/sheets/actor/shared/effects.hbs`,
         },
       };
 
@@ -688,9 +651,15 @@ function registerSheets() {
 
         applyStaminaPortraitTint(this.element, this.document);
         setupSidebarCollapse(this.element);
-        setupItemPreviews(this.element);
         processSidebarTags(this.element);
         applyFloatingTabs(this);
+        this.element.querySelectorAll(".item-tooltip").forEach(_applyItemTooltips);
+        if (!this.element.dataset.dspTooltipPrevent) {
+          this.element.dataset.dspTooltipPrevent = "1";
+          this.element.addEventListener("pointerdown", (e) => {
+            if (e.button === 1 && document.getElementById("tooltip")?.classList.contains("active")) e.preventDefault();
+          });
+        }
       }
     };
 
@@ -719,6 +688,14 @@ function registerSheets() {
           },
         };
 
+        static PARTS = {
+          ...super.PARTS,
+          effects: {
+            ...(super.PARTS?.effects || {}),
+            template: `${MODULE_PATH}/templates/sheets/item/effects.hbs`,
+          },
+        };
+
         get title() {
           return `${this.document.name} [DS+]`;
         }
@@ -728,6 +705,13 @@ function registerSheets() {
           applyMinSize(this.element, SHEET_SIZES.item);
           setupScrollbarAutoHide(this.element);
           applyFloatingTabs(this);
+          this.element.querySelectorAll(".item-tooltip").forEach(_applyItemTooltips);
+          if (!this.element.dataset.dspTooltipPrevent) {
+            this.element.dataset.dspTooltipPrevent = "1";
+            this.element.addEventListener("pointerdown", (e) => {
+              if (e.button === 1 && document.getElementById("tooltip")?.classList.contains("active")) e.preventDefault();
+            });
+          }
         }
       };
 

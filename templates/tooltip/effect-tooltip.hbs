@@ -1,0 +1,23 @@
+<section class="content">
+  <section class="header">
+    <div class="top">
+      <img src="{{img}}" alt="{{name}}" />
+      <div class="name name-stacked">
+        <span class="title">{{name}}</span>
+        {{#if durationLabel}}
+        <span class="subtitle duration">{{durationLabel}}</span>
+        {{/if}}
+      </div>
+    </div>
+  </section>
+  {{#if description}}
+  <section class="description">{{{description}}}</section>
+  {{/if}}
+  {{#if properties.length}}
+  <ul class="pills">
+    {{#each properties as |prop|}}
+    <li class="pill"><span class="label">{{prop}}</span></li>
+    {{/each}}
+  </ul>
+  {{/if}}
+</section>

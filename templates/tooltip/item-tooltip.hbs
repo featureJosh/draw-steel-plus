@@ -1,0 +1,43 @@
+<section class="content">
+  <section class="header">
+    <div class="top">
+      <img src="{{img}}" alt="{{name}}" />
+      <div class="name name-stacked">
+        <span class="title">{{name}}</span>
+        {{#if subtitle}}
+        <span class="subtitle">{{subtitle}}</span>
+        {{/if}}
+      </div>
+      {{#if hasHeaderBadges}}
+      <div class="header-badges">
+        {{#each headerBadges as |b|}}
+        <div class="metadata-item header-badge">
+          <span class="label">{{b.label}}</span>
+          <span class="value">{{b.value}}</span>
+        </div>
+        {{/each}}
+      </div>
+      {{/if}}
+    </div>
+    {{#if hasMetadata}}
+    <div class="bottom">
+      {{#each metadata as |m|}}
+      <div class="metadata-item">
+        <span class="label">{{m.label}}</span>
+        <span class="value">{{m.value}}</span>
+      </div>
+      {{/each}}
+    </div>
+    {{/if}}
+  </section>
+  {{#if description}}
+  <section class="description">{{{description}}}</section>
+  {{/if}}
+  {{#if hasPills}}
+  <ul class="pills">
+    {{#each pills as |pill|}}
+    <li class="pill"><span class="label">{{pill}}</span></li>
+    {{/each}}
+  </ul>
+  {{/if}}
+</section>
