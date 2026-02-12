@@ -2,22 +2,22 @@ export const SHEET_SIZE_DEFAULTS = {
   hero: {
     width: 880,
     height: 800,
-    minWidth: 740,
-    minHeight: 800,
+    minWidth: 0,
+    minHeight: 0,
   },
 
   npc: {
     width: 880,
     height: 800,
-    minWidth: 740,
-    minHeight: 700,
+    minWidth: 0,
+    minHeight: 0,
   },
 
   item: {
     width: 600,
     height: 650,
-    minWidth: 500,
-    minHeight: 450,
+    minWidth: 0,
+    minHeight: 0,
   },
 };
 
