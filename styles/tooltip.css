@@ -219,9 +219,18 @@
 :is(#tooltip, .locked-tooltip).dsp-tooltip .tooltip-hint {
   margin-top: 6px;
   padding-top: 4px;
-  border-top: 1px solid var(--dsp-border);
-  font-size: 0.6rem;
+  border-top: 1px solid var(--dsp-text-faint);
+  font-size: 0.65rem;
   color: var(--dsp-text-faint);
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+
+:is(#tooltip, .locked-tooltip).dsp-tooltip .tooltip-hint .tooltip-hint-icon {
+  opacity: 0.8;
 }
 
 :is(#tooltip, .locked-tooltip).dsp-tooltip .tooltip-hint-unpin {

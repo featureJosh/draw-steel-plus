@@ -27,11 +27,11 @@
       <li class="item feature draggable expandable-document" data-document-uuid="{{kitContext.item.uuid}}">
         <div class="item-row">
           <div class="item-column item-name item-tooltip">
-            <img class="item-image" src="{{kitContext.item.img}}" alt="{{kitContext.item.name}}">
+            <img class="item-image" src="{{kitContext.item.img}}" alt="{{kitContext.item.name}}" data-action="documentListShare">
             {{#if (eq @root.system.hero.preferredKit kitContext.item.id)}}
             <i data-tooltip="DRAW_STEEL.Item.kit.PreferredKit.Label" class="fa-solid fa-star"></i>
             {{/if}}
-            <div class="name">
+            <div class="name" data-action="toggleDocumentDescription">
               <div class="label">{{kitContext.item.name}}</div>
             </div>
           </div>
@@ -73,8 +73,8 @@
       <li class="item treasure draggable expandable-document" data-document-uuid="{{treasureContext.item.uuid}}">
         <div class="item-row">
           <div class="item-column item-name item-tooltip">
-            <img class="item-image" src="{{treasureContext.item.img}}" alt="{{treasureContext.item.name}}">
-            <div class="name">
+            <img class="item-image" src="{{treasureContext.item.img}}" alt="{{treasureContext.item.name}}" data-action="documentListShare">
+            <div class="name" data-action="toggleDocumentDescription">
               <div class="label">{{treasureContext.item.name}}</div>
             </div>
           </div>

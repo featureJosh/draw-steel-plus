@@ -468,6 +468,18 @@ function registerSheets() {
           width: SHEET_SIZES.hero.width,
           height: SHEET_SIZES.hero.height,
         },
+        actions: {
+          ...super.DEFAULT_OPTIONS.actions,
+          documentListShare: async function(event, target) {
+            const row = target.closest("[data-document-uuid]");
+            if (!row) return;
+            const entries = this._getDocumentListContextOptions?.() ?? [];
+            const shareEntry = entries.find(e => e.name === "DRAW_STEEL.SHEET.Share");
+            if (shareEntry?.condition?.(target) !== false && shareEntry?.callback) {
+              await shareEntry.callback(target);
+            }
+          },
+        },
       };
 
       static PARTS = {
@@ -580,6 +592,18 @@ function registerSheets() {
           width: SHEET_SIZES.npc.width,
           height: SHEET_SIZES.npc.height,
         },
+        actions: {
+          ...super.DEFAULT_OPTIONS.actions,
+          documentListShare: async function(event, target) {
+            const row = target.closest("[data-document-uuid]");
+            if (!row) return;
+            const entries = this._getDocumentListContextOptions?.() ?? [];
+            const shareEntry = entries.find(e => e.name === "DRAW_STEEL.SHEET.Share");
+            if (shareEntry?.condition?.(target) !== false && shareEntry?.callback) {
+              await shareEntry.callback(target);
+            }
+          },
+        },
       };
 
       static PARTS = {
@@ -685,6 +709,18 @@ function registerSheets() {
             ...super.DEFAULT_OPTIONS.position,
             width: SHEET_SIZES.item.width,
             height: SHEET_SIZES.item.height,
+          },
+          actions: {
+            ...super.DEFAULT_OPTIONS.actions,
+            documentListShare: async function(event, target) {
+              const row = target.closest("[data-document-uuid]");
+              if (!row) return;
+              const entries = this._getDocumentListContextOptions?.() ?? [];
+              const shareEntry = entries.find(e => e.name === "DRAW_STEEL.SHEET.Share");
+              if (shareEntry?.condition?.(target) !== false && shareEntry?.callback) {
+                await shareEntry.callback(target);
+              }
+            },
           },
         };
 

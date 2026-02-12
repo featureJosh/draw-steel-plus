@@ -188,6 +188,24 @@
   border: 1px solid var(--dsp-border);
   flex-shrink: 0;
   background: rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  transition: filter var(--dsp-transition), border-color var(--dsp-transition);
+}
+
+.draw-steel-plus.sheet .item-image:hover {
+  filter: brightness(1.08);
+  border-color: var(--dsp-accent);
+}
+
+.draw-steel-plus.sheet .item-list .item-column.item-name .name[data-action],
+.draw-steel-plus.sheet .effect-row .effect-name .name[data-action] {
+  cursor: pointer;
+  transition: color var(--dsp-transition);
+}
+
+.draw-steel-plus.sheet .item-list .item-column.item-name .name[data-action]:hover .label,
+.draw-steel-plus.sheet .effect-row .effect-name .name[data-action]:hover .label {
+  color: var(--dsp-accent);
 }
 
 .draw-steel-plus.sheet .item-list .item-column.item-controls {
@@ -574,6 +592,13 @@
   border-radius: var(--dsp-radius-sm);
   border: 1px solid var(--dsp-border);
   flex-shrink: 0;
+  cursor: pointer;
+  transition: filter var(--dsp-transition), border-color var(--dsp-transition);
+}
+
+.draw-steel-plus.sheet .effect-image:hover {
+  filter: brightness(1.08);
+  border-color: var(--dsp-accent);
 }
 
 .draw-steel-plus.sheet .effect-row .effect-source,

@@ -27,13 +27,13 @@
       <li class="item ability draggable expandable-document" data-document-uuid="{{abilityContext.item.uuid}}">
         <div class="item-row">
           <div class="item-column item-name item-tooltip rollable {{disabled (not @root.owner)}}" data-action="useAbility">
-            <img class="item-image" src="{{abilityContext.item.img}}" alt="{{abilityContext.item.name}}">
+            <img class="item-image" src="{{abilityContext.item.img}}" alt="{{abilityContext.item.name}}" data-action="documentListShare">
             {{#if abilityContext.item.system.restricted}}
             <div class="restricted-warning" data-tooltip="DRAW_STEEL.Item.ability.Restricted">
               <i class="fa-solid fa-triangle-exclamation"></i>
             </div>
             {{/if}}
-            <div class="name">
+            <div class="name" data-action="toggleDocumentDescription">
               <div class="label">{{abilityContext.item.name}}</div>
               <div class="keywords">{{abilityContext.formattedLabels.keywords}}</div>
             </div>

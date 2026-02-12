@@ -20,8 +20,8 @@
       <li class="item project draggable expandable-document" data-document-uuid="{{projectContext.item.uuid}}">
         <div class="item-row">
           <div class="item-column item-name item-tooltip rollable {{disabled (not @root.owner)}}" data-action="rollProject">
-            <img class="item-image" src="{{projectContext.item.img}}" alt="{{projectContext.item.name}}">
-            <div class="name">
+            <img class="item-image" src="{{projectContext.item.img}}" alt="{{projectContext.item.name}}" data-action="documentListShare">
+            <div class="name" data-action="toggleDocumentDescription">
               <div class="label">{{projectContext.item.name}}</div>
             </div>
           </div>
