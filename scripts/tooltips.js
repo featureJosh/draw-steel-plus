@@ -151,8 +151,8 @@ export class TooltipsDSP {
         ctx.hasPills = ctx.pills.length > 0;
       }
       if (cfg?.types?.[sys.type]) {
-        ctx.metadata.push({
-          label: game.i18n.localize("DRAW_STEEL.Item.ability.FIELDS.type.label") || "Type",
+          ctx.metadata.push({
+          label: game.i18n.localize("DRAW_STEEL_PLUS.Tooltip.type"),
           value: cfg.types[sys.type].label,
         });
       }
@@ -160,23 +160,23 @@ export class TooltipsDSP {
         const labels = sys.formattedLabels;
         if (labels.distance && labels.distance !== "—")
           ctx.metadata.push({
-            label: game.i18n.localize("DRAW_STEEL.Item.ability.FIELDS.distance.label") || "Distance",
+            label: game.i18n.localize("DRAW_STEEL_PLUS.Tooltip.distance"),
             value: labels.distance,
           });
         if (labels.target && labels.target !== "—")
           ctx.metadata.push({
-            label: game.i18n.localize("DRAW_STEEL.Item.ability.FIELDS.target.label") || "Target",
+            label: game.i18n.localize("DRAW_STEEL_PLUS.Tooltip.target"),
             value: labels.target,
           });
         if (labels.keywords && labels.keywords !== "—")
           ctx.metadata.push({
-            label: game.i18n.localize("DRAW_STEEL.Item.ability.FIELDS.keywords.label") || "Keywords",
+            label: game.i18n.localize("DRAW_STEEL_PLUS.Tooltip.keywords"),
             value: labels.keywords,
           });
       }
       if (sys.resource != null && sys.resource > 0) {
         ctx.headerBadges.push({
-          label: game.i18n.localize("DRAW_STEEL.Item.ability.FIELDS.resource.label") || "Resource",
+          label: game.i18n.localize("DRAW_STEEL_PLUS.Tooltip.resource"),
           value: String(sys.resource),
         });
       }
@@ -189,76 +189,68 @@ export class TooltipsDSP {
           const armorLabel = ds?.CONFIG?.equipment?.armorCategories?.[eq.armor]?.label
             ?? ds?.CONFIG?.equipment?.armor?.[eq.armor]?.label
             ?? String(eq.armor).charAt(0).toUpperCase() + String(eq.armor).slice(1);
-          ctx.metadata.push({
-            label: game.i18n.localize("DRAW_STEEL.Item.kit.FIELDS.equipment.fields.armor.label") || "Armor",
-            value: armorLabel,
-          });
+          ctx.metadata.push({ label: game.i18n.localize("DRAW_STEEL_PLUS.Tooltip.armorCategory"), value: armorLabel });
         }
-        if (Array.isArray(eq.weapon) && eq.weapon.length) {
-          const weaponLabels = eq.weapon.map((w) =>
+        let weapons = [];
+        if (Array.isArray(eq.weapon)) weapons = eq.weapon.filter(Boolean);
+        else if (eq.weapon instanceof Set) weapons = Array.from(eq.weapon);
+        else if (typeof eq.weapon === "string" && eq.weapon) weapons = [eq.weapon];
+        else if (eq.weapon != null && typeof eq.weapon[Symbol?.iterator] === "function")
+          weapons = [...eq.weapon].filter(Boolean);
+        if (weapons.length) {
+          const weaponLabels = weapons.map((w) =>
             ds?.CONFIG?.equipment?.weaponCategories?.[w]?.label
             ?? ds?.CONFIG?.equipment?.weapon?.[w]?.label
             ?? String(w).charAt(0).toUpperCase() + String(w).slice(1)
           );
-          ctx.metadata.push({
-            label: game.i18n.localize("DRAW_STEEL.Item.kit.FIELDS.equipment.fields.weapon.label") || "Weapon",
-            value: weaponLabels.join(", "),
-          });
-        } else if (typeof eq.weapon === "string" && eq.weapon) {
-          const wl = ds?.CONFIG?.equipment?.weaponCategories?.[eq.weapon]?.label
-            ?? ds?.CONFIG?.equipment?.weapon?.[eq.weapon]?.label
-            ?? String(eq.weapon).charAt(0).toUpperCase() + String(eq.weapon).slice(1);
-          ctx.metadata.push({
-            label: game.i18n.localize("DRAW_STEEL.Item.kit.FIELDS.equipment.fields.weapon.label") || "Weapon",
-            value: wl,
-          });
+          ctx.metadata.push({ label: game.i18n.localize("DRAW_STEEL_PLUS.Tooltip.weaponCategory"), value: weaponLabels.join(", ") });
         }
         if (eq.shield != null) {
           ctx.metadata.push({
-            label: game.i18n.localize("DRAW_STEEL.Item.kit.FIELDS.equipment.fields.shield.label") || "Shield",
-            value: eq.shield ? (game.i18n.localize("Yes") || "Yes") : (game.i18n.localize("No") || "No"),
+            label: game.i18n.localize("DRAW_STEEL_PLUS.Tooltip.hasShield"),
+            value: eq.shield ? game.i18n.localize("DRAW_STEEL_PLUS.Tooltip.yes") : game.i18n.localize("DRAW_STEEL_PLUS.Tooltip.no"),
           });
         }
       }
       const b = sys.bonuses;
       if (b) {
         if (b.stamina != null && b.stamina !== 0)
-          ctx.metadata.push({ label: "Stamina", value: `+${b.stamina}` });
+          ctx.metadata.push({ label: game.i18n.localize("DRAW_STEEL_PLUS.Tooltip.stamina"), value: `+${b.stamina}` });
         if (b.speed != null && b.speed !== 0)
-          ctx.metadata.push({ label: "Speed", value: `+${b.speed}` });
+          ctx.metadata.push({ label: game.i18n.localize("DRAW_STEEL_PLUS.Tooltip.speed"), value: `+${b.speed}` });
         if (b.stability != null && b.stability !== 0)
-          ctx.metadata.push({ label: "Stability", value: `+${b.stability}` });
+          ctx.metadata.push({ label: game.i18n.localize("DRAW_STEEL_PLUS.Tooltip.stability"), value: `+${b.stability}` });
         if (b.disengage != null && b.disengage !== 0)
-          ctx.metadata.push({ label: "Disengage", value: `+${b.disengage}` });
+          ctx.metadata.push({ label: game.i18n.localize("DRAW_STEEL_PLUS.Tooltip.disengage"), value: `+${b.disengage}` });
         const md = b.melee?.damage;
         if (md && (md.tier1 || md.tier2 || md.tier3)) {
           const vals = [md.tier1, md.tier2, md.tier3].filter((v) => v != null && v !== 0);
-          if (vals.length) ctx.metadata.push({ label: "Melee", value: vals.join("/") });
+          if (vals.length) ctx.metadata.push({ label: game.i18n.localize("DRAW_STEEL_PLUS.Tooltip.melee"), value: vals.join("/") });
         }
         if (b.melee?.distance != null && b.melee.distance !== 0)
-          ctx.metadata.push({ label: "Melee Distance", value: `+${b.melee.distance}` });
+          ctx.metadata.push({ label: game.i18n.localize("DRAW_STEEL_PLUS.Tooltip.meleeDistance"), value: `+${b.melee.distance}` });
         const rd = b.ranged?.damage;
         if (rd && (rd.tier1 || rd.tier2 || rd.tier3)) {
           const vals = [rd.tier1, rd.tier2, rd.tier3].filter((v) => v != null && v !== 0);
-          if (vals.length) ctx.metadata.push({ label: "Ranged", value: vals.join("/") });
+          if (vals.length) ctx.metadata.push({ label: game.i18n.localize("DRAW_STEEL_PLUS.Tooltip.ranged"), value: vals.join("/") });
         }
         if (b.ranged?.distance != null && b.ranged.distance !== 0)
-          ctx.metadata.push({ label: "Ranged Distance", value: `+${b.ranged.distance}` });
+          ctx.metadata.push({ label: game.i18n.localize("DRAW_STEEL_PLUS.Tooltip.rangedDistance"), value: `+${b.ranged.distance}` });
       }
       ctx.hasMetadata = ctx.metadata.length > 0;
     } else if (type === "treasure") {
       if (sys.kind) {
         const kindLabel = ds?.CONFIG?.equipment?.kinds?.[sys.kind]?.label ?? sys.kind;
-        ctx.metadata.push({ label: "Kind", value: kindLabel });
+        ctx.metadata.push({ label: game.i18n.localize("DRAW_STEEL_PLUS.Tooltip.kind"), value: kindLabel });
       }
       if (sys.category) {
         const catLabel = ds?.CONFIG?.equipment?.categories?.[sys.category]?.label ?? sys.category;
-        ctx.metadata.push({ label: "Category", value: catLabel });
+        ctx.metadata.push({ label: game.i18n.localize("DRAW_STEEL_PLUS.Tooltip.category"), value: catLabel });
       }
       if (sys.echelon != null)
-        ctx.metadata.push({ label: "Echelon", value: String(sys.echelon) });
+        ctx.metadata.push({ label: game.i18n.localize("DRAW_STEEL_PLUS.Tooltip.echelon"), value: String(sys.echelon) });
       if (sys.quantity != null && sys.quantity !== 1)
-        ctx.metadata.push({ label: "Quantity", value: String(sys.quantity) });
+        ctx.metadata.push({ label: game.i18n.localize("DRAW_STEEL_PLUS.Tooltip.quantity"), value: String(sys.quantity) });
       if (sys.keywords?.size) {
         const fmt = sys.formattedKeywords ?? "";
         ctx.pills = fmt ? fmt.split(/,\s*/).filter(Boolean) : [];
@@ -267,10 +259,10 @@ export class TooltipsDSP {
       ctx.hasMetadata = ctx.metadata.length > 0;
     } else if (type === "project") {
       const typeLabelProj = ds?.CONFIG?.projects?.types?.[sys.type]?.label ?? sys.type;
-      ctx.metadata.push({ label: "Type", value: typeLabelProj });
+      ctx.metadata.push({ label: game.i18n.localize("DRAW_STEEL_PLUS.Tooltip.type"), value: typeLabelProj });
       if (sys.goal != null)
         ctx.metadata.push({
-          label: "Progress",
+          label: game.i18n.localize("DRAW_STEEL_PLUS.Tooltip.progress"),
           value: `${sys.points ?? 0} / ${sys.goal}`,
         });
       if (sys.rollCharacteristic?.size) {
@@ -278,42 +270,42 @@ export class TooltipsDSP {
           (c) => ds?.CONFIG?.characteristics?.[c]?.label ?? c
         );
         ctx.metadata.push({
-          label: "Roll",
+          label: game.i18n.localize("DRAW_STEEL_PLUS.Tooltip.roll"),
           value: chrLabels.join(", "),
         });
       }
       ctx.hasMetadata = ctx.metadata.length > 0;
     } else if (type === "title") {
       if (sys.echelon != null)
-        ctx.metadata.push({ label: "Echelon", value: String(sys.echelon) });
+        ctx.metadata.push({ label: game.i18n.localize("DRAW_STEEL_PLUS.Tooltip.echelon"), value: String(sys.echelon) });
       if (sys.story?.trim()) ctx.subtitle = `${typeLabel} • ${sys.story}`;
       ctx.hasMetadata = ctx.metadata.length > 0;
     } else if (type === "class") {
       if (sys.level != null)
-        ctx.metadata.push({ label: "Level", value: String(sys.level) });
-      if (sys.primary) ctx.metadata.push({ label: "Primary", value: sys.primary });
+        ctx.metadata.push({ label: game.i18n.localize("DRAW_STEEL_PLUS.Tooltip.level"), value: String(sys.level) });
+      if (sys.primary) ctx.metadata.push({ label: game.i18n.localize("DRAW_STEEL_PLUS.Tooltip.primary"), value: sys.primary });
       if (sys.stamina?.starting != null)
-        ctx.metadata.push({ label: "Stamina", value: String(sys.stamina.starting) });
+        ctx.metadata.push({ label: game.i18n.localize("DRAW_STEEL_PLUS.Tooltip.stamina"), value: String(sys.stamina.starting) });
       if (sys.recoveries != null)
-        ctx.metadata.push({ label: "Recoveries", value: String(sys.recoveries) });
+        ctx.metadata.push({ label: game.i18n.localize("DRAW_STEEL_PLUS.Tooltip.recoveries"), value: String(sys.recoveries) });
       ctx.hasMetadata = ctx.metadata.length > 0;
     } else if (type === "career") {
       if (sys.projectPoints != null)
-        ctx.metadata.push({ label: "Project Points", value: String(sys.projectPoints) });
+        ctx.metadata.push({ label: game.i18n.localize("DRAW_STEEL_PLUS.Tooltip.projectPoints"), value: String(sys.projectPoints) });
       if (sys.renown != null)
-        ctx.metadata.push({ label: "Renown", value: String(sys.renown) });
+        ctx.metadata.push({ label: game.i18n.localize("DRAW_STEEL_PLUS.Tooltip.renown"), value: String(sys.renown) });
       if (sys.wealth != null)
-        ctx.metadata.push({ label: "Wealth", value: String(sys.wealth) });
+        ctx.metadata.push({ label: game.i18n.localize("DRAW_STEEL_PLUS.Tooltip.wealth"), value: String(sys.wealth) });
       ctx.hasMetadata = ctx.metadata.length > 0;
     } else if (type === "ancestryTrait") {
       if (sys.points != null) {
-        ctx.headerBadges.push({ label: "Points", value: String(sys.points) });
+        ctx.headerBadges.push({ label: game.i18n.localize("DRAW_STEEL_PLUS.Tooltip.points"), value: String(sys.points) });
         ctx.hasHeaderBadges = true;
       }
     } else if (type === "perk") {
       const ptLabel = ds?.CONFIG?.perks?.types?.[sys.perkType]?.label ?? sys.perkType;
       if (ptLabel) {
-        ctx.metadata.push({ label: "Type", value: ptLabel });
+        ctx.metadata.push({ label: game.i18n.localize("DRAW_STEEL_PLUS.Tooltip.type"), value: ptLabel });
         ctx.hasMetadata = true;
       }
     }
