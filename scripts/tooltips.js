@@ -138,6 +138,8 @@ export class TooltipsDSP {
       hasMetadata: false,
       hasPills: false,
       hasHeaderBadges: false,
+      hintPin: game.i18n.localize("DRAW_STEEL_PLUS.Tooltip.hintPin"),
+      hintUnpin: game.i18n.localize("DRAW_STEEL_PLUS.Tooltip.hintUnpin"),
     };
 
     const ds = globalThis.ds;
@@ -345,6 +347,8 @@ export class TooltipsDSP {
       properties: props,
       durationLabel,
       sourceName: doc.sourceName ?? "",
+      hintPin: game.i18n.localize("DRAW_STEEL_PLUS.Tooltip.hintPin"),
+      hintUnpin: game.i18n.localize("DRAW_STEEL_PLUS.Tooltip.hintUnpin"),
     };
   }
 

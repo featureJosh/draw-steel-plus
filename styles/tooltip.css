@@ -216,6 +216,26 @@
   color: var(--dsp-text-light);
 }
 
+:is(#tooltip, .locked-tooltip).dsp-tooltip .tooltip-hint {
+  margin-top: 6px;
+  padding-top: 4px;
+  border-top: 1px solid var(--dsp-border);
+  font-size: 0.6rem;
+  color: var(--dsp-text-faint);
+}
+
+:is(#tooltip, .locked-tooltip).dsp-tooltip .tooltip-hint-unpin {
+  display: none;
+}
+
+:is(#tooltip, .locked-tooltip).dsp-tooltip.locked-tooltip .tooltip-hint-pin {
+  display: none;
+}
+
+:is(#tooltip, .locked-tooltip).dsp-tooltip.locked-tooltip .tooltip-hint-unpin {
+  display: inline;
+}
+
 @keyframes dsp-tooltip-in {
   from {
     opacity: 0;

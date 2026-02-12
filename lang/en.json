@@ -102,7 +102,9 @@
       "resource": "Resource",
       "distance": "Distance",
       "target": "Target",
-      "keywords": "Keywords"
+      "keywords": "Keywords",
+      "hintPin": "Middle-click to pin",
+      "hintUnpin": "Middle-click to unpin"
     },
     "MetaCurrency": {
       "heroTokens": "Hero Tokens",
