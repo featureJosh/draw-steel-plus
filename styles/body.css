@@ -653,19 +653,22 @@
 }
 
 .draw-steel-plus.sheet .effect-row .effect-controls {
-  display: flex;
-  align-items: center;
-  gap: 2px;
+	display: flex;
+	align-items: center;
+	gap: 2px;
+	width: fit-content;
 }
 
 .draw-steel-plus.sheet .effect-row .effect-controls a {
-  color: var(--dsp-text-faint);
-  text-decoration: none;
-  font-size: 0.7rem;
-  padding: 3px 4px;
-  border-radius: var(--dsp-radius-sm);
-  transition: color var(--dsp-transition), background var(--dsp-transition);
-  opacity: 0.5;
+	color: var(--dsp-text-faint);
+	text-decoration: none;
+	font-size: 0.7rem;
+	padding: 3px 4px;
+	border-radius: var(--dsp-radius-sm);
+	transition: color var(--dsp-transition), background var(--dsp-transition);
+	opacity: 0.5;
+	line-height: 15px;
+	width: fit-content;
 }
 
 .draw-steel-plus.sheet .effect-list .effect:hover .effect-controls a {
