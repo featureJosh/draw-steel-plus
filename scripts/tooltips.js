@@ -130,15 +130,27 @@ export class TooltipsDSP {
         let powerRollTiers = [];
         if (hasPowerRolls) {
           try {
-            const powerRollText = sys?.powerRollText;
-            const t1 = typeof powerRollText === "function" ? await powerRollText.call(sys, 1) : cardContext.powerRollEffects?.tier1;
-            const t2 = typeof powerRollText === "function" ? await powerRollText.call(sys, 2) : cardContext.powerRollEffects?.tier2;
-            const t3 = typeof powerRollText === "function" ? await powerRollText.call(sys, 3) : cardContext.powerRollEffects?.tier3;
-            const toStr = (v) => (typeof v === "string" ? v : (v?.value ?? v?.html ?? (v != null ? String(v) : "")));
+            const toStr = (v) => {
+              if (v == null) return "";
+              if (typeof v === "string") return v;
+              if (typeof v === "number" || typeof v === "boolean") return String(v);
+              const str = v?.value ?? v?.html ?? v?.text ?? v?.content ?? (typeof v?.innerHTML === "string" ? v.innerHTML : null);
+              if (typeof str === "string" && str) return str;
+              return "";
+            };
+            const tierLabels = ["!", "@", "#"];
+            let t1 = toStr(cardContext.powerRollEffects?.tier1);
+            let t2 = toStr(cardContext.powerRollEffects?.tier2);
+            let t3 = toStr(cardContext.powerRollEffects?.tier3);
+            if (!t1 && !t2 && !t3 && typeof sys?.powerRollText === "function") {
+              t1 = toStr(await sys.powerRollText.call(sys, 1));
+              t2 = toStr(await sys.powerRollText.call(sys, 2));
+              t3 = toStr(await sys.powerRollText.call(sys, 3));
+            }
             powerRollTiers = [
-              { label: "!", effect: toStr(t1), tierNum: 1 },
-              { label: "@", effect: toStr(t2), tierNum: 2 },
-              { label: "#", effect: toStr(t3), tierNum: 3 },
+              { label: tierLabels[0], effect: t1, tierNum: 1 },
+              { label: tierLabels[1], effect: t2, tierNum: 2 },
+              { label: tierLabels[2], effect: t3, tierNum: 3 },
             ].filter((t) => t.effect);
           } catch {}
         }

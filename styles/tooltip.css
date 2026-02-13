@@ -103,12 +103,12 @@
 }
 
 :is(#tooltip, .locked-tooltip).dsp-tooltip .header .bottom {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px 12px;
-  margin-top: 4px;
-  padding-top: 4px;
-  border-top: 1px solid var(--dsp-border);
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px 12px;
+	margin-top: 4px;
+	padding-top: 4px;
+	border-top: 1px solid var(--dsp-border-light);
 }
 
 :is(#tooltip, .locked-tooltip).dsp-tooltip .metadata-item {
@@ -230,7 +230,7 @@
 :is(#tooltip, .locked-tooltip).dsp-tooltip .ability-details .power-result {
   margin: 6px 0;
   padding: 4px 0;
-  border-top: 1px solid var(--dsp-border);
+  border-top: 1px solid var(--dsp-border-light);
 }
 
 :is(#tooltip, .locked-tooltip).dsp-tooltip .ability-details .power-roll-line {
@@ -268,7 +268,7 @@
 :is(#tooltip, .locked-tooltip).dsp-tooltip .ability-details .effect {
   margin: 6px 0;
   padding: 4px 0;
-  border-top: 1px solid var(--dsp-border);
+  border-top: 1px solid var(--dsp-border-light);
 }
 
 :is(#tooltip, .locked-tooltip).dsp-tooltip .ability-details .effect dl {
