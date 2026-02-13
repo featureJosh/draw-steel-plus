@@ -195,6 +195,110 @@
   margin: 4px 0;
 }
 
+:is(#tooltip, .locked-tooltip).dsp-tooltip .ability-details {
+  font-size: 0.8rem;
+  line-height: 1.5;
+  color: var(--dsp-text-light);
+  max-height: 350px;
+  overflow: hidden;
+  scrollbar-width: thin;
+  scrollbar-color: var(--dsp-accent) transparent;
+}
+
+:is(#tooltip, .locked-tooltip).dsp-tooltip .ability-details.overflowing {
+  mask-image: linear-gradient(to bottom, black 90%, transparent);
+}
+
+:is(#tooltip, .locked-tooltip).dsp-tooltip.locked-tooltip .ability-details {
+  overflow-y: scroll;
+}
+
+:is(#tooltip, .locked-tooltip).dsp-tooltip.locked-tooltip .ability-details.overflowing {
+  mask-image: unset;
+}
+
+:is(#tooltip, .locked-tooltip).dsp-tooltip .ability-details .flavor {
+  margin: 0 0 6px;
+  font-style: italic;
+  color: var(--dsp-text-light);
+}
+
+:is(#tooltip, .locked-tooltip).dsp-tooltip .ability-details .flavor em {
+  font-style: italic;
+}
+
+:is(#tooltip, .locked-tooltip).dsp-tooltip .ability-details .power-result {
+  margin: 6px 0;
+  padding: 4px 0;
+  border-top: 1px solid var(--dsp-border);
+}
+
+:is(#tooltip, .locked-tooltip).dsp-tooltip .ability-details .power-roll-line {
+  margin: 0 0 4px;
+  font-size: 0.75rem;
+}
+
+:is(#tooltip, .locked-tooltip).dsp-tooltip .ability-details .power-roll-line strong {
+  color: var(--dsp-text);
+}
+
+:is(#tooltip, .locked-tooltip).dsp-tooltip .ability-details .power-roll-display {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 2px 8px;
+  margin: 0;
+  padding: 0;
+  font-size: 0.7rem;
+}
+
+:is(#tooltip, .locked-tooltip).dsp-tooltip .ability-details .power-roll-display dt {
+	font-weight: 300;
+	color: var(--dsp-accent);
+}
+
+:is(#tooltip, .locked-tooltip).dsp-tooltip .ability-details .power-roll-display dd {
+  margin: 0;
+  color: var(--dsp-text-light);
+}
+
+:is(#tooltip, .locked-tooltip).dsp-tooltip .ability-details .power-roll-display dd p {
+  margin: 0;
+}
+
+:is(#tooltip, .locked-tooltip).dsp-tooltip .ability-details .effect {
+  margin: 6px 0;
+  padding: 4px 0;
+  border-top: 1px solid var(--dsp-border);
+}
+
+:is(#tooltip, .locked-tooltip).dsp-tooltip .ability-details .effect dl {
+  margin: 0;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 2px 8px;
+  font-size: 0.75rem;
+}
+
+:is(#tooltip, .locked-tooltip).dsp-tooltip .ability-details .effect dt {
+  font-weight: 600;
+  color: var(--dsp-accent);
+  text-transform: uppercase;
+  font-size: 0.6rem;
+}
+
+:is(#tooltip, .locked-tooltip).dsp-tooltip .ability-details .effect dd {
+  margin: 0;
+  color: var(--dsp-text-light);
+}
+
+:is(#tooltip, .locked-tooltip).dsp-tooltip .ability-details .effect dd p {
+  margin: 4px 0;
+}
+
+:is(#tooltip, .locked-tooltip).dsp-tooltip .ability-details .effect dd p:first-child {
+  margin-top: 0;
+}
+
 :is(#tooltip, .locked-tooltip).dsp-tooltip .pills {
   display: flex;
   flex-wrap: wrap;

@@ -31,7 +31,9 @@
         <li class="effect draggable expandable-document" data-document-uuid="{{effect.uuid}}">
           <div class="effect-row">
             <div class="effect-name item-tooltip">
-              <img class="effect-image" src="{{effect.img}}" alt="{{effect.name}}" data-action="documentListShare">
+              <div class="item-image-wrapper chat-overlay" data-action="documentListShare">
+                <img class="effect-image" src="{{effect.img}}" alt="{{effect.name}}">
+              </div>
               <div class="name" data-action="toggleDocumentDescription">
                 <div class="label">{{effect.name}}</div>
               </div>
@@ -39,6 +41,7 @@
             <div class="effect-source">{{effect.sourceName}}</div>
             <div class="effect-duration">{{effect.duration.label}}</div>
             <div class="effect-controls">
+              <a class="fa-fw fa-solid fa-comment" data-action="documentListShare"></a>
               <a class="fa-fw fa-solid fa-ellipsis-vertical" data-action="documentListContext"></a>
               <a class="fa-fw fa-solid fa-angle-{{ifThen effect.expanded 'down' 'right'}}" data-action="toggleDocumentDescription"></a>
             </div>

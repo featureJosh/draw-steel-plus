@@ -30,8 +30,47 @@
     </div>
     {{/if}}
   </section>
+  {{#if abilityDetails}}
+  <section class="ability-details">
+    {{#if abilityDetails.flavor}}
+    <p class="flavor">{{{abilityDetails.flavor}}}</p>
+    {{/if}}
+    {{#if abilityDetails.hasPowerResult}}
+    <section class="power-result">
+      {{#if abilityDetails.powerRollLine}}
+      <p class="power-roll-line"><strong>{{{abilityDetails.powerRollLine}}}</strong></p>
+      {{/if}}
+      {{#if abilityDetails.powerRollTiers.length}}
+      <dl class="power-roll-display">
+        {{#each abilityDetails.powerRollTiers as |tier|}}
+        <dt class="tier{{tier.tierNum}}">{{tier.label}}</dt>
+        <dd class="tier{{tier.tierNum}}">{{{tier.effect}}}</dd>
+        {{/each}}
+      </dl>
+      {{/if}}
+    </section>
+    {{/if}}
+    {{#if abilityDetails.beforeEffect}}
+    <section class="effect before">
+      <dl>
+        <dt>{{effectLabel}}</dt>
+        <dd>{{{abilityDetails.beforeEffect}}}</dd>
+      </dl>
+    </section>
+    {{/if}}
+    {{#if abilityDetails.afterEffect}}
+    <section class="effect after">
+      <dl>
+        <dt>{{effectLabel}}</dt>
+        <dd>{{{abilityDetails.afterEffect}}}</dd>
+      </dl>
+    </section>
+    {{/if}}
+  </section>
+  {{else}}
   {{#if description}}
   <section class="description">{{{description}}}</section>
+  {{/if}}
   {{/if}}
   {{#if hasPills}}
   <ul class="pills">

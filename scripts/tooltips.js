@@ -105,13 +105,71 @@ export class TooltipsDSP {
     const typeLabel = game.i18n.localize(CONFIG.Item.typeLabels[type] ?? type);
 
     let description = "";
+    let abilityDetails = null;
     if (type === "ability") {
-      const before = sys.effect?.before ?? "";
-      const after = sys.effect?.after ?? "";
-      const parts = [];
-      if (before.trim()) parts.push(before);
-      if (after.trim()) parts.push(after);
-      description = parts.join("<hr>");
+      let cardContext = {};
+      try {
+        if (typeof sys.getSheetContext === "function") {
+          await sys.getSheetContext(cardContext);
+        }
+      } catch {}
+      const hasPowerRolls = cardContext.powerRolls && cardContext.powerRollEffects;
+      if (hasPowerRolls || cardContext.enrichedBeforeEffect || cardContext.enrichedAfterEffect || sys.story) {
+        let flavor = "";
+        if (sys.story?.trim()) {
+          try {
+            flavor = await foundry.applications.ux.TextEditor.implementation.enrichHTML(
+              sys.story.trim(),
+              { async: true, relativeTo: doc }
+            );
+          } catch {}
+        }
+        const powerRollLine = hasPowerRolls && !sys.power?.roll?.reactive && cardContext.powerRollBonus
+          ? game.i18n.format("DRAW_STEEL.ROLL.Power.RollPlusBonus", { bonus: cardContext.powerRollBonus })
+          : null;
+        let powerRollTiers = [];
+        if (hasPowerRolls) {
+          try {
+            const powerRollText = sys?.powerRollText;
+            const t1 = typeof powerRollText === "function" ? await powerRollText.call(sys, 1) : cardContext.powerRollEffects?.tier1;
+            const t2 = typeof powerRollText === "function" ? await powerRollText.call(sys, 2) : cardContext.powerRollEffects?.tier2;
+            const t3 = typeof powerRollText === "function" ? await powerRollText.call(sys, 3) : cardContext.powerRollEffects?.tier3;
+            const toStr = (v) => (typeof v === "string" ? v : (v?.value ?? v?.html ?? (v != null ? String(v) : "")));
+            powerRollTiers = [
+              { label: "!", effect: toStr(t1), tierNum: 1 },
+              { label: "@", effect: toStr(t2), tierNum: 2 },
+              { label: "#", effect: toStr(t3), tierNum: 3 },
+            ].filter((t) => t.effect);
+          } catch {}
+        }
+        const hasContent = flavor || powerRollLine || powerRollTiers.length ||
+          cardContext.enrichedBeforeEffect || cardContext.enrichedAfterEffect;
+        if (hasContent) {
+          abilityDetails = {
+            flavor: flavor || null,
+            powerRollLine,
+            powerRollTiers,
+            hasPowerResult: !!(powerRollLine || powerRollTiers.length),
+            beforeEffect: cardContext.enrichedBeforeEffect || null,
+            afterEffect: cardContext.enrichedAfterEffect || null,
+          };
+          description = "";
+        } else {
+          const before = sys.effect?.before ?? "";
+          const after = sys.effect?.after ?? "";
+          const parts = [];
+          if (before.trim()) parts.push(before);
+          if (after.trim()) parts.push(after);
+          description = parts.join("<hr>");
+        }
+      } else {
+        const before = sys.effect?.before ?? "";
+        const after = sys.effect?.after ?? "";
+        const parts = [];
+        if (before.trim()) parts.push(before);
+        if (after.trim()) parts.push(after);
+        description = parts.join("<hr>");
+      }
     } else {
       description = sys.description?.value ?? "";
     }
@@ -132,6 +190,11 @@ export class TooltipsDSP {
       typeLabel,
       subtitle: typeLabel,
       description: enriched,
+      abilityDetails,
+      effectLabel: (() => {
+        const t = game.i18n.localize("DRAW_STEEL_PLUS.Tooltip.effect");
+        return (t && !t.startsWith("DRAW_STEEL_PLUS.")) ? t : "Effect";
+      })(),
       pills: [],
       metadata: [],
       headerBadges: [],
@@ -380,11 +443,11 @@ export class TooltipsDSP {
     game.tooltip?._setAnchor?.(direction);
 
     if (this.#tooltip.classList.contains("item-tooltip")) {
-      const description = this.#tooltip.querySelector(".description");
-      if (description) {
-        description.classList.toggle(
+      const scrollable = this.#tooltip.querySelector(".description, .ability-details");
+      if (scrollable) {
+        scrollable.classList.toggle(
           "overflowing",
-          description.clientHeight < description.scrollHeight
+          scrollable.clientHeight < scrollable.scrollHeight
         );
       }
     }

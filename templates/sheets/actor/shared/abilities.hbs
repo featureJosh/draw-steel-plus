@@ -26,8 +26,10 @@
       {{#each abilityType.abilities as |abilityContext|}}
       <li class="item ability draggable expandable-document" data-document-uuid="{{abilityContext.item.uuid}}">
         <div class="item-row">
-          <div class="item-column item-name item-tooltip rollable {{disabled (not @root.owner)}}" data-action="useAbility">
-            <img class="item-image" src="{{abilityContext.item.img}}" alt="{{abilityContext.item.name}}" data-action="documentListShare">
+          <div class="item-column item-name item-tooltip">
+            <div class="item-image-wrapper" data-action="useAbility">
+              <img class="item-image" src="{{abilityContext.item.img}}" alt="{{abilityContext.item.name}}">
+            </div>
             {{#if abilityContext.item.system.restricted}}
             <div class="restricted-warning" data-tooltip="DRAW_STEEL.Item.ability.Restricted">
               <i class="fa-solid fa-triangle-exclamation"></i>
@@ -52,6 +54,8 @@
           <div class="item-column item-distance">{{abilityContext.formattedLabels.distance}}</div>
           <div class="item-column item-target">{{abilityContext.formattedLabels.target}}</div>
           <div class="item-column item-controls">
+            <a class="fa-fw fa-solid fa-play" data-action="useAbility"></a>
+            <a class="fa-fw fa-solid fa-comment" data-action="documentListShare"></a>
             <a class="fa-fw fa-solid fa-ellipsis-vertical" data-action="documentListContext"></a>
             <a class="fa-fw fa-solid fa-angle-{{ifThen abilityContext.expanded "down" "right"}}" data-action="toggleDocumentDescription"></a>
           </div>

@@ -19,8 +19,10 @@
       {{#each projects as |projectContext|}}
       <li class="item project draggable expandable-document" data-document-uuid="{{projectContext.item.uuid}}">
         <div class="item-row">
-          <div class="item-column item-name item-tooltip rollable {{disabled (not @root.owner)}}" data-action="rollProject">
-            <img class="item-image" src="{{projectContext.item.img}}" alt="{{projectContext.item.name}}" data-action="documentListShare">
+          <div class="item-column item-name item-tooltip">
+            <div class="item-image-wrapper" data-action="rollProject">
+              <img class="item-image" src="{{projectContext.item.img}}" alt="{{projectContext.item.name}}">
+            </div>
             <div class="name" data-action="toggleDocumentDescription">
               <div class="label">{{projectContext.item.name}}</div>
             </div>
@@ -28,6 +30,8 @@
           <div class="item-column item-points">{{ifThen projectContext.item.system.points projectContext.item.system.points "0"}} / {{ifThen projectContext.item.system.goal projectContext.item.system.goal (localize "DRAW_STEEL.Item.project.Varies")}}</div>
           <div class="item-column item-type">{{lookup (lookup @root.config.projects.types projectContext.item.system.type) "label"}}</div>
           <div class="item-column item-controls">
+            <a class="fa-fw fa-solid fa-play" data-action="rollProject"></a>
+            <a class="fa-fw fa-solid fa-comment" data-action="documentListShare"></a>
             <a class="fa-fw fa-solid fa-ellipsis-vertical" data-action="documentListContext"></a>
             <a class="fa-fw fa-solid fa-angle-{{ifThen projectContext.expanded "down" "right"}}" data-action="toggleDocumentDescription"></a>
           </div>

@@ -18,13 +18,16 @@
     <li class="item feature draggable expandable-document" data-document-uuid="{{featureContext.item.uuid}}">
       <div class="item-row">
           <div class="item-column item-name item-tooltip">
-            <img class="item-image" src="{{featureContext.item.img}}" alt="{{featureContext.item.name}}" data-action="documentListShare">
+            <div class="item-image-wrapper chat-overlay" data-action="documentListShare">
+              <img class="item-image" src="{{featureContext.item.img}}" alt="{{featureContext.item.name}}">
+            </div>
           <div class="name" data-action="toggleDocumentDescription">
             <div class="label">{{featureContext.item.name}}</div>
           </div>
         </div>
         <div class="item-column item-type">{{localize typeLabel}}</div>
         <div class="item-column item-controls">
+          <a class="fa-fw fa-solid fa-comment" data-action="documentListShare"></a>
           <a class="fa-fw fa-solid fa-ellipsis-vertical" data-action="documentListContext"></a>
           <a class="fa-fw fa-solid fa-angle-{{ifThen featureContext.expanded "down" "right"}}" data-action="toggleDocumentDescription"></a>
         </div>

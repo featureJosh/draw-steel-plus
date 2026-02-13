@@ -104,7 +104,8 @@
       "target": "Target",
       "keywords": "Keywords",
       "hintPin": "Middle-click to pin",
-      "hintUnpin": "Middle-click to unpin"
+      "hintUnpin": "Middle-click to unpin",
+      "effect": "Effect"
     },
     "MetaCurrency": {
       "heroTokens": "Hero Tokens",

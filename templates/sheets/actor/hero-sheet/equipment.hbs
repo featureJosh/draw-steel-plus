@@ -27,7 +27,9 @@
       <li class="item feature draggable expandable-document" data-document-uuid="{{kitContext.item.uuid}}">
         <div class="item-row">
           <div class="item-column item-name item-tooltip">
-            <img class="item-image" src="{{kitContext.item.img}}" alt="{{kitContext.item.name}}" data-action="documentListShare">
+            <div class="item-image-wrapper chat-overlay" data-action="documentListShare">
+              <img class="item-image" src="{{kitContext.item.img}}" alt="{{kitContext.item.name}}">
+            </div>
             {{#if (eq @root.system.hero.preferredKit kitContext.item.id)}}
             <i data-tooltip="DRAW_STEEL.Item.kit.PreferredKit.Label" class="fa-solid fa-star"></i>
             {{/if}}
@@ -38,6 +40,7 @@
           <div class="item-column item-melee-bonus">{{> kitDamageBonuses damage=kitContext.item.system.bonuses.melee.damage}}</div>
           <div class="item-column item-ranged-bonus">{{> kitDamageBonuses damage=kitContext.item.system.bonuses.ranged.damage}}</div>
           <div class="item-column item-controls">
+            <a class="fa-fw fa-solid fa-comment" data-action="documentListShare"></a>
             <a class="fa-fw fa-solid fa-ellipsis-vertical" data-action="documentListContext"></a>
             <a class="fa-fw fa-solid fa-angle-{{ifThen kitContext.expanded "down" "right"}}" data-action="toggleDocumentDescription"></a>
           </div>
@@ -73,7 +76,9 @@
       <li class="item treasure draggable expandable-document" data-document-uuid="{{treasureContext.item.uuid}}">
         <div class="item-row">
           <div class="item-column item-name item-tooltip">
-            <img class="item-image" src="{{treasureContext.item.img}}" alt="{{treasureContext.item.name}}" data-action="documentListShare">
+            <div class="item-image-wrapper chat-overlay" data-action="documentListShare">
+              <img class="item-image" src="{{treasureContext.item.img}}" alt="{{treasureContext.item.name}}">
+            </div>
             <div class="name" data-action="toggleDocumentDescription">
               <div class="label">{{treasureContext.item.name}}</div>
             </div>
@@ -89,6 +94,7 @@
             </a>
           </div>
           <div class="item-column item-controls">
+            <a class="fa-fw fa-solid fa-comment" data-action="documentListShare"></a>
             <a class="fa-fw fa-solid fa-angle-{{ifThen treasureContext.expanded "down" "right"}}" data-action="toggleDocumentDescription"></a>
           </div>
         </div>
