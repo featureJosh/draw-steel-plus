@@ -233,14 +233,6 @@ export class TooltipsDSP {
           value: cfg.types[sys.type].label,
         });
       }
-      const triggerText = sys.trigger?.trim?.();
-      const isTriggeredAction = cfg?.types?.[sys.type]?.triggered;
-      if (triggerText && isTriggeredAction) {
-        ctx.metadata.push({
-          label: game.i18n.localize("DRAW_STEEL_PLUS.Tooltip.trigger"),
-          value: triggerText,
-        });
-      }
       if (sys.formattedLabels) {
         const labels = sys.formattedLabels;
         if (labels.distance && labels.distance !== "—")
@@ -258,6 +250,14 @@ export class TooltipsDSP {
             label: game.i18n.localize("DRAW_STEEL_PLUS.Tooltip.keywords"),
             value: labels.keywords,
           });
+      }
+      const triggerText = sys.trigger?.trim?.();
+      const isTriggeredAction = cfg?.types?.[sys.type]?.triggered;
+      if (triggerText && isTriggeredAction) {
+        ctx.metadata.push({
+          label: game.i18n.localize("DRAW_STEEL_PLUS.Tooltip.trigger"),
+          value: triggerText,
+        });
       }
       if (sys.resource != null && sys.resource > 0) {
         ctx.headerBadges.push({
