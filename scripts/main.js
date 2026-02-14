@@ -1,7 +1,8 @@
-import { MODULE_CONFIG, SHEET_SIZE_DEFAULTS, FLOATING_TAB_ICONS, COLOR_DEFAULTS, HEADER_DEFAULTS, META_CURRENCY_DEFAULTS } from "./config.js";
+import { MODULE_CONFIG, SHEET_SIZE_DEFAULTS, FLOATING_TAB_ICONS, COLOR_DEFAULTS, HEADER_DEFAULTS, NPC_DEFAULTS, META_CURRENCY_DEFAULTS } from "./config.js";
 import { applyColorOverrides } from "./color-settings.js";
 import ColorSettingsMenu from "./color-settings-menu.js";
 import HeaderSettingsMenu from "./header-settings-menu.js";
+import NPCSettingsMenu from "./npc-settings-menu.js";
 import { MetaCurrencyTracker } from "./meta-currency.js";
 import { TooltipsDSP } from "./tooltips.js";
 
@@ -66,6 +67,25 @@ function registerSettings() {
     icon: "fa-solid fa-image",
     type: HeaderSettingsMenu,
     restricted: true,
+  });
+
+  game.settings.registerMenu(MODULE_ID, "npcSettingsMenu", {
+    name: "DRAW_STEEL_PLUS.Settings.menus.npc.name",
+    label: "DRAW_STEEL_PLUS.Settings.menus.npc.label",
+    hint: "DRAW_STEEL_PLUS.Settings.menus.npc.hint",
+    icon: "fa-solid fa-ghost",
+    type: NPCSettingsMenu,
+    restricted: true,
+  });
+
+  game.settings.register(MODULE_ID, "npcFavoritesEnabled", {
+    name: "DRAW_STEEL_PLUS.Settings.npcFavoritesEnabled.name",
+    hint: "DRAW_STEEL_PLUS.Settings.npcFavoritesEnabled.hint",
+    scope: "world",
+    config: false,
+    type: Boolean,
+    default: NPC_DEFAULTS.npcFavoritesEnabled,
+    requiresReload: false,
   });
 
   for (const [key, defaultVal] of Object.entries(COLOR_DEFAULTS)) {
@@ -603,6 +623,12 @@ function registerSheets() {
         return `${this.document.name} [DS+]`;
       }
 
+      async _prepareContext(options) {
+        const context = await super._prepareContext(options);
+        context.favoritesEnabled = true;
+        return context;
+      }
+
       async _preparePartContext(partId, context, options) {
         await super._preparePartContext(partId, context, options);
         const fav = (ctx) => {
@@ -797,6 +823,10 @@ function registerSheets() {
           ...(super.PARTS?.abilities || {}),
           template: `${MODULE_PATH}/templates/sheets/actor/shared/abilities.hbs`,
         },
+        favorites: {
+          template: `${MODULE_PATH}/templates/sheets/actor/npc-sheet/npc-favorites.hbs`,
+          scrollable: [""],
+        },
         biography: {
           ...(super.PARTS?.biography || {}),
           template: `${MODULE_PATH}/templates/sheets/actor/npc/biography.hbs`,
@@ -811,13 +841,46 @@ function registerSheets() {
         ...super.TABS,
         primary: {
           ...super.TABS?.primary,
-          tabs: super.TABS?.primary?.tabs?.filter(t => t.id !== "stats") || [],
+          tabs: [{ id: "favorites" }, ...(super.TABS?.primary?.tabs?.filter(t => t.id !== "stats") || [])],
           initial: "features",
         },
       };
 
       get title() {
         return `${this.document.name} [DS+]`;
+      }
+
+      _configureRenderParts(options) {
+        const parts = super._configureRenderParts(options);
+        if (!game.settings.get(MODULE_ID, "npcFavoritesEnabled")) {
+          delete parts.favorites;
+        }
+        return parts;
+      }
+
+      _prepareTabs(group) {
+        const tabs = super._prepareTabs(group);
+        if (!game.settings.get(MODULE_ID, "npcFavoritesEnabled")) {
+          delete tabs.favorites;
+          return tabs;
+        }
+        if (group === "primary" && tabs.favorites) {
+          const currentActive = this.element?.querySelector?.("a[data-tab].active")?.dataset?.tab;
+          const hasFavorites = this.actor.items.some((i) => i.getFlag("draw-steel-plus", "favorite"));
+          const defaultTab = hasFavorites ? "favorites" : "features";
+          const initialTab = (currentActive && tabs[currentActive]) ? currentActive : defaultTab;
+          for (const [tabId, tab] of Object.entries(tabs)) {
+            tab.active = tabId === initialTab;
+            tab.cssClass = tabId === initialTab ? "active" : "";
+          }
+        }
+        return tabs;
+      }
+
+      async _prepareContext(options) {
+        const context = await super._prepareContext(options);
+        context.favoritesEnabled = game.settings.get(MODULE_ID, "npcFavoritesEnabled");
+        return context;
       }
 
       async _preparePartContext(partId, context, options) {
@@ -830,6 +893,32 @@ function registerSheets() {
           context.features?.forEach(fav);
         } else if (partId === "abilities") {
           for (const at of Object.values(context.abilities || {})) at.abilities?.forEach(fav);
+        } else if (partId === "favorites" && game.settings.get(MODULE_ID, "npcFavoritesEnabled")) {
+          const [abilities, features] = await Promise.all([
+            this._prepareAbilitiesContext(),
+            this._prepareFeaturesContext(),
+          ]);
+          const filterFav = (arr) => (Array.isArray(arr) ? arr.filter((c) => c?.item?.getFlag?.("draw-steel-plus", "favorite")) : []);
+          const filterAbilities = (obj) => {
+            const out = {};
+            for (const [k, v] of Object.entries(obj || {})) {
+              const kept = (v?.abilities || []).filter((a) => a?.item?.getFlag?.("draw-steel-plus", "favorite"));
+              if (kept.length) out[k] = { ...v, abilities: kept };
+            }
+            return out;
+          };
+          context.favAbilities = filterAbilities(abilities);
+          context.favFeatures = filterFav(features);
+          context.abilityFields = this.actor.itemTypes.ability[0]?.system?.constructor?.schema?.fields ?? {
+            resource: { label: game.i18n.localize("DRAW_STEEL.Item.ability.FIELDS.resource.label") },
+            distance: { label: game.i18n.localize("DRAW_STEEL.Item.ability.FIELDS.distance.label") },
+            target: { label: game.i18n.localize("DRAW_STEEL.Item.ability.FIELDS.target.label") },
+          };
+          context.featureFields = this.actor.itemTypes.feature[0]?.system?.constructor?.schema?.fields ?? {
+            type: { label: game.i18n.localize("DOCUMENT.FIELDS.type.label") },
+          };
+          const anyAbilities = Object.values(context.favAbilities || {}).some((at) => (at?.abilities?.length || 0) > 0);
+          context.hasFavorites = anyAbilities || (context.favFeatures?.length || 0) > 0;
         }
         return context;
       }

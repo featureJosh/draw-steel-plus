@@ -377,6 +377,11 @@
   line-height: 1.5;
 }
 
+.draw-steel-plus.sheet .document-description > * {
+  overflow: hidden;
+  min-height: 0;
+}
+
 .draw-steel-plus.sheet .document-description:not(.expanded) {
   padding: 0 10px;
   background-color: transparent;

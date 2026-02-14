@@ -32,7 +32,16 @@
           "hint": "Customize the header art for actor sheets.",
           "heroSection": "Hero Sheet",
           "npcSection": "NPC Sheet"
+        },
+        "npc": {
+          "name": "NPC Settings",
+          "label": "Configure NPCs",
+          "hint": "Customize NPC sheet options."
         }
+      },
+      "npcFavoritesEnabled": {
+        "name": "NPC Favorites Tab",
+        "hint": "Show a Favorites tab on NPC sheets. When disabled, NPCs cannot favorite items."
       },
       "resetDefaults": "Reset Defaults",
       "saveChanges": "Save Changes",
@@ -115,6 +124,7 @@
       "effect": "Effect"
     },
     "Favorites": {
+      "TabTitle": "Favorites",
       "Empty": "No favorites yet. Star items in other tabs to add them here.",
       "Unfavorite": "Remove from favorites",
       "Favorite": "Add to favorites"

@@ -28,7 +28,9 @@
         <div class="item-column item-type">{{localize typeLabel}}</div>
         <div class="item-column item-controls">
           <a class="fa-fw fa-solid fa-comment" data-action="documentListShare"></a>
+          {{#if @root.favoritesEnabled}}
           <a class="dsp-favorite-btn {{#if featureContext.isFavorited}}dsp-favorited{{/if}}" data-action="toggleFavorite" data-tooltip="{{#if featureContext.isFavorited}}DRAW_STEEL_PLUS.Favorites.Unfavorite{{else}}DRAW_STEEL_PLUS.Favorites.Favorite{{/if}}"><i class="fa-{{#if featureContext.isFavorited}}solid{{else}}regular{{/if}} fa-star"></i></a>
+          {{/if}}
           <a class="fa-fw fa-solid fa-ellipsis-vertical" data-action="documentListContext"></a>
           <a class="fa-fw fa-solid fa-angle-{{ifThen featureContext.expanded "down" "right"}}" data-action="toggleDocumentDescription"></a>
         </div>

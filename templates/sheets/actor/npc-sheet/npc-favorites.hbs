@@ -1,0 +1,105 @@
+<section class="tab favorites {{tab.cssClass}}" data-group="primary" data-tab="favorites">
+  <h2 class="dsp-tab-title"><i class="fa-solid fa-star"></i> {{localize "DRAW_STEEL_PLUS.Favorites.TabTitle"}}</h2>
+  {{#unless hasFavorites}}
+  <div class="dsp-favorites-empty">
+    <p>{{localize "DRAW_STEEL_PLUS.Favorites.Empty"}}</p>
+  </div>
+  {{else}}
+  {{#each favAbilities as |abilityType|}}
+  {{#if abilityType.showHeader}}
+  <section class="item-list-container">
+    <div class="item-header">
+      <div class="item-column item-name">{{abilityType.label}}</div>
+      {{#if (eq @key "villain")}}
+      <div class="item-column item-order">{{localize "DRAW_STEEL.Item.ability.Order"}}</div>
+      {{else}}
+      <div class="item-column item-cost">{{abilityFields.resource.label}}</div>
+      {{/if}}
+      <div class="item-column item-distance">{{abilityFields.distance.label}}</div>
+      <div class="item-column item-target">{{abilityFields.target.label}}</div>
+      <div class="item-column item-controls"></div>
+    </div>
+    <ol class="item-list abilities-list">
+      {{#each abilityType.abilities as |abilityContext|}}
+      <li class="item ability draggable expandable-document" data-document-uuid="{{abilityContext.item.uuid}}">
+        <div class="item-row">
+          <div class="item-column item-name item-tooltip">
+            <div class="item-image-wrapper" data-action="useAbility">
+              <img class="item-image" src="{{abilityContext.item.img}}" alt="{{abilityContext.item.name}}">
+            </div>
+            {{#if abilityContext.item.system.restricted}}
+            <div class="restricted-warning" data-tooltip="DRAW_STEEL.Item.ability.Restricted">
+              <i class="fa-solid fa-triangle-exclamation"></i>
+            </div>
+            {{/if}}
+            <div class="name" data-action="toggleDocumentDescription">
+              <div class="label">{{abilityContext.item.name}}</div>
+              <div class="keywords">{{abilityContext.formattedLabels.keywords}}</div>
+            </div>
+          </div>
+          {{#if (eq @../key "villain")}}
+          <div class="item-column item-order">{{abilityContext.order}}</div>
+          {{else}}
+          <div class="item-column item-cost">
+            {{#if abilityContext.item.system.resource}}
+            {{abilityContext.item.system.resource}} {{@root.system.coreResource.name}}
+            {{/if}}
+          </div>
+          {{/if}}
+          <div class="item-column item-distance">{{abilityContext.formattedLabels.distance}}</div>
+          <div class="item-column item-target">{{abilityContext.formattedLabels.target}}</div>
+          <div class="item-column item-controls">
+            <a class="fa-fw fa-solid fa-play" data-action="useAbility"></a>
+            <a class="fa-fw fa-solid fa-comment" data-action="documentListShare"></a>
+            <a class="dsp-favorite-btn dsp-favorited" data-action="toggleFavorite" data-tooltip="DRAW_STEEL_PLUS.Favorites.Unfavorite"><i class="fa-solid fa-star"></i></a>
+            <a class="fa-fw fa-solid fa-ellipsis-vertical" data-action="documentListContext"></a>
+            <a class="fa-fw fa-solid fa-angle-{{ifThen abilityContext.expanded "down" "right"}}" data-action="toggleDocumentDescription"></a>
+          </div>
+        </div>
+        <div class="document-description item-embed content-embed {{#if abilityContext.expanded}}expanded{{/if}}">
+          {{#if abilityContext.expanded}}{{{abilityContext.embed.outerHTML}}}{{/if}}
+        </div>
+      </li>
+      {{/each}}
+    </ol>
+  </section>
+  {{/if}}
+  {{/each}}
+
+  {{#if favFeatures.length}}
+  <section class="item-list-container feature-list-container">
+    <div class="item-header">
+      <div class="item-column item-name">{{localize "TYPES.Item.feature"}}</div>
+      <div class="item-column item-type">{{localize "DOCUMENT.FIELDS.type.label"}}</div>
+      <div class="item-column item-controls"></div>
+    </div>
+    <ol class="item-list feature-list">
+      {{#each favFeatures as |featureContext|}}
+      <li class="item feature draggable expandable-document" data-document-uuid="{{featureContext.item.uuid}}">
+        <div class="item-row">
+          <div class="item-column item-name item-tooltip">
+            <div class="item-image-wrapper chat-overlay" data-action="documentListShare">
+              <img class="item-image" src="{{featureContext.item.img}}" alt="{{featureContext.item.name}}">
+            </div>
+            <div class="name" data-action="toggleDocumentDescription">
+              <div class="label">{{featureContext.item.name}}</div>
+            </div>
+          </div>
+          <div class="item-column item-type">{{localize featureContext.typeLabel}}</div>
+          <div class="item-column item-controls">
+            <a class="fa-fw fa-solid fa-comment" data-action="documentListShare"></a>
+            <a class="dsp-favorite-btn dsp-favorited" data-action="toggleFavorite" data-tooltip="DRAW_STEEL_PLUS.Favorites.Unfavorite"><i class="fa-solid fa-star"></i></a>
+            <a class="fa-fw fa-solid fa-ellipsis-vertical" data-action="documentListContext"></a>
+            <a class="fa-fw fa-solid fa-angle-{{ifThen featureContext.expanded "down" "right"}}" data-action="toggleDocumentDescription"></a>
+          </div>
+        </div>
+        <div class="document-description item-embed {{#if featureContext.expanded}}expanded{{/if}}">
+          {{#if featureContext.expanded}}{{{featureContext.embed.outerHTML}}}{{/if}}
+        </div>
+      </li>
+      {{/each}}
+    </ol>
+  </section>
+  {{/if}}
+  {{/unless}}
+</section>
