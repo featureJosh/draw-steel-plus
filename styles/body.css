@@ -316,7 +316,7 @@
   background: rgba(200, 170, 110, 0.08);
 }
 
-.draw-steel-plus.sheet a[data-action="documentListContext"],
+/* .draw-steel-plus.sheet a[data-action="documentListContext"], */
 .draw-steel-plus.sheet a[data-action="toggleDocumentDescription"] {
   display: none;
 }
