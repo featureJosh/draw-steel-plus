@@ -140,3 +140,11 @@
   background-size: 512px 512px;
   mix-blend-mode: soft-light;
 }
+
+& span.potency {
+  font-family: "Draw Steel Glyphs";
+  font-size: var(--font-size-13);
+  text-transform: lowercase;
+  line-height: 0.9;
+  color: var(--dsp-accent);
+}

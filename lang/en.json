@@ -1,4 +1,11 @@
 {
+  "DRAW_STEEL": {
+    "Actor": {
+      "Tabs": {
+        "favorites": "Favorites"
+      }
+    }
+  },
   "DRAW_STEEL_PLUS": {
     "Sheet": {
       "Hero": "DS+ Hero Sheet",
@@ -106,6 +113,11 @@
       "hintPin": "Middle-click to pin",
       "hintUnpin": "Middle-click to unpin",
       "effect": "Effect"
+    },
+    "Favorites": {
+      "Empty": "No favorites yet. Star items in other tabs to add them here.",
+      "Unfavorite": "Remove from favorites",
+      "Favorite": "Add to favorites"
     },
     "MetaCurrency": {
       "heroTokens": "Hero Tokens",

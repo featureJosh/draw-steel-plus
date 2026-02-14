@@ -178,6 +178,50 @@ function _applyItemTooltips(element) {
 }
 
 const _sidebarCollapseState = new WeakMap();
+const _itemListCollapseState = new WeakMap();
+
+function setupItemListCollapse(element) {
+  let stateMap = _itemListCollapseState.get(element);
+  if (!stateMap) {
+    stateMap = {};
+    _itemListCollapseState.set(element, stateMap);
+  }
+
+  const seenKeys = {};
+  element.querySelectorAll(".item-list-container").forEach((container) => {
+    const header = container.querySelector(":scope > .item-header");
+    const list = container.querySelector(":scope > .item-list");
+    if (!header || !list) return;
+
+    const labelEl = header.querySelector(".item-column.item-name");
+    const baseKey = labelEl?.textContent?.trim() || "";
+    const key = baseKey in seenKeys ? `${baseKey}-${++seenKeys[baseKey]}` : (seenKeys[baseKey] = 1, baseKey);
+
+    if (stateMap[key]) container.classList.add("dsp-collapsed");
+
+    header.style.cursor = "pointer";
+    header.addEventListener("click", (e) => {
+      if (e.target.closest("a, button, input, select")) return;
+      const willExpand = container.classList.contains("dsp-collapsed");
+      if (willExpand) {
+        container.classList.remove("dsp-collapsed");
+        const h = list.scrollHeight;
+        list.style.maxHeight = `${h}px`;
+        container.classList.add("dsp-collapsed");
+        list.style.maxHeight = "";
+        void list.offsetHeight;
+        list.style.maxHeight = `${h}px`;
+        container.classList.remove("dsp-collapsed");
+        list.addEventListener("transitionend", () => {
+          list.style.maxHeight = "";
+        }, { once: true });
+      } else {
+        container.classList.add("dsp-collapsed");
+      }
+      stateMap[key] = container.classList.contains("dsp-collapsed");
+    });
+  });
+}
 
 function setupSidebarCollapse(element) {
   let stateMap = _sidebarCollapseState.get(element);
@@ -280,10 +324,8 @@ function applyStaminaPortraitTint(element, actor) {
   frame.style.setProperty("--dsp-stam-tint", tint.toFixed(3));
 
   if (tint > 0) {
-    const sepia = (tint * 0.8).toFixed(3);
-    const saturate = (1 + tint * 4).toFixed(3);
-    const brightness = (1 - tint * 0.25).toFixed(3);
-    img.style.filter = `sepia(${sepia}) saturate(${saturate}) hue-rotate(-10deg) brightness(${brightness})`;
+    const saturate = (1 - tint).toFixed(3);
+    img.style.filter = `saturate(${saturate})`;
   } else {
     img.style.filter = "";
   }
@@ -470,6 +512,13 @@ function registerSheets() {
         },
         actions: {
           ...super.DEFAULT_OPTIONS.actions,
+          toggleFavorite: async function(event, target) {
+            const li = target.closest("[data-document-uuid]");
+            if (!li) return;
+            const item = await fromUuid(li.dataset.documentUuid);
+            if (!item) return;
+            await item.setFlag("draw-steel-plus", "favorite", !item.getFlag("draw-steel-plus", "favorite"));
+          },
           documentListShare: async function(event, target) {
             const row = target.closest("[data-document-uuid]");
             if (!row) return;
@@ -508,6 +557,10 @@ function registerSheets() {
           ...(super.PARTS?.projects || {}),
           template: `${MODULE_PATH}/templates/sheets/actor/hero-sheet/projects.hbs`,
         },
+        favorites: {
+          template: `${MODULE_PATH}/templates/sheets/actor/hero-sheet/favorites.hbs`,
+          scrollable: [""],
+        },
         abilities: {
           ...(super.PARTS?.abilities || {}),
           template: `${MODULE_PATH}/templates/sheets/actor/shared/abilities.hbs`,
@@ -522,13 +575,117 @@ function registerSheets() {
         ...super.TABS,
         primary: {
           ...super.TABS?.primary,
-          tabs: super.TABS?.primary?.tabs?.filter(t => t.id !== "stats") || [],
+          tabs: [{ id: "favorites" }, ...(super.TABS?.primary?.tabs?.filter(t => t.id !== "stats") || [])],
           initial: "features",
         },
       };
 
+      _prepareTabs(group) {
+        const tabs = super._prepareTabs(group);
+        if (group === "primary" && tabs.favorites) {
+          const currentActive = this.element?.querySelector?.("a[data-tab].active")?.dataset?.tab;
+          const hasFavorites = this.actor.items.some((i) => i.getFlag("draw-steel-plus", "favorite"));
+          const defaultTab = hasFavorites ? "favorites" : "features";
+          const initialTab = (currentActive && tabs[currentActive]) ? currentActive : defaultTab;
+          for (const [tabId, tab] of Object.entries(tabs)) {
+            tab.active = tabId === initialTab;
+            tab.cssClass = tabId === initialTab ? "active" : "";
+          }
+        }
+        return tabs;
+      }
+
       get title() {
         return `${this.document.name} [DS+]`;
+      }
+
+      async _preparePartContext(partId, context, options) {
+        await super._preparePartContext(partId, context, options);
+        const fav = (ctx) => {
+          ctx.isFavorited = !!ctx?.item?.getFlag?.("draw-steel-plus", "favorite");
+          return ctx;
+        };
+        if (partId === "features") {
+          context.complications?.complications?.forEach(fav);
+          context.features?.forEach(fav);
+        } else if (partId === "abilities") {
+          for (const at of Object.values(context.abilities || {})) at.abilities?.forEach(fav);
+        } else if (partId === "equipment") {
+          context.kits?.forEach(fav);
+          for (const tt of Object.values(context.treasure || {})) tt.treasure?.forEach(fav);
+        } else if (partId === "projects") {
+          context.projects?.forEach(fav);
+        } else if (partId === "favorites") {
+          const [abilities, features, complications, kits, treasure, projects] = await Promise.all([
+            this._prepareAbilitiesContext(),
+            this._prepareFeaturesContext(),
+            this._prepareComplicationsContext(),
+            this._prepareKitsContext(),
+            this._prepareTreasureContext(),
+            this._prepareProjectsContext(),
+          ]);
+          const filterFav = (arr) => (Array.isArray(arr) ? arr.filter((c) => c?.item?.getFlag?.("draw-steel-plus", "favorite")) : []);
+          const filterAbilities = (obj) => {
+            const out = {};
+            for (const [k, v] of Object.entries(obj || {})) {
+              const kept = (v?.abilities || []).filter((a) => a?.item?.getFlag?.("draw-steel-plus", "favorite"));
+              if (kept.length) out[k] = { ...v, abilities: kept };
+            }
+            return out;
+          };
+          const filterTreasure = (obj) => {
+            const out = {};
+            for (const [k, v] of Object.entries(obj || {})) {
+              const kept = (v?.treasure || []).filter((t) => t?.item?.getFlag?.("draw-steel-plus", "favorite"));
+              if (kept.length) out[k] = { ...v, treasure: kept };
+            }
+            return out;
+          };
+          context.favAbilities = filterAbilities(abilities);
+          context.favFeatures = filterFav(features);
+          context.favComplications = (complications?.complications || []).filter((c) => c?.item?.getFlag?.("draw-steel-plus", "favorite"));
+          context.favComplicationsLabel = complications?.label;
+          context.favKits = filterFav(kits);
+          context.favTreasure = filterTreasure(treasure);
+          context.favProjects = filterFav(projects);
+          context.abilityFields = this.actor.itemTypes.ability[0]?.system?.constructor?.schema?.fields ?? {
+            resource: { label: game.i18n.localize("DRAW_STEEL.Item.ability.FIELDS.resource.label") },
+            distance: { label: game.i18n.localize("DRAW_STEEL.Item.ability.FIELDS.distance.label") },
+            target: { label: game.i18n.localize("DRAW_STEEL.Item.ability.FIELDS.target.label") },
+          };
+          const kit0 = this.actor.itemTypes.kit[0];
+          context.kitFields = kit0?.system?.constructor?.schema?.fields ?? {
+            bonuses: {
+              fields: {
+                melee: { fields: { damage: { label: game.i18n.localize("DRAW_STEEL.Item.kit.FIELDS.bonuses.melee.damage.label") } } },
+                ranged: { fields: { damage: { label: game.i18n.localize("DRAW_STEEL.Item.kit.FIELDS.bonuses.ranged.damage.label") } } },
+              },
+            },
+          };
+          const treas0 = this.actor.itemTypes.treasure[0];
+          context.treasureFields = treas0?.system?.constructor?.schema?.fields ?? {
+            echelon: { label: game.i18n.localize("DRAW_STEEL.Item.treasure.FIELDS.echelon.label") },
+            quantity: { label: game.i18n.localize("DRAW_STEEL.Item.treasure.FIELDS.quantity.label") },
+          };
+          const proj0 = this.actor.itemTypes.project[0];
+          context.projectFields = proj0?.system?.constructor?.schema?.fields ?? {
+            points: { label: game.i18n.localize("DRAW_STEEL.Item.project.FIELDS.points.label") },
+            type: { label: game.i18n.localize("DRAW_STEEL.Item.project.FIELDS.type.label") },
+          };
+          context.featureFields = this.actor.itemTypes.feature[0]?.system?.constructor?.schema?.fields ?? {
+            type: { label: game.i18n.localize("DOCUMENT.FIELDS.type.label") },
+          };
+          const anyAbilities = Object.values(context.favAbilities || {}).some((at) => (at?.abilities?.length || 0) > 0);
+          const anyTreasure = Object.values(context.favTreasure || {}).some((tt) => (tt?.treasure?.length || 0) > 0);
+          context.hasFavorites =
+            anyAbilities ||
+            (context.favFeatures?.length || 0) > 0 ||
+            (context.favComplications?.length || 0) > 0 ||
+            (context.favKits?.length || 0) > 0 ||
+            anyTreasure ||
+            (context.favProjects?.length || 0) > 0;
+        }
+        return context;
       }
 
       _getHeaderControls() {
@@ -559,6 +716,7 @@ function registerSheets() {
 
         applyStaminaPortraitTint(this.element, this.document);
         setupSidebarCollapse(this.element);
+        setupItemListCollapse(this.element);
         processSidebarTags(this.element);
         applyFloatingTabs(this);
         this.element.querySelectorAll(".item-tooltip").forEach(_applyItemTooltips);
@@ -594,6 +752,13 @@ function registerSheets() {
         },
         actions: {
           ...super.DEFAULT_OPTIONS.actions,
+          toggleFavorite: async function(event, target) {
+            const li = target.closest("[data-document-uuid]");
+            if (!li) return;
+            const item = await fromUuid(li.dataset.documentUuid);
+            if (!item) return;
+            await item.setFlag("draw-steel-plus", "favorite", !item.getFlag("draw-steel-plus", "favorite"));
+          },
           documentListShare: async function(event, target) {
             const row = target.closest("[data-document-uuid]");
             if (!row) return;
@@ -647,6 +812,20 @@ function registerSheets() {
         return `${this.document.name} [DS+]`;
       }
 
+      async _preparePartContext(partId, context, options) {
+        await super._preparePartContext(partId, context, options);
+        const fav = (ctx) => {
+          ctx.isFavorited = !!ctx?.item?.getFlag?.("draw-steel-plus", "favorite");
+          return ctx;
+        };
+        if (partId === "features") {
+          context.features?.forEach(fav);
+        } else if (partId === "abilities") {
+          for (const at of Object.values(context.abilities || {})) at.abilities?.forEach(fav);
+        }
+        return context;
+      }
+
       _getHeaderControls() {
         const controls = super._getHeaderControls();
         const seen = new Set();
@@ -675,6 +854,7 @@ function registerSheets() {
 
         applyStaminaPortraitTint(this.element, this.document);
         setupSidebarCollapse(this.element);
+        setupItemListCollapse(this.element);
         processSidebarTags(this.element);
         applyFloatingTabs(this);
         this.element.querySelectorAll(".item-tooltip").forEach(_applyItemTooltips);

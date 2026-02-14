@@ -22,8 +22,9 @@ export const SHEET_SIZE_DEFAULTS = {
 };
 
 export const FLOATING_TAB_ICONS = {
+  favorites: "fas fa-star",
   abilities: "fas fa-hand-fist",
-  features: "fas fa-star",
+  features: "fas fa-dumbbell",
   biography: "fas fa-book-open",
   effects: "fas fa-bolt",
   equipment: "fas fa-suitcase",

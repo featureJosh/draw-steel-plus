@@ -41,6 +41,8 @@
   display: flex;
   flex-direction: column;
   gap: 6px;
+  min-width: 0;
+  overflow: hidden;
 }
 
 :is(#tooltip, .locked-tooltip).dsp-tooltip .header .top {
@@ -132,7 +134,10 @@
 
 :is(#tooltip, .locked-tooltip).dsp-tooltip .description {
   max-height: 350px;
+  min-width: 0;
   overflow: hidden;
+  overflow-wrap: break-word;
+  word-break: break-word;
   scrollbar-width: thin;
   scrollbar-color: var(--dsp-accent) transparent;
   font-size: 0.8rem;
@@ -200,7 +205,10 @@
   line-height: 1.5;
   color: var(--dsp-text-light);
   max-height: 350px;
+  min-width: 0;
   overflow: hidden;
+  overflow-wrap: break-word;
+  word-break: break-word;
   scrollbar-width: thin;
   scrollbar-color: var(--dsp-accent) transparent;
 }
@@ -244,7 +252,7 @@
 
 :is(#tooltip, .locked-tooltip).dsp-tooltip .ability-details .power-roll-display {
   display: grid;
-  grid-template-columns: auto 1fr;
+  grid-template-columns: auto minmax(0, 1fr);
   gap: 2px 8px;
   margin: 0;
   padding: 0;
@@ -258,6 +266,7 @@
 
 :is(#tooltip, .locked-tooltip).dsp-tooltip .ability-details .power-roll-display dd {
   margin: 0;
+  min-width: 0;
   color: var(--dsp-text-light);
 }
 
@@ -274,7 +283,7 @@
 :is(#tooltip, .locked-tooltip).dsp-tooltip .ability-details .effect dl {
   margin: 0;
   display: grid;
-  grid-template-columns: auto 1fr;
+  grid-template-columns: auto minmax(0, 1fr);
   gap: 2px 8px;
   font-size: 0.75rem;
 }
@@ -288,6 +297,7 @@
 
 :is(#tooltip, .locked-tooltip).dsp-tooltip .ability-details .effect dd {
   margin: 0;
+  min-width: 0;
   color: var(--dsp-text-light);
 }
 

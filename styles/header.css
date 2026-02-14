@@ -91,6 +91,7 @@
   inset: 0;
   border-radius: var(--dsp-radius-md);
   box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.7);
+  background: rgb(140 30 30 / calc(var(--dsp-stam-tint, 0) * 0.55));
   pointer-events: none;
   z-index: 1;
 }
@@ -115,7 +116,7 @@
 
 .draw-steel-plus.sheet .sheet-header .portrait-frame.dsp-dead .profile-img {
   border-color: var(--dsp-danger);
-  filter: sepia(0.8) saturate(5) hue-rotate(-10deg) brightness(0.55) !important;
+  filter: saturate(0) brightness(0.8) !important;
 }
 
 .draw-steel-plus.sheet .sheet-header .portrait-frame.dsp-dead::after {

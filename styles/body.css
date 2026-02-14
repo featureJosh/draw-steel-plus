@@ -65,7 +65,7 @@
   border-radius: var(--dsp-radius-md);
 }
 
-.draw-steel-plus.sheet .item-header {
+.draw-steel-plus.sheet .item-list-container .item-header {
   position: static;
   display: flex;
   align-items: center;
@@ -73,9 +73,47 @@
   background: rgba(0, 0, 0, 0.3);
   border-bottom: 1px solid var(--dsp-border);
   gap: 8px;
+  transition: border-color 0.35s ease-out;
 }
 
-.draw-steel-plus.sheet .item-header .item-column {
+.draw-steel-plus.sheet .item-list-container.dsp-collapsed .item-header {
+  border-bottom-color: transparent;
+  transition: border-color 0.35s ease-out 0.35s;
+}
+
+.draw-steel-plus.sheet .item-list-container .item-header::after {
+  content: "\f078";
+  font-family: "Font Awesome 6 Pro";
+  font-weight: 900;
+  font-size: 0.5rem;
+  color: var(--dsp-text-faint);
+  margin-left: auto;
+  transition: transform var(--dsp-transition), color var(--dsp-transition);
+  flex-shrink: 0;
+}
+
+.draw-steel-plus.sheet .item-list-container .item-header:hover::after {
+  color: var(--dsp-accent);
+}
+
+.draw-steel-plus.sheet .item-list-container.dsp-collapsed .item-header::after {
+  transform: rotate(-90deg);
+}
+
+.draw-steel-plus.sheet .item-list-container .item-list {
+  overflow: hidden;
+  transition: max-height 0.35s ease-out;
+}
+
+.draw-steel-plus.sheet .item-list-container:not(.dsp-collapsed) .item-list {
+  max-height: 3000px;
+}
+
+.draw-steel-plus.sheet .item-list-container.dsp-collapsed .item-list {
+  max-height: 0;
+}
+
+.draw-steel-plus.sheet .item-list-container .item-header .item-column {
   font-size: 0.6rem;
   font-weight: 700;
   text-transform: uppercase;
@@ -83,11 +121,11 @@
   color: var(--dsp-text-faint);
 }
 
-.draw-steel-plus.sheet .item-header .item-name {
+.draw-steel-plus.sheet .item-list-container .item-header .item-name {
   flex: 1;
 }
 
-.draw-steel-plus.sheet .item-header .item-controls {
+.draw-steel-plus.sheet .item-list-container .item-header .item-controls {
   display: flex;
   align-items: center;
   justify-content: flex-end;
@@ -95,7 +133,7 @@
   flex-shrink: 0;
 }
 
-.draw-steel-plus.sheet .item-header .item-controls a {
+.draw-steel-plus.sheet .item-list-container .item-header .item-controls a {
   color: var(--dsp-text-faint);
   text-decoration: none;
   font-size: 0.7rem;
@@ -104,7 +142,7 @@
   transition: color var(--dsp-transition), background var(--dsp-transition);
 }
 
-.draw-steel-plus.sheet .item-header .item-controls a:hover {
+.draw-steel-plus.sheet .item-list-container .item-header .item-controls a:hover {
   color: var(--dsp-accent);
   background: rgba(200, 170, 110, 0.08);
 }
@@ -278,12 +316,58 @@
   background: rgba(200, 170, 110, 0.08);
 }
 
-.draw-steel-plus.sheet .document-description.expanded {
-  padding: 8px 10px 10px;
-  background: rgba(0, 0, 0, 0.2);
-  border-top: 1px solid var(--dsp-border);
+.draw-steel-plus.sheet a[data-action="documentListContext"],
+.draw-steel-plus.sheet a[data-action="toggleDocumentDescription"] {
+  display: none;
+}
+
+.draw-steel-plus.sheet .dsp-favorite-btn {
+  cursor: pointer;
+  transition: opacity var(--dsp-transition), color var(--dsp-transition);
+  opacity: 0.6;
+}
+
+.draw-steel-plus.sheet .dsp-favorite-btn:hover {
+  opacity: 1;
+}
+
+.draw-steel-plus.sheet .dsp-favorite-btn.dsp-favorited {
+  color: #f5a623;
+  opacity: 1;
+}
+
+.draw-steel-plus.sheet .dsp-favorites-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  color: var(--dsp-text-faint);
+  text-align: center;
+}
+
+.draw-steel-plus.sheet .dsp-favorites-empty p {
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.draw-steel-plus.sheet .document-description {
+  transition: grid-template-rows 0.35s ease-out, padding 0.35s ease-out, background-color 0.35s ease-out, border-color 0.35s ease-out, color 0.35s ease-out;
+  border-top: 1px solid transparent;
   font-size: 0.8rem;
   line-height: 1.5;
+}
+
+.draw-steel-plus.sheet .document-description:not(.expanded) {
+  padding: 0 10px;
+  background-color: transparent;
+  border-top-color: transparent;
+  color: transparent;
+}
+
+.draw-steel-plus.sheet .document-description.expanded {
+  padding: 8px 10px 10px;
+  background-color: rgba(0, 0, 0, 0.2);
+  border-top-color: var(--dsp-border);
   color: var(--dsp-text-light);
 }
 
@@ -680,12 +764,24 @@
   background: rgba(200, 170, 110, 0.08);
 }
 
-.draw-steel-plus.sheet .effect-description.expanded {
-  padding: 8px 10px 10px;
-  background: rgba(0, 0, 0, 0.2);
-  border-top: 1px solid var(--dsp-border);
+.draw-steel-plus.sheet .effect-description {
+  transition: grid-template-rows 0.35s ease-out, padding 0.35s ease-out, background-color 0.35s ease-out, border-color 0.35s ease-out, color 0.35s ease-out;
+  border-top: 1px solid transparent;
   font-size: 0.8rem;
   line-height: 1.5;
+}
+
+.draw-steel-plus.sheet .effect-description:not(.expanded) {
+  padding: 0 10px;
+  background-color: transparent;
+  border-top-color: transparent;
+  color: transparent;
+}
+
+.draw-steel-plus.sheet .effect-description.expanded {
+  padding: 8px 10px 10px;
+  background-color: rgba(0, 0, 0, 0.2);
+  border-top-color: var(--dsp-border);
   color: var(--dsp-text-light);
 }
 
