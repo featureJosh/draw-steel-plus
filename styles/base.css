@@ -32,6 +32,8 @@
   --dsp-scrollbar-thumb: transparent;
   --dsp-scrollbar-thumb-hover: var(--dsp-border-light);
   --dsp-scrollbar-thumb-active: var(--dsp-primary-light);
+
+  --dsp-heading-font: "Modesto Text Condensed", "Modesto Condensed", "Palatino Linotype", "Book Antiqua", Georgia, serif;
 }
 
 .draw-steel-plus.sheet .window-content,

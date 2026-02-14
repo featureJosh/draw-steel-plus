@@ -13,17 +13,18 @@
 }
 
 .draw-steel-plus.sheet .dsp-tab-title {
-  font-size: 0.85rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--dsp-text-light);
-  margin: 0;
-  padding: 0 0 6px 0;
-  border-bottom: 1px solid var(--dsp-border);
-  display: flex;
-  align-items: center;
-  gap: 6px;
+	font-family: var(--dsp-heading-font);
+	font-size: 1rem;
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: 0.08em;
+	color: var(--dsp-text-light);
+	margin: 0;
+	padding: .25em 0 .5em 0;
+	border-bottom: 1px solid var(--dsp-border);
+	display: flex;
+	align-items: center;
+	gap: 6px;
 }
 
 .draw-steel-plus.sheet .dsp-tab-title i {

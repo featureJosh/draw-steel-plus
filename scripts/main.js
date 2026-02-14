@@ -557,6 +557,10 @@ function registerSheets() {
           ...(super.PARTS?.projects || {}),
           template: `${MODULE_PATH}/templates/sheets/actor/hero-sheet/projects.hbs`,
         },
+        biography: {
+          ...(super.PARTS?.biography || {}),
+          template: `${MODULE_PATH}/templates/sheets/actor/hero-sheet/biography.hbs`,
+        },
         favorites: {
           template: `${MODULE_PATH}/templates/sheets/actor/hero-sheet/favorites.hbs`,
           scrollable: [""],
@@ -792,6 +796,10 @@ function registerSheets() {
         abilities: {
           ...(super.PARTS?.abilities || {}),
           template: `${MODULE_PATH}/templates/sheets/actor/shared/abilities.hbs`,
+        },
+        biography: {
+          ...(super.PARTS?.biography || {}),
+          template: `${MODULE_PATH}/templates/sheets/actor/npc/biography.hbs`,
         },
         effects: {
           ...(super.PARTS?.effects || {}),
