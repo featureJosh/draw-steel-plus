@@ -97,16 +97,17 @@
 }
 
 .draw-steel-plus.sheet .sheet-header .portrait-frame .profile-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border: 2px solid var(--dsp-accent);
-  border-radius: var(--dsp-radius-md);
-  cursor: pointer;
-  transition: border-color var(--dsp-transition), box-shadow var(--dsp-transition), transform var(--dsp-transition);
-  display: block;
-  margin: 0;
-  padding: 0;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	border: 2px solid var(--dsp-accent);
+	border-radius: var(--dsp-radius-md);
+	cursor: pointer;
+	transition: border-color var(--dsp-transition), box-shadow var(--dsp-transition), transform var(--dsp-transition);
+	display: block;
+	margin: 0;
+	padding: 0;
+	max-height: 100%;
 }
 
 .draw-steel-plus.sheet .sheet-header .portrait-frame .profile-img:hover {

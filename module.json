@@ -22,7 +22,7 @@
         "id": "draw-steel",
         "type": "system",
         "compatibility": {
-          "minimum": "0.8.0"
+          "minimum": "0.9.0"
         }
       }
     ]

@@ -27,24 +27,24 @@
 }
 
 .dsp-floating-tabs > .dsp-float-tab {
-  --dsp-tab-full: 44px;
-  --dsp-tab-inactive: 38px;
-  width: var(--dsp-tab-full);
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  padding-right: 12px;
-  background: var(--dsp-background);
-  color: var(--dsp-accent);
-  border: 1px solid transparent;
-  border-radius: 0 8px 8px 0;
-  margin-left: calc((var(--dsp-tab-full) - var(--dsp-tab-inactive)) * -1);
-  transition: all 250ms ease;
-  cursor: pointer;
-  text-decoration: none;
-  position: relative;
-  flex: none;
+	--dsp-tab-full: 44px;
+	--dsp-tab-inactive: 38px;
+	width: var(--dsp-tab-full);
+	height: 40px;
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+	padding-right: 12px;
+	background: var(--dsp-background);
+	color: var(--dsp-accent);
+	border: 1px solid var(--color-border);
+	border-radius: 0 8px 8px 0;
+	margin-left: calc((var(--dsp-tab-full) - var(--dsp-tab-inactive)) * -1);
+	transition: all 250ms ease;
+	cursor: pointer;
+	text-decoration: none;
+	position: relative;
+	flex: none;
 }
 
 .dsp-floating-tabs > .dsp-float-tab i {
@@ -52,13 +52,16 @@
   margin: 0;
 }
 
-.dsp-floating-tabs > .dsp-float-tab.active,
-.dsp-floating-tabs > .dsp-float-tab:hover {
-  border-color: var(--dsp-accent);
-  box-shadow: 0 0 6px var(--dsp-accent-dim);
-  margin-left: 0;
-  text-shadow: none;
-  border-left: none;
+.draw-steel-plus.sheet .dsp-floating-tabs > 
+.dsp-float-tab.active, .draw-steel-plus.sheet .dsp-floating-tabs > 
+.dsp-float-tab:hover {
+	border-color: var(--dsp-accent);
+	box-shadow: unset;
+	margin-left: 0;
+	text-shadow: none;
+	color: var(--dsp-accent);
+	border: 1px solid var(--color-border);
+	border-left: none;
 }
 
 .dsp-floating-tabs > .dsp-float-tab.active {
