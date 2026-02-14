@@ -12,6 +12,25 @@
   flex: 1;
 }
 
+.draw-steel-plus.sheet .dsp-tab-title {
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--dsp-text-light);
+  margin: 0;
+  padding: 0 0 6px 0;
+  border-bottom: 1px solid var(--dsp-border);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.draw-steel-plus.sheet .dsp-tab-title i {
+  font-size: 0.75rem;
+  color: var(--dsp-accent);
+}
+
 .draw-steel-plus.sheet fieldset {
   border: 1px solid var(--dsp-border);
   border-radius: var(--dsp-radius-md);
