@@ -118,6 +118,7 @@
       "resource": "Resource",
       "distance": "Distance",
       "target": "Target",
+      "trigger": "Trigger",
       "keywords": "Keywords",
       "hintPin": "Middle-click to pin",
       "hintUnpin": "Middle-click to unpin",
