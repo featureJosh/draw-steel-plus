@@ -15,4 +15,5 @@ Quick Expand & Quick Send
 ![Quick Expand & Quick Send](https://github.com/user-attachments/assets/221de3f1-b0e9-4d57-94da-25255b2e777e)
 
 Favorites
+
 ![Favorites Tab](https://github.com/user-attachments/assets/ef49c024-e11b-4804-a934-d9310bad520f)
