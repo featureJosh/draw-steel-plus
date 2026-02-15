@@ -1,0 +1,755 @@
+body.dsp-improved-chat .chat-sidebar,
+body.dsp-improved-chat #chat-notifications,
+body.dsp-improved-chat .chat-popout {
+  --dsp-primary: #7a1b1b;
+  --dsp-primary-light: #a82828;
+  --dsp-primary-dark: #4a0e0e;
+  --dsp-primary-glow: rgba(168, 40, 40, 0.3);
+  --dsp-accent: #c8aa6e;
+  --dsp-accent-bright: #ddc088;
+  --dsp-accent-dim: rgba(200, 170, 110, 0.15);
+  --dsp-background: #0d0d0d;
+  --dsp-surface: #141414;
+  --dsp-surface-raised: #1c1c1c;
+  --dsp-text: #e8e0d4;
+  --dsp-text-light: #9a8e80;
+  --dsp-text-faint: #5a5248;
+  --dsp-border: #252020;
+  --dsp-border-light: #3a302a;
+  --dsp-shadow: rgba(0, 0, 0, 0.5);
+  --dsp-danger: #e05555;
+  --dsp-radius-sm: 4px;
+  --dsp-radius-md: 6px;
+  --dsp-fast: 0.15s ease;
+  --dsp-transition: 0.25s ease;
+}
+
+body.dsp-improved-chat .chat-sidebar .chat-message,
+body.dsp-improved-chat #chat-notifications .chat-message,
+body.dsp-improved-chat .chat-popout .chat-message {
+  background: var(--dsp-surface);
+  border: 1px solid var(--dsp-border);
+  border-radius: var(--dsp-radius-md);
+  box-shadow: 0 1px 4px var(--dsp-shadow);
+  color: var(--dsp-text);
+  margin-bottom: 6px;
+  padding: 0;
+  overflow: hidden;
+  transition: border-color var(--dsp-transition);
+}
+
+body.dsp-improved-chat .chat-sidebar .chat-message:hover,
+body.dsp-improved-chat #chat-notifications .chat-message:hover,
+body.dsp-improved-chat .chat-popout .chat-message:hover {
+  border-color: var(--dsp-border-light);
+}
+
+body.dsp-improved-chat .chat-sidebar .chat-message.whisper,
+body.dsp-improved-chat #chat-notifications .chat-message.whisper,
+body.dsp-improved-chat .chat-popout .chat-message.whisper {
+  border-left: 3px solid var(--dsp-primary-light);
+}
+
+body.dsp-improved-chat .chat-sidebar .chat-message.blind,
+body.dsp-improved-chat #chat-notifications .chat-message.blind,
+body.dsp-improved-chat .chat-popout .chat-message.blind {
+  border-left: 3px solid #3a3a6e;
+}
+
+body.dsp-improved-chat .chat-sidebar .message-header,
+body.dsp-improved-chat #chat-notifications .message-header,
+body.dsp-improved-chat .chat-popout .message-header {
+  border: none;
+  padding: 8px 10px 6px;
+  margin: 0;
+  background: rgba(0, 0, 0, 0.15);
+  border-bottom: 1px solid var(--dsp-border);
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+body.dsp-improved-chat .chat-sidebar .message-sender,
+body.dsp-improved-chat #chat-notifications .message-sender,
+body.dsp-improved-chat .chat-popout .message-sender {
+  color: var(--dsp-accent);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+body.dsp-improved-chat .chat-sidebar .message-metadata,
+body.dsp-improved-chat #chat-notifications .message-metadata,
+body.dsp-improved-chat .chat-popout .message-metadata {
+  color: var(--dsp-text-faint);
+  font-size: 0.7rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+body.dsp-improved-chat .chat-sidebar .message-timestamp,
+body.dsp-improved-chat #chat-notifications .message-timestamp,
+body.dsp-improved-chat .chat-popout .message-timestamp {
+  color: var(--dsp-text-faint);
+  font-size: 0.7rem;
+}
+
+body.dsp-improved-chat .chat-sidebar .message-delete,
+body.dsp-improved-chat #chat-notifications .message-delete,
+body.dsp-improved-chat .chat-popout .message-delete {
+  color: var(--dsp-text-faint);
+  opacity: 0;
+  transition: opacity var(--dsp-fast), color var(--dsp-fast);
+  font-size: 0.6rem;
+}
+
+body.dsp-improved-chat .chat-sidebar .chat-message:hover .message-delete,
+body.dsp-improved-chat #chat-notifications .chat-message:hover .message-delete,
+body.dsp-improved-chat .chat-popout .chat-message:hover .message-delete {
+  opacity: 0.6;
+}
+
+body.dsp-improved-chat .chat-sidebar .message-delete:hover,
+body.dsp-improved-chat #chat-notifications .message-delete:hover,
+body.dsp-improved-chat .chat-popout .message-delete:hover {
+  color: var(--dsp-danger);
+  opacity: 1;
+}
+
+body.dsp-improved-chat .chat-sidebar .message-dismiss,
+body.dsp-improved-chat #chat-notifications .message-dismiss,
+body.dsp-improved-chat .chat-popout .message-dismiss {
+  color: var(--dsp-text-faint);
+  opacity: 0;
+  transition: opacity var(--dsp-fast), color var(--dsp-fast);
+  font-size: 0.6rem;
+}
+
+body.dsp-improved-chat .chat-sidebar .chat-message:hover .message-dismiss,
+body.dsp-improved-chat #chat-notifications .chat-message:hover .message-dismiss,
+body.dsp-improved-chat .chat-popout .chat-message:hover .message-dismiss {
+  opacity: 0.6;
+}
+
+body.dsp-improved-chat .chat-sidebar .message-dismiss:hover,
+body.dsp-improved-chat #chat-notifications .message-dismiss:hover,
+body.dsp-improved-chat .chat-popout .message-dismiss:hover {
+  color: var(--dsp-accent);
+  opacity: 1;
+}
+
+body.dsp-improved-chat .chat-sidebar .whisper-to,
+body.dsp-improved-chat #chat-notifications .whisper-to,
+body.dsp-improved-chat .chat-popout .whisper-to {
+  color: var(--dsp-primary-light);
+  font-size: 0.72rem;
+  font-style: italic;
+  flex-basis: 100%;
+}
+
+body.dsp-improved-chat .chat-sidebar .chat-message > section,
+body.dsp-improved-chat #chat-notifications .chat-message > section,
+body.dsp-improved-chat .chat-popout .chat-message > section {
+  padding: 8px 10px;
+}
+
+body.dsp-improved-chat .chat-sidebar .chat-message.draw-steel > section:not(:last-of-type),
+body.dsp-improved-chat #chat-notifications .chat-message.draw-steel > section:not(:last-of-type),
+body.dsp-improved-chat .chat-popout .chat-message.draw-steel > section:not(:last-of-type) {
+  border-bottom: 1px solid var(--dsp-border);
+}
+
+body.dsp-improved-chat .chat-sidebar .message-content,
+body.dsp-improved-chat #chat-notifications .message-content,
+body.dsp-improved-chat .chat-popout .message-content {
+  color: var(--dsp-text);
+  font-size: 0.9rem;
+  line-height: 1.5;
+  padding: 8px 10px;
+}
+
+body.dsp-improved-chat .chat-sidebar .message-part-flavor,
+body.dsp-improved-chat #chat-notifications .message-part-flavor,
+body.dsp-improved-chat .chat-popout .message-part-flavor {
+  color: var(--dsp-text-light);
+  font-style: italic;
+  font-size: 0.82rem;
+  margin-bottom: 4px;
+}
+
+body.dsp-improved-chat .chat-sidebar .message-part-html,
+body.dsp-improved-chat #chat-notifications .message-part-html,
+body.dsp-improved-chat .chat-popout .message-part-html {
+  color: var(--dsp-text);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+body.dsp-improved-chat .chat-sidebar document-embed.ability,
+body.dsp-improved-chat #chat-notifications document-embed.ability,
+body.dsp-improved-chat .chat-popout document-embed.ability {
+  color: var(--dsp-text);
+  display: block;
+}
+
+body.dsp-improved-chat .chat-sidebar document-embed.ability h5,
+body.dsp-improved-chat #chat-notifications document-embed.ability h5,
+body.dsp-improved-chat .chat-popout document-embed.ability h5 {
+  color: var(--dsp-text);
+  font-size: 0.98rem;
+  font-weight: 700;
+  margin: 0 0 4px;
+  padding: 0;
+  border: none;
+}
+
+body.dsp-improved-chat .chat-sidebar document-embed.ability .metadata,
+body.dsp-improved-chat #chat-notifications document-embed.ability .metadata,
+body.dsp-improved-chat .chat-popout document-embed.ability .metadata {
+  margin: 0 0 2px;
+  font-size: 0.8rem;
+}
+
+body.dsp-improved-chat .chat-sidebar document-embed.ability .metadata dl,
+body.dsp-improved-chat #chat-notifications document-embed.ability .metadata dl,
+body.dsp-improved-chat .chat-popout document-embed.ability .metadata dl {
+  display: grid;
+  grid-template-columns: auto 1fr auto 1fr;
+  gap: 1px 8px;
+  margin: 0;
+  align-items: baseline;
+}
+
+body.dsp-improved-chat .chat-sidebar document-embed.ability .metadata dt,
+body.dsp-improved-chat #chat-notifications document-embed.ability .metadata dt,
+body.dsp-improved-chat .chat-popout document-embed.ability .metadata dt {
+  color: var(--dsp-text-faint);
+  font-size: 0.72rem;
+  font-weight: 600;
+}
+
+body.dsp-improved-chat .chat-sidebar document-embed.ability .metadata dd,
+body.dsp-improved-chat #chat-notifications document-embed.ability .metadata dd,
+body.dsp-improved-chat .chat-popout document-embed.ability .metadata dd {
+  color: var(--dsp-text-light);
+  font-size: 0.8rem;
+  margin: 0;
+}
+
+body.dsp-improved-chat .chat-sidebar document-embed.ability .metadata dt.keywords,
+body.dsp-improved-chat #chat-notifications document-embed.ability .metadata dt.keywords,
+body.dsp-improved-chat .chat-popout document-embed.ability .metadata dt.keywords {
+  display: none;
+}
+
+body.dsp-improved-chat .chat-sidebar document-embed.ability .metadata dd.keywords,
+body.dsp-improved-chat #chat-notifications document-embed.ability .metadata dd.keywords,
+body.dsp-improved-chat .chat-popout document-embed.ability .metadata dd.keywords {
+  grid-column: 1 / -1;
+  color: var(--dsp-text-faint);
+  font-size: 0.75rem;
+  font-style: italic;
+  margin-bottom: 2px;
+}
+
+body.dsp-improved-chat .chat-sidebar document-embed.ability .metadata .resource,
+body.dsp-improved-chat #chat-notifications document-embed.ability .metadata .resource,
+body.dsp-improved-chat .chat-popout document-embed.ability .metadata .resource {
+  color: var(--dsp-accent);
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin: 0 0 4px;
+}
+
+body.dsp-improved-chat .chat-sidebar document-embed.ability .powerResult,
+body.dsp-improved-chat #chat-notifications document-embed.ability .powerResult,
+body.dsp-improved-chat .chat-popout document-embed.ability .powerResult {
+  font-size: 0.85rem;
+}
+
+body.dsp-improved-chat .chat-sidebar document-embed.ability .powerResult > p,
+body.dsp-improved-chat #chat-notifications document-embed.ability .powerResult > p,
+body.dsp-improved-chat .chat-popout document-embed.ability .powerResult > p {
+  margin: 0 0 4px;
+  font-size: 0.8rem;
+  color: var(--dsp-text-light);
+}
+
+body.dsp-improved-chat .chat-sidebar document-embed.ability .spend,
+body.dsp-improved-chat #chat-notifications document-embed.ability .spend,
+body.dsp-improved-chat .chat-popout document-embed.ability .spend {
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+
+body.dsp-improved-chat .chat-sidebar document-embed.ability .spend dt,
+body.dsp-improved-chat #chat-notifications document-embed.ability .spend dt,
+body.dsp-improved-chat .chat-popout document-embed.ability .spend dt {
+  display: none;
+}
+
+body.dsp-improved-chat .chat-sidebar document-embed.ability .spend dd,
+body.dsp-improved-chat #chat-notifications document-embed.ability .spend dd,
+body.dsp-improved-chat .chat-popout document-embed.ability .spend dd {
+  color: var(--dsp-text-light);
+  margin: 0;
+}
+
+body.dsp-improved-chat .chat-sidebar document-embed.ability .effect,
+body.dsp-improved-chat #chat-notifications document-embed.ability .effect,
+body.dsp-improved-chat .chat-popout document-embed.ability .effect {
+  font-size: 0.85rem;
+}
+
+body.dsp-improved-chat .chat-sidebar document-embed.ability .effect dt,
+body.dsp-improved-chat #chat-notifications document-embed.ability .effect dt,
+body.dsp-improved-chat .chat-popout document-embed.ability .effect dt {
+  display: none;
+}
+
+body.dsp-improved-chat .chat-sidebar document-embed.ability .effect dd,
+body.dsp-improved-chat #chat-notifications document-embed.ability .effect dd,
+body.dsp-improved-chat .chat-popout document-embed.ability .effect dd {
+  color: var(--dsp-text-light);
+  margin: 0;
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+
+body.dsp-improved-chat .chat-sidebar .power-roll-display,
+body.dsp-improved-chat #chat-notifications .power-roll-display,
+body.dsp-improved-chat .chat-popout .power-roll-display {
+  gap: 2px 6px;
+  margin: 0;
+  padding: 0;
+}
+
+body.dsp-improved-chat .chat-sidebar .power-roll-display dt,
+body.dsp-improved-chat #chat-notifications .power-roll-display dt,
+body.dsp-improved-chat .chat-popout .power-roll-display dt {
+  font-family: "Draw Steel Glyphs", serif;
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: var(--dsp-accent);
+  line-height: 1;
+}
+
+body.dsp-improved-chat .chat-sidebar .power-roll-display dd,
+body.dsp-improved-chat #chat-notifications .power-roll-display dd,
+body.dsp-improved-chat .chat-popout .power-roll-display dd {
+  color: var(--dsp-text);
+  margin: 0;
+  font-size: 0.85rem;
+  line-height: 1.4;
+}
+
+body.dsp-improved-chat .chat-sidebar .dsp-collapsible-section,
+body.dsp-improved-chat #chat-notifications .dsp-collapsible-section,
+body.dsp-improved-chat .chat-popout .dsp-collapsible-section {
+  margin-top: 4px;
+}
+
+body.dsp-improved-chat .chat-sidebar .dsp-section-toggle, 
+body.dsp-improved-chat #chat-notifications .dsp-section-toggle,
+body.dsp-improved-chat .chat-popout .dsp-section-toggle {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+  padding: 4px 8px;
+  margin: 5px 0px;
+  color: var(--dsp-text-faint);
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  user-select: none;
+  border-radius: var(--dsp-radius-sm);
+  transition: color var(--dsp-fast), background var(--dsp-fast);
+  background: rgba(0, 0, 0, 0.1);
+  border: 1px solid transparent;
+}
+
+body.dsp-improved-chat .chat-sidebar .dsp-section-toggle:hover,
+body.dsp-improved-chat #chat-notifications .dsp-section-toggle:hover,
+body.dsp-improved-chat .chat-popout .dsp-section-toggle:hover {
+  color: var(--dsp-accent);
+  background: rgba(200, 170, 110, 0.06);
+  border-color: rgba(200, 170, 110, 0.1);
+}
+
+body.dsp-improved-chat .chat-sidebar .dsp-section-toggle .dsp-chevron,
+body.dsp-improved-chat #chat-notifications .dsp-section-toggle .dsp-chevron,
+body.dsp-improved-chat .chat-popout .dsp-section-toggle .dsp-chevron {
+  font-size: 0.5rem;
+  width: 8px;
+  text-align: center;
+  transition: transform var(--dsp-fast);
+}
+
+body.dsp-improved-chat .chat-sidebar .dsp-section-content,
+body.dsp-improved-chat #chat-notifications .dsp-section-content,
+body.dsp-improved-chat .chat-popout .dsp-section-content {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+body.dsp-improved-chat .chat-sidebar .dsp-collapsed .dsp-section-content,
+body.dsp-improved-chat #chat-notifications .dsp-collapsed .dsp-section-content,
+body.dsp-improved-chat .chat-popout .dsp-collapsed .dsp-section-content {
+  display: none;
+}
+
+body.dsp-improved-chat .chat-sidebar .message-part-header,
+body.dsp-improved-chat #chat-notifications .message-part-header,
+body.dsp-improved-chat .chat-popout .message-part-header {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 2px;
+}
+
+body.dsp-improved-chat .chat-sidebar .message-part-header a,
+body.dsp-improved-chat #chat-notifications .message-part-header a,
+body.dsp-improved-chat .chat-popout .message-part-header a {
+  color: var(--dsp-text-faint);
+  font-size: 0.78rem;
+  opacity: 0.4;
+  transition: opacity var(--dsp-fast), color var(--dsp-fast);
+}
+
+body.dsp-improved-chat .chat-sidebar .message-part-header a:hover,
+body.dsp-improved-chat #chat-notifications .message-part-header a:hover,
+body.dsp-improved-chat .chat-popout .message-part-header a:hover {
+  opacity: 1;
+  color: var(--dsp-accent);
+}
+
+body.dsp-improved-chat .chat-sidebar .dice-roll,
+body.dsp-improved-chat #chat-notifications .dice-roll,
+body.dsp-improved-chat .chat-popout .dice-roll {
+  background: rgba(0, 0, 0, 0.15);
+  border: 1px solid var(--dsp-border);
+  border-radius: var(--dsp-radius-sm);
+  padding: 6px 8px;
+  margin-bottom: 4px;
+}
+
+body.dsp-improved-chat .chat-sidebar .dice-roll .tier,
+body.dsp-improved-chat #chat-notifications .dice-roll .tier,
+body.dsp-improved-chat .chat-popout .dice-roll .tier {
+  color: var(--dsp-accent);
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 2px;
+}
+
+body.dsp-improved-chat .chat-sidebar .dice-roll .dice-flavor,
+body.dsp-improved-chat #chat-notifications .dice-roll .dice-flavor,
+body.dsp-improved-chat .chat-popout .dice-roll .dice-flavor {
+  color: var(--dsp-text-light);
+  font-size: 0.76rem;
+  font-style: italic;
+  margin-bottom: 3px;
+}
+
+body.dsp-improved-chat .chat-sidebar .dice-roll .inline-result,
+body.dsp-improved-chat #chat-notifications .dice-roll .inline-result,
+body.dsp-improved-chat .chat-popout .dice-roll .inline-result {
+  display: flex;
+  margin-bottom: 3px;
+}
+
+body.dsp-improved-chat .chat-sidebar .dice-roll .dice-formula,
+body.dsp-improved-chat #chat-notifications .dice-roll .dice-formula,
+body.dsp-improved-chat .chat-popout .dice-roll .dice-formula {
+  flex: 1;
+  background: rgba(0, 0, 0, 0.15);
+  border: 1px solid var(--dsp-border);
+  border-radius: var(--dsp-radius-sm) 0 0 var(--dsp-radius-sm);
+  color: var(--dsp-text-light);
+  padding: 4px 8px;
+  font-size: 0.82rem;
+  font-family: monospace;
+}
+
+body.dsp-improved-chat .chat-sidebar .dice-roll .dice-total,
+body.dsp-improved-chat #chat-notifications .dice-roll .dice-total,
+body.dsp-improved-chat .chat-popout .dice-roll .dice-total {
+  flex: 0 0 auto;
+  min-width: 40px;
+  background: var(--dsp-surface-raised);
+  border: 1px solid var(--dsp-border);
+  border-left: none;
+  border-radius: 0 var(--dsp-radius-sm) var(--dsp-radius-sm) 0;
+  color: var(--dsp-accent);
+  font-weight: 700;
+  padding: 4px 8px;
+  text-align: center;
+  font-size: 0.85rem;
+}
+
+body.dsp-improved-chat .chat-sidebar .dice-roll .dice-result .critical,
+body.dsp-improved-chat #chat-notifications .dice-roll .dice-result .critical,
+body.dsp-improved-chat .chat-popout .dice-roll .dice-result .critical {
+  color: #4ade80;
+}
+
+body.dsp-improved-chat .chat-sidebar .dice-roll .dice-result .failure,
+body.dsp-improved-chat #chat-notifications .dice-roll .dice-result .failure,
+body.dsp-improved-chat .chat-popout .dice-roll .dice-result .failure {
+  color: var(--dsp-danger);
+}
+
+body.dsp-improved-chat .chat-sidebar .dice-roll .dice-tooltip,
+body.dsp-improved-chat #chat-notifications .dice-roll .dice-tooltip,
+body.dsp-improved-chat .chat-popout .dice-roll .dice-tooltip {
+  font-size: 0.7rem;
+  color: var(--dsp-text-light);
+}
+
+body.dsp-improved-chat .chat-sidebar .dice-roll .dice-tooltip .part-header,
+body.dsp-improved-chat #chat-notifications .dice-roll .dice-tooltip .part-header,
+body.dsp-improved-chat .chat-popout .dice-roll .dice-tooltip .part-header {
+  font-size: 0.65rem;
+  color: var(--dsp-text-faint);
+}
+
+body.dsp-improved-chat .chat-sidebar .dice-roll .dice-tooltip .dice-rolls .roll,
+body.dsp-improved-chat #chat-notifications .dice-roll .dice-tooltip .dice-rolls .roll,
+body.dsp-improved-chat .chat-popout .dice-roll .dice-tooltip .dice-rolls .roll {
+  background: rgba(0, 0, 0, 0.15);
+  border: 1px solid var(--dsp-border);
+  color: var(--dsp-text);
+}
+
+body.dsp-improved-chat .chat-sidebar .dice-roll .potency .label,
+body.dsp-improved-chat #chat-notifications .dice-roll .potency .label,
+body.dsp-improved-chat .chat-popout .dice-roll .potency .label {
+  font-weight: 700;
+  color: var(--dsp-text-light);
+}
+
+body.dsp-improved-chat .chat-sidebar .dice-roll .potency .result.Success,
+body.dsp-improved-chat #chat-notifications .dice-roll .potency .result.Success,
+body.dsp-improved-chat .chat-popout .dice-roll .potency .result.Success {
+  color: #4ade80;
+}
+
+body.dsp-improved-chat .chat-sidebar .dice-roll .potency .result.Failure,
+body.dsp-improved-chat #chat-notifications .dice-roll .potency .result.Failure,
+body.dsp-improved-chat .chat-popout .dice-roll .potency .result.Failure {
+  color: var(--dsp-danger);
+}
+
+body.dsp-improved-chat .chat-sidebar .message-part-buttons,
+body.dsp-improved-chat #chat-notifications .message-part-buttons,
+body.dsp-improved-chat .chat-popout .message-part-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 6px;
+  padding-top: 6px;
+  border-top: 1px solid var(--dsp-border);
+}
+
+body.dsp-improved-chat .chat-sidebar .message-part-buttons button,
+body.dsp-improved-chat #chat-notifications .message-part-buttons button,
+body.dsp-improved-chat .chat-popout .message-part-buttons button {
+  background: var(--dsp-surface-raised);
+  border: 1px solid var(--dsp-border);
+  border-radius: var(--dsp-radius-sm);
+  color: var(--dsp-text);
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 5px 12px;
+  cursor: pointer;
+  transition: border-color var(--dsp-fast), background var(--dsp-fast), transform var(--dsp-fast);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+body.dsp-improved-chat .chat-sidebar .message-part-buttons button:hover,
+body.dsp-improved-chat #chat-notifications .message-part-buttons button:hover,
+body.dsp-improved-chat .chat-popout .message-part-buttons button:hover {
+  border-color: var(--dsp-accent);
+  background: rgba(200, 170, 110, 0.08);
+  transform: translateY(-1px);
+}
+
+body.dsp-improved-chat .chat-sidebar .message-part-buttons button:active,
+body.dsp-improved-chat #chat-notifications .message-part-buttons button:active,
+body.dsp-improved-chat .chat-popout .message-part-buttons button:active {
+  transform: translateY(0);
+}
+
+body.dsp-improved-chat .chat-sidebar .message-part-buttons button.apply-damage,
+body.dsp-improved-chat #chat-notifications .message-part-buttons button.apply-damage,
+body.dsp-improved-chat .chat-popout .message-part-buttons button.apply-damage {
+  background: var(--dsp-primary-dark);
+  border-color: var(--dsp-primary);
+  color: #f0d0d0;
+}
+
+body.dsp-improved-chat .chat-sidebar .message-part-buttons button.apply-damage:hover,
+body.dsp-improved-chat #chat-notifications .message-part-buttons button.apply-damage:hover,
+body.dsp-improved-chat .chat-popout .message-part-buttons button.apply-damage:hover {
+  border-color: var(--dsp-primary-light);
+  background: var(--dsp-primary);
+}
+
+body.dsp-improved-chat .chat-sidebar .message-part-buttons button.apply-effect,
+body.dsp-improved-chat #chat-notifications .message-part-buttons button.apply-effect,
+body.dsp-improved-chat .chat-popout .message-part-buttons button.apply-effect {
+  padding: 3px 8px;
+}
+
+body.dsp-improved-chat .chat-sidebar .message-part-buttons button.apply-effect img,
+body.dsp-improved-chat #chat-notifications .message-part-buttons button.apply-effect img,
+body.dsp-improved-chat .chat-popout .message-part-buttons button.apply-effect img {
+  max-height: 1.1rem;
+  border-radius: 2px;
+}
+
+body.dsp-improved-chat .chat-sidebar footer button,
+body.dsp-improved-chat #chat-notifications footer button,
+body.dsp-improved-chat .chat-popout footer button {
+  background: var(--dsp-surface-raised);
+  border: 1px solid var(--dsp-border);
+  border-radius: var(--dsp-radius-sm);
+  color: var(--dsp-text);
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 5px 12px;
+  cursor: pointer;
+  transition: border-color var(--dsp-fast), background var(--dsp-fast);
+}
+
+body.dsp-improved-chat .chat-sidebar footer button:hover,
+body.dsp-improved-chat #chat-notifications footer button:hover,
+body.dsp-improved-chat .chat-popout footer button:hover {
+  border-color: var(--dsp-accent);
+  background: rgba(200, 170, 110, 0.08);
+}
+
+body.dsp-improved-chat .chat-sidebar .content-embed,
+body.dsp-improved-chat #chat-notifications .content-embed,
+body.dsp-improved-chat .chat-popout .content-embed {
+  color: var(--dsp-text);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+body.dsp-improved-chat .chat-sidebar .content-embed h1,
+body.dsp-improved-chat .chat-sidebar .content-embed h2,
+body.dsp-improved-chat .chat-sidebar .content-embed h3,
+body.dsp-improved-chat #chat-notifications .content-embed h1,
+body.dsp-improved-chat #chat-notifications .content-embed h2,
+body.dsp-improved-chat #chat-notifications .content-embed h3,
+body.dsp-improved-chat .chat-popout .content-embed h1,
+body.dsp-improved-chat .chat-popout .content-embed h2,
+body.dsp-improved-chat .chat-popout .content-embed h3 {
+  color: var(--dsp-text);
+  border-bottom: 1px solid var(--dsp-border);
+  padding-bottom: 3px;
+  margin-bottom: 4px;
+  font-size: 0.98rem;
+}
+
+body.dsp-improved-chat .chat-sidebar .content-embed table,
+body.dsp-improved-chat #chat-notifications .content-embed table,
+body.dsp-improved-chat .chat-popout .content-embed table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.82rem;
+}
+
+body.dsp-improved-chat .chat-sidebar .content-embed table th,
+body.dsp-improved-chat #chat-notifications .content-embed table th,
+body.dsp-improved-chat .chat-popout .content-embed table th {
+  background: rgba(0, 0, 0, 0.2);
+  color: var(--dsp-text-light);
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 4px 6px;
+  text-align: left;
+  border: 1px solid var(--dsp-border);
+}
+
+body.dsp-improved-chat .chat-sidebar .content-embed table td,
+body.dsp-improved-chat #chat-notifications .content-embed table td,
+body.dsp-improved-chat .chat-popout .content-embed table td {
+  padding: 4px 6px;
+  border: 1px solid var(--dsp-border);
+  color: var(--dsp-text);
+}
+
+body.dsp-improved-chat .chat-sidebar a,
+body.dsp-improved-chat #chat-notifications a,
+body.dsp-improved-chat .chat-popout a {
+  color: var(--dsp-accent);
+  transition: color var(--dsp-fast);
+  background: var(--dsp-border);
+  border: 1px solid var(--dsp-accent);
+  border-radius: 5px;
+}
+
+body.dsp-improved-chat .chat-sidebar a:hover,
+body.dsp-improved-chat #chat-notifications a:hover,
+body.dsp-improved-chat .chat-popout a:hover {
+  color: var(--dsp-accent-bright);
+  text-shadow: none;
+}
+
+body.dsp-improved-chat .chat-sidebar .message-part-events,
+body.dsp-improved-chat #chat-notifications .message-part-events,
+body.dsp-improved-chat .chat-popout .message-part-events {
+  color: var(--dsp-text-light);
+  font-size: 0.75rem;
+  font-style: italic;
+  margin-top: 4px;
+  padding-top: 4px;
+  border-top: 1px solid var(--dsp-border);
+}
+
+body.dsp-improved-chat .chat-sidebar span.potency,
+body.dsp-improved-chat #chat-notifications span.potency,
+body.dsp-improved-chat .chat-popout span.potency {
+  font-family: "Draw Steel Glyphs", serif;
+  text-transform: lowercase;
+  line-height: 0.9;
+  color: var(--dsp-accent);
+}
+
+body.dsp-improved-chat .chat-sidebar,
+body.dsp-improved-chat .chat-popout {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.06) transparent;
+}
+
+body.dsp-improved-chat .chat-sidebar::-webkit-scrollbar,
+body.dsp-improved-chat .chat-popout::-webkit-scrollbar {
+  width: 5px;
+}
+
+body.dsp-improved-chat .chat-sidebar::-webkit-scrollbar-track,
+body.dsp-improved-chat .chat-popout::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+body.dsp-improved-chat .chat-sidebar::-webkit-scrollbar-thumb,
+body.dsp-improved-chat .chat-popout::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 9999px;
+}
+
+body.dsp-improved-chat .chat-sidebar::-webkit-scrollbar-thumb:hover,
+body.dsp-improved-chat .chat-popout::-webkit-scrollbar-thumb:hover {
+  background: var(--dsp-border-light);
+}

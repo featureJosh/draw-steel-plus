@@ -85,6 +85,10 @@
       "parallaxHeaderArt": {
         "name": "Parallax Header Art",
         "hint": "Enable a subtle parallax drift effect on the header background art when hovering."
+      },
+      "improvedChat": {
+        "name": "Improved Chat",
+        "hint": "Enhance the chat sidebar with Draw Steel Plus dark-fantasy styling."
       }
     },
     "Tooltip": {

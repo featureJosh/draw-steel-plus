@@ -87,6 +87,10 @@ export const NPC_DEFAULTS = {
   npcFavoritesEnabled: true,
 };
 
+export const UI_DEFAULTS = {
+  improvedChat: true,
+};
+
 export const META_CURRENCY_DEFAULTS = {
   position: null,
   expanded: true,

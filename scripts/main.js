@@ -1,4 +1,4 @@
-import { MODULE_CONFIG, SHEET_SIZE_DEFAULTS, FLOATING_TAB_ICONS, COLOR_DEFAULTS, HEADER_DEFAULTS, NPC_DEFAULTS, META_CURRENCY_DEFAULTS } from "./config.js";
+import { MODULE_CONFIG, SHEET_SIZE_DEFAULTS, FLOATING_TAB_ICONS, COLOR_DEFAULTS, HEADER_DEFAULTS, NPC_DEFAULTS, META_CURRENCY_DEFAULTS, UI_DEFAULTS } from "./config.js";
 import { applyColorOverrides } from "./color-settings.js";
 import ColorSettingsMenu from "./color-settings-menu.js";
 import HeaderSettingsMenu from "./header-settings-menu.js";
@@ -23,6 +23,7 @@ Hooks.once("init", () => {
 
 Hooks.once("ready", () => {
   applyColorOverrides();
+  applyImprovedChat();
   MetaCurrencyTracker.initialize();
   TooltipsDSP.activateListeners();
   const tooltips = new TooltipsDSP();
@@ -46,8 +47,95 @@ Hooks.on("updateCombat", () => {
   if (MetaCurrencyTracker.instance?.rendered) MetaCurrencyTracker.instance.render();
 });
 
+Hooks.on("renderChatMessageHTML", (message, html, context) => {
+  if (!game.settings.get(MODULE_ID, "improvedChat")) return;
+  _enhanceChatMessage(html);
+});
+
 function colorSettingKey(key) {
   return `color${key.charAt(0).toUpperCase()}${key.slice(1)}`;
+}
+
+function applyImprovedChat() {
+  if (typeof game === "undefined") return;
+  const enabled = game.settings.get(MODULE_ID, "improvedChat");
+  document.body.classList.toggle("dsp-improved-chat", enabled);
+}
+
+function _enhanceChatMessage(html) {
+  html.classList.add("dsp-chat");
+
+  for (const embed of html.querySelectorAll("document-embed.ability")) {
+    const powerResult = embed.querySelector("section.powerResult");
+    if (powerResult) _wrapCollapsible(powerResult, "Power Roll Tiers", false);
+
+    const spend = embed.querySelector("section.spend");
+    if (spend) {
+      const dt = spend.querySelector("dt");
+      _wrapCollapsible(spend, dt ? dt.textContent.trim() : "Spend", true);
+    }
+
+    const effectBefore = embed.querySelector("section.effect.before");
+    if (effectBefore) _wrapCollapsible(effectBefore, "Effect", false);
+
+    const effectAfter = embed.querySelector("section.effect.after");
+    if (effectAfter) _wrapCollapsible(effectAfter, "Effect (After)", false);
+  }
+
+  for (const rollsDiv of html.querySelectorAll(".message-part-rolls")) {
+    const rolls = rollsDiv.querySelectorAll(".dice-roll");
+    if (!rolls.length) continue;
+
+    const parts = [];
+    const tierEl = rollsDiv.querySelector(".tier");
+    if (tierEl) parts.push(tierEl.textContent.trim());
+
+    for (const roll of rolls) {
+      const flavor = roll.querySelector(".dice-flavor");
+      const total = roll.querySelector(".dice-total");
+      if (flavor && total) {
+        parts.push(`${flavor.textContent.trim()}: ${total.textContent.trim()}`);
+      } else if (total) {
+        parts.push(total.textContent.trim());
+      }
+    }
+
+    const wrapper = _wrapCollapsible(rollsDiv, parts.join(" \u00B7 ") || "Dice Details", true);
+    if (wrapper) {
+      const next = wrapper.nextElementSibling;
+      if (next?.classList?.contains("message-part-html") && next.querySelector(".power-roll-display")) {
+        wrapper.querySelector(".dsp-section-content").appendChild(next);
+      }
+    }
+  }
+}
+
+function _wrapCollapsible(element, label, startCollapsed) {
+  const wrapper = document.createElement("div");
+  wrapper.classList.add("dsp-collapsible-section");
+  if (startCollapsed) wrapper.classList.add("dsp-collapsed");
+
+  const toggle = document.createElement("div");
+  toggle.classList.add("dsp-section-toggle");
+  const dir = startCollapsed ? "right" : "down";
+  toggle.innerHTML = `<i class="fa-solid fa-chevron-${dir} dsp-chevron"></i><span>${label}</span>`;
+
+  const content = document.createElement("div");
+  content.classList.add("dsp-section-content");
+
+  element.before(wrapper);
+  content.appendChild(element);
+  wrapper.appendChild(toggle);
+  wrapper.appendChild(content);
+
+  toggle.addEventListener("click", () => {
+    wrapper.classList.toggle("dsp-collapsed");
+    const chevron = toggle.querySelector(".dsp-chevron");
+    chevron.classList.toggle("fa-chevron-right");
+    chevron.classList.toggle("fa-chevron-down");
+  });
+
+  return wrapper;
 }
 
 function registerSettings() {
@@ -159,6 +247,17 @@ function registerSettings() {
     type: Boolean,
     default: false,
     requiresReload: false,
+  });
+
+  game.settings.register(MODULE_ID, "improvedChat", {
+    name: "DRAW_STEEL_PLUS.Settings.improvedChat.name",
+    hint: "DRAW_STEEL_PLUS.Settings.improvedChat.hint",
+    scope: "client",
+    config: true,
+    type: Boolean,
+    default: UI_DEFAULTS.improvedChat,
+    requiresReload: false,
+    onChange: () => applyImprovedChat(),
   });
 
   game.settings.register(MODULE_ID, "metaCurrencyPosition", {
