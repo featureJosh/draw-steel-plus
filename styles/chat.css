@@ -99,10 +99,12 @@ body.dsp-improved-chat .chat-popout .message-timestamp {
 body.dsp-improved-chat .chat-sidebar .message-delete,
 body.dsp-improved-chat #chat-notifications .message-delete,
 body.dsp-improved-chat .chat-popout .message-delete {
-  color: var(--dsp-text-faint);
-  opacity: 0;
-  transition: opacity var(--dsp-fast), color var(--dsp-fast);
-  font-size: 0.6rem;
+	color: var(--dsp-text-faint);
+	opacity: 0;
+	transition: opacity var(--dsp-fast), color var(--dsp-fast);
+	font-size: 0.6rem;
+	background: unset;
+	border: unset;
 }
 
 body.dsp-improved-chat .chat-sidebar .chat-message:hover .message-delete,
