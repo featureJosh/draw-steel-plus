@@ -1,6 +1,8 @@
-{{#if part.flavor}}
-<div class="message-part-flavor">{{part.flavor}}</div>
-{{/if}}
-<div class="message-part-html">
-  {{{enrichedHTML}}}
+<div class="chat-card content-card">
+  {{#if part.flavor}}
+  <p class="supplement flavor">{{{part.flavor}}}</p>
+  {{/if}}
+  <div class="card-content">
+    {{{enrichedHTML}}}
+  </div>
 </div>

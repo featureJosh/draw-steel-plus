@@ -59,90 +59,115 @@ export function applyImprovedChat() {
 
 export function enhanceChatMessage(message, html) {
   html.classList.add("dsp-chat");
+  _enhanceHeader(message, html);
+  _initCollapsibleTrays(html);
+  _injectRollContextMenu(html);
+}
+
+function _enhanceHeader(message, html) {
+  const header = html.querySelector("header.message-header");
+  if (!header) return;
 
   if (_compiled.header) {
-    const header = html.querySelector("header.message-header");
-    if (header) {
-      const ctx = {
-        document: message,
-        canDelete: !!header.querySelector("[data-action='deleteMessage']"),
-        canClose: !!header.querySelector("[data-action='dismissMessage']"),
-        isWhisper: message.whisper.length > 0,
-        whisperTo: message.whisper.map(id => game.users.get(id)?.name).filter(Boolean).join(", "),
-      };
-      header.outerHTML = _compiled.header(ctx);
-    }
+    const ctx = {
+      document: message,
+      canDelete: !!header.querySelector("[data-action='deleteMessage']"),
+      canClose: !!header.querySelector("[data-action='dismissMessage']"),
+      isWhisper: message.whisper.length > 0,
+      whisperTo: message.whisper.map(id => game.users.get(id)?.name).filter(Boolean).join(", "),
+    };
+    header.outerHTML = _compiled.header(ctx);
+    return;
   }
 
+  const sender = header.querySelector(".message-sender");
+  if (!sender) return;
+
+  const name = sender.textContent.trim();
+  let avatarSrc = "";
+
+  if (message.speaker?.actor) {
+    const actor = game.actors.get(message.speaker.actor);
+    if (actor) avatarSrc = actor.img || "";
+  }
+
+  if (!avatarSrc && message.author) {
+    avatarSrc = message.author.avatar || "";
+  }
+
+  if (avatarSrc) {
+    const img = document.createElement("img");
+    img.src = avatarSrc;
+    img.alt = name;
+    img.className = "dsp-avatar";
+    sender.prepend(img);
+  }
+}
+
+function _initCollapsibleTrays(html) {
   for (const embed of html.querySelectorAll("document-embed.ability")) {
+    const sections = [];
+
     const powerResult = embed.querySelector("section.powerResult");
-    if (powerResult) _wrapCollapsible(powerResult, "Power Roll Tiers", false);
+    if (powerResult) sections.push({ el: powerResult, label: "Power Roll Tiers", collapsed: true });
 
     const spend = embed.querySelector("section.spend");
     if (spend) {
       const dt = spend.querySelector("dt");
-      _wrapCollapsible(spend, dt ? dt.textContent.trim() : "Spend", true);
+      sections.push({ el: spend, label: dt ? dt.textContent.trim() : "Spend", collapsed: true });
     }
 
     const effectBefore = embed.querySelector("section.effect.before");
-    if (effectBefore) _wrapCollapsible(effectBefore, "Effect", false);
+    if (effectBefore) sections.push({ el: effectBefore, label: "Effect", collapsed: false });
 
     const effectAfter = embed.querySelector("section.effect.after");
-    if (effectAfter) _wrapCollapsible(effectAfter, "Effect (After)", false);
-  }
+    if (effectAfter) sections.push({ el: effectAfter, label: "Effect (After)", collapsed: false });
 
-  for (const rollsDiv of html.querySelectorAll(".message-part-rolls")) {
-    const rolls = rollsDiv.querySelectorAll(".dice-roll");
-    if (!rolls.length) continue;
-
-    const labelParts = [];
-    const tierEl = rollsDiv.querySelector(".tier");
-    if (tierEl) labelParts.push(tierEl.textContent.trim());
-
-    for (const roll of rolls) {
-      const flavor = roll.querySelector(".dice-flavor");
-      const total = roll.querySelector(".dice-total");
-      if (flavor && total) {
-        labelParts.push(`${flavor.textContent.trim()}: ${total.textContent.trim()}`);
-      } else if (total) {
-        labelParts.push(total.textContent.trim());
-      }
-    }
-
-    const wrapper = _wrapCollapsible(rollsDiv, labelParts.join(" \u00B7 ") || "Dice Details", true);
-    if (wrapper) {
-      const next = wrapper.nextElementSibling;
-      if (next?.classList?.contains("message-part-html") && next.querySelector(".power-roll-display")) {
-        wrapper.querySelector(".dsp-section-content").appendChild(next);
-      }
+    for (const { el, label, collapsed } of sections) {
+      _wrapTray(el, label, collapsed);
     }
   }
 }
 
-function _wrapCollapsible(element, label, startCollapsed) {
-  const wrapper = document.createElement("div");
-  wrapper.classList.add("dsp-collapsible-section");
-  if (startCollapsed) wrapper.classList.add("dsp-collapsed");
+function _injectRollContextMenu(html) {
+  for (const card of html.querySelectorAll(".chat-card.result-card")) {
+    const firstRoll = card.querySelector(".card-rolls .dice-roll");
+    if (!firstRoll) continue;
 
-  const toggle = document.createElement("div");
-  toggle.classList.add("dsp-section-toggle");
-  const dir = startCollapsed ? "right" : "down";
-  toggle.innerHTML = `<i class="fa-solid fa-chevron-${dir} dsp-chevron"></i><span>${label}</span>`;
+    const existing = firstRoll.querySelector("[data-action='resultPartContext']");
+    if (existing) continue;
+
+    const link = document.createElement("a");
+    link.className = "dsp-roll-context fa-fw fa-solid fa-ellipsis-vertical";
+    link.setAttribute("data-action", "resultPartContext");
+    link.setAttribute("aria-label", "Options");
+    firstRoll.appendChild(link);
+  }
+}
+
+function _wrapTray(element, label, startCollapsed) {
+  const tray = document.createElement("div");
+  tray.classList.add("dsp-collapsible-tray");
+  if (startCollapsed) tray.classList.add("collapsed");
+
+  const trayLabel = document.createElement("label");
+  trayLabel.innerHTML = `<i class="fa-solid fa-caret-down"></i><span>${label}</span>`;
 
   const content = document.createElement("div");
-  content.classList.add("dsp-section-content");
+  content.classList.add("tray-content");
 
-  element.before(wrapper);
-  content.appendChild(element);
-  wrapper.appendChild(toggle);
-  wrapper.appendChild(content);
+  const inner = document.createElement("div");
+  inner.classList.add("tray-inner");
 
-  toggle.addEventListener("click", () => {
-    wrapper.classList.toggle("dsp-collapsed");
-    const chevron = toggle.querySelector(".dsp-chevron");
-    chevron.classList.toggle("fa-chevron-right");
-    chevron.classList.toggle("fa-chevron-down");
+  element.before(tray);
+  inner.appendChild(element);
+  content.appendChild(inner);
+  tray.appendChild(trayLabel);
+  tray.appendChild(content);
+
+  trayLabel.addEventListener("click", () => {
+    tray.classList.toggle("collapsed");
   });
 
-  return wrapper;
+  return tray;
 }

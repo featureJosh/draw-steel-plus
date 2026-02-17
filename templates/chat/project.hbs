@@ -1,19 +1,21 @@
-{{#if part.flavor}}
-<div class="message-part-flavor">{{part.flavor}}</div>
-{{/if}}
-<div class="message-part-rolls">
-  {{#each ctx.rolls}}{{{this}}}{{/each}}
+<div class="chat-card project-card">
+  {{#if part.flavor}}
+  <p class="supplement flavor">{{{part.flavor}}}</p>
+  {{/if}}
+  <div class="card-rolls">
+    {{#each ctx.rolls}}{{{this}}}{{/each}}
+  </div>
+  {{#if resultHTML}}
+  <section class="card-result">
+    {{{resultHTML}}}
+  </section>
+  {{/if}}
+  {{#if ctx.buttons.length}}
+  <div class="card-buttons">
+    {{#each ctx.buttons as |button|}}{{{button.outerHTML}}}{{/each}}
+  </div>
+  {{/if}}
+  {{#if eventText}}
+  <p class="supplement event-text">{{eventText}}</p>
+  {{/if}}
 </div>
-{{#if resultHTML}}
-<div class="message-part-html">
-  {{{resultHTML}}}
-</div>
-{{/if}}
-{{#if ctx.buttons.length}}
-<footer class="message-part-buttons">
-  {{#each ctx.buttons as |button|}}{{{button.outerHTML}}}{{/each}}
-</footer>
-{{/if}}
-{{#if eventText}}
-<div class="message-part-events">{{eventText}}</div>
-{{/if}}

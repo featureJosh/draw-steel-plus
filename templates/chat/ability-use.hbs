@@ -1,8 +1,10 @@
-<div class="message-part-html">
-  {{{ctx.embed.outerHTML}}}
+<div class="chat-card ability-card">
+  <div class="card-embed">
+    {{{ctx.embed.outerHTML}}}
+  </div>
+  {{#if ctx.buttons}}
+  <div class="card-buttons">
+    {{#each ctx.buttons as |button|}}{{{button.outerHTML}}}{{/each}}
+  </div>
+  {{/if}}
 </div>
-{{#if ctx.buttons}}
-<footer class="message-part-buttons">
-  {{#each ctx.buttons as |button|}}{{{button.outerHTML}}}{{/each}}
-</footer>
-{{/if}}

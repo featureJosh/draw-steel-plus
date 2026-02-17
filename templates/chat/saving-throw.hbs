@@ -1,11 +1,13 @@
-{{#if part.flavor}}
-<div class="message-part-flavor">{{part.flavor}}</div>
-{{/if}}
-<div class="message-part-rolls">
-  {{#each ctx.rolls}}{{{this}}}{{/each}}
+<div class="chat-card saving-throw-card">
+  {{#if part.flavor}}
+  <p class="supplement flavor">{{{part.flavor}}}</p>
+  {{/if}}
+  <div class="card-rolls">
+    {{#each ctx.rolls}}{{{this}}}{{/each}}
+  </div>
+  {{#if ctx.buttons}}
+  <div class="card-buttons">
+    {{#each ctx.buttons as |button|}}{{{button.outerHTML}}}{{/each}}
+  </div>
+  {{/if}}
 </div>
-{{#if ctx.buttons}}
-<footer class="message-part-buttons">
-  {{#each ctx.buttons as |button|}}{{{button.outerHTML}}}{{/each}}
-</footer>
-{{/if}}
