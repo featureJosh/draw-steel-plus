@@ -294,7 +294,7 @@ function _registerHeroSheet(sheets, SHEET_SIZES) {
 
   foundry.documents.collections.Actors.registerSheet(MODULE_ID, DrawSteelPlusHeroSheet, {
     types: ["hero"],
-    makeDefault: false,
+    makeDefault: true,
     label: "DS+ Hero Sheet",
   });
 
@@ -480,7 +480,7 @@ function _registerNPCSheet(sheets, SHEET_SIZES) {
 
   foundry.documents.collections.Actors.registerSheet(MODULE_ID, DrawSteelPlusNPCSheet, {
     types: ["npc"],
-    makeDefault: false,
+    makeDefault: true,
     label: "DS+ NPC Sheet",
   });
 
@@ -541,7 +541,7 @@ function _registerItemSheet(sheets, SHEET_SIZES) {
 
   foundry.documents.collections.Items.registerSheet(MODULE_ID, DrawSteelPlusItemSheet, {
     types: itemTypes,
-    makeDefault: false,
+    makeDefault: true,
     label: "DS+ Item Sheet",
   });
 
