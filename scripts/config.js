@@ -37,8 +37,8 @@ export const FLOATING_TAB_ICONS = {
 
 export const COLOR_LIGHT_DARK_DEFAULTS = {
   primary: { light: "#b85454", dark: "#7a1b1b" },
-  primaryLight: { light: "#c96a6a", dark: "#a82828" },
-  primaryDark: { light: "#8a3838", dark: "#4a0e0e" },
+  primaryLight: { light: "#a12c2c", dark: "#a82828" },
+  primaryDark: { light: "#4a0e0e", dark: "#4a0e0e" },
   secondary: { light: "#2d2d4a", dark: "#1a1a2e" },
   accent: { light: "#a88b4a", dark: "#c8aa6e" },
   accentBright: { light: "#c9a864", dark: "#ddc088" },
@@ -47,7 +47,7 @@ export const COLOR_LIGHT_DARK_DEFAULTS = {
   surfaceRaised: { light: "#e0d9ce", dark: "#1e1e1e" },
   text: { light: "#2a2520", dark: "#e8e0d4" },
   textLight: { light: "#5a5248", dark: "#9a8e80" },
-  textFaint: { light: "#8a8278", dark: "#5a5248" },
+  textFaint: { light: "#59534b", dark: "#5a5248" },
   border: { light: "#c4b8a8", dark: "#2a2020" },
   borderLight: { light: "#d4c8b8", dark: "#3a302a" },
   danger: { light: "#c04040", dark: "#e05555" },

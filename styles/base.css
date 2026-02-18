@@ -11,7 +11,7 @@ body.theme-light,
 .draw-steel-plus.sheet {
   --dsp-primary: light-dark(#b85454, #7a1b1b);
   --dsp-primary-light: light-dark(#a12c2c, #a82828);
-  --dsp-primary-dark: light-dark(#8a3838, #4a0e0e);
+  --dsp-primary-dark: light-dark(#4a0e0e, #4a0e0e);
   --dsp-primary-glow: light-dark(rgba(201, 106, 106, 0.3), rgba(168, 40, 40, 0.3));
   --dsp-secondary: light-dark(#2d2d4a, #1a1a2e);
   --dsp-accent: light-dark(#a88b4a, #c8aa6e);
