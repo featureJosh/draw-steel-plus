@@ -786,8 +786,9 @@ body.dsp-improved-chat :is(.chat-sidebar, #chat-notifications, .chat-popout) .co
 
 
 body.dsp-improved-chat :is(.chat-sidebar, #chat-notifications, .chat-popout) a {
-  color: var(--dsp-accent);
-  transition: color 0.15s ease;
+	color: var(--dsp-accent);
+	transition: color 0.15s ease;
+	text-wrap: auto;
 }
 
 body.dsp-improved-chat :is(.chat-sidebar, #chat-notifications, .chat-popout) a:hover {
@@ -797,16 +798,27 @@ body.dsp-improved-chat :is(.chat-sidebar, #chat-notifications, .chat-popout) a:h
 
 body.dsp-improved-chat :is(.chat-sidebar, #chat-notifications, .chat-popout) .message-content a,
 body.dsp-improved-chat :is(.chat-sidebar, #chat-notifications, .chat-popout) .card-content a {
-  background: var(--dsp-surface-raised);
-  border: 1px solid var(--dsp-border-gold);
-  border-radius: var(--dsp-radius-sm);
-  padding: 1px 4px;
+  background: unset;
+  border: unset;
+  border-radius: unset;
+  padding: unset;
 }
 
 body.dsp-improved-chat :is(.chat-sidebar, #chat-notifications, .chat-popout) .message-content a:hover,
 body.dsp-improved-chat :is(.chat-sidebar, #chat-notifications, .chat-popout) .card-content a:hover {
   border-color: var(--dsp-accent);
   background: var(--dsp-accent-dim);
+}
+
+body.dsp-improved-chat :is(.chat-sidebar, #chat-notifications, .chat-popout) [enricher="ds.roll"],
+body.dsp-improved-chat :is(.chat-sidebar, #chat-notifications, .chat-popout) [enricher="ds.apply"] {
+  background: var(--dsp-primary-dark);
+  border: 1px solid var(--dsp-accent-bright);
+  border-radius: 6px;
+  color: var(--content-link-text-color) !important;
+  padding: 2px 4px 0;
+  text-wrap-mode: nowrap;
+  word-break: break-all;
 }
 
 

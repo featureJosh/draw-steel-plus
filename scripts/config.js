@@ -95,6 +95,7 @@ export const META_CURRENCY_DEFAULTS = {
   position: null,
   expanded: true,
   locked: false,
+  centered: false,
 };
 
 export const MODULE_CONFIG = {

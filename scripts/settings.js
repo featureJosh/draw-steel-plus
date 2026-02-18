@@ -162,4 +162,11 @@ export function registerSettings() {
     type: Boolean,
     default: META_CURRENCY_DEFAULTS.locked,
   });
+
+  game.settings.register(MODULE_ID, "metaCurrencyCentered", {
+    scope: "client",
+    config: false,
+    type: Boolean,
+    default: META_CURRENCY_DEFAULTS.centered,
+  });
 }

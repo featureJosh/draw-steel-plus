@@ -39,10 +39,10 @@
 }
 
 .dsp-mc-body {
-  display: flex;
-  align-items: stretch;
-  gap: 0;
-  padding: 10px 14px;
+	display: flex;
+	align-items: stretch;
+	gap: 0;
+	padding: 1em 0em;
 }
 
 .dsp-mc-section {
@@ -50,7 +50,7 @@
   flex-direction: column;
   align-items: center;
   gap: 6px;
-  padding: 2px 10px;
+  padding: 0;
   flex: 1;
   transition: gap var(--dsp-mc-transition-fast);
 }
@@ -230,6 +230,18 @@
   background: rgba(13, 13, 13, 0.72);
   border-color: transparent;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.dsp-mc-container:not(:has(.dsp-mc-malice)) {
+  min-width: unset;
+}
+
+.dsp-mc-container:not(:has(.dsp-mc-malice)) .dsp-mc-body {
+  justify-content: center;
+}
+
+.dsp-mc-container:not(:has(.dsp-mc-malice)) .dsp-mc-section {
+  flex: none;
 }
 
 .dsp-mc-container.dsp-mc-compact {

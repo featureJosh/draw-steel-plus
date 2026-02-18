@@ -18,6 +18,7 @@ export class MetaCurrencyTracker extends HandlebarsApplicationMixin(ApplicationV
       startTop: 0,
     };
     this._boundDragStart = this.#onDragStart.bind(this);
+    this._boundOnResize = this.#onResize.bind(this);
   }
 
   static DEFAULT_OPTIONS = {
@@ -50,10 +51,25 @@ export class MetaCurrencyTracker extends HandlebarsApplicationMixin(ApplicationV
     },
   };
 
-  static getDefaultPosition() {
+  static getCanvasBounds() {
+    const canvas = game.canvas;
+    if (canvas?.ready && canvas.app?.view) {
+      const rect = canvas.app.view.getBoundingClientRect();
+      return { left: rect.left, top: rect.top, width: rect.width, height: rect.height };
+    }
     return {
-      top: window.innerHeight - 160,
-      left: Math.round((window.innerWidth / 2) - 140),
+      left: 0,
+      top: 0,
+      width: window.innerWidth,
+      height: window.innerHeight,
+    };
+  }
+
+  static getDefaultPosition(elementWidth = 280) {
+    const bounds = MetaCurrencyTracker.getCanvasBounds();
+    return {
+      top: bounds.top + bounds.height - 160,
+      left: Math.round(bounds.left + (bounds.width / 2) - (elementWidth / 2)),
     };
   }
 
@@ -62,9 +78,19 @@ export class MetaCurrencyTracker extends HandlebarsApplicationMixin(ApplicationV
     this.instance.render(true);
   }
 
+  _onClose() {
+    window.removeEventListener("resize", this._boundOnResize);
+  }
+
   async _preFirstRender(context, options) {
     const saved = game.settings.get(MODULE_ID, "metaCurrencyPosition");
-    options.position = saved ?? MetaCurrencyTracker.getDefaultPosition();
+    const isCentered = game.settings.get(MODULE_ID, "metaCurrencyCentered");
+    if (isCentered || !saved) {
+      if (!isCentered) game.settings.set(MODULE_ID, "metaCurrencyCentered", true);
+      options.position = MetaCurrencyTracker.getDefaultPosition();
+    } else {
+      options.position = saved;
+    }
   }
 
   _onPosition(position) {
@@ -107,6 +133,26 @@ export class MetaCurrencyTracker extends HandlebarsApplicationMixin(ApplicationV
       dragHandle.removeEventListener("mousedown", this._boundDragStart);
       dragHandle.addEventListener("mousedown", this._boundDragStart);
     }
+
+    window.removeEventListener("resize", this._boundOnResize);
+    if (isLocked && game.settings.get(MODULE_ID, "metaCurrencyCentered")) {
+      window.addEventListener("resize", this._boundOnResize);
+    }
+  }
+
+  #onResize() {
+    if (this._resizeScheduled) return;
+    this._resizeScheduled = true;
+    requestAnimationFrame(() => {
+      this._resizeScheduled = false;
+      const isLocked = game.settings.get(MODULE_ID, "metaCurrencyLocked");
+      const isCentered = game.settings.get(MODULE_ID, "metaCurrencyCentered");
+      if (!isLocked || !isCentered || !this.element) return;
+
+      const width = this.element.offsetWidth || 280;
+      const pos = MetaCurrencyTracker.getDefaultPosition(width);
+      this.setPosition(pos);
+    });
   }
 
   #onDragStart(e) {
@@ -151,6 +197,7 @@ export class MetaCurrencyTracker extends HandlebarsApplicationMixin(ApplicationV
     window.removeEventListener("mousemove", this._boundOnDragging);
     window.removeEventListener("mouseup", this._boundOnDragEnd);
 
+    game.settings.set(MODULE_ID, "metaCurrencyCentered", false);
     const rect = this.element.getBoundingClientRect();
     this.setPosition({ top: Math.round(rect.top), left: Math.round(rect.left) });
   }
@@ -193,11 +240,14 @@ export class MetaCurrencyTracker extends HandlebarsApplicationMixin(ApplicationV
   }
 
   static async #onResetPosition(event, target) {
-    const pos = MetaCurrencyTracker.getDefaultPosition();
     const inst = MetaCurrencyTracker.instance;
     if (inst && inst.element) {
+      await game.settings.set(MODULE_ID, "metaCurrencyCentered", true);
+      const width = inst.element.offsetWidth || 280;
+      const pos = MetaCurrencyTracker.getDefaultPosition(width);
       inst.element.classList.add("dsp-mc-resetting");
       inst.setPosition(pos);
+      inst.render();
       setTimeout(() => inst.element.classList.remove("dsp-mc-resetting"), 400);
     }
   }
