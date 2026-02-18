@@ -16,6 +16,30 @@ const MODULE_ID = MODULE_CONFIG.id;
 const SYSTEM_ID = MODULE_CONFIG.systemId;
 const MODULE_PATH = MODULE_CONFIG.path;
 
+async function toggleDocumentDescription(event, target) {
+  const parentElement = target.closest(".expandable-document");
+  if (!parentElement) return;
+  const embedContainer = parentElement.querySelector(".document-description");
+  const toggleIcon = parentElement.querySelector("a[data-action=\"toggleDocumentDescription\"]");
+  if (!embedContainer || !toggleIcon) return;
+  const { documentUuid } = parentElement.dataset;
+  const isExpanded = embedContainer.classList.contains("expanded");
+
+  if (isExpanded) this._expandedDocumentDescriptions.delete(documentUuid);
+  else {
+    if (!embedContainer.innerHTML.trim()) {
+      const document = this._getEmbeddedDocument(parentElement);
+      const embed = await document?.system?.toEmbed?.({ includeName: false });
+      if (embed) embedContainer.innerHTML = embed.outerHTML;
+    }
+    this._expandedDocumentDescriptions.add(documentUuid);
+  }
+
+  toggleIcon.classList.toggle("fa-angle-down", !isExpanded);
+  toggleIcon.classList.toggle("fa-angle-right", isExpanded);
+  embedContainer.classList.toggle("expanded", !isExpanded);
+}
+
 export function registerSheets(SHEET_SIZES) {
   if (game.system.id !== SYSTEM_ID) {
     console.warn(`${MODULE_ID} | Not running on Draw Steel system, skipping sheet registration`);
@@ -82,6 +106,7 @@ function _registerHeroSheet(sheets, SHEET_SIZES) {
       },
       actions: {
         ...super.DEFAULT_OPTIONS.actions,
+        toggleDocumentDescription,
         toggleFavorite: async function(event, target) {
           const li = target.closest("[data-document-uuid]");
           if (!li) return;
@@ -315,6 +340,7 @@ function _registerNPCSheet(sheets, SHEET_SIZES) {
       },
       actions: {
         ...super.DEFAULT_OPTIONS.actions,
+        toggleDocumentDescription,
         toggleFavorite: async function(event, target) {
           const li = target.closest("[data-document-uuid]");
           if (!li) return;

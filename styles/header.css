@@ -54,15 +54,15 @@
   background: linear-gradient(
     to right,
     var(--dsp-background) 0%,
-    rgba(13, 13, 13, 0.92) 40%,
-    rgba(13, 13, 13, 0.6) 60%,
-    rgba(13, 13, 13, 0.25) 85%,
+    light-dark(rgba(245, 240, 232, 0.92), rgba(13, 13, 13, 0.92)) 40%,
+    light-dark(rgba(245, 240, 232, 0.6), rgba(13, 13, 13, 0.6)) 60%,
+    light-dark(rgba(245, 240, 232, 0.25), rgba(13, 13, 13, 0.25)) 85%,
     transparent 86%
   ),
   radial-gradient(
     ellipse at 0% 50%,
-    rgba(122, 27, 27, 0.35) 0%,
-    rgba(122, 27, 27, 0.15) 30%,
+    light-dark(rgba(184, 84, 84, 0.35), rgba(122, 27, 27, 0.35)) 0%,
+    light-dark(rgba(184, 84, 84, 0.15), rgba(122, 27, 27, 0.15)) 30%,
     transparent 60%
   );
   pointer-events: none;
@@ -175,7 +175,7 @@
 }
 
 .draw-steel-plus.sheet .sheet-header .portrait-frame .level-badge a:hover {
-  color: #ffe4a8;
+  color: var(--dsp-accent-bright);
   transform: scale(1.15);
 }
 
@@ -506,7 +506,7 @@
   font-size: 2.2rem;
   font-weight: 800;
   color: var(--dsp-text);
-  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.7), 0 0 40px rgba(122, 27, 27, 0.15);
+  text-shadow: 0 2px 12px light-dark(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7)), 0 0 40px light-dark(rgba(184, 84, 84, 0.15), rgba(122, 27, 27, 0.15));
   margin: 0;
   padding: 0;
   line-height: 1.1;
@@ -638,8 +638,8 @@
   display: inline-flex;
   align-items: center;
   padding: 2px 8px;
-  background: rgba(74, 14, 14, 0.6);
-  border: 1px solid var(--dsp-border-light);
+  background: rgb(74 14 14);
+  border: 1px solid var(--dsp-accent);
   border-radius: var(--dsp-radius-full);
   font-size: 0.65rem;
   font-weight: 600;
@@ -667,7 +667,7 @@
 }
 
 .draw-steel-plus.sheet .sheet-header .origins-row .tag a.filled {
-  color: inherit;
+  color: var(--dsp-accent);
   text-decoration: none;
 }
 

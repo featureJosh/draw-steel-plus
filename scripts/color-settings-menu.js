@@ -1,10 +1,11 @@
-import { MODULE_CONFIG, COLOR_DEFAULTS } from "./config.js";
+import { MODULE_CONFIG, COLOR_LIGHT_DARK_DEFAULTS } from "./config.js";
 import { applyColorOverrides } from "./color-settings.js";
 
 const MODULE_ID = MODULE_CONFIG.id;
 
-function colorSettingKey(key) {
-  return `color${key.charAt(0).toUpperCase()}${key.slice(1)}`;
+function colorSettingKey(key, variant) {
+  const base = `color${key.charAt(0).toUpperCase()}${key.slice(1)}`;
+  return variant ? `${base}${variant === "light" ? "Lt" : "Dk"}` : base;
 }
 
 const { HandlebarsApplicationMixin, ApplicationV2 } = foundry.applications.api;
@@ -49,12 +50,23 @@ export default class ColorSettingsMenu extends HandlebarsApplicationMixin(Applic
     const colorField = new foundry.data.fields.ColorField({ nullable: true, required: false });
     const groups = ColorSettingsMenu.COLOR_GROUPS.map(group => ({
       legend: game.i18n.localize(`DRAW_STEEL_PLUS.Settings.menus.colors.groups.${group.key}`),
-      colors: group.colors.map(key => ({
-        field: colorField,
-        name: colorSettingKey(key),
-        label: game.i18n.localize(`DRAW_STEEL_PLUS.Settings.colors.${key}`),
-        value: game.settings.get(MODULE_ID, colorSettingKey(key)) || COLOR_DEFAULTS[key],
-      })),
+      colors: group.colors.flatMap(key => {
+        const defaults = COLOR_LIGHT_DARK_DEFAULTS[key];
+        return [
+          {
+            field: colorField,
+            name: colorSettingKey(key, "light"),
+            label: game.i18n.localize(`DRAW_STEEL_PLUS.Settings.colors.${key}Lt`),
+            value: game.settings.get(MODULE_ID, colorSettingKey(key, "light")) || defaults.light,
+          },
+          {
+            field: colorField,
+            name: colorSettingKey(key, "dark"),
+            label: game.i18n.localize(`DRAW_STEEL_PLUS.Settings.colors.${key}Dk`),
+            value: game.settings.get(MODULE_ID, colorSettingKey(key, "dark")) || defaults.dark,
+          },
+        ];
+      }),
     }));
 
     return {
@@ -73,8 +85,9 @@ export default class ColorSettingsMenu extends HandlebarsApplicationMixin(Applic
   }
 
   static async resetDefaults() {
-    for (const [key, defaultVal] of Object.entries(COLOR_DEFAULTS)) {
-      await game.settings.set(MODULE_ID, colorSettingKey(key), defaultVal);
+    for (const [key, defaults] of Object.entries(COLOR_LIGHT_DARK_DEFAULTS)) {
+      await game.settings.set(MODULE_ID, colorSettingKey(key, "light"), defaults.light);
+      await game.settings.set(MODULE_ID, colorSettingKey(key, "dark"), defaults.dark);
     }
     this.render();
   }

@@ -1,4 +1,4 @@
-import { MODULE_CONFIG, COLOR_DEFAULTS, HEADER_DEFAULTS, NPC_DEFAULTS, META_CURRENCY_DEFAULTS, UI_DEFAULTS } from "./config.js";
+import { MODULE_CONFIG, COLOR_LIGHT_DARK_DEFAULTS, HEADER_DEFAULTS, NPC_DEFAULTS, META_CURRENCY_DEFAULTS, UI_DEFAULTS } from "./config.js";
 import { applyColorOverrides } from "./color-settings.js";
 import { applyImprovedChat } from "./chat.js";
 import ColorSettingsMenu from "./color-settings-menu.js";
@@ -7,8 +7,9 @@ import NPCSettingsMenu from "./npc-settings-menu.js";
 
 const MODULE_ID = MODULE_CONFIG.id;
 
-function colorSettingKey(key) {
-  return `color${key.charAt(0).toUpperCase()}${key.slice(1)}`;
+function colorSettingKey(key, variant) {
+  const base = `color${key.charAt(0).toUpperCase()}${key.slice(1)}`;
+  return variant ? `${base}${variant === "light" ? "Lt" : "Dk"}` : base;
 }
 
 export function registerSettings() {
@@ -49,13 +50,21 @@ export function registerSettings() {
     requiresReload: false,
   });
 
-  for (const [key, defaultVal] of Object.entries(COLOR_DEFAULTS)) {
-    game.settings.register(MODULE_ID, colorSettingKey(key), {
-      name: `DRAW_STEEL_PLUS.Settings.colors.${key}`,
+  for (const [key, defaults] of Object.entries(COLOR_LIGHT_DARK_DEFAULTS)) {
+    game.settings.register(MODULE_ID, colorSettingKey(key, "light"), {
+      name: `DRAW_STEEL_PLUS.Settings.colors.${key}Lt`,
       scope: "world",
       config: false,
       type: new foundry.data.fields.ColorField(),
-      default: defaultVal,
+      default: defaults.light,
+      onChange: () => applyColorOverrides(),
+    });
+    game.settings.register(MODULE_ID, colorSettingKey(key, "dark"), {
+      name: `DRAW_STEEL_PLUS.Settings.colors.${key}Dk`,
+      scope: "world",
+      config: false,
+      type: new foundry.data.fields.ColorField(),
+      default: defaults.dark,
       onChange: () => applyColorOverrides(),
     });
   }

@@ -352,7 +352,7 @@
 }
 
 .draw-steel-plus.sheet .dsp-favorite-btn.dsp-favorited {
-  color: #f5a623;
+  color: var(--dsp-accent);
   opacity: 1;
 }
 
@@ -578,7 +578,7 @@
 }
 
 .draw-steel-plus.sheet .restricted-warning {
-  color: #d4a017;
+  color: var(--dsp-accent);
   font-size: 0.7rem;
   flex-shrink: 0;
 }
