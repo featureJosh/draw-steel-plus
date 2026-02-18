@@ -1,4 +1,4 @@
-import { MODULE_CONFIG, COLOR_LIGHT_DARK_DEFAULTS, COLOR_CSS_MAP } from "./config.js";
+import { MODULE_CONFIG, COLOR_LIGHT_DARK_DEFAULTS, COLOR_CSS_MAP, colorSettingKey } from "./config.js";
 
 const MODULE_ID = MODULE_CONFIG.id;
 
@@ -9,11 +9,6 @@ function hexToRgb(hex) {
     g: parseInt(str.slice(3, 5), 16),
     b: parseInt(str.slice(5, 7), 16),
   };
-}
-
-function colorSettingKey(key, variant) {
-  const base = `color${key.charAt(0).toUpperCase()}${key.slice(1)}`;
-  return variant ? `${base}${variant === "light" ? "Lt" : "Dk"}` : base;
 }
 
 function getColor(key, variant) {

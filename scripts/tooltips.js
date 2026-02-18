@@ -1,5 +1,6 @@
 import { MODULE_CONFIG } from "./config.js";
 
+const MODULE_ID = MODULE_CONFIG.id;
 const MODULE_PATH = MODULE_CONFIG.path;
 const TOOLTIP_MARGIN_PX = 8;
 
@@ -51,7 +52,8 @@ export class TooltipsDSP {
     let doc;
     try {
       doc = await fromUuid(uuid);
-    } catch {
+    } catch (err) {
+      console.warn(`${MODULE_ID} | Failed to resolve UUID for tooltip: ${uuid}`, err);
       return;
     }
 
@@ -108,11 +110,18 @@ export class TooltipsDSP {
     let abilityDetails = null;
     if (type === "ability") {
       let cardContext = {};
-      try {
-        if (typeof sys.getSheetContext === "function") {
-          await sys.getSheetContext(cardContext);
+      const actor = doc.parent;
+      const rollData = actor?.getRollData?.();
+      const canEvaluateFormulas = !!rollData && (actor?.type !== "npc" || rollData.class != null);
+      if (canEvaluateFormulas) {
+        try {
+          if (typeof sys.getSheetContext === "function") {
+            await sys.getSheetContext(cardContext);
+          }
+        } catch (err) {
+          console.warn(`${MODULE_ID} | Failed to get sheet context for tooltip`, err);
         }
-      } catch {}
+      }
       const hasPowerRolls = cardContext.powerRolls && cardContext.powerRollEffects;
       if (hasPowerRolls || cardContext.enrichedBeforeEffect || cardContext.enrichedAfterEffect || sys.story) {
         let flavor = "";
@@ -122,7 +131,9 @@ export class TooltipsDSP {
               sys.story.trim(),
               { async: true, relativeTo: doc }
             );
-          } catch {}
+          } catch (err) {
+            console.warn(`${MODULE_ID} | Failed to enrich tooltip flavor text`, err);
+          }
         }
         const powerRollLine = hasPowerRolls && !sys.power?.roll?.reactive && cardContext.powerRollBonus
           ? game.i18n.format("DRAW_STEEL.ROLL.Power.RollPlusBonus", { bonus: cardContext.powerRollBonus })
@@ -142,7 +153,7 @@ export class TooltipsDSP {
             let t1 = toStr(cardContext.powerRollEffects?.tier1);
             let t2 = toStr(cardContext.powerRollEffects?.tier2);
             let t3 = toStr(cardContext.powerRollEffects?.tier3);
-            if (!t1 && !t2 && !t3 && typeof sys?.powerRollText === "function") {
+            if (!t1 && !t2 && !t3 && canEvaluateFormulas && typeof sys?.powerRollText === "function") {
               t1 = toStr(await sys.powerRollText.call(sys, 1));
               t2 = toStr(await sys.powerRollText.call(sys, 2));
               t3 = toStr(await sys.powerRollText.call(sys, 3));
@@ -152,7 +163,9 @@ export class TooltipsDSP {
               { label: tierLabels[1], effect: t2, tierNum: 2 },
               { label: tierLabels[2], effect: t3, tierNum: 3 },
             ].filter((t) => t.effect);
-          } catch {}
+          } catch (err) {
+            console.warn(`${MODULE_ID} | Failed to parse power roll tiers for tooltip`, err);
+          }
         }
         const hasContent = flavor || powerRollLine || powerRollTiers.length ||
           cardContext.enrichedBeforeEffect || cardContext.enrichedAfterEffect;
@@ -193,7 +206,9 @@ export class TooltipsDSP {
           description,
           { async: true, relativeTo: doc }
         );
-      } catch {}
+      } catch (err) {
+        console.warn(`${MODULE_ID} | Failed to enrich item tooltip description`, err);
+      }
     }
 
     const ctx = {
@@ -411,7 +426,9 @@ export class TooltipsDSP {
           desc,
           { async: true, relativeTo: doc }
         );
-      } catch {}
+      } catch (err) {
+        console.warn(`${MODULE_ID} | Failed to enrich effect tooltip description`, err);
+      }
     }
 
     const props = [];

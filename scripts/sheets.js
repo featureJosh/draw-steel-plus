@@ -40,6 +40,114 @@ async function toggleDocumentDescription(event, target) {
   embedContainer.classList.toggle("expanded", !isExpanded);
 }
 
+async function toggleFavorite(event, target) {
+  const li = target.closest("[data-document-uuid]");
+  if (!li) return;
+  const item = await fromUuid(li.dataset.documentUuid);
+  if (!item) return;
+  await item.setFlag("draw-steel-plus", "favorite", !item.getFlag("draw-steel-plus", "favorite"));
+}
+
+async function documentListShare(event, target) {
+  const row = target.closest("[data-document-uuid]");
+  if (!row) return;
+  const entries = this._getDocumentListContextOptions?.() ?? [];
+  const shareEntry = entries.find(e => e.name === "DRAW_STEEL.SHEET.Share");
+  if (shareEntry?.condition?.(target) !== false && shareEntry?.callback) {
+    await shareEntry.callback(target);
+  }
+}
+
+function markFavorited(ctx) {
+  ctx.isFavorited = !!ctx?.item?.getFlag?.("draw-steel-plus", "favorite");
+  return ctx;
+}
+
+function filterFav(arr) {
+  return Array.isArray(arr) ? arr.filter((c) => c?.item?.getFlag?.("draw-steel-plus", "favorite")) : [];
+}
+
+function filterAbilities(obj) {
+  const out = {};
+  for (const [k, v] of Object.entries(obj || {})) {
+    const kept = (v?.abilities || []).filter((a) => a?.item?.getFlag?.("draw-steel-plus", "favorite"));
+    if (kept.length) out[k] = { ...v, abilities: kept };
+  }
+  return out;
+}
+
+function filterTreasure(obj) {
+  const out = {};
+  for (const [k, v] of Object.entries(obj || {})) {
+    const kept = (v?.treasure || []).filter((t) => t?.item?.getFlag?.("draw-steel-plus", "favorite"));
+    if (kept.length) out[k] = { ...v, treasure: kept };
+  }
+  return out;
+}
+
+function prepareFavoriteTabs(tabs, element, actor) {
+  const currentActive = element?.querySelector?.("a[data-tab].active")?.dataset?.tab;
+  const hasFavorites = actor.items.some((i) => i.getFlag("draw-steel-plus", "favorite"));
+  const defaultTab = hasFavorites ? "favorites" : "features";
+  const initialTab = (currentActive && tabs[currentActive]) ? currentActive : defaultTab;
+  for (const [tabId, tab] of Object.entries(tabs)) {
+    tab.active = tabId === initialTab;
+    tab.cssClass = tabId === initialTab ? "active" : "";
+  }
+}
+
+function deduplicateHeaderControls(controls) {
+  const seen = new Set();
+  return controls.filter(c => {
+    if (seen.has(c.action)) return false;
+    seen.add(c.action);
+    return true;
+  });
+}
+
+function applyCommonRender(element, actor) {
+  element.classList.add("has-sidebar");
+
+  if (!element.dataset.dspSidebarToggle) {
+    element.dataset.dspSidebarToggle = "1";
+    element.querySelectorAll('[data-action="toggleSidebar"]').forEach((btn) => {
+      btn.addEventListener("click", (e) => {
+        e.preventDefault();
+        element.classList.toggle("sidebar-collapsed");
+      });
+    });
+  }
+
+  applyStaminaPortraitTint(element, actor);
+  setupSidebarCollapse(element);
+  setupItemListCollapse(element);
+  processSidebarTags(element);
+}
+
+function applyTooltipPrevent(element) {
+  element.querySelectorAll(".item-tooltip").forEach(applyItemTooltips);
+  if (!element.dataset.dspTooltipPrevent) {
+    element.dataset.dspTooltipPrevent = "1";
+    element.addEventListener("pointerdown", (e) => {
+      if (e.button === 1 && document.getElementById("tooltip")?.classList.contains("active")) e.preventDefault();
+    });
+  }
+}
+
+function getAbilityFields(actor) {
+  return actor.itemTypes.ability[0]?.system?.constructor?.schema?.fields ?? {
+    resource: { label: game.i18n.localize("DRAW_STEEL.Item.ability.FIELDS.resource.label") },
+    distance: { label: game.i18n.localize("DRAW_STEEL.Item.ability.FIELDS.distance.label") },
+    target: { label: game.i18n.localize("DRAW_STEEL.Item.ability.FIELDS.target.label") },
+  };
+}
+
+function getFeatureFields(actor) {
+  return actor.itemTypes.feature[0]?.system?.constructor?.schema?.fields ?? {
+    type: { label: game.i18n.localize("DOCUMENT.FIELDS.type.label") },
+  };
+}
+
 export function registerSheets(SHEET_SIZES) {
   if (game.system.id !== SYSTEM_ID) {
     console.warn(`${MODULE_ID} | Not running on Draw Steel system, skipping sheet registration`);
@@ -63,37 +171,8 @@ export function registerSheets(SHEET_SIZES) {
   console.log(`${MODULE_ID} | Sheet registration complete`);
 }
 
-function _applyCommonRender(element, actor) {
-  element.classList.add("has-sidebar");
-
-  element.querySelectorAll('[data-action="toggleSidebar"]').forEach((btn) => {
-    btn.addEventListener("click", (e) => {
-      e.preventDefault();
-      element.classList.toggle("sidebar-collapsed");
-    });
-  });
-
-  applyStaminaPortraitTint(element, actor);
-  setupSidebarCollapse(element);
-  setupItemListCollapse(element);
-  processSidebarTags(element);
-}
-
-function _applyTooltipPrevent(element) {
-  element.querySelectorAll(".item-tooltip").forEach(applyItemTooltips);
-  if (!element.dataset.dspTooltipPrevent) {
-    element.dataset.dspTooltipPrevent = "1";
-    element.addEventListener("pointerdown", (e) => {
-      if (e.button === 1 && document.getElementById("tooltip")?.classList.contains("active")) e.preventDefault();
-    });
-  }
-}
-
 function _registerHeroSheet(sheets, SHEET_SIZES) {
   if (!sheets.DrawSteelHeroSheet) return;
-
-  const baseParts = sheets.DrawSteelHeroSheet.PARTS || {};
-  console.log(`${MODULE_ID} | Base hero sheet PARTS keys:`, Object.keys(baseParts));
 
   const DrawSteelPlusHeroSheet = class extends sheets.DrawSteelHeroSheet {
     static DEFAULT_OPTIONS = {
@@ -107,22 +186,8 @@ function _registerHeroSheet(sheets, SHEET_SIZES) {
       actions: {
         ...super.DEFAULT_OPTIONS.actions,
         toggleDocumentDescription,
-        toggleFavorite: async function(event, target) {
-          const li = target.closest("[data-document-uuid]");
-          if (!li) return;
-          const item = await fromUuid(li.dataset.documentUuid);
-          if (!item) return;
-          await item.setFlag("draw-steel-plus", "favorite", !item.getFlag("draw-steel-plus", "favorite"));
-        },
-        documentListShare: async function(event, target) {
-          const row = target.closest("[data-document-uuid]");
-          if (!row) return;
-          const entries = this._getDocumentListContextOptions?.() ?? [];
-          const shareEntry = entries.find(e => e.name === "DRAW_STEEL.SHEET.Share");
-          if (shareEntry?.condition?.(target) !== false && shareEntry?.callback) {
-            await shareEntry.callback(target);
-          }
-        },
+        toggleFavorite,
+        documentListShare,
       },
     };
 
@@ -182,14 +247,7 @@ function _registerHeroSheet(sheets, SHEET_SIZES) {
     _prepareTabs(group) {
       const tabs = super._prepareTabs(group);
       if (group === "primary" && tabs.favorites) {
-        const currentActive = this.element?.querySelector?.("a[data-tab].active")?.dataset?.tab;
-        const hasFavorites = this.actor.items.some((i) => i.getFlag("draw-steel-plus", "favorite"));
-        const defaultTab = hasFavorites ? "favorites" : "features";
-        const initialTab = (currentActive && tabs[currentActive]) ? currentActive : defaultTab;
-        for (const [tabId, tab] of Object.entries(tabs)) {
-          tab.active = tabId === initialTab;
-          tab.cssClass = tabId === initialTab ? "active" : "";
-        }
+        prepareFavoriteTabs(tabs, this.element, this.actor);
       }
       return tabs;
     }
@@ -201,51 +259,40 @@ function _registerHeroSheet(sheets, SHEET_SIZES) {
     async _prepareContext(options) {
       const context = await super._prepareContext(options);
       context.favoritesEnabled = true;
+      this._partContextCache = {};
       return context;
     }
 
     async _preparePartContext(partId, context, options) {
       await super._preparePartContext(partId, context, options);
-      const fav = (ctx) => {
-        ctx.isFavorited = !!ctx?.item?.getFlag?.("draw-steel-plus", "favorite");
-        return ctx;
-      };
+
       if (partId === "features") {
-        context.complications?.complications?.forEach(fav);
-        context.features?.forEach(fav);
+        context.complications?.complications?.forEach(markFavorited);
+        context.features?.forEach(markFavorited);
+        this._partContextCache.features = context.features;
+        this._partContextCache.complications = context.complications;
       } else if (partId === "abilities") {
-        for (const at of Object.values(context.abilities || {})) at.abilities?.forEach(fav);
+        for (const at of Object.values(context.abilities || {})) at.abilities?.forEach(markFavorited);
+        this._partContextCache.abilities = context.abilities;
       } else if (partId === "equipment") {
-        context.kits?.forEach(fav);
-        for (const tt of Object.values(context.treasure || {})) tt.treasure?.forEach(fav);
+        context.kits?.forEach(markFavorited);
+        for (const tt of Object.values(context.treasure || {})) tt.treasure?.forEach(markFavorited);
+        this._partContextCache.kits = context.kits;
+        this._partContextCache.treasure = context.treasure;
       } else if (partId === "projects") {
-        context.projects?.forEach(fav);
+        context.projects?.forEach(markFavorited);
+        this._partContextCache.projects = context.projects;
       } else if (partId === "favorites") {
+        const cache = this._partContextCache;
         const [abilities, features, complications, kits, treasure, projects] = await Promise.all([
-          this._prepareAbilitiesContext(),
-          this._prepareFeaturesContext(),
-          this._prepareComplicationsContext(),
-          this._prepareKitsContext(),
-          this._prepareTreasureContext(),
-          this._prepareProjectsContext(),
+          cache.abilities != null ? cache.abilities : this._prepareAbilitiesContext(),
+          cache.features != null ? cache.features : this._prepareFeaturesContext(),
+          cache.complications != null ? cache.complications : this._prepareComplicationsContext(),
+          cache.kits != null ? cache.kits : this._prepareKitsContext(),
+          cache.treasure != null ? cache.treasure : this._prepareTreasureContext(),
+          cache.projects != null ? cache.projects : this._prepareProjectsContext(),
         ]);
-        const filterFav = (arr) => (Array.isArray(arr) ? arr.filter((c) => c?.item?.getFlag?.("draw-steel-plus", "favorite")) : []);
-        const filterAbilities = (obj) => {
-          const out = {};
-          for (const [k, v] of Object.entries(obj || {})) {
-            const kept = (v?.abilities || []).filter((a) => a?.item?.getFlag?.("draw-steel-plus", "favorite"));
-            if (kept.length) out[k] = { ...v, abilities: kept };
-          }
-          return out;
-        };
-        const filterTreasure = (obj) => {
-          const out = {};
-          for (const [k, v] of Object.entries(obj || {})) {
-            const kept = (v?.treasure || []).filter((t) => t?.item?.getFlag?.("draw-steel-plus", "favorite"));
-            if (kept.length) out[k] = { ...v, treasure: kept };
-          }
-          return out;
-        };
+
         context.favAbilities = filterAbilities(abilities);
         context.favFeatures = filterFav(features);
         context.favComplications = (complications?.complications || []).filter((c) => c?.item?.getFlag?.("draw-steel-plus", "favorite"));
@@ -253,11 +300,7 @@ function _registerHeroSheet(sheets, SHEET_SIZES) {
         context.favKits = filterFav(kits);
         context.favTreasure = filterTreasure(treasure);
         context.favProjects = filterFav(projects);
-        context.abilityFields = this.actor.itemTypes.ability[0]?.system?.constructor?.schema?.fields ?? {
-          resource: { label: game.i18n.localize("DRAW_STEEL.Item.ability.FIELDS.resource.label") },
-          distance: { label: game.i18n.localize("DRAW_STEEL.Item.ability.FIELDS.distance.label") },
-          target: { label: game.i18n.localize("DRAW_STEEL.Item.ability.FIELDS.target.label") },
-        };
+        context.abilityFields = getAbilityFields(this.actor);
         const kit0 = this.actor.itemTypes.kit[0];
         context.kitFields = kit0?.system?.constructor?.schema?.fields ?? {
           bonuses: {
@@ -277,9 +320,7 @@ function _registerHeroSheet(sheets, SHEET_SIZES) {
           points: { label: game.i18n.localize("DRAW_STEEL.Item.project.FIELDS.points.label") },
           type: { label: game.i18n.localize("DRAW_STEEL.Item.project.FIELDS.type.label") },
         };
-        context.featureFields = this.actor.itemTypes.feature[0]?.system?.constructor?.schema?.fields ?? {
-          type: { label: game.i18n.localize("DOCUMENT.FIELDS.type.label") },
-        };
+        context.featureFields = getFeatureFields(this.actor);
         const anyAbilities = Object.values(context.favAbilities || {}).some((at) => (at?.abilities?.length || 0) > 0);
         const anyTreasure = Object.values(context.favTreasure || {}).some((tt) => (tt?.treasure?.length || 0) > 0);
         context.hasFavorites =
@@ -294,13 +335,7 @@ function _registerHeroSheet(sheets, SHEET_SIZES) {
     }
 
     _getHeaderControls() {
-      const controls = super._getHeaderControls();
-      const seen = new Set();
-      return controls.filter(c => {
-        if (seen.has(c.action)) return false;
-        seen.add(c.action);
-        return true;
-      });
+      return deduplicateHeaderControls(super._getHeaderControls());
     }
 
     _onRender(context, options) {
@@ -309,13 +344,11 @@ function _registerHeroSheet(sheets, SHEET_SIZES) {
       setupScrollbarAutoHide(this.element);
       applyHeaderArt(this.element, "hero");
       applyParallaxHeader(this.element);
-      _applyCommonRender(this.element, this.document);
+      applyCommonRender(this.element, this.document);
       applyFloatingTabs(this);
-      _applyTooltipPrevent(this.element);
+      applyTooltipPrevent(this.element);
     }
   };
-
-  console.log(`${MODULE_ID} | DS+ hero sheet PARTS keys:`, Object.keys(DrawSteelPlusHeroSheet.PARTS));
 
   foundry.documents.collections.Actors.registerSheet(MODULE_ID, DrawSteelPlusHeroSheet, {
     types: ["hero"],
@@ -341,22 +374,8 @@ function _registerNPCSheet(sheets, SHEET_SIZES) {
       actions: {
         ...super.DEFAULT_OPTIONS.actions,
         toggleDocumentDescription,
-        toggleFavorite: async function(event, target) {
-          const li = target.closest("[data-document-uuid]");
-          if (!li) return;
-          const item = await fromUuid(li.dataset.documentUuid);
-          if (!item) return;
-          await item.setFlag("draw-steel-plus", "favorite", !item.getFlag("draw-steel-plus", "favorite"));
-        },
-        documentListShare: async function(event, target) {
-          const row = target.closest("[data-document-uuid]");
-          if (!row) return;
-          const entries = this._getDocumentListContextOptions?.() ?? [];
-          const shareEntry = entries.find(e => e.name === "DRAW_STEEL.SHEET.Share");
-          if (shareEntry?.condition?.(target) !== false && shareEntry?.callback) {
-            await shareEntry.callback(target);
-          }
-        },
+        toggleFavorite,
+        documentListShare,
       },
     };
 
@@ -424,14 +443,7 @@ function _registerNPCSheet(sheets, SHEET_SIZES) {
         return tabs;
       }
       if (group === "primary" && tabs.favorites) {
-        const currentActive = this.element?.querySelector?.("a[data-tab].active")?.dataset?.tab;
-        const hasFavorites = this.actor.items.some((i) => i.getFlag("draw-steel-plus", "favorite"));
-        const defaultTab = hasFavorites ? "favorites" : "features";
-        const initialTab = (currentActive && tabs[currentActive]) ? currentActive : defaultTab;
-        for (const [tabId, tab] of Object.entries(tabs)) {
-          tab.active = tabId === initialTab;
-          tab.cssClass = tabId === initialTab ? "active" : "";
-        }
+        prepareFavoriteTabs(tabs, this.element, this.actor);
       }
       return tabs;
     }
@@ -439,43 +451,30 @@ function _registerNPCSheet(sheets, SHEET_SIZES) {
     async _prepareContext(options) {
       const context = await super._prepareContext(options);
       context.favoritesEnabled = game.settings.get(MODULE_ID, "npcFavoritesEnabled");
+      this._partContextCache = {};
       return context;
     }
 
     async _preparePartContext(partId, context, options) {
       await super._preparePartContext(partId, context, options);
-      const fav = (ctx) => {
-        ctx.isFavorited = !!ctx?.item?.getFlag?.("draw-steel-plus", "favorite");
-        return ctx;
-      };
+
       if (partId === "features") {
-        context.features?.forEach(fav);
+        context.features?.forEach(markFavorited);
+        this._partContextCache.features = context.features;
       } else if (partId === "abilities") {
-        for (const at of Object.values(context.abilities || {})) at.abilities?.forEach(fav);
+        for (const at of Object.values(context.abilities || {})) at.abilities?.forEach(markFavorited);
+        this._partContextCache.abilities = context.abilities;
       } else if (partId === "favorites" && game.settings.get(MODULE_ID, "npcFavoritesEnabled")) {
+        const cache = this._partContextCache;
         const [abilities, features] = await Promise.all([
-          this._prepareAbilitiesContext(),
-          this._prepareFeaturesContext(),
+          cache.abilities != null ? cache.abilities : this._prepareAbilitiesContext(),
+          cache.features != null ? cache.features : this._prepareFeaturesContext(),
         ]);
-        const filterFav = (arr) => (Array.isArray(arr) ? arr.filter((c) => c?.item?.getFlag?.("draw-steel-plus", "favorite")) : []);
-        const filterAbilities = (obj) => {
-          const out = {};
-          for (const [k, v] of Object.entries(obj || {})) {
-            const kept = (v?.abilities || []).filter((a) => a?.item?.getFlag?.("draw-steel-plus", "favorite"));
-            if (kept.length) out[k] = { ...v, abilities: kept };
-          }
-          return out;
-        };
+
         context.favAbilities = filterAbilities(abilities);
         context.favFeatures = filterFav(features);
-        context.abilityFields = this.actor.itemTypes.ability[0]?.system?.constructor?.schema?.fields ?? {
-          resource: { label: game.i18n.localize("DRAW_STEEL.Item.ability.FIELDS.resource.label") },
-          distance: { label: game.i18n.localize("DRAW_STEEL.Item.ability.FIELDS.distance.label") },
-          target: { label: game.i18n.localize("DRAW_STEEL.Item.ability.FIELDS.target.label") },
-        };
-        context.featureFields = this.actor.itemTypes.feature[0]?.system?.constructor?.schema?.fields ?? {
-          type: { label: game.i18n.localize("DOCUMENT.FIELDS.type.label") },
-        };
+        context.abilityFields = getAbilityFields(this.actor);
+        context.featureFields = getFeatureFields(this.actor);
         const anyAbilities = Object.values(context.favAbilities || {}).some((at) => (at?.abilities?.length || 0) > 0);
         context.hasFavorites = anyAbilities || (context.favFeatures?.length || 0) > 0;
       }
@@ -483,13 +482,7 @@ function _registerNPCSheet(sheets, SHEET_SIZES) {
     }
 
     _getHeaderControls() {
-      const controls = super._getHeaderControls();
-      const seen = new Set();
-      return controls.filter(c => {
-        if (seen.has(c.action)) return false;
-        seen.add(c.action);
-        return true;
-      });
+      return deduplicateHeaderControls(super._getHeaderControls());
     }
 
     _onRender(context, options) {
@@ -498,9 +491,9 @@ function _registerNPCSheet(sheets, SHEET_SIZES) {
       setupScrollbarAutoHide(this.element);
       applyHeaderArt(this.element, "npc");
       applyParallaxHeader(this.element);
-      _applyCommonRender(this.element, this.document);
+      applyCommonRender(this.element, this.document);
       applyFloatingTabs(this);
-      _applyTooltipPrevent(this.element);
+      applyTooltipPrevent(this.element);
     }
   };
 
@@ -517,8 +510,6 @@ function _registerItemSheet(sheets, SHEET_SIZES) {
   if (!sheets.DrawSteelItemSheet) return;
 
   const itemTypes = Object.keys(game.system.documentTypes?.Item ?? {}).filter(t => t !== "base");
-  console.log(`${MODULE_ID} | Detected item types:`, itemTypes);
-
   if (!itemTypes.length) return;
 
   const DrawSteelPlusItemSheet = class extends sheets.DrawSteelItemSheet {
@@ -532,15 +523,7 @@ function _registerItemSheet(sheets, SHEET_SIZES) {
       },
       actions: {
         ...super.DEFAULT_OPTIONS.actions,
-        documentListShare: async function(event, target) {
-          const row = target.closest("[data-document-uuid]");
-          if (!row) return;
-          const entries = this._getDocumentListContextOptions?.() ?? [];
-          const shareEntry = entries.find(e => e.name === "DRAW_STEEL.SHEET.Share");
-          if (shareEntry?.condition?.(target) !== false && shareEntry?.callback) {
-            await shareEntry.callback(target);
-          }
-        },
+        documentListShare,
       },
     };
 
@@ -561,7 +544,7 @@ function _registerItemSheet(sheets, SHEET_SIZES) {
       applyMinSize(this.element, SHEET_SIZES.item);
       setupScrollbarAutoHide(this.element);
       applyFloatingTabs(this);
-      _applyTooltipPrevent(this.element);
+      applyTooltipPrevent(this.element);
     }
   };
 

@@ -1,12 +1,7 @@
-import { MODULE_CONFIG, COLOR_LIGHT_DARK_DEFAULTS } from "./config.js";
+import { MODULE_CONFIG, COLOR_LIGHT_DARK_DEFAULTS, colorSettingKey } from "./config.js";
 import { applyColorOverrides } from "./color-settings.js";
 
 const MODULE_ID = MODULE_CONFIG.id;
-
-function colorSettingKey(key, variant) {
-  const base = `color${key.charAt(0).toUpperCase()}${key.slice(1)}`;
-  return variant ? `${base}${variant === "light" ? "Lt" : "Dk"}` : base;
-}
 
 const { HandlebarsApplicationMixin, ApplicationV2 } = foundry.applications.api;
 
@@ -79,16 +74,18 @@ export default class ColorSettingsMenu extends HandlebarsApplicationMixin(Applic
   }
 
   static async onSubmit(event, form, formData) {
-    for (const [key, value] of Object.entries(formData.object)) {
-      await game.settings.set(MODULE_ID, key, value);
-    }
+    await Promise.all(
+      Object.entries(formData.object).map(([key, value]) => game.settings.set(MODULE_ID, key, value))
+    );
   }
 
   static async resetDefaults() {
-    for (const [key, defaults] of Object.entries(COLOR_LIGHT_DARK_DEFAULTS)) {
-      await game.settings.set(MODULE_ID, colorSettingKey(key, "light"), defaults.light);
-      await game.settings.set(MODULE_ID, colorSettingKey(key, "dark"), defaults.dark);
-    }
+    await Promise.all(
+      Object.entries(COLOR_LIGHT_DARK_DEFAULTS).flatMap(([key, defaults]) => [
+        game.settings.set(MODULE_ID, colorSettingKey(key, "light"), defaults.light),
+        game.settings.set(MODULE_ID, colorSettingKey(key, "dark"), defaults.dark),
+      ])
+    );
     this.render();
   }
 }

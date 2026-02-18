@@ -19,7 +19,7 @@ const CHAT_TEMPLATES = {
 const _compiled = {};
 
 export async function registerChatTemplates() {
-  await loadTemplates(Object.values(CHAT_TEMPLATES));
+  await foundry.applications.handlebars.loadTemplates(Object.values(CHAT_TEMPLATES));
 
   for (const [key, path] of Object.entries(CHAT_TEMPLATES)) {
     const id = path.replace(".hbs", "");

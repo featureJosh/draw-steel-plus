@@ -122,11 +122,8 @@ export class MetaCurrencyTracker extends HandlebarsApplicationMixin(ApplicationV
   }
 
   _onRender(context, options) {
-    const isLocked = game.settings.get(MODULE_ID, "metaCurrencyLocked");
-    const isExpanded = game.settings.get(MODULE_ID, "metaCurrencyExpanded");
-
-    this.element.classList.toggle("dsp-mc-locked", isLocked);
-    this.element.classList.toggle("dsp-mc-minimized", !isExpanded);
+    this.element.classList.toggle("dsp-mc-locked", context.isLocked);
+    this.element.classList.toggle("dsp-mc-minimized", !context.isExpanded);
 
     const dragHandle = this.element.querySelector(".dsp-mc-drag-handle");
     if (dragHandle) {
@@ -135,7 +132,7 @@ export class MetaCurrencyTracker extends HandlebarsApplicationMixin(ApplicationV
     }
 
     window.removeEventListener("resize", this._boundOnResize);
-    if (isLocked && game.settings.get(MODULE_ID, "metaCurrencyCentered")) {
+    if (context.isLocked && game.settings.get(MODULE_ID, "metaCurrencyCentered")) {
       window.addEventListener("resize", this._boundOnResize);
     }
   }

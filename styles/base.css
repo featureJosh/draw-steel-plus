@@ -22,7 +22,7 @@ body.theme-light,
   --dsp-surface-raised: light-dark(#e0d9ce, #1e1e1e);
   --dsp-text: light-dark(#2a2520, #e8e0d4);
   --dsp-text-light: light-dark(#5a5248, #9a8e80);
-  --dsp-text-faint: light-dark(#5a5248, #5a5248)
+  --dsp-text-faint: light-dark(#5a5248, #5a5248);
   --dsp-border: light-dark(#c4b8a8, #2a2020);
   --dsp-border-light: light-dark(#d4c8b8, #3a302a);
   --dsp-shadow: light-dark(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.6));

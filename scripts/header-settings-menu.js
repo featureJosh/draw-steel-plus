@@ -81,17 +81,21 @@ export default class HeaderSettingsMenu extends HandlebarsApplicationMixin(Appli
 
   static async onSubmit(event, form, formData) {
     const data = foundry.utils.expandObject(formData.object);
-    await game.settings.set(MODULE_ID, "heroHeaderEnabled", data.heroHeaderEnabled ?? HEADER_DEFAULTS.heroHeaderEnabled);
-    await game.settings.set(MODULE_ID, "heroHeaderImage", data.heroHeaderImage ?? HEADER_DEFAULTS.heroHeaderImage);
-    await game.settings.set(MODULE_ID, "npcHeaderEnabled", data.npcHeaderEnabled ?? HEADER_DEFAULTS.npcHeaderEnabled);
-    await game.settings.set(MODULE_ID, "npcHeaderImage", data.npcHeaderImage ?? HEADER_DEFAULTS.npcHeaderImage);
+    await Promise.all([
+      game.settings.set(MODULE_ID, "heroHeaderEnabled", data.heroHeaderEnabled ?? HEADER_DEFAULTS.heroHeaderEnabled),
+      game.settings.set(MODULE_ID, "heroHeaderImage", data.heroHeaderImage ?? HEADER_DEFAULTS.heroHeaderImage),
+      game.settings.set(MODULE_ID, "npcHeaderEnabled", data.npcHeaderEnabled ?? HEADER_DEFAULTS.npcHeaderEnabled),
+      game.settings.set(MODULE_ID, "npcHeaderImage", data.npcHeaderImage ?? HEADER_DEFAULTS.npcHeaderImage),
+    ]);
   }
 
   static async resetDefaults() {
-    await game.settings.set(MODULE_ID, "heroHeaderEnabled", HEADER_DEFAULTS.heroHeaderEnabled);
-    await game.settings.set(MODULE_ID, "heroHeaderImage", HEADER_DEFAULTS.heroHeaderImage);
-    await game.settings.set(MODULE_ID, "npcHeaderEnabled", HEADER_DEFAULTS.npcHeaderEnabled);
-    await game.settings.set(MODULE_ID, "npcHeaderImage", HEADER_DEFAULTS.npcHeaderImage);
+    await Promise.all([
+      game.settings.set(MODULE_ID, "heroHeaderEnabled", HEADER_DEFAULTS.heroHeaderEnabled),
+      game.settings.set(MODULE_ID, "heroHeaderImage", HEADER_DEFAULTS.heroHeaderImage),
+      game.settings.set(MODULE_ID, "npcHeaderEnabled", HEADER_DEFAULTS.npcHeaderEnabled),
+      game.settings.set(MODULE_ID, "npcHeaderImage", HEADER_DEFAULTS.npcHeaderImage),
+    ]);
     this.render();
   }
 }

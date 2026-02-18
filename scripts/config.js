@@ -98,6 +98,11 @@ export const META_CURRENCY_DEFAULTS = {
   centered: false,
 };
 
+export function colorSettingKey(key, variant) {
+  const base = `color${key.charAt(0).toUpperCase()}${key.slice(1)}`;
+  return variant ? `${base}${variant === "light" ? "Lt" : "Dk"}` : base;
+}
+
 export const MODULE_CONFIG = {
   id: "draw-steel-plus",
   systemId: "draw-steel",

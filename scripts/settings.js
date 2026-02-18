@@ -1,4 +1,4 @@
-import { MODULE_CONFIG, COLOR_LIGHT_DARK_DEFAULTS, HEADER_DEFAULTS, NPC_DEFAULTS, META_CURRENCY_DEFAULTS, UI_DEFAULTS } from "./config.js";
+import { MODULE_CONFIG, COLOR_LIGHT_DARK_DEFAULTS, HEADER_DEFAULTS, NPC_DEFAULTS, META_CURRENCY_DEFAULTS, UI_DEFAULTS, colorSettingKey } from "./config.js";
 import { applyColorOverrides } from "./color-settings.js";
 import { applyImprovedChat } from "./chat.js";
 import ColorSettingsMenu from "./color-settings-menu.js";
@@ -6,11 +6,6 @@ import HeaderSettingsMenu from "./header-settings-menu.js";
 import NPCSettingsMenu from "./npc-settings-menu.js";
 
 const MODULE_ID = MODULE_CONFIG.id;
-
-function colorSettingKey(key, variant) {
-  const base = `color${key.charAt(0).toUpperCase()}${key.slice(1)}`;
-  return variant ? `${base}${variant === "light" ? "Lt" : "Dk"}` : base;
-}
 
 export function registerSettings() {
   game.settings.registerMenu(MODULE_ID, "colorSettingsMenu", {
