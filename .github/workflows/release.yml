@@ -33,7 +33,7 @@ jobs:
       - name: Create release archive
         run: |
           zip -r draw-steel-plus.zip . \
-            -x "*.git*" "*.github*" "*.DS_Store*" "node_modules/*" "*.md" "*.cursor*"
+            -x "*.git*" "*.github*" "*.DS_Store*" "node_modules/*" "*.md"
 
       - name: Upload release assets
         uses: softprops/action-gh-release@v2

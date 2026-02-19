@@ -822,6 +822,36 @@ body.dsp-improved-chat :is(.chat-sidebar, #chat-notifications, .chat-popout) [en
   word-break: break-all;
 }
 
+body.dsp-improved-chat :is(.chat-sidebar, #chat-notifications, .chat-popout) enriched-content,
+body.dsp-improved-chat :is(.chat-sidebar, #chat-notifications, .chat-popout) .content-link,
+body.dsp-improved-chat :is(.chat-sidebar, #chat-notifications, .chat-popout) .inline-roll {
+  margin: unset;
+  white-space: nowrap;
+  background: var(--dsp-primary-dark);
+  border: 1px solid var(--dsp-accent-bright);
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  border-radius: 6px;
+  color: var(--dsp-accent);
+  padding: 2px 4px 0;
+  -webkit-text-wrap-mode: nowrap;
+  text-wrap-mode: nowrap;
+  word-break: break-all;
+  text-transform: capitalize;
+}
+
+body.dsp-improved-chat :is(.chat-sidebar, #chat-notifications, .chat-popout) .content-link > i,
+body.dsp-improved-chat :is(.chat-sidebar, #chat-notifications, .chat-popout) .inline-roll > i {
+  color: var(--dsp-accent) !important;
+}
+
+body.dsp-improved-chat :is(.chat-sidebar, #chat-notifications, .chat-popout) enriched-content:hover,
+body.dsp-improved-chat :is(.chat-sidebar, #chat-notifications, .chat-popout) .content-link:hover,
+body.dsp-improved-chat :is(.chat-sidebar, #chat-notifications, .chat-popout) .inline-roll:hover {
+  border-color: var(--dsp-accent);
+  background: var(--dsp-accent-dim);
+}
+
 
 body.dsp-improved-chat .chat-popout {
   margin: 0;
