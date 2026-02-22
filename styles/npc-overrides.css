@@ -1,9 +1,28 @@
 .draw-steel-plus.dsp-npc {
-  --dsp-npc-bg: #1a0808;
-  --dsp-npc-surface: #1a1515;
-  --dsp-npc-surface-raised: #241212;
-  --dsp-npc-tint: rgba(122, 27, 27, 0.15);
-  --dsp-npc-tint-strong: rgba(122, 27, 27, 0.3);
+  --dsp-npc-bg: light-dark(#e8e0d4, #1a0808);
+  --dsp-npc-surface: light-dark(#d8d0c4, #1a1515);
+  --dsp-npc-surface-raised: light-dark(#c8c0b4, #241212);
+  --dsp-npc-tint: light-dark(rgba(180, 60, 60, 0.15), rgba(122, 27, 27, 0.15));
+  --dsp-npc-tint-strong: light-dark(rgba(180, 60, 60, 0.25), rgba(122, 27, 27, 0.3));
+  --dsp-npc-overlay: light-dark(rgba(232, 224, 212, 0.92), rgba(26, 8, 8, 0.92));
+  --dsp-npc-overlay-fade: light-dark(rgba(232, 224, 212, 0.25), rgba(26, 8, 8, 0.25));
+  --dsp-npc-overlay-mid: light-dark(rgba(232, 224, 212, 0.6), rgba(26, 8, 8, 0.6));
+  --dsp-npc-tag-bg: light-dark(rgba(180, 60, 60, 0.3), rgba(122, 27, 27, 0.5));
+  --dsp-npc-tag-hover: light-dark(rgba(200, 80, 80, 0.5), rgba(168, 40, 40, 0.65));
+  --dsp-npc-input-bg: light-dark(rgba(180, 60, 60, 0.15), rgba(26, 8, 8, 0.4));
+  --dsp-npc-input-focus: light-dark(rgba(180, 60, 60, 0.3), rgba(26, 8, 8, 0.6));
+  --dsp-npc-static-bg: light-dark(rgba(0, 0, 0, 0.06), rgba(0, 0, 0, 0.14));
+  --dsp-npc-dual-row: light-dark(rgba(180, 60, 60, 0.12), rgba(26, 8, 8, 0.3));
+  --dsp-npc-dual-input: light-dark(rgba(180, 60, 60, 0.2), rgba(26, 8, 8, 0.5));
+  --dsp-npc-tag-normal: light-dark(rgba(180, 60, 60, 0.18), rgba(26, 8, 8, 0.4));
+  --dsp-npc-tag-normal-hover: light-dark(rgba(200, 80, 80, 0.35), rgba(168, 40, 40, 0.45));
+  --dsp-npc-tag-none: light-dark(rgba(180, 60, 60, 0.1), rgba(26, 8, 8, 0.2));
+  --dsp-npc-fieldset: light-dark(rgba(180, 60, 60, 0.1), rgba(26, 8, 8, 0.2));
+  --dsp-npc-stamina-track: light-dark(rgba(180, 60, 60, 0.25), rgba(26, 8, 8, 0.7));
+  --dsp-npc-radial-center: light-dark(rgba(200, 100, 100, 0.25), rgba(168, 40, 40, 0.45));
+  --dsp-npc-radial-edge: light-dark(rgba(200, 100, 100, 0.1), rgba(168, 40, 40, 0.2));
+  --dsp-npc-malice-inner: light-dark(#2a1515, #1a0808);
+  --dsp-npc-malice-text: light-dark(#f5e6c8, #e8e0d4);
 }
 
 .draw-steel-plus.dsp-npc .sheet-header {
@@ -14,31 +33,31 @@
   background: linear-gradient(
     to right,
     var(--dsp-npc-bg) 0%,
-    rgba(26, 8, 8, 0.92) 40%,
-    rgba(26, 8, 8, 0.6) 60%,
-    rgba(26, 8, 8, 0.25) 85%,
+    var(--dsp-npc-overlay) 40%,
+    var(--dsp-npc-overlay-mid) 60%,
+    var(--dsp-npc-overlay-fade) 85%,
     transparent 86%
   ),
   radial-gradient(
     ellipse at 0% 50%,
-    rgba(168, 40, 40, 0.45) 0%,
-    rgba(168, 40, 40, 0.2) 30%,
+    var(--dsp-npc-radial-center) 0%,
+    var(--dsp-npc-radial-edge) 30%,
     transparent 60%
   );
 }
 
 .draw-steel-plus.dsp-npc .sheet-header .header-bg-art {
-  filter: saturate(0.6) brightness(0.7) sepia(0.3) hue-rotate(-10deg);
-  opacity: 0.45;
+  filter: light-dark(saturate(0.8) brightness(0.9) sepia(0.2) hue-rotate(-5deg), saturate(0.6) brightness(0.7) sepia(0.3) hue-rotate(-10deg));
+  opacity: light-dark(0.55, 0.45);
 }
 
 
 .draw-steel-plus.dsp-npc .sheet-header .origins-row .tag {
-  background: rgba(122, 27, 27, 0.5);
+  background: var(--dsp-npc-tag-bg);
 }
 
 .draw-steel-plus.dsp-npc .sheet-header .origins-row .tag:hover {
-  background: rgba(168, 40, 40, 0.65);
+  background: var(--dsp-npc-tag-hover);
 }
 
 .draw-steel-plus.dsp-npc .sheet-header .npc-attribution {
@@ -62,55 +81,42 @@
   background: var(--dsp-npc-surface-raised);
 }
 
-/*.draw-steel-plus.dsp-npc .sidebar-stat-badge {
-  background: rgba(26, 8, 8, 0.5);
-}*/
-
-/*.draw-steel-plus.dsp-npc .sidebar-stat-badge:hover {
-  box-shadow: 0 0 14px rgba(168, 40, 40, 0.25);
-}
- /*
-.draw-steel-plus.dsp-npc .sidebar-field input {
-  background: rgba(26, 8, 8, 0.4);
-  border-color: var(--dsp-border);
-}*/
-
 .draw-steel-plus.dsp-npc .sidebar-field input:focus {
-  background: rgba(26, 8, 8, 0.6);
+  background: var(--dsp-npc-input-focus);
   border-color: var(--dsp-accent);
 }
 
 .draw-steel-plus.dsp-npc .sidebar-static {
-  background: rgb(0 0 0 / 14%);
+  background: var(--dsp-npc-static-bg);
   border-color: transparent;
 }
 
 .draw-steel-plus.dsp-npc .sidebar-dual-row {
-  background: rgba(26, 8, 8, 0.3);
+  background: var(--dsp-npc-dual-row);
 }
 
 .draw-steel-plus.dsp-npc .sidebar-dual-input {
-  background: rgba(26, 8, 8, 0.5);
+  background: var(--dsp-npc-dual-input);
 }
 
 .draw-steel-plus.dsp-npc .sidebar-tag {
-  background: rgba(26, 8, 8, 0.4);
+  background: var(--dsp-npc-tag-normal);
 }
 
 .draw-steel-plus.dsp-npc .sidebar-tag:hover {
-  background: rgba(168, 40, 40, 0.45);
+  background: var(--dsp-npc-tag-normal-hover);
 }
 
 .draw-steel-plus.dsp-npc .sidebar-tag-none {
-  background: rgba(26, 8, 8, 0.2);
+  background: var(--dsp-npc-tag-none);
 }
 
 .draw-steel-plus.dsp-npc .sidebar-edit-section fieldset {
-  background: rgba(26, 8, 8, 0.2);
+  background: var(--dsp-npc-fieldset);
 }
 
 .draw-steel-plus.dsp-npc .stam-bar-track {
-  background: rgba(26, 8, 8, 0.7);
+  background: var(--dsp-npc-stamina-track);
 }
 
 .draw-steel-plus.dsp-npc .sheet-header .stats-block .malice-badge {
@@ -141,7 +147,7 @@
 	position: absolute;
 	inset: 2px;
 	clip-path: polygon(0% 0%, 0% 75%, 50% 100%, 100% 75%, 100% 0%);
-	background: var(--dsp-primary-dark);
+	background: var(--dsp-npc-malice-inner);
 	z-index: 0;
 }
 
@@ -152,7 +158,7 @@
 	font-weight: 700;
 	text-transform: uppercase;
 	letter-spacing: 0.06em;
-	color: var(--dsp-heading-font);
+	color: var(--dsp-npc-malice-text);
 	text-align: center;
 	line-height: 1;
 	margin: 0;
@@ -163,7 +169,7 @@
   z-index: 1;
   font-size: 1.05rem;
   font-weight: 900;
-  color: var(--dsp-text);
+  color: var(--dsp-npc-malice-text);
   text-align: center;
   line-height: 1;
   margin: 0;
@@ -173,7 +179,7 @@
 	width: 48px;
 	background: transparent;
 	border: none;
-	color: var(--dsp-accent);
+	color: var(--dsp-npc-malice-text);
 	font-size: 1.8rem;
 	font-weight: 800;
 	line-height: 1;
