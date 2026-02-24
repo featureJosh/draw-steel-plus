@@ -14,6 +14,9 @@ Improves the UI/UX of the Draw Steel system for character sheets, item sheets, a
 
 ![Meta-Currency UI](https://github.com/user-attachments/assets/ab2d0d97-01d5-42ea-80ff-43f109c0d32c)
 
+**Improved Chat**
+![Improved Chat](https://github.com/user-attachments/assets/d18b04cd-93aa-49e5-9c14-7526374a8194)
+
 **Quick Expand & Send**
 
 ![Quick Expand & Quick Send](https://github.com/user-attachments/assets/221de3f1-b0e9-4d57-94da-25255b2e777e)

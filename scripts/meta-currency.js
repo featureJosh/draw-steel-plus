@@ -53,8 +53,9 @@ export class MetaCurrencyTracker extends HandlebarsApplicationMixin(ApplicationV
 
   static getCanvasBounds() {
     const canvas = game.canvas;
-    if (canvas?.ready && canvas.app?.view) {
-      const rect = canvas.app.view.getBoundingClientRect();
+    const view = canvas?.app?.canvas ?? canvas?.app?.view;
+    if (canvas?.ready && view) {
+      const rect = view.getBoundingClientRect();
       return { left: rect.left, top: rect.top, width: rect.width, height: rect.height };
     }
     return {
@@ -78,7 +79,8 @@ export class MetaCurrencyTracker extends HandlebarsApplicationMixin(ApplicationV
     this.instance.render(true);
   }
 
-  _onClose() {
+  _onClose(options) {
+    super._onClose(options);
     window.removeEventListener("resize", this._boundOnResize);
   }
 
