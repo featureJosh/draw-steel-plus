@@ -7,10 +7,10 @@ const { HandlebarsApplicationMixin, ApplicationV2 } = foundry.applications.api;
 
 export default class ColorSettingsMenu extends HandlebarsApplicationMixin(ApplicationV2) {
   static COLOR_GROUPS = [
-    { key: "primary", colors: ["primary", "primaryLight", "primaryDark"] },
-    { key: "accent", colors: ["secondary", "accent", "accentBright"] },
+    { key: "primary", colors: ["primary", "primaryLight", "primaryDark", "primaryStrong"] },
+    { key: "accent", colors: ["secondary", "accent", "accentBright", "accentStrong"] },
     { key: "background", colors: ["background", "surface", "surfaceRaised"] },
-    { key: "text", colors: ["text", "textLight", "textFaint"] },
+    { key: "text", colors: ["text", "textLight", "textFaint", "textMuted"] },
     { key: "other", colors: ["border", "borderLight", "danger"] },
   ];
 

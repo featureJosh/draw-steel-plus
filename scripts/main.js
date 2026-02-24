@@ -15,10 +15,21 @@ Hooks.once("init", () => {
   registerSheets(SHEET_SIZE_DEFAULTS);
 });
 
+function applyMetaCurrencySetting() {
+  const useCustom = game.settings.get(MODULE_ID, "useCustomMetaCurrency");
+  document.body.classList.toggle("dsp-custom-meta-currency", useCustom);
+  if (useCustom) {
+    MetaCurrencyTracker.initialize();
+  } else {
+    MetaCurrencyTracker.instance?.close();
+    MetaCurrencyTracker.instance = null;
+  }
+}
+
 Hooks.once("ready", () => {
   applyColorOverrides();
   applyImprovedChat();
-  MetaCurrencyTracker.initialize();
+  applyMetaCurrencySetting();
   TooltipsDSP.activateListeners();
   const tooltips = new TooltipsDSP();
   tooltips.observe();

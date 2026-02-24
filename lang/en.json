@@ -55,6 +55,9 @@
         "primaryDark": "Primary Dark",
         "primaryDarkLt": "Primary Dark (Light)",
         "primaryDarkDk": "Primary Dark (Dark)",
+        "primaryStrong": "Primary Strong",
+        "primaryStrongLt": "Primary Strong (Light)",
+        "primaryStrongDk": "Primary Strong (Dark)",
         "secondary": "Secondary",
         "secondaryLt": "Secondary (Light)",
         "secondaryDk": "Secondary (Dark)",
@@ -64,6 +67,9 @@
         "accentBright": "Accent Bright",
         "accentBrightLt": "Accent Bright (Light)",
         "accentBrightDk": "Accent Bright (Dark)",
+        "accentStrong": "Accent Strong",
+        "accentStrongLt": "Accent Strong (Light)",
+        "accentStrongDk": "Accent Strong (Dark)",
         "background": "Background",
         "backgroundLt": "Background (Light)",
         "backgroundDk": "Background (Dark)",
@@ -82,6 +88,9 @@
         "textFaint": "Text Faint",
         "textFaintLt": "Text Faint (Light)",
         "textFaintDk": "Text Faint (Dark)",
+        "textMuted": "Text Muted",
+        "textMutedLt": "Text Muted (Light)",
+        "textMutedDk": "Text Muted (Dark)",
         "border": "Border",
         "borderLt": "Border (Light)",
         "borderDk": "Border (Dark)",
@@ -119,6 +128,10 @@
       "improvedChat": {
         "name": "Improved Chat",
         "hint": "Enhance the chat sidebar with Draw Steel Plus dark-fantasy styling."
+      },
+      "useCustomMetaCurrency": {
+        "name": "Custom Meta Currency Panel",
+        "hint": "Use the Draw Steel Plus meta currency panel. When disabled, the core Draw Steel meta currency panel is shown instead."
       }
     },
     "Tooltip": {

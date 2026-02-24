@@ -1,6 +1,7 @@
 import { MODULE_CONFIG, COLOR_LIGHT_DARK_DEFAULTS, HEADER_DEFAULTS, NPC_DEFAULTS, META_CURRENCY_DEFAULTS, UI_DEFAULTS, colorSettingKey } from "./config.js";
 import { applyColorOverrides } from "./color-settings.js";
 import { applyImprovedChat } from "./chat.js";
+import { MetaCurrencyTracker } from "./meta-currency.js";
 import ColorSettingsMenu from "./color-settings-menu.js";
 import HeaderSettingsMenu from "./header-settings-menu.js";
 import NPCSettingsMenu from "./npc-settings-menu.js";
@@ -135,6 +136,25 @@ export function registerSettings() {
     default: UI_DEFAULTS.improvedChat,
     requiresReload: false,
     onChange: () => applyImprovedChat(),
+  });
+
+  game.settings.register(MODULE_ID, "useCustomMetaCurrency", {
+    name: "DRAW_STEEL_PLUS.Settings.useCustomMetaCurrency.name",
+    hint: "DRAW_STEEL_PLUS.Settings.useCustomMetaCurrency.hint",
+    scope: "client",
+    config: true,
+    type: Boolean,
+    default: UI_DEFAULTS.useCustomMetaCurrency,
+    requiresReload: false,
+    onChange: (value) => {
+      document.body.classList.toggle("dsp-custom-meta-currency", value);
+      if (value) {
+        MetaCurrencyTracker.initialize();
+      } else {
+        MetaCurrencyTracker.instance?.close();
+        MetaCurrencyTracker.instance = null;
+      }
+    },
   });
 
   game.settings.register(MODULE_ID, "metaCurrencyPosition", {

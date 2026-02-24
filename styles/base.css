@@ -8,14 +8,16 @@ body.theme-light,
   color-scheme: light;
 }
 
-.draw-steel-plus.sheet {
+body {
   --dsp-primary: light-dark(#b85454, #7a1b1b);
   --dsp-primary-light: light-dark(#a12c2c, #a82828);
   --dsp-primary-dark: light-dark(#4a0e0e, #4a0e0e);
+  --dsp-primary-strong: light-dark(#8b2020, #a82828);
   --dsp-primary-glow: light-dark(rgba(201, 106, 106, 0.3), rgba(168, 40, 40, 0.3));
   --dsp-secondary: light-dark(#2d2d4a, #1a1a2e);
   --dsp-accent: light-dark(#a88b4a, #c8aa6e);
   --dsp-accent-bright: light-dark(#c9a864, #ddc088);
+  --dsp-accent-strong: light-dark(#7a5a2e, #c8aa6e);
   --dsp-accent-dim: light-dark(rgba(168, 139, 74, 0.2), rgba(200, 170, 110, 0.2));
   --dsp-background: light-dark(#f5f0e8, #0d0d0d);
   --dsp-surface: light-dark(#ebe5dc, #161616);
@@ -23,6 +25,37 @@ body.theme-light,
   --dsp-text: light-dark(#2a2520, #e8e0d4);
   --dsp-text-light: light-dark(#5a5248, #9a8e80);
   --dsp-text-faint: light-dark(#5a5248, #5a5248);
+  --dsp-text-muted: light-dark(#4a4238, #9a8e80);
+  --dsp-border: light-dark(#c4b8a8, #2a2020);
+  --dsp-border-light: light-dark(#d4c8b8, #3a302a);
+  --dsp-shadow: light-dark(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.6));
+  --dsp-shadow-heavy: light-dark(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.85));
+  --dsp-danger: light-dark(#c04040, #e05555);
+  --dsp-radius-sm: 4px;
+  --dsp-radius-md: 8px;
+  --dsp-radius-lg: 16px;
+  --dsp-radius-xl: 24px;
+  --dsp-radius-full: 9999px;
+}
+
+.draw-steel-plus.sheet {
+  --dsp-primary: light-dark(#b85454, #7a1b1b);
+  --dsp-primary-light: light-dark(#a12c2c, #a82828);
+  --dsp-primary-dark: light-dark(#4a0e0e, #4a0e0e);
+  --dsp-primary-strong: light-dark(#8b2020, #a82828);
+  --dsp-primary-glow: light-dark(rgba(201, 106, 106, 0.3), rgba(168, 40, 40, 0.3));
+  --dsp-secondary: light-dark(#2d2d4a, #1a1a2e);
+  --dsp-accent: light-dark(#a88b4a, #c8aa6e);
+  --dsp-accent-bright: light-dark(#c9a864, #ddc088);
+  --dsp-accent-strong: light-dark(#7a5a2e, #c8aa6e);
+  --dsp-accent-dim: light-dark(rgba(168, 139, 74, 0.2), rgba(200, 170, 110, 0.2));
+  --dsp-background: light-dark(#f5f0e8, #0d0d0d);
+  --dsp-surface: light-dark(#ebe5dc, #161616);
+  --dsp-surface-raised: light-dark(#e0d9ce, #1e1e1e);
+  --dsp-text: light-dark(#2a2520, #e8e0d4);
+  --dsp-text-light: light-dark(#5a5248, #9a8e80);
+  --dsp-text-faint: light-dark(#5a5248, #5a5248);
+  --dsp-text-muted: light-dark(#4a4238, #9a8e80);
   --dsp-border: light-dark(#c4b8a8, #2a2020);
   --dsp-border-light: light-dark(#d4c8b8, #3a302a);
   --dsp-shadow: light-dark(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.6));
@@ -161,7 +194,7 @@ body.theme-light,
   color: var(--dsp-accent);
 }
 
-.window-content:has(form#dsp-color-settings) {
+form#dsp-color-settings .window-content {
   overflow-y: auto;
   max-height: min(80vh, 700px);
 }

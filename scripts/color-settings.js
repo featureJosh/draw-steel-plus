@@ -30,7 +30,7 @@ export function applyColorOverrides() {
     };
   }
 
-  let css = ".draw-steel-plus.sheet {\n";
+  let css = "body, .draw-steel-plus.sheet {\n";
   for (const [key, cssVar] of Object.entries(COLOR_CSS_MAP)) {
     const { light, dark } = merged[key];
     css += `  ${cssVar}: light-dark(${light}, ${dark});\n`;
