@@ -700,12 +700,7 @@ inset 0 1px 0 rgba(255, 255, 255, 0.12);
   color: var(--dsp-text-faint);
   font-size: 0.6rem;
   cursor: pointer;
-  opacity: 0;
-  transition: color var(--dsp-transition), opacity var(--dsp-transition);
-}
-
-.draw-steel-plus.sheet .sheet-header .origins-row .tag:hover .delete-icon {
-  opacity: 1;
+  transition: color var(--dsp-transition);
 }
 
 .draw-steel-plus.sheet .sheet-header .origins-row .tag .delete-icon:hover {
