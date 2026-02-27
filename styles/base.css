@@ -194,6 +194,10 @@ body {
   color: var(--dsp-accent);
 }
 
+.draw-steel-plus.sheet & .item-list-container {
+	margin: 0;
+}
+
 form#dsp-color-settings .window-content {
   overflow-y: auto;
   max-height: min(80vh, 700px);
