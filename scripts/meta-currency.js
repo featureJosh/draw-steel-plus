@@ -1,25 +1,23 @@
 import { MODULE_CONFIG } from "./config.js";
+import { DspFloatingUI } from "./dsp-floating-ui.js";
 
-const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
 const MODULE_ID = MODULE_CONFIG.id;
 const MODULE_PATH = MODULE_CONFIG.path;
 const SYSTEM_ID = MODULE_CONFIG.systemId;
 
-export class MetaCurrencyTracker extends HandlebarsApplicationMixin(ApplicationV2) {
-  static instance;
+const MC_CONFIG = {
+  positionKey: "metaCurrencyPosition",
+  lockedKey: "metaCurrencyLocked",
+  centeredKey: "metaCurrencyCentered",
+  expandedKey: "metaCurrencyExpanded",
+  dragHandleSelector: ".dsp-mc-drag-handle",
+  lockedClass: "dsp-mc-locked",
+  supportsExpand: true,
+};
 
-  constructor(options = {}) {
-    super(options);
-    this._dragData = {
-      isDragging: false,
-      startX: 0,
-      startY: 0,
-      startLeft: 0,
-      startTop: 0,
-    };
-    this._boundDragStart = this.#onDragStart.bind(this);
-    this._boundOnResize = this.#onResize.bind(this);
-  }
+export class MetaCurrencyTracker extends DspFloatingUI {
+  static instance;
+  static CONFIG = MC_CONFIG;
 
   static DEFAULT_OPTIONS = {
     id: "dsp-meta-currency",
@@ -40,8 +38,8 @@ export class MetaCurrencyTracker extends HandlebarsApplicationMixin(ApplicationV
       adjustMalice: MetaCurrencyTracker.#onAdjustMalice,
       resetMalice: MetaCurrencyTracker.#onResetMalice,
       toggleExpanded: MetaCurrencyTracker.#onToggleExpanded,
-      toggleLock: MetaCurrencyTracker.#onToggleLock,
-      resetPosition: MetaCurrencyTracker.#onResetPosition,
+      toggleLock: DspFloatingUI.createToggleLock(MetaCurrencyTracker, MC_CONFIG),
+      resetPosition: DspFloatingUI.createResetPosition(MetaCurrencyTracker, MC_CONFIG),
     },
   };
 
@@ -51,27 +49,8 @@ export class MetaCurrencyTracker extends HandlebarsApplicationMixin(ApplicationV
     },
   };
 
-  static getCanvasBounds() {
-    const canvas = game.canvas;
-    const view = canvas?.app?.canvas ?? canvas?.app?.view;
-    if (canvas?.ready && view) {
-      const rect = view.getBoundingClientRect();
-      return { left: rect.left, top: rect.top, width: rect.width, height: rect.height };
-    }
-    return {
-      left: 0,
-      top: 0,
-      width: window.innerWidth,
-      height: window.innerHeight,
-    };
-  }
-
   static getDefaultPosition(elementWidth = 280) {
-    const bounds = MetaCurrencyTracker.getCanvasBounds();
-    return {
-      top: bounds.top + bounds.height - 160,
-      left: Math.round(bounds.left + (bounds.width / 2) - (elementWidth / 2)),
-    };
+    return DspFloatingUI.getDefaultPosition(elementWidth, 160);
   }
 
   static initialize() {
@@ -79,37 +58,13 @@ export class MetaCurrencyTracker extends HandlebarsApplicationMixin(ApplicationV
     this.instance.render(true);
   }
 
-  _onClose(options) {
-    super._onClose(options);
-    window.removeEventListener("resize", this._boundOnResize);
-  }
-
-  async _preFirstRender(context, options) {
-    const saved = game.settings.get(MODULE_ID, "metaCurrencyPosition");
-    const isCentered = game.settings.get(MODULE_ID, "metaCurrencyCentered");
-    if (isCentered || !saved) {
-      if (!isCentered) game.settings.set(MODULE_ID, "metaCurrencyCentered", true);
-      options.position = MetaCurrencyTracker.getDefaultPosition();
-    } else {
-      options.position = saved;
-    }
-  }
-
-  _onPosition(position) {
-    if (this._dragData.isDragging) return;
-    game.settings.set(MODULE_ID, "metaCurrencyPosition", {
-      top: position.top,
-      left: position.left,
-    });
-  }
-
   async _prepareContext(options) {
     const heroTokens = game.actors?.heroTokens;
     const malice = game.actors?.malice;
     const isGM = game.user.isGM;
     const showMalice = (game.settings.get(SYSTEM_ID, "showPlayerMalice") || isGM) && game.combat;
-    const isExpanded = game.settings.get(MODULE_ID, "metaCurrencyExpanded");
-    const isLocked = game.settings.get(MODULE_ID, "metaCurrencyLocked");
+    const isExpanded = game.settings.get(MODULE_ID, MC_CONFIG.expandedKey);
+    const isLocked = game.settings.get(MODULE_ID, MC_CONFIG.lockedKey);
 
     return {
       heroTokens: heroTokens?.value ?? 0,
@@ -121,84 +76,6 @@ export class MetaCurrencyTracker extends HandlebarsApplicationMixin(ApplicationV
       isExpanded,
       isLocked,
     };
-  }
-
-  _onRender(context, options) {
-    this.element.classList.toggle("dsp-mc-locked", context.isLocked);
-    this.element.classList.toggle("dsp-mc-minimized", !context.isExpanded);
-
-    const dragHandle = this.element.querySelector(".dsp-mc-drag-handle");
-    if (dragHandle) {
-      dragHandle.removeEventListener("mousedown", this._boundDragStart);
-      dragHandle.addEventListener("mousedown", this._boundDragStart);
-    }
-
-    window.removeEventListener("resize", this._boundOnResize);
-    if (context.isLocked && game.settings.get(MODULE_ID, "metaCurrencyCentered")) {
-      window.addEventListener("resize", this._boundOnResize);
-    }
-  }
-
-  #onResize() {
-    if (this._resizeScheduled) return;
-    this._resizeScheduled = true;
-    requestAnimationFrame(() => {
-      this._resizeScheduled = false;
-      const isLocked = game.settings.get(MODULE_ID, "metaCurrencyLocked");
-      const isCentered = game.settings.get(MODULE_ID, "metaCurrencyCentered");
-      if (!isLocked || !isCentered || !this.element) return;
-
-      const width = this.element.offsetWidth || 280;
-      const pos = MetaCurrencyTracker.getDefaultPosition(width);
-      this.setPosition(pos);
-    });
-  }
-
-  #onDragStart(e) {
-    if (e.button !== 0) return;
-
-    const isLocked = game.settings.get(MODULE_ID, "metaCurrencyLocked");
-    if (isLocked) return;
-
-    e.preventDefault();
-
-    this._dragData.isDragging = true;
-    this._dragData.startX = e.clientX;
-    this._dragData.startY = e.clientY;
-
-    const rect = this.element.getBoundingClientRect();
-    this._dragData.startLeft = rect.left;
-    this._dragData.startTop = rect.top;
-
-    this.element.style.cursor = "grabbing";
-
-    this._boundOnDragging = this.#onDragging.bind(this);
-    this._boundOnDragEnd = this.#onDragEnd.bind(this);
-    window.addEventListener("mousemove", this._boundOnDragging);
-    window.addEventListener("mouseup", this._boundOnDragEnd);
-  }
-
-  #onDragging(e) {
-    if (!this._dragData.isDragging) return;
-
-    const dx = e.clientX - this._dragData.startX;
-    const dy = e.clientY - this._dragData.startY;
-
-    this.element.style.left = `${this._dragData.startLeft + dx}px`;
-    this.element.style.top = `${this._dragData.startTop + dy}px`;
-  }
-
-  #onDragEnd() {
-    if (!this._dragData.isDragging) return;
-    this._dragData.isDragging = false;
-    this.element.style.cursor = "";
-
-    window.removeEventListener("mousemove", this._boundOnDragging);
-    window.removeEventListener("mouseup", this._boundOnDragEnd);
-
-    game.settings.set(MODULE_ID, "metaCurrencyCentered", false);
-    const rect = this.element.getBoundingClientRect();
-    this.setPosition({ top: Math.round(rect.top), left: Math.round(rect.left) });
   }
 
   static async #onGiveToken(event, target) {
@@ -227,27 +104,8 @@ export class MetaCurrencyTracker extends HandlebarsApplicationMixin(ApplicationV
   }
 
   static async #onToggleExpanded(event, target) {
-    const current = game.settings.get(MODULE_ID, "metaCurrencyExpanded");
-    await game.settings.set(MODULE_ID, "metaCurrencyExpanded", !current);
+    const current = game.settings.get(MODULE_ID, MC_CONFIG.expandedKey);
+    await game.settings.set(MODULE_ID, MC_CONFIG.expandedKey, !current);
     MetaCurrencyTracker.instance?.render();
-  }
-
-  static async #onToggleLock(event, target) {
-    const current = game.settings.get(MODULE_ID, "metaCurrencyLocked");
-    await game.settings.set(MODULE_ID, "metaCurrencyLocked", !current);
-    MetaCurrencyTracker.instance?.render();
-  }
-
-  static async #onResetPosition(event, target) {
-    const inst = MetaCurrencyTracker.instance;
-    if (inst && inst.element) {
-      await game.settings.set(MODULE_ID, "metaCurrencyCentered", true);
-      const width = inst.element.offsetWidth || 280;
-      const pos = MetaCurrencyTracker.getDefaultPosition(width);
-      inst.element.classList.add("dsp-mc-resetting");
-      inst.setPosition(pos);
-      inst.render();
-      setTimeout(() => inst.element.classList.remove("dsp-mc-resetting"), 400);
-    }
   }
 }

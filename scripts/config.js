@@ -105,6 +105,13 @@ export const META_CURRENCY_DEFAULTS = {
   centered: false,
 };
 
+export const NEGOTIATION_DEFAULTS = {
+  position: null,
+  locked: false,
+  centered: false,
+  visible: false,
+};
+
 export function colorSettingKey(key, variant) {
   const base = `color${key.charAt(0).toUpperCase()}${key.slice(1)}`;
   return variant ? `${base}${variant === "light" ? "Lt" : "Dk"}` : base;

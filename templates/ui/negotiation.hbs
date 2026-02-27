@@ -1,0 +1,16 @@
+<div class="dsp-mc-container">
+  <div class="dsp-mc-body">
+    <div class="dsp-negotiation-placeholder">{{localize "DRAW_STEEL_PLUS.Negotiation.placeholder"}}</div>
+  </div>
+  <div class="dsp-mc-toolbar">
+    <div class="dsp-mc-drag-handle" data-tooltip="Drag to move">
+      <i class="fa-solid fa-grip-vertical" inert></i>
+    </div>
+    <button class="dsp-mc-toolbar-btn" type="button" data-action="toggleLock" data-tooltip="{{#if isLocked}}{{localize 'DRAW_STEEL_PLUS.MetaCurrency.unlock'}}{{else}}{{localize 'DRAW_STEEL_PLUS.MetaCurrency.lock'}}{{/if}}">
+      <i class="fa-solid {{#if isLocked}}fa-lock{{else}}fa-lock-open{{/if}}" inert></i>
+    </button>
+    <button class="dsp-mc-toolbar-btn" type="button" data-action="resetPosition" data-tooltip="{{localize 'DRAW_STEEL_PLUS.MetaCurrency.resetPosition'}}">
+      <i class="fa-solid fa-crosshairs" inert></i>
+    </button>
+  </div>
+</div>

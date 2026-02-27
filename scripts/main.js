@@ -4,7 +4,9 @@ import { applyImprovedChat, enhanceChatMessage, registerChatTemplates } from "./
 import { registerSettings } from "./settings.js";
 import { registerSheets } from "./sheets.js";
 import { MetaCurrencyTracker } from "./meta-currency.js";
+import { initializeNegotiationUI } from "./negotiation-ui.js";
 import { TooltipsDSP } from "./tooltips.js";
+import "./scene-controls.js";
 
 const MODULE_ID = MODULE_CONFIG.id;
 
@@ -30,6 +32,7 @@ Hooks.once("ready", () => {
   applyColorOverrides();
   applyImprovedChat();
   applyMetaCurrencySetting();
+  initializeNegotiationUI();
   TooltipsDSP.activateListeners();
   const tooltips = new TooltipsDSP();
   tooltips.observe();

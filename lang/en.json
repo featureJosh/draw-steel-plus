@@ -7,6 +7,9 @@
     }
   },
   "DRAW_STEEL_PLUS": {
+    "SceneControl": {
+      "negotiation": "Negotiation UI"
+    },
     "Sheet": {
       "Hero": "DS+ Hero Sheet",
       "NPC": "DS+ NPC Sheet",
@@ -190,6 +193,9 @@
       "lock": "Lock Position",
       "unlock": "Unlock Position",
       "resetPosition": "Reset Position"
+    },
+    "Negotiation": {
+      "placeholder": "Feature to be implemented"
     }
   }
 }
