@@ -1063,11 +1063,12 @@
 
 .draw-steel-plus.sheet .editor,
 .draw-steel-plus.sheet .prosemirror {
-  background: rgba(0, 0, 0, 0.15);
-  border: 1px solid var(--dsp-border);
-  border-radius: var(--dsp-radius-md);
-  color: var(--dsp-text-light);
-  min-height: 100px;
+	background: rgba(0, 0, 0, 0.15);
+	border: 1px solid var(--dsp-border);
+	border-radius: var(--dsp-radius-md);
+	color: var(--dsp-text-light);
+	min-height: 100px;
+	padding: .5em 1em;
 }
 
 .draw-steel-plus.sheet .editor .editor-content,
