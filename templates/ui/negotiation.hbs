@@ -1,16 +1,249 @@
-<div class="dsp-fui-panel">
-  <div class="dsp-fui-body">
-    <div class="dsp-negotiation-placeholder">{{localize "DRAW_STEEL_PLUS.Negotiation.placeholder"}}</div>
+<div class="dsp-fui-panel {{#if isGM}}dsp-neg-gm{{/if}}">
+
+  {{#if isExpanded}}
+
+  <div class="dsp-neg-body">
+
+    {{#if isGM}}
+    <div class="dsp-neg-header">
+      <input type="text" class="dsp-neg-npc-name" value="{{npcName}}" placeholder="{{localize 'DRAW_STEEL_PLUS.Negotiation.npcNamePlaceholder'}}" />
+    </div>
+    {{else}}
+    {{#if npcName}}
+    <div class="dsp-neg-header">
+      <span class="dsp-neg-npc-name-display">{{localize "DRAW_STEEL_PLUS.Negotiation.title"}}: {{npcName}}</span>
+    </div>
+    {{/if}}
+    {{/if}}
+
+    <div class="dsp-neg-sliders">
+      {{#each sliders}}
+      {{#if this.show}}
+      <div class="dsp-neg-slider-row" data-slider="{{this.key}}">
+        <span class="dsp-neg-slider-label">{{this.label}}</span>
+        {{#if ../isGM}}
+        <button class="dsp-neg-eye-btn" type="button" data-action="toggleSliderVisibility" data-slider="{{this.key}}" data-tooltip="{{#if this.visible}}{{localize 'DRAW_STEEL_PLUS.Negotiation.hideFromPlayers'}}{{else}}{{localize 'DRAW_STEEL_PLUS.Negotiation.showToPlayers'}}{{/if}}">
+          <i class="fa-solid {{#if this.visible}}fa-eye{{else}}fa-eye-slash{{/if}}" inert></i>
+        </button>
+        {{/if}}
+        {{#if this.numeric}}
+        <div class="dsp-neg-numeric-value">{{this.value}}</div>
+        {{else}}
+        <div class="dsp-neg-segments">
+          {{#each this.segments}}
+          <div class="dsp-neg-segment {{#if this.active}}dsp-neg-segment-active{{/if}}">{{this.value}}</div>
+          {{/each}}
+        </div>
+        {{/if}}
+        {{#if ../isGM}}
+        <div class="dsp-neg-slider-controls">
+          <button class="dsp-neg-ctrl-btn" type="button" data-action="incrementSlider" data-slider="{{this.key}}" data-tooltip="+1">
+            <i class="fa-solid fa-plus" inert></i>
+          </button>
+          <button class="dsp-neg-ctrl-btn" type="button" data-action="decrementSlider" data-slider="{{this.key}}" data-tooltip="-1">
+            <i class="fa-solid fa-minus" inert></i>
+          </button>
+          <button class="dsp-neg-ctrl-btn" type="button" data-action="resetSlider" data-slider="{{this.key}}" data-tooltip="{{localize 'DRAW_STEEL_PLUS.Negotiation.resetSlider'}}">
+            <i class="fa-solid fa-rotate-right" inert></i>
+          </button>
+        </div>
+        {{else}}
+        <span class="dsp-neg-slider-value">{{this.value}} / {{this.max}}</span>
+        {{/if}}
+      </div>
+      {{/if}}
+      {{/each}}
+    </div>
+
+    {{#if isGM}}
+    <div class="dsp-neg-toolbar-row">
+      <button class="dsp-neg-popup-btn" type="button" data-action="openAttitudePopup">
+        <i class="fa-solid fa-masks-theater" inert></i> {{attitudeLabel}}
+      </button>
+      <button class="dsp-neg-popup-btn" type="button" data-action="openMotivationsPopup">
+        <i class="fa-solid fa-heart" inert></i> {{localize "DRAW_STEEL_PLUS.Negotiation.motivations"}} ({{motivationCount}})
+      </button>
+      <button class="dsp-neg-popup-btn" type="button" data-action="openPitfallsPopup">
+        <i class="fa-solid fa-triangle-exclamation" inert></i> {{localize "DRAW_STEEL_PLUS.Negotiation.pitfalls"}} ({{pitfallCount}})
+      </button>
+    </div>
+
+    {{#if (eq openPopup "attitude")}}
+    <div class="dsp-neg-popup dsp-neg-popup-attitude">
+      <div class="dsp-neg-popup-title">{{localize "DRAW_STEEL_PLUS.Negotiation.attitude"}}</div>
+      {{#each attitudes}}
+      <button class="dsp-neg-attitude-option {{#if this.selected}}dsp-neg-attitude-selected{{/if}}" type="button" data-action="selectAttitude" data-attitude="{{this.key}}">
+        <span class="dsp-neg-attitude-name">{{this.label}}</span>
+        <span class="dsp-neg-attitude-stats">I:{{this.interest}} P:{{this.patience}}</span>
+      </button>
+      {{/each}}
+    </div>
+    {{/if}}
+
+    {{#if (eq openPopup "motivations")}}
+    <div class="dsp-neg-popup dsp-neg-popup-list">
+      <div class="dsp-neg-popup-title">{{localize "DRAW_STEEL_PLUS.Negotiation.motivations"}}</div>
+      {{#each motivations}}
+      <div class="dsp-neg-entry-row {{#if this.appealed}}dsp-neg-entry-used{{/if}}">
+        <button class="dsp-neg-check-btn" type="button" data-action="toggleAppealed" data-entry-id="{{this.id}}" data-tooltip="{{localize 'DRAW_STEEL_PLUS.Negotiation.appealed'}}">
+          <i class="fa-{{#if this.appealed}}solid fa-square-check{{else}}regular fa-square{{/if}}" inert></i>
+        </button>
+        <span class="dsp-neg-entry-label">{{this.displayLabel}}</span>
+        <button class="dsp-neg-eye-btn" type="button" data-action="toggleDiscovered" data-entry-id="{{this.id}}" data-list-type="motivations" data-tooltip="{{#if this.discovered}}{{localize 'DRAW_STEEL_PLUS.Negotiation.hideFromPlayers'}}{{else}}{{localize 'DRAW_STEEL_PLUS.Negotiation.showToPlayers'}}{{/if}}">
+          <i class="fa-solid {{#if this.discovered}}fa-eye{{else}}fa-eye-slash{{/if}}" inert></i>
+        </button>
+        <button class="dsp-neg-remove-btn" type="button" data-action="removeEntry" data-entry-id="{{this.id}}" data-list-type="motivations" data-tooltip="{{localize 'DRAW_STEEL_PLUS.Negotiation.remove'}}">
+          <i class="fa-solid fa-xmark" inert></i>
+        </button>
+      </div>
+      {{/each}}
+      <div class="dsp-neg-add-actions">
+        <button class="dsp-neg-add-btn" type="button" data-action="showAddList" data-list-type="motivations">
+          <i class="fa-solid fa-list" inert></i> {{localize "DRAW_STEEL_PLUS.Negotiation.addFromList"}}
+        </button>
+        <button class="dsp-neg-add-btn" type="button" data-action="showAddCustom" data-list-type="motivations">
+          <i class="fa-solid fa-pen" inert></i> {{localize "DRAW_STEEL_PLUS.Negotiation.addCustom"}}
+        </button>
+      </div>
+    </div>
+    {{/if}}
+
+    {{#if (eq openPopup "motivations-addList")}}
+    <div class="dsp-neg-popup dsp-neg-popup-list">
+      <div class="dsp-neg-popup-title">{{localize "DRAW_STEEL_PLUS.Negotiation.addFromList"}}</div>
+      {{#each availableCanonical}}
+      <button class="dsp-neg-add-option" type="button" data-action="addFromList" data-motivation-id="{{this.id}}" data-list-type="motivations">
+        {{this.label}}
+      </button>
+      {{/each}}
+    </div>
+    {{/if}}
+
+    {{#if (eq openPopup "motivations-addCustom")}}
+    <div class="dsp-neg-popup dsp-neg-popup-list">
+      <div class="dsp-neg-popup-title">{{localize "DRAW_STEEL_PLUS.Negotiation.addCustom"}}</div>
+      <input type="text" class="dsp-neg-custom-input" data-list-type="motivations" placeholder="{{localize 'DRAW_STEEL_PLUS.Negotiation.customPlaceholder'}}" autofocus />
+    </div>
+    {{/if}}
+
+    {{#if (eq openPopup "pitfalls")}}
+    <div class="dsp-neg-popup dsp-neg-popup-list">
+      <div class="dsp-neg-popup-title">{{localize "DRAW_STEEL_PLUS.Negotiation.pitfalls"}}</div>
+      {{#each pitfalls}}
+      <div class="dsp-neg-entry-row {{#if this.triggered}}dsp-neg-entry-used{{/if}}">
+        <button class="dsp-neg-check-btn" type="button" data-action="toggleTriggered" data-entry-id="{{this.id}}" data-tooltip="{{localize 'DRAW_STEEL_PLUS.Negotiation.triggered'}}">
+          <i class="fa-{{#if this.triggered}}solid fa-square-check{{else}}regular fa-square{{/if}}" inert></i>
+        </button>
+        <span class="dsp-neg-entry-label">{{this.displayLabel}}</span>
+        <button class="dsp-neg-eye-btn" type="button" data-action="toggleDiscovered" data-entry-id="{{this.id}}" data-list-type="pitfalls" data-tooltip="{{#if this.discovered}}{{localize 'DRAW_STEEL_PLUS.Negotiation.hideFromPlayers'}}{{else}}{{localize 'DRAW_STEEL_PLUS.Negotiation.showToPlayers'}}{{/if}}">
+          <i class="fa-solid {{#if this.discovered}}fa-eye{{else}}fa-eye-slash{{/if}}" inert></i>
+        </button>
+        <button class="dsp-neg-remove-btn" type="button" data-action="removeEntry" data-entry-id="{{this.id}}" data-list-type="pitfalls" data-tooltip="{{localize 'DRAW_STEEL_PLUS.Negotiation.remove'}}">
+          <i class="fa-solid fa-xmark" inert></i>
+        </button>
+      </div>
+      {{/each}}
+      <div class="dsp-neg-add-actions">
+        <button class="dsp-neg-add-btn" type="button" data-action="showAddList" data-list-type="pitfalls">
+          <i class="fa-solid fa-list" inert></i> {{localize "DRAW_STEEL_PLUS.Negotiation.addFromList"}}
+        </button>
+        <button class="dsp-neg-add-btn" type="button" data-action="showAddCustom" data-list-type="pitfalls">
+          <i class="fa-solid fa-pen" inert></i> {{localize "DRAW_STEEL_PLUS.Negotiation.addCustom"}}
+        </button>
+      </div>
+    </div>
+    {{/if}}
+
+    {{#if (eq openPopup "pitfalls-addList")}}
+    <div class="dsp-neg-popup dsp-neg-popup-list">
+      <div class="dsp-neg-popup-title">{{localize "DRAW_STEEL_PLUS.Negotiation.addFromList"}}</div>
+      {{#each availableCanonical}}
+      <button class="dsp-neg-add-option" type="button" data-action="addFromList" data-motivation-id="{{this.id}}" data-list-type="pitfalls">
+        {{this.label}}
+      </button>
+      {{/each}}
+    </div>
+    {{/if}}
+
+    {{#if (eq openPopup "pitfalls-addCustom")}}
+    <div class="dsp-neg-popup dsp-neg-popup-list">
+      <div class="dsp-neg-popup-title">{{localize "DRAW_STEEL_PLUS.Negotiation.addCustom"}}</div>
+      <input type="text" class="dsp-neg-custom-input" data-list-type="pitfalls" placeholder="{{localize 'DRAW_STEEL_PLUS.Negotiation.customPlaceholder'}}" autofocus />
+    </div>
+    {{/if}}
+
+    {{else}}
+
+    {{#unless hasVisibleSliders}}
+    {{#unless hasDiscovered}}
+    <div class="dsp-neg-empty">{{localize "DRAW_STEEL_PLUS.Negotiation.emptyState"}}</div>
+    {{/unless}}
+    {{/unless}}
+
+    {{#if hasDiscovered}}
+    <div class="dsp-neg-discovered">
+      <div class="dsp-neg-discovered-title">{{localize "DRAW_STEEL_PLUS.Negotiation.discovered"}}</div>
+      {{#each discoveredMotivations}}
+      <div class="dsp-neg-discovered-item">
+        <span class="dsp-neg-badge dsp-neg-badge-m">M</span>
+        <span>{{this.displayLabel}}</span>
+      </div>
+      {{/each}}
+      {{#each discoveredPitfalls}}
+      <div class="dsp-neg-discovered-item">
+        <span class="dsp-neg-badge dsp-neg-badge-p">P</span>
+        <span>{{this.displayLabel}}</span>
+      </div>
+      {{/each}}
+    </div>
+    {{/if}}
+
+    {{/if}}
+
   </div>
+
   <div class="dsp-fui-toolbar">
     <div class="dsp-fui-drag-handle" data-tooltip="Drag to move">
       <i class="fa-solid fa-grip-vertical" inert></i>
     </div>
-    <button class="dsp-fui-toolbar-btn" type="button" data-action="toggleLock" data-tooltip="{{#if isLocked}}{{localize 'DRAW_STEEL_PLUS.MetaCurrency.unlock'}}{{else}}{{localize 'DRAW_STEEL_PLUS.MetaCurrency.lock'}}{{/if}}">
+    <button class="dsp-fui-toolbar-btn" type="button" data-action="toggleExpanded" data-tooltip="{{#if isExpanded}}{{localize 'DRAW_STEEL_PLUS.Negotiation.minimize'}}{{else}}{{localize 'DRAW_STEEL_PLUS.Negotiation.expand'}}{{/if}}">
+      <i class="fa-solid {{#if isExpanded}}fa-compress{{else}}fa-expand{{/if}}" inert></i>
+    </button>
+    <button class="dsp-fui-toolbar-btn" type="button" data-action="toggleLock" data-tooltip="{{#if isLocked}}{{localize 'DRAW_STEEL_PLUS.Negotiation.unlock'}}{{else}}{{localize 'DRAW_STEEL_PLUS.Negotiation.lock'}}{{/if}}">
       <i class="fa-solid {{#if isLocked}}fa-lock{{else}}fa-lock-open{{/if}}" inert></i>
     </button>
-    <button class="dsp-fui-toolbar-btn" type="button" data-action="resetPosition" data-tooltip="{{localize 'DRAW_STEEL_PLUS.MetaCurrency.resetPosition'}}">
+    <button class="dsp-fui-toolbar-btn" type="button" data-action="resetPosition" data-tooltip="{{localize 'DRAW_STEEL_PLUS.Negotiation.resetPosition'}}">
+      <i class="fa-solid fa-crosshairs" inert></i>
+    </button>
+    {{#if isGM}}
+    <button class="dsp-fui-toolbar-btn dsp-neg-end-btn" type="button" data-action="endNegotiation" data-tooltip="{{localize 'DRAW_STEEL_PLUS.Negotiation.endNegotiation'}}">
+      <i class="fa-solid fa-xmark" inert></i>
+    </button>
+    {{/if}}
+  </div>
+
+  {{else}}
+
+  <div class="dsp-neg-body dsp-neg-body-compact">
+    <i class="fa-sharp fa-solid fa-comment-lines dsp-neg-compact-icon" inert></i>
+    <span class="dsp-neg-compact-label">{{localize "DRAW_STEEL_PLUS.Negotiation.title"}}</span>
+  </div>
+
+  <div class="dsp-mc-toolbar-compact">
+    <div class="dsp-fui-drag-handle" data-tooltip="Drag to move">
+      <i class="fa-solid fa-grip-vertical" inert></i>
+    </div>
+    <button class="dsp-fui-toolbar-btn" type="button" data-action="toggleExpanded" data-tooltip="{{localize 'DRAW_STEEL_PLUS.Negotiation.expand'}}">
+      <i class="fa-solid fa-expand" inert></i>
+    </button>
+    <button class="dsp-fui-toolbar-btn" type="button" data-action="toggleLock" data-tooltip="{{#if isLocked}}{{localize 'DRAW_STEEL_PLUS.Negotiation.unlock'}}{{else}}{{localize 'DRAW_STEEL_PLUS.Negotiation.lock'}}{{/if}}">
+      <i class="fa-solid {{#if isLocked}}fa-lock{{else}}fa-lock-open{{/if}}" inert></i>
+    </button>
+    <button class="dsp-fui-toolbar-btn" type="button" data-action="resetPosition" data-tooltip="{{localize 'DRAW_STEEL_PLUS.Negotiation.resetPosition'}}">
       <i class="fa-solid fa-crosshairs" inert></i>
     </button>
   </div>
+
+  {{/if}}
+
 </div>

@@ -195,7 +195,54 @@
       "resetPosition": "Reset Position"
     },
     "Negotiation": {
-      "placeholder": "Feature to be implemented"
+      "title": "Negotiation",
+      "npcNamePlaceholder": "NPC Name",
+      "interest": "Interest",
+      "patience": "Patience",
+      "impression": "Impression",
+      "attitude": "Attitude",
+      "motivations": "Motivations",
+      "pitfalls": "Pitfalls",
+      "discovered": "Discovered",
+      "appealed": "Appealed",
+      "triggered": "Triggered",
+      "addFromList": "Add from list",
+      "addCustom": "Add custom",
+      "customPlaceholder": "Custom name...",
+      "remove": "Remove",
+      "showToPlayers": "Show to players",
+      "hideFromPlayers": "Hide from players",
+      "resetSlider": "Reset to default",
+      "endNegotiation": "End Negotiation",
+      "endNegotiationConfirm": "End this negotiation? This will clear all data and hide the panel for everyone.",
+      "emptyState": "The negotiation has begun...",
+      "attitudes": {
+        "hostile": "Hostile",
+        "suspicious": "Suspicious",
+        "neutral": "Neutral",
+        "open": "Open",
+        "friendly": "Friendly",
+        "trusting": "Trusting"
+      },
+      "motivationNames": {
+        "benevolence": "Benevolence",
+        "discovery": "Discovery",
+        "freedom": "Freedom",
+        "greed": "Greed",
+        "higherAuthority": "Higher Authority",
+        "justice": "Justice",
+        "legacy": "Legacy",
+        "peace": "Peace",
+        "power": "Power",
+        "protection": "Protection",
+        "revelry": "Revelry",
+        "vengeance": "Vengeance"
+      },
+      "expand": "Expand",
+      "minimize": "Minimize",
+      "lock": "Lock Position",
+      "unlock": "Unlock Position",
+      "resetPosition": "Reset Position"
     }
   }
 }

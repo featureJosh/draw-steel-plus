@@ -102,6 +102,40 @@ export const NEGOTIATION_DEFAULTS = {
   visible: false,
 };
 
+export const NEGOTIATION_ATTITUDES = {
+  hostile:     { interest: 1, patience: 2 },
+  suspicious:  { interest: 2, patience: 2 },
+  neutral:     { interest: 2, patience: 3 },
+  open:        { interest: 3, patience: 3 },
+  friendly:    { interest: 3, patience: 4 },
+  trusting:    { interest: 3, patience: 5 },
+};
+
+export const NEGOTIATION_MOTIVATIONS = [
+  "benevolence",
+  "discovery",
+  "freedom",
+  "greed",
+  "higherAuthority",
+  "justice",
+  "legacy",
+  "peace",
+  "power",
+  "protection",
+  "revelry",
+  "vengeance",
+];
+
+export const DEFAULT_NEGOTIATION_STATE = {
+  npcName: "",
+  attitude: "",
+  interest: { value: 0, visible: false },
+  patience: { value: 0, visible: false },
+  impression: { value: 0, visible: false },
+  motivations: [],
+  pitfalls: [],
+};
+
 export function colorSettingKey(key, variant) {
   const base = `color${key.charAt(0).toUpperCase()}${key.slice(1)}`;
   return variant ? `${base}${variant === "light" ? "Lt" : "Dk"}` : base;

@@ -29,7 +29,7 @@ export class MetaCurrencyTracker extends DspFloatingUI {
   static initialize() {
     if (this.instance?.rendered) return;
     this.instance = new MetaCurrencyTracker();
-    this.instance.render(true);
+    this.instance.render({ force: true });
   }
 
   async _prepareContext(options) {

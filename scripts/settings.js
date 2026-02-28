@@ -1,4 +1,4 @@
-import { MODULE_CONFIG, COLOR_LIGHT_DARK_DEFAULTS, HEADER_DEFAULTS, NPC_DEFAULTS, NEGOTIATION_DEFAULTS, UI_DEFAULTS, colorSettingKey } from "./config.js";
+import { MODULE_CONFIG, COLOR_LIGHT_DARK_DEFAULTS, HEADER_DEFAULTS, NPC_DEFAULTS, NEGOTIATION_DEFAULTS, DEFAULT_NEGOTIATION_STATE, UI_DEFAULTS, colorSettingKey } from "./config.js";
 import { applyColorOverrides } from "./color-settings.js";
 import { applyImprovedChat } from "./chat.js";
 import { MetaCurrencyTracker } from "./meta-currency.js";
@@ -164,6 +164,16 @@ export function registerSettings() {
     type: Boolean,
     default: NEGOTIATION_DEFAULTS.visible,
     onChange: (value) => NegotiationUI.syncVisibility(value),
+  });
+
+  game.settings.register(MODULE_ID, "negotiationState", {
+    scope: "world",
+    config: false,
+    type: Object,
+    default: foundry.utils.deepClone(DEFAULT_NEGOTIATION_STATE),
+    onChange: () => {
+      if (NegotiationUI.instance?.rendered) NegotiationUI.instance.render();
+    },
   });
 
 }
