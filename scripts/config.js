@@ -98,17 +98,7 @@ export const UI_DEFAULTS = {
   useCustomMetaCurrency: true,
 };
 
-export const META_CURRENCY_DEFAULTS = {
-  position: null,
-  expanded: true,
-  locked: false,
-  centered: false,
-};
-
 export const NEGOTIATION_DEFAULTS = {
-  position: null,
-  locked: false,
-  centered: false,
   visible: false,
 };
 

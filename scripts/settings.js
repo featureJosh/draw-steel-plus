@@ -1,4 +1,4 @@
-import { MODULE_CONFIG, COLOR_LIGHT_DARK_DEFAULTS, HEADER_DEFAULTS, NPC_DEFAULTS, META_CURRENCY_DEFAULTS, NEGOTIATION_DEFAULTS, UI_DEFAULTS, colorSettingKey } from "./config.js";
+import { MODULE_CONFIG, COLOR_LIGHT_DARK_DEFAULTS, HEADER_DEFAULTS, NPC_DEFAULTS, NEGOTIATION_DEFAULTS, UI_DEFAULTS, colorSettingKey } from "./config.js";
 import { applyColorOverrides } from "./color-settings.js";
 import { applyImprovedChat } from "./chat.js";
 import { MetaCurrencyTracker } from "./meta-currency.js";
@@ -158,34 +158,6 @@ export function registerSettings() {
     },
   });
 
-  game.settings.register(MODULE_ID, "metaCurrencyPosition", {
-    scope: "client",
-    config: false,
-    type: Object,
-    default: META_CURRENCY_DEFAULTS.position,
-  });
-
-  game.settings.register(MODULE_ID, "metaCurrencyExpanded", {
-    scope: "client",
-    config: false,
-    type: Boolean,
-    default: META_CURRENCY_DEFAULTS.expanded,
-  });
-
-  game.settings.register(MODULE_ID, "metaCurrencyLocked", {
-    scope: "client",
-    config: false,
-    type: Boolean,
-    default: META_CURRENCY_DEFAULTS.locked,
-  });
-
-  game.settings.register(MODULE_ID, "metaCurrencyCentered", {
-    scope: "client",
-    config: false,
-    type: Boolean,
-    default: META_CURRENCY_DEFAULTS.centered,
-  });
-
   game.settings.register(MODULE_ID, "negotiationUIVisible", {
     scope: "world",
     config: false,
@@ -194,24 +166,4 @@ export function registerSettings() {
     onChange: (value) => NegotiationUI.syncVisibility(value),
   });
 
-  game.settings.register(MODULE_ID, "negotiationPosition", {
-    scope: "client",
-    config: false,
-    type: Object,
-    default: NEGOTIATION_DEFAULTS.position,
-  });
-
-  game.settings.register(MODULE_ID, "negotiationLocked", {
-    scope: "client",
-    config: false,
-    type: Boolean,
-    default: NEGOTIATION_DEFAULTS.locked,
-  });
-
-  game.settings.register(MODULE_ID, "negotiationCentered", {
-    scope: "client",
-    config: false,
-    type: Boolean,
-    default: NEGOTIATION_DEFAULTS.centered,
-  });
 }

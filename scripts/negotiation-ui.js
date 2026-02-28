@@ -4,36 +4,13 @@ import { DspFloatingUI } from "./dsp-floating-ui.js";
 const MODULE_ID = MODULE_CONFIG.id;
 const MODULE_PATH = MODULE_CONFIG.path;
 
-const NEGOTIATION_CONFIG = {
-  positionKey: "negotiationPosition",
-  lockedKey: "negotiationLocked",
-  centeredKey: "negotiationCentered",
-  expandedKey: null,
-  dragHandleSelector: ".dsp-mc-drag-handle",
-  lockedClass: "dsp-mc-locked",
-  supportsExpand: false,
-};
-
 export class NegotiationUI extends DspFloatingUI {
-  static instance;
-  static CONFIG = NEGOTIATION_CONFIG;
+  static instance = null;
 
   static DEFAULT_OPTIONS = {
     id: "dsp-negotiation",
     tag: "div",
     classes: ["dsp-negotiation"],
-    window: {
-      frame: false,
-      positioned: true,
-    },
-    position: {
-      width: "auto",
-      height: "auto",
-    },
-    actions: {
-      toggleLock: DspFloatingUI.createToggleLock(NegotiationUI, NEGOTIATION_CONFIG),
-      resetPosition: DspFloatingUI.createResetPosition(NegotiationUI, NEGOTIATION_CONFIG),
-    },
   };
 
   static PARTS = {
@@ -62,8 +39,7 @@ export class NegotiationUI extends DspFloatingUI {
   }
 
   async _prepareContext() {
-    const isLocked = game.settings.get(MODULE_ID, NEGOTIATION_CONFIG.lockedKey);
-    return { isLocked };
+    return this.getFloatingState();
   }
 }
 
