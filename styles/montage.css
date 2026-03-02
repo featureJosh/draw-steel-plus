@@ -174,28 +174,6 @@
   flex: 1;
 }
 
-.dsp-mt-max-rounds-input {
-  width: 36px;
-  background: transparent;
-  border: 1px solid var(--dsp-border);
-  border-radius: var(--dsp-radius-sm);
-  color: var(--dsp-accent-strong);
-  font-size: 0.75rem;
-  font-weight: 700;
-  padding: 2px 4px;
-  text-align: center;
-  outline: none;
-}
-
-.dsp-mt-max-rounds-input:focus {
-  border-color: var(--dsp-accent);
-}
-
-.dsp-mt-max-rounds-input:disabled {
-  border-color: transparent;
-  background: transparent;
-}
-
 .dsp-mt-round-btn {
   margin-left: 2px;
 }

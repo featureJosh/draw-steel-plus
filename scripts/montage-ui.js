@@ -286,14 +286,6 @@ export class MontageUI extends DspFloatingUI {
       });
     }
 
-    const maxRoundsInput = this.element.querySelector(".dsp-mt-max-rounds-input");
-    if (maxRoundsInput) {
-      maxRoundsInput.addEventListener("change", async (e) => {
-        const val = Math.max(1, parseInt(e.target.value) || 2);
-        await setState({ maxRounds: val });
-      });
-    }
-
     const charSelect = this.element.querySelector(".dsp-mt-roll-select[data-field='characteristic']");
     if (charSelect) {
       charSelect.addEventListener("change", (e) => {

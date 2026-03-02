@@ -78,7 +78,7 @@
           <i class="fa-solid {{#if roundInfo.visible}}fa-eye{{else}}fa-eye-slash{{/if}}" inert></i>
         </button>
         {{/if}}
-        <span class="dsp-mt-round-display">{{roundInfo.current}} / <input type="number" class="dsp-mt-max-rounds-input" value="{{roundInfo.max}}" min="1" {{#unless isGM}}disabled{{/unless}} /></span>
+        <span class="dsp-mt-round-display">{{roundInfo.current}}</span>
         {{#if isGM}}
         <button class="dsp-mt-ctrl-btn dsp-mt-round-btn" type="button" data-action="prevRound" data-tooltip="{{localize 'DRAW_STEEL_PLUS.MontageTest.prevRound'}}" {{#unless roundInfo.canGoBack}}disabled{{/unless}}>
           <i class="fa-solid fa-backward-step" inert></i>
