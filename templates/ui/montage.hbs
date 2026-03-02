@@ -152,6 +152,19 @@
           </select>
         </div>
         <div class="dsp-mt-roll-form-row">
+          <label class="dsp-mt-roll-label">{{localize "DRAW_STEEL_PLUS.MontageTest.skill"}}</label>
+          <select class="dsp-mt-roll-select" data-field="skill">
+            <option value="">{{localize "DRAW_STEEL_PLUS.MontageTest.noSkill"}}</option>
+            {{#each ../skillGroups}}
+            <optgroup label="{{this.label}}">
+              {{#each this.skills}}
+              <option value="{{this.key}}" {{#if this.selected}}selected{{/if}}>{{this.label}}</option>
+              {{/each}}
+            </optgroup>
+            {{/each}}
+          </select>
+        </div>
+        <div class="dsp-mt-roll-form-row">
           <label class="dsp-mt-roll-label">{{localize "DRAW_STEEL_PLUS.MontageTest.testDifficulty"}}</label>
           <select class="dsp-mt-roll-select" data-field="testDifficulty">
             {{#each ../testDifficulties}}
@@ -173,14 +186,16 @@
             <button class="dsp-mt-mod-btn" type="button" data-action="incrementRollBanes"><i class="fa-solid fa-plus" inert></i></button>
           </span>
         </div>
+        {{#if ../rollSkill}}
         {{#each this.usedSkills}}
-        {{#if (eq this ../../rollCharacteristic)}}
+        {{#if (eq this ../../rollSkill)}}
         <div class="dsp-mt-skill-warning">
           <i class="fa-solid fa-triangle-exclamation" inert></i>
           {{localize "DRAW_STEEL_PLUS.MontageTest.skillReused"}}
         </div>
         {{/if}}
         {{/each}}
+        {{/if}}
         <button class="dsp-mt-execute-roll-btn" type="button" data-action="executeRoll">
           <i class="fa-solid fa-dice-d20" inert></i> {{localize "DRAW_STEEL_PLUS.MontageTest.roll"}}
         </button>

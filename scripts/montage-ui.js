@@ -5,6 +5,8 @@ const MODULE_ID = MODULE_CONFIG.id;
 const MODULE_PATH = MODULE_CONFIG.path;
 const SOCKET_EVENT = "module.draw-steel-plus";
 
+let _pendingMontageSkill = null;
+
 function getState() {
   const raw = game.settings.get(MODULE_ID, "montageState");
   return foundry.utils.mergeObject(foundry.utils.deepClone(DEFAULT_MONTAGE_STATE), raw);
@@ -33,12 +35,13 @@ function computeAdjustedLimits(difficulty, heroCount) {
 }
 
 function computeOutcome(state) {
-  const { successes, failures, successLimit, failureLimit, currentRound, maxRounds } = state;
+  const { successes, failures, successLimit, failureLimit, currentRound, maxRounds, heroes } = state;
   if (successLimit <= 0) return "";
   if (successes >= successLimit) return "totalSuccess";
   const failed = failures >= failureLimit;
   const timedOut = currentRound > maxRounds;
-  if (failed || timedOut) {
+  const allActed = heroes.length > 0 && currentRound >= maxRounds && heroes.every((h) => h.actedThisRound);
+  if (failed || timedOut || allActed) {
     return (successes - failures >= 2) ? "partialSuccess" : "totalFailure";
   }
   return "";
@@ -60,6 +63,7 @@ export class MontageUI extends DspFloatingUI {
   _openPopup = null;
   _rollHeroUuid = null;
   _rollCharacteristic = "might";
+  _rollSkill = "";
   _rollDifficulty = "easy";
   _rollEdges = 0;
   _rollBanes = 0;
@@ -188,6 +192,35 @@ export class MontageUI extends DspFloatingUI {
       selected: d === this._rollDifficulty,
     }));
 
+    const skillGroups = [];
+    const dsSkills = ds?.CONFIG?.skills;
+    if (dsSkills?.groups && dsSkills?.list && this._rollHeroUuid) {
+      const rollHeroEntry = state.heroes.find((h) => h.uuid === this._rollHeroUuid);
+      let heroSkills = null;
+      if (rollHeroEntry) {
+        try {
+          const rollActor = await fromUuid(this._rollHeroUuid);
+          heroSkills = rollActor?.system?.hero?.skills ?? null;
+        } catch (e) {}
+      }
+      for (const [groupKey, groupData] of Object.entries(dsSkills.groups)) {
+        const skills = Object.entries(dsSkills.list)
+          .filter(([key, s]) => s.group === groupKey && (!heroSkills || heroSkills.has(key)))
+          .map(([key, s]) => ({
+            key,
+            label: game.i18n.localize(s.label),
+            selected: key === this._rollSkill,
+          }));
+        if (skills.length) {
+          skillGroups.push({
+            key: groupKey,
+            label: game.i18n.localize(groupData.label),
+            skills,
+          });
+        }
+      }
+    }
+
     const hasVisibleSliders = sliders.some((s) => s.show);
 
     const outcomeLabel = outcome
@@ -210,8 +243,10 @@ export class MontageUI extends DspFloatingUI {
       difficultyLabel,
       characteristics,
       testDifficulties,
+      skillGroups,
       rollHeroUuid: this._rollHeroUuid,
       rollCharacteristic: this._rollCharacteristic,
+      rollSkill: this._rollSkill,
       rollEdges: this._rollEdges,
       rollBanes: this._rollBanes,
       hasVisibleSliders,
@@ -270,6 +305,14 @@ export class MontageUI extends DspFloatingUI {
     if (diffSelect) {
       diffSelect.addEventListener("change", (e) => {
         this._rollDifficulty = e.target.value;
+      });
+    }
+
+    const skillSelect = this.element.querySelector(".dsp-mt-roll-select[data-field='skill']");
+    if (skillSelect) {
+      skillSelect.addEventListener("change", (e) => {
+        this._rollSkill = e.target.value;
+        this.render();
       });
     }
 
@@ -430,6 +473,7 @@ export class MontageUI extends DspFloatingUI {
       this._rollHeroUuid = null;
     } else {
       this._rollHeroUuid = uuid;
+      this._rollSkill = "";
       this._rollEdges = 0;
       this._rollBanes = 0;
     }
@@ -472,8 +516,17 @@ export class MontageUI extends DspFloatingUI {
     const edges = this._rollEdges;
     const banes = this._rollBanes;
 
-    const chatMessage = await actor.rollCharacteristic(characteristic, { difficulty, edges, banes });
+    _pendingMontageSkill = this._rollSkill || null;
+
+    let chatMessage;
+    try {
+      chatMessage = await actor.rollCharacteristic(characteristic, { difficulty, edges, banes });
+    } finally {
+      _pendingMontageSkill = null;
+    }
     if (!chatMessage) return;
+
+    const actualSkill = chatMessage.rolls?.[0]?.options?.skill || this._rollSkill || "";
 
     const parts = chatMessage.system?.parts?.sortedContents ?? [];
     const testPart = parts.find((p) => p.type === "test");
@@ -487,7 +540,7 @@ export class MontageUI extends DspFloatingUI {
     const heroes = state.heroes.map((h) => {
       if (h.uuid !== uuid) return h;
       const usedSkills = [...(h.usedSkills || [])];
-      if (!usedSkills.includes(characteristic)) usedSkills.push(characteristic);
+      if (actualSkill && !usedSkills.includes(actualSkill)) usedSkills.push(actualSkill);
       return { ...h, actedThisRound: true, usedSkills };
     });
 
@@ -499,6 +552,7 @@ export class MontageUI extends DspFloatingUI {
     }
 
     this._rollHeroUuid = null;
+    this._rollSkill = "";
     this._openPopup = "heroes";
     await setStateReplace({ ...state, ...updates });
   }
@@ -555,8 +609,31 @@ function setupMontageSocket() {
   });
 }
 
+function setupMontageSkillInjection() {
+  const PRDialog = ds?.applications?.apps?.PowerRollDialog;
+  if (!PRDialog) return;
+  const origCreate = PRDialog.create;
+  PRDialog.create = function (options) {
+    if (_pendingMontageSkill && options?.context) {
+      const ctx = options.context;
+      if (ctx.skills?.has?.(_pendingMontageSkill)) {
+        ctx.skill = _pendingMontageSkill;
+        ctx.modifiers.bonuses = (ctx.modifiers.bonuses ?? 0) + 2;
+        const sm = ctx.skillModifiers?.[_pendingMontageSkill];
+        if (sm) {
+          ctx.modifiers.edges = (ctx.modifiers.edges ?? 0) + (sm.edges ?? 0);
+          ctx.modifiers.banes = (ctx.modifiers.banes ?? 0) + (sm.banes ?? 0);
+        }
+      }
+      _pendingMontageSkill = null;
+    }
+    return origCreate.call(this, options);
+  };
+}
+
 export function initializeMontageUI() {
   setupMontageSocket();
+  setupMontageSkillInjection();
   const visible = game.settings.get(MODULE_ID, "montageUIVisible");
   MontageUI.syncVisibility(visible);
 }

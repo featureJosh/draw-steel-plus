@@ -496,17 +496,31 @@
 
 .dsp-mt-roll-select {
   flex: 1;
-  background: light-dark(rgba(0, 0, 0, 0.04), rgba(0, 0, 0, 0.2));
+  background: var(--dsp-surface);
   border: 1px solid var(--dsp-border);
   border-radius: var(--dsp-radius-sm);
   color: var(--dsp-text);
   font-size: 0.7rem;
-  padding: 3px 6px;
+  font-weight: 600;
+  padding: 4px 8px;
   outline: none;
+  color-scheme: dark;
 }
 
 .dsp-mt-roll-select:focus {
   border-color: var(--dsp-accent);
+  background: var(--dsp-surface-raised);
+}
+
+.dsp-mt-roll-select option {
+  background: var(--dsp-surface);
+  color: var(--dsp-text);
+}
+
+.dsp-mt-roll-select optgroup {
+  background: var(--dsp-surface-raised);
+  color: var(--dsp-text-muted);
+  font-weight: 700;
 }
 
 .dsp-mt-roll-modifiers {
