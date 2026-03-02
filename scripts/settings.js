@@ -1,8 +1,9 @@
-import { MODULE_CONFIG, COLOR_LIGHT_DARK_DEFAULTS, HEADER_DEFAULTS, NPC_DEFAULTS, NEGOTIATION_DEFAULTS, DEFAULT_NEGOTIATION_STATE, UI_DEFAULTS, colorSettingKey } from "./config.js";
+import { MODULE_CONFIG, COLOR_LIGHT_DARK_DEFAULTS, HEADER_DEFAULTS, NPC_DEFAULTS, NEGOTIATION_DEFAULTS, DEFAULT_NEGOTIATION_STATE, MONTAGE_DEFAULTS, DEFAULT_MONTAGE_STATE, UI_DEFAULTS, colorSettingKey } from "./config.js";
 import { applyColorOverrides } from "./color-settings.js";
 import { applyImprovedChat } from "./chat.js";
 import { MetaCurrencyTracker } from "./meta-currency.js";
 import { NegotiationUI } from "./negotiation-ui.js";
+import { MontageUI } from "./montage-ui.js";
 import ColorSettingsMenu from "./color-settings-menu.js";
 import HeaderSettingsMenu from "./header-settings-menu.js";
 import NPCSettingsMenu from "./npc-settings-menu.js";
@@ -173,6 +174,24 @@ export function registerSettings() {
     default: foundry.utils.deepClone(DEFAULT_NEGOTIATION_STATE),
     onChange: () => {
       if (NegotiationUI.instance?.rendered) NegotiationUI.instance.render();
+    },
+  });
+
+  game.settings.register(MODULE_ID, "montageUIVisible", {
+    scope: "world",
+    config: false,
+    type: Boolean,
+    default: MONTAGE_DEFAULTS.visible,
+    onChange: (value) => MontageUI.syncVisibility(value),
+  });
+
+  game.settings.register(MODULE_ID, "montageState", {
+    scope: "world",
+    config: false,
+    type: Object,
+    default: foundry.utils.deepClone(DEFAULT_MONTAGE_STATE),
+    onChange: () => {
+      if (MontageUI.instance?.rendered) MontageUI.instance.render();
     },
   });
 

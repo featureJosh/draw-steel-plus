@@ -8,7 +8,8 @@
   },
   "DRAW_STEEL_PLUS": {
     "SceneControl": {
-      "negotiation": "Negotiation UI"
+      "negotiation": "Negotiation UI",
+      "montage": "Montage Test UI"
     },
     "Sheet": {
       "Hero": "DS+ Hero Sheet",
@@ -188,6 +189,75 @@
       "resetTokens": "Reset Tokens",
       "adjustMalice": "Adjust Malice",
       "resetMalice": "Reset Malice",
+      "expand": "Expand",
+      "minimize": "Minimize",
+      "lock": "Lock Position",
+      "unlock": "Unlock Position",
+      "resetPosition": "Reset Position"
+    },
+    "MontageTest": {
+      "title": "Montage Test",
+      "titlePlaceholder": "Montage Test Title",
+      "successes": "Successes",
+      "failures": "Failures",
+      "round": "Round",
+      "nextRound": "Next Round",
+      "prevRound": "Previous Round",
+      "difficulty": "Difficulty",
+      "difficulties": {
+        "easy": "Easy",
+        "moderate": "Moderate",
+        "hard": "Hard"
+      },
+      "heroCount": "Heroes",
+      "heroes": "Heroes",
+      "outcome": "Outcome",
+      "outcomes": {
+        "inProgress": "In Progress",
+        "totalSuccess": "Total Success",
+        "partialSuccess": "Partial Success",
+        "totalFailure": "Total Failure"
+      },
+      "outcomeRules": {
+        "totalSuccess": "Hit the success limit",
+        "partialSuccess": "Failed, but successes - failures >= 2",
+        "totalFailure": "Failed without enough successes"
+      },
+      "rollTest": "Roll Test",
+      "characteristic": "Characteristic",
+      "characteristics": {
+        "might": "Might",
+        "agility": "Agility",
+        "reason": "Reason",
+        "intuition": "Intuition",
+        "presence": "Presence"
+      },
+      "testDifficulty": "Difficulty",
+      "testDifficulties": {
+        "easy": "Easy",
+        "medium": "Medium",
+        "hard": "Hard"
+      },
+      "edges": "Edges",
+      "banes": "Banes",
+      "roll": "Roll",
+      "acted": "Acted",
+      "skillReused": "Already used this characteristic",
+      "dropHero": "Drop a hero actor here",
+      "showToPlayers": "Show to players",
+      "hideFromPlayers": "Hide from players",
+      "resetSlider": "Reset to default",
+      "endMontage": "End Montage Test",
+      "endMontageConfirm": "End this montage test? This will clear all data and hide the panel for everyone.",
+      "emptyState": "The montage test has begun...",
+      "adjusted": "Adjusted",
+      "successLimit": "S",
+      "failureLimit": "F",
+      "victoryAward": "Award Victories",
+      "victoryAwardConfirm": "Award {count} {victoryLabel} to all heroes in the roster?",
+      "victory": "Victory",
+      "victories": "Victories",
+      "remove": "Remove",
       "expand": "Expand",
       "minimize": "Minimize",
       "lock": "Lock Position",

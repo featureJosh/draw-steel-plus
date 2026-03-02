@@ -5,6 +5,7 @@ import { registerSettings } from "./settings.js";
 import { registerSheets } from "./sheets.js";
 import { MetaCurrencyTracker } from "./meta-currency.js";
 import { initializeNegotiationUI } from "./negotiation-ui.js";
+import { initializeMontageUI } from "./montage-ui.js";
 import { TooltipsDSP } from "./tooltips.js";
 import "./scene-controls.js";
 
@@ -33,6 +34,7 @@ Hooks.once("ready", () => {
   applyImprovedChat();
   applyMetaCurrencySetting();
   initializeNegotiationUI();
+  initializeMontageUI();
   TooltipsDSP.activateListeners();
   const tooltips = new TooltipsDSP();
   tooltips.observe();

@@ -126,6 +126,37 @@ export const NEGOTIATION_MOTIVATIONS = [
   "vengeance",
 ];
 
+export const MONTAGE_DIFFICULTIES = {
+  easy:     { success: 5, failure: 5 },
+  moderate: { success: 6, failure: 4 },
+  hard:     { success: 7, failure: 3 },
+};
+
+export const MONTAGE_CHARACTERISTICS = ["might", "agility", "reason", "intuition", "presence"];
+
+export const MONTAGE_TEST_DIFFICULTIES = ["easy", "medium", "hard"];
+
+export const DEFAULT_MONTAGE_STATE = {
+  title: "",
+  difficulty: "moderate",
+  heroCount: 5,
+  successLimit: 6,
+  failureLimit: 4,
+  successes: 0,
+  failures: 0,
+  currentRound: 1,
+  maxRounds: 2,
+  heroes: [],
+  successesVisible: false,
+  failuresVisible: false,
+  roundVisible: false,
+  outcome: "",
+};
+
+export const MONTAGE_DEFAULTS = {
+  visible: false,
+};
+
 export const DEFAULT_NEGOTIATION_STATE = {
   npcName: "",
   attitude: "",

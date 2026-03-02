@@ -1,0 +1,270 @@
+<div class="dsp-fui-panel {{#if isGM}}dsp-mt-gm{{/if}}">
+
+  {{#if isExpanded}}
+
+  <div class="dsp-fui-toolbar">
+    <div class="dsp-fui-drag-handle" data-tooltip="Drag to move">
+      <i class="fa-solid fa-grip-vertical" inert></i>
+    </div>
+    <button class="dsp-fui-toolbar-btn" type="button" data-action="toggleExpanded" data-tooltip="{{localize 'DRAW_STEEL_PLUS.MontageTest.minimize'}}">
+      <i class="fa-solid fa-compress" inert></i>
+    </button>
+    <button class="dsp-fui-toolbar-btn" type="button" data-action="toggleLock" data-tooltip="{{#if isLocked}}{{localize 'DRAW_STEEL_PLUS.MontageTest.unlock'}}{{else}}{{localize 'DRAW_STEEL_PLUS.MontageTest.lock'}}{{/if}}">
+      <i class="fa-solid {{#if isLocked}}fa-lock{{else}}fa-lock-open{{/if}}" inert></i>
+    </button>
+    <button class="dsp-fui-toolbar-btn" type="button" data-action="resetPosition" data-tooltip="{{localize 'DRAW_STEEL_PLUS.MontageTest.resetPosition'}}">
+      <i class="fa-solid fa-crosshairs" inert></i>
+    </button>
+    {{#if isGM}}
+    <button class="dsp-fui-toolbar-btn dsp-mt-end-btn" type="button" data-action="endMontage" data-tooltip="{{localize 'DRAW_STEEL_PLUS.MontageTest.endMontage'}}">
+      <i class="fa-solid fa-xmark" inert></i>
+    </button>
+    {{/if}}
+  </div>
+
+  <div class="dsp-mt-body">
+
+    {{#if isGM}}
+    <div class="dsp-mt-header">
+      <input type="text" class="dsp-mt-title-input" value="{{title}}" placeholder="{{localize 'DRAW_STEEL_PLUS.MontageTest.titlePlaceholder'}}" />
+    </div>
+    {{else}}
+    {{#if title}}
+    <div class="dsp-mt-header">
+      <span class="dsp-mt-title-display">{{localize "DRAW_STEEL_PLUS.MontageTest.title"}}: {{title}}</span>
+    </div>
+    {{/if}}
+    {{/if}}
+
+    <div class="dsp-mt-sliders">
+      {{#each sliders}}
+      {{#if this.show}}
+      <div class="dsp-mt-slider-row" data-slider="{{this.key}}">
+        <span class="dsp-mt-slider-label">{{this.label}}</span>
+        {{#if ../isGM}}
+        <button class="dsp-mt-eye-btn" type="button" data-action="toggleSliderVisibility" data-slider="{{this.key}}" data-tooltip="{{#if this.visible}}{{localize 'DRAW_STEEL_PLUS.MontageTest.hideFromPlayers'}}{{else}}{{localize 'DRAW_STEEL_PLUS.MontageTest.showToPlayers'}}{{/if}}">
+          <i class="fa-solid {{#if this.visible}}fa-eye{{else}}fa-eye-slash{{/if}}" inert></i>
+        </button>
+        {{/if}}
+        <div class="dsp-mt-segments">
+          {{#each this.segments}}
+          <div class="dsp-mt-segment {{#if this.active}}dsp-mt-segment-active{{/if}}"></div>
+          {{/each}}
+        </div>
+        {{#if ../isGM}}
+        <div class="dsp-mt-slider-controls">
+          <button class="dsp-mt-ctrl-btn" type="button" data-action="incrementSlider" data-slider="{{this.key}}" data-tooltip="+1">
+            <i class="fa-solid fa-plus" inert></i>
+          </button>
+          <button class="dsp-mt-ctrl-btn" type="button" data-action="decrementSlider" data-slider="{{this.key}}" data-tooltip="-1">
+            <i class="fa-solid fa-minus" inert></i>
+          </button>
+          <button class="dsp-mt-ctrl-btn" type="button" data-action="resetSlider" data-slider="{{this.key}}" data-tooltip="{{localize 'DRAW_STEEL_PLUS.MontageTest.resetSlider'}}">
+            <i class="fa-solid fa-rotate-right" inert></i>
+          </button>
+        </div>
+        {{else}}
+        <span class="dsp-mt-slider-value">{{this.value}} / {{this.max}}</span>
+        {{/if}}
+      </div>
+      {{/if}}
+      {{/each}}
+
+      {{#if roundInfo.show}}
+      <div class="dsp-mt-round-row">
+        <span class="dsp-mt-slider-label">{{localize "DRAW_STEEL_PLUS.MontageTest.round"}}</span>
+        {{#if isGM}}
+        <button class="dsp-mt-eye-btn" type="button" data-action="toggleSliderVisibility" data-slider="round" data-tooltip="{{#if roundInfo.visible}}{{localize 'DRAW_STEEL_PLUS.MontageTest.hideFromPlayers'}}{{else}}{{localize 'DRAW_STEEL_PLUS.MontageTest.showToPlayers'}}{{/if}}">
+          <i class="fa-solid {{#if roundInfo.visible}}fa-eye{{else}}fa-eye-slash{{/if}}" inert></i>
+        </button>
+        {{/if}}
+        <span class="dsp-mt-round-display">{{roundInfo.current}} / <input type="number" class="dsp-mt-max-rounds-input" value="{{roundInfo.max}}" min="1" {{#unless isGM}}disabled{{/unless}} /></span>
+        {{#if isGM}}
+        <button class="dsp-mt-ctrl-btn dsp-mt-round-btn" type="button" data-action="prevRound" data-tooltip="{{localize 'DRAW_STEEL_PLUS.MontageTest.prevRound'}}" {{#unless roundInfo.canGoBack}}disabled{{/unless}}>
+          <i class="fa-solid fa-backward-step" inert></i>
+        </button>
+        <button class="dsp-mt-ctrl-btn dsp-mt-round-btn" type="button" data-action="nextRound" data-tooltip="{{localize 'DRAW_STEEL_PLUS.MontageTest.nextRound'}}">
+          <i class="fa-solid fa-forward-step" inert></i>
+        </button>
+        {{/if}}
+      </div>
+      {{/if}}
+    </div>
+
+    {{#if isGM}}
+    <div class="dsp-mt-toolbar-row">
+      <button class="dsp-mt-popup-btn" type="button" data-action="openDifficultyPopup">
+        <i class="fa-solid fa-shield-halved" inert></i> {{difficultyLabel}}
+      </button>
+      <button class="dsp-mt-popup-btn" type="button" data-action="openHeroesPopup">
+        <i class="fa-solid fa-users" inert></i> {{localize "DRAW_STEEL_PLUS.MontageTest.heroes"}} ({{heroCountDisplay}})
+      </button>
+      <button class="dsp-mt-popup-btn" type="button" data-action="openOutcomePopup">
+        <i class="fa-solid fa-scroll" inert></i> {{localize "DRAW_STEEL_PLUS.MontageTest.outcome"}}
+      </button>
+    </div>
+
+    {{#if (eq openPopup "difficulty")}}
+    <div class="dsp-mt-popup dsp-mt-popup-difficulty">
+      <div class="dsp-mt-popup-title">{{localize "DRAW_STEEL_PLUS.MontageTest.difficulty"}}</div>
+      <div class="dsp-mt-hero-count-row">
+        <span class="dsp-mt-hero-count-label">{{localize "DRAW_STEEL_PLUS.MontageTest.heroCount"}}:</span>
+        <input type="number" class="dsp-mt-hero-count-input" value="{{heroCount}}" min="1" />
+      </div>
+      {{#each difficulties}}
+      <button class="dsp-mt-difficulty-option {{#if this.selected}}dsp-mt-difficulty-selected{{/if}}" type="button" data-action="selectDifficulty" data-difficulty="{{this.key}}">
+        <span class="dsp-mt-difficulty-name">{{this.label}}</span>
+        <span class="dsp-mt-difficulty-stats">S:{{this.adjSuccess}} F:{{this.adjFailure}}</span>
+      </button>
+      {{/each}}
+    </div>
+    {{/if}}
+
+    {{#if (eq openPopup "heroes")}}
+    <div class="dsp-mt-popup dsp-mt-popup-heroes">
+      <div class="dsp-mt-popup-title">{{localize "DRAW_STEEL_PLUS.MontageTest.heroes"}}</div>
+      {{#each heroes}}
+      <div class="dsp-mt-hero-row {{#if this.actedThisRound}}dsp-mt-hero-acted{{/if}}">
+        <button class="dsp-mt-check-btn" type="button" data-action="toggleActed" data-hero-uuid="{{this.uuid}}" data-tooltip="{{localize 'DRAW_STEEL_PLUS.MontageTest.acted'}}">
+          <i class="fa-{{#if this.actedThisRound}}solid fa-square-check{{else}}regular fa-square{{/if}}" inert></i>
+        </button>
+        <img class="dsp-mt-hero-img" src="{{this.img}}" alt="{{this.name}}" />
+        <span class="dsp-mt-hero-name">{{this.name}}</span>
+        {{#unless this.actedThisRound}}
+        <button class="dsp-mt-roll-btn" type="button" data-action="openRollForm" data-hero-uuid="{{this.uuid}}" data-tooltip="{{localize 'DRAW_STEEL_PLUS.MontageTest.rollTest'}}">
+          <i class="fa-solid fa-dice-d20" inert></i>
+        </button>
+        {{else}}
+        <span class="dsp-mt-acted-label">{{localize "DRAW_STEEL_PLUS.MontageTest.acted"}}</span>
+        {{/unless}}
+        <button class="dsp-mt-remove-btn" type="button" data-action="removeHero" data-hero-uuid="{{this.uuid}}" data-tooltip="{{localize 'DRAW_STEEL_PLUS.MontageTest.remove'}}">
+          <i class="fa-solid fa-xmark" inert></i>
+        </button>
+      </div>
+      {{#if (eq this.uuid ../rollHeroUuid)}}
+      <div class="dsp-mt-roll-form">
+        <div class="dsp-mt-roll-form-row">
+          <label class="dsp-mt-roll-label">{{localize "DRAW_STEEL_PLUS.MontageTest.characteristic"}}</label>
+          <select class="dsp-mt-roll-select" data-field="characteristic">
+            {{#each ../characteristics}}
+            <option value="{{this.key}}" {{#if this.selected}}selected{{/if}}>{{this.label}}</option>
+            {{/each}}
+          </select>
+        </div>
+        <div class="dsp-mt-roll-form-row">
+          <label class="dsp-mt-roll-label">{{localize "DRAW_STEEL_PLUS.MontageTest.testDifficulty"}}</label>
+          <select class="dsp-mt-roll-select" data-field="testDifficulty">
+            {{#each ../testDifficulties}}
+            <option value="{{this.key}}" {{#if this.selected}}selected{{/if}}>{{this.label}}</option>
+            {{/each}}
+          </select>
+        </div>
+        <div class="dsp-mt-roll-form-row dsp-mt-roll-modifiers">
+          <span class="dsp-mt-roll-mod-group">
+            <span class="dsp-mt-roll-mod-label">{{localize "DRAW_STEEL_PLUS.MontageTest.edges"}}</span>
+            <button class="dsp-mt-mod-btn" type="button" data-action="decrementRollEdges"><i class="fa-solid fa-minus" inert></i></button>
+            <span class="dsp-mt-mod-value">{{../rollEdges}}</span>
+            <button class="dsp-mt-mod-btn" type="button" data-action="incrementRollEdges"><i class="fa-solid fa-plus" inert></i></button>
+          </span>
+          <span class="dsp-mt-roll-mod-group">
+            <span class="dsp-mt-roll-mod-label">{{localize "DRAW_STEEL_PLUS.MontageTest.banes"}}</span>
+            <button class="dsp-mt-mod-btn" type="button" data-action="decrementRollBanes"><i class="fa-solid fa-minus" inert></i></button>
+            <span class="dsp-mt-mod-value">{{../rollBanes}}</span>
+            <button class="dsp-mt-mod-btn" type="button" data-action="incrementRollBanes"><i class="fa-solid fa-plus" inert></i></button>
+          </span>
+        </div>
+        {{#each this.usedSkills}}
+        {{#if (eq this ../../rollCharacteristic)}}
+        <div class="dsp-mt-skill-warning">
+          <i class="fa-solid fa-triangle-exclamation" inert></i>
+          {{localize "DRAW_STEEL_PLUS.MontageTest.skillReused"}}
+        </div>
+        {{/if}}
+        {{/each}}
+        <button class="dsp-mt-execute-roll-btn" type="button" data-action="executeRoll">
+          <i class="fa-solid fa-dice-d20" inert></i> {{localize "DRAW_STEEL_PLUS.MontageTest.roll"}}
+        </button>
+      </div>
+      {{/if}}
+      {{/each}}
+      <div class="dsp-mt-drop-zone">
+        <i class="fa-solid fa-hand-pointer" inert></i>
+        <span>{{localize "DRAW_STEEL_PLUS.MontageTest.dropHero"}}</span>
+      </div>
+    </div>
+    {{/if}}
+
+    {{#if (eq openPopup "outcome")}}
+    <div class="dsp-mt-popup dsp-mt-popup-outcome">
+      <div class="dsp-mt-popup-title">{{localize "DRAW_STEEL_PLUS.MontageTest.outcome"}}</div>
+      <div class="dsp-mt-outcome-stats">
+        <span>{{localize "DRAW_STEEL_PLUS.MontageTest.successes"}}: {{successes}}</span>
+        <span>{{localize "DRAW_STEEL_PLUS.MontageTest.failures"}}: {{failures}}</span>
+      </div>
+      <div class="dsp-mt-outcome-status dsp-mt-outcome-{{outcome}}">
+        {{outcomeLabel}}
+      </div>
+      {{#if outcome}}
+      {{#if victories}}
+      <button class="dsp-mt-victory-btn" type="button" data-action="awardVictories">
+        <i class="fa-solid fa-trophy" inert></i> {{localize "DRAW_STEEL_PLUS.MontageTest.victoryAward"}} ({{victories}})
+      </button>
+      {{/if}}
+      {{/if}}
+      <div class="dsp-mt-outcome-rules">
+        <div class="dsp-mt-outcome-rule"><strong>{{localize "DRAW_STEEL_PLUS.MontageTest.outcomes.totalSuccess"}}:</strong> {{localize "DRAW_STEEL_PLUS.MontageTest.outcomeRules.totalSuccess"}}</div>
+        <div class="dsp-mt-outcome-rule"><strong>{{localize "DRAW_STEEL_PLUS.MontageTest.outcomes.partialSuccess"}}:</strong> {{localize "DRAW_STEEL_PLUS.MontageTest.outcomeRules.partialSuccess"}}</div>
+        <div class="dsp-mt-outcome-rule"><strong>{{localize "DRAW_STEEL_PLUS.MontageTest.outcomes.totalFailure"}}:</strong> {{localize "DRAW_STEEL_PLUS.MontageTest.outcomeRules.totalFailure"}}</div>
+      </div>
+    </div>
+    {{/if}}
+
+    {{else}}
+
+    {{#unless hasVisibleSliders}}
+    <div class="dsp-mt-empty">{{localize "DRAW_STEEL_PLUS.MontageTest.emptyState"}}</div>
+    {{/unless}}
+
+    {{#if heroes.length}}
+    <div class="dsp-mt-player-heroes">
+      {{#each heroes}}
+      <div class="dsp-mt-hero-row-player {{#if this.actedThisRound}}dsp-mt-hero-acted{{/if}}">
+        <img class="dsp-mt-hero-img" src="{{this.img}}" alt="{{this.name}}" />
+        <span class="dsp-mt-hero-name">{{this.name}}</span>
+        {{#if this.actedThisRound}}
+        <span class="dsp-mt-acted-label">{{localize "DRAW_STEEL_PLUS.MontageTest.acted"}}</span>
+        {{/if}}
+      </div>
+      {{/each}}
+    </div>
+    {{/if}}
+
+    {{/if}}
+
+  </div>
+
+  {{else}}
+
+  <div class="dsp-mc-toolbar-compact">
+    <div class="dsp-fui-drag-handle" data-tooltip="Drag to move">
+      <i class="fa-solid fa-grip-vertical" inert></i>
+    </div>
+    <button class="dsp-fui-toolbar-btn" type="button" data-action="toggleExpanded" data-tooltip="{{localize 'DRAW_STEEL_PLUS.MontageTest.expand'}}">
+      <i class="fa-solid fa-expand" inert></i>
+    </button>
+    <button class="dsp-fui-toolbar-btn" type="button" data-action="toggleLock" data-tooltip="{{#if isLocked}}{{localize 'DRAW_STEEL_PLUS.MontageTest.unlock'}}{{else}}{{localize 'DRAW_STEEL_PLUS.MontageTest.lock'}}{{/if}}">
+      <i class="fa-solid {{#if isLocked}}fa-lock{{else}}fa-lock-open{{/if}}" inert></i>
+    </button>
+    <button class="dsp-fui-toolbar-btn" type="button" data-action="resetPosition" data-tooltip="{{localize 'DRAW_STEEL_PLUS.MontageTest.resetPosition'}}">
+      <i class="fa-solid fa-crosshairs" inert></i>
+    </button>
+  </div>
+
+  <div class="dsp-mt-body dsp-mt-body-compact">
+    <i class="fa-solid fa-mountain dsp-mt-compact-icon" inert></i>
+    <span class="dsp-mt-compact-label">{{localize "DRAW_STEEL_PLUS.MontageTest.title"}}</span>
+  </div>
+
+  {{/if}}
+
+</div>

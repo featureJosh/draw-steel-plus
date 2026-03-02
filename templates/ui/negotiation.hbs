@@ -2,6 +2,26 @@
 
   {{#if isExpanded}}
 
+  <div class="dsp-fui-toolbar">
+    <div class="dsp-fui-drag-handle" data-tooltip="Drag to move">
+      <i class="fa-solid fa-grip-vertical" inert></i>
+    </div>
+    <button class="dsp-fui-toolbar-btn" type="button" data-action="toggleExpanded" data-tooltip="{{localize 'DRAW_STEEL_PLUS.Negotiation.minimize'}}">
+      <i class="fa-solid fa-compress" inert></i>
+    </button>
+    <button class="dsp-fui-toolbar-btn" type="button" data-action="toggleLock" data-tooltip="{{#if isLocked}}{{localize 'DRAW_STEEL_PLUS.Negotiation.unlock'}}{{else}}{{localize 'DRAW_STEEL_PLUS.Negotiation.lock'}}{{/if}}">
+      <i class="fa-solid {{#if isLocked}}fa-lock{{else}}fa-lock-open{{/if}}" inert></i>
+    </button>
+    <button class="dsp-fui-toolbar-btn" type="button" data-action="resetPosition" data-tooltip="{{localize 'DRAW_STEEL_PLUS.Negotiation.resetPosition'}}">
+      <i class="fa-solid fa-crosshairs" inert></i>
+    </button>
+    {{#if isGM}}
+    <button class="dsp-fui-toolbar-btn dsp-neg-end-btn" type="button" data-action="endNegotiation" data-tooltip="{{localize 'DRAW_STEEL_PLUS.Negotiation.endNegotiation'}}">
+      <i class="fa-solid fa-xmark" inert></i>
+    </button>
+    {{/if}}
+  </div>
+
   <div class="dsp-neg-body">
 
     {{#if isGM}}
@@ -202,32 +222,7 @@
 
   </div>
 
-  <div class="dsp-fui-toolbar">
-    <div class="dsp-fui-drag-handle" data-tooltip="Drag to move">
-      <i class="fa-solid fa-grip-vertical" inert></i>
-    </div>
-    <button class="dsp-fui-toolbar-btn" type="button" data-action="toggleExpanded" data-tooltip="{{#if isExpanded}}{{localize 'DRAW_STEEL_PLUS.Negotiation.minimize'}}{{else}}{{localize 'DRAW_STEEL_PLUS.Negotiation.expand'}}{{/if}}">
-      <i class="fa-solid {{#if isExpanded}}fa-compress{{else}}fa-expand{{/if}}" inert></i>
-    </button>
-    <button class="dsp-fui-toolbar-btn" type="button" data-action="toggleLock" data-tooltip="{{#if isLocked}}{{localize 'DRAW_STEEL_PLUS.Negotiation.unlock'}}{{else}}{{localize 'DRAW_STEEL_PLUS.Negotiation.lock'}}{{/if}}">
-      <i class="fa-solid {{#if isLocked}}fa-lock{{else}}fa-lock-open{{/if}}" inert></i>
-    </button>
-    <button class="dsp-fui-toolbar-btn" type="button" data-action="resetPosition" data-tooltip="{{localize 'DRAW_STEEL_PLUS.Negotiation.resetPosition'}}">
-      <i class="fa-solid fa-crosshairs" inert></i>
-    </button>
-    {{#if isGM}}
-    <button class="dsp-fui-toolbar-btn dsp-neg-end-btn" type="button" data-action="endNegotiation" data-tooltip="{{localize 'DRAW_STEEL_PLUS.Negotiation.endNegotiation'}}">
-      <i class="fa-solid fa-xmark" inert></i>
-    </button>
-    {{/if}}
-  </div>
-
   {{else}}
-
-  <div class="dsp-neg-body dsp-neg-body-compact">
-    <i class="fa-sharp fa-solid fa-comment-lines dsp-neg-compact-icon" inert></i>
-    <span class="dsp-neg-compact-label">{{localize "DRAW_STEEL_PLUS.Negotiation.title"}}</span>
-  </div>
 
   <div class="dsp-mc-toolbar-compact">
     <div class="dsp-fui-drag-handle" data-tooltip="Drag to move">
@@ -242,6 +237,11 @@
     <button class="dsp-fui-toolbar-btn" type="button" data-action="resetPosition" data-tooltip="{{localize 'DRAW_STEEL_PLUS.Negotiation.resetPosition'}}">
       <i class="fa-solid fa-crosshairs" inert></i>
     </button>
+  </div>
+
+  <div class="dsp-neg-body dsp-neg-body-compact">
+    <i class="fa-sharp fa-solid fa-comment-lines dsp-neg-compact-icon" inert></i>
+    <span class="dsp-neg-compact-label">{{localize "DRAW_STEEL_PLUS.Negotiation.title"}}</span>
   </div>
 
   {{/if}}
