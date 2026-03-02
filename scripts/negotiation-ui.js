@@ -55,7 +55,6 @@ export class NegotiationUI extends DspFloatingUI {
   static instance = null;
 
   _openPopup = null;
-  _boundOutsideClick = null;
   _boundEscapeKey = null;
 
   static DEFAULT_OPTIONS = {
@@ -208,22 +207,6 @@ export class NegotiationUI extends DspFloatingUI {
         await addCustomEntry(listType, value);
       });
     }
-
-    if (this._boundOutsideClick) {
-      this.element.removeEventListener("click", this._boundOutsideClick);
-    }
-    this._boundOutsideClick = (e) => {
-      if (!this._openPopup) return;
-      if (e.target.closest(".dsp-neg-popup")) return;
-      if (e.target.closest("[data-action='openAttitudePopup']")) return;
-      if (e.target.closest("[data-action='openMotivationsPopup']")) return;
-      if (e.target.closest("[data-action='openPitfallsPopup']")) return;
-      if (e.target.closest("[data-action='showAddList']")) return;
-      if (e.target.closest("[data-action='showAddCustom']")) return;
-      this._openPopup = null;
-      this.render();
-    };
-    this.element.addEventListener("click", this._boundOutsideClick);
 
     if (this._boundEscapeKey) {
       document.removeEventListener("keydown", this._boundEscapeKey);

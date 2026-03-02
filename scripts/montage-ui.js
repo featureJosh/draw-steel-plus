@@ -67,7 +67,6 @@ export class MontageUI extends DspFloatingUI {
   _rollDifficulty = "easy";
   _rollEdges = 0;
   _rollBanes = 0;
-  _boundOutsideClick = null;
   _boundEscapeKey = null;
 
   static DEFAULT_OPTIONS = {
@@ -337,22 +336,6 @@ export class MontageUI extends DspFloatingUI {
         await setStateReplace({ ...state, heroes });
       });
     }
-
-    if (this._boundOutsideClick) {
-      this.element.removeEventListener("click", this._boundOutsideClick);
-    }
-    this._boundOutsideClick = (e) => {
-      if (!this._openPopup) return;
-      if (e.target.closest(".dsp-mt-popup")) return;
-      if (e.target.closest("[data-action='openDifficultyPopup']")) return;
-      if (e.target.closest("[data-action='openHeroesPopup']")) return;
-      if (e.target.closest("[data-action='openOutcomePopup']")) return;
-      if (e.target.closest("[data-action='openRollForm']")) return;
-      this._openPopup = null;
-      this._rollHeroUuid = null;
-      this.render();
-    };
-    this.element.addEventListener("click", this._boundOutsideClick);
 
     if (this._boundEscapeKey) {
       document.removeEventListener("keydown", this._boundEscapeKey);

@@ -287,7 +287,7 @@
 }
 
 .dsp-mt-hero-count-input {
-  width: 44px;
+  width: 25px;
   background: light-dark(rgba(0, 0, 0, 0.04), rgba(0, 0, 0, 0.2));
   border: 1px solid var(--dsp-border);
   border-radius: var(--dsp-radius-sm);
