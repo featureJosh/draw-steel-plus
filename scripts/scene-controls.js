@@ -9,12 +9,12 @@ Hooks.on("getSceneControlButtons", (controls) => {
   controls.tokens.tools.drawSteelPlus = {
     name: "drawSteelPlus",
     title: "DRAW_STEEL_PLUS.SceneControl.negotiation",
-    icon: "fa-sharp fa-solid fa-comment-lines",
+    icon: "fa-solid fa-comment-lines",
     order: Object.keys(controls.tokens.tools).length,
     button: true,
     visible: game.user.isGM,
-    active: () => game.settings.get(MODULE_ID, "negotiationUIVisible"),
-    onChange: () => {
+    active: game.settings.get(MODULE_ID, "negotiationUIVisible"),
+    onChange: (event, active) => {
       if (!game.user.isGM) return;
       const toggled = !game.settings.get(MODULE_ID, "negotiationUIVisible");
       game.settings.set(MODULE_ID, "negotiationUIVisible", toggled);
@@ -30,8 +30,8 @@ Hooks.on("getSceneControlButtons", (controls) => {
     order: Object.keys(controls.tokens.tools).length,
     button: true,
     visible: game.user.isGM,
-    active: () => game.settings.get(MODULE_ID, "montageUIVisible"),
-    onChange: () => {
+    active: game.settings.get(MODULE_ID, "montageUIVisible"),
+    onChange: (event, active) => {
       if (!game.user.isGM) return;
       const toggled = !game.settings.get(MODULE_ID, "montageUIVisible");
       game.settings.set(MODULE_ID, "montageUIVisible", toggled);
