@@ -1,5 +1,6 @@
-import { MODULE_CONFIG, COLOR_LIGHT_DARK_DEFAULTS, HEADER_DEFAULTS, NPC_DEFAULTS, NEGOTIATION_DEFAULTS, DEFAULT_NEGOTIATION_STATE, MONTAGE_DEFAULTS, DEFAULT_MONTAGE_STATE, UI_DEFAULTS, colorSettingKey } from "./config.js";
+import { MODULE_CONFIG, COLOR_LIGHT_DARK_DEFAULTS, FONT_SIZE_DEFAULTS, HEADER_DEFAULTS, NPC_DEFAULTS, NEGOTIATION_DEFAULTS, DEFAULT_NEGOTIATION_STATE, MONTAGE_DEFAULTS, DEFAULT_MONTAGE_STATE, UI_DEFAULTS, colorSettingKey } from "./config.js";
 import { applyColorOverrides } from "./color-settings.js";
+import { applyFontSizeOverrides } from "./font-size-settings.js";
 import { applyImprovedChat } from "./chat.js";
 import { MetaCurrencyTracker } from "./meta-currency.js";
 import { NegotiationUI } from "./negotiation-ui.js";
@@ -66,6 +67,17 @@ export function registerSettings() {
       onChange: () => applyColorOverrides(),
     });
   }
+
+  game.settings.register(MODULE_ID, "fontScale", {
+    name: "DRAW_STEEL_PLUS.Settings.fontScale.name",
+    hint: "DRAW_STEEL_PLUS.Settings.fontScale.hint",
+    scope: "client",
+    config: true,
+    type: Number,
+    default: FONT_SIZE_DEFAULTS.fontScale,
+    range: { min: 0.75, max: 1.5, step: 0.05 },
+    onChange: () => applyFontSizeOverrides(),
+  });
 
   game.settings.register(MODULE_ID, "floatingNavTabs", {
     name: "DRAW_STEEL_PLUS.Settings.floatingNavTabs.name",

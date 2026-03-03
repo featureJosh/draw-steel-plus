@@ -14,7 +14,7 @@
 
 .draw-steel-plus.sheet .dsp-tab-title {
 	font-family: var(--dsp-heading-font);
-	font-size: 1rem;
+	font-size: var(--dsp-font-size-4xl);
 	font-weight: 700;
 	text-transform: uppercase;
 	letter-spacing: 0.08em;
@@ -28,7 +28,7 @@
 }
 
 .draw-steel-plus.sheet .dsp-tab-title i {
-  font-size: 0.75rem;
+  font-size: var(--dsp-font-size-lg);
   color: var(--dsp-accent);
 }
 
@@ -41,7 +41,7 @@
 }
 
 .draw-steel-plus.sheet fieldset legend {
-  font-size: 0.7rem;
+  font-size: var(--dsp-font-size-base);
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.08em;
@@ -76,7 +76,7 @@
 }
 
 .draw-steel-plus.sheet fieldset legend button i {
-  font-size: 0.65rem;
+  font-size: var(--dsp-font-size-md);
 }
 
 .draw-steel-plus.sheet .item-list-container {
@@ -105,7 +105,7 @@
   content: "\f078";
   font-family: "Font Awesome 6 Pro";
   font-weight: 900;
-  font-size: 0.5rem;
+  font-size: var(--dsp-font-size-2xs);
   color: var(--dsp-text-faint);
   margin-left: auto;
   transition: transform var(--dsp-transition), color var(--dsp-transition);
@@ -134,7 +134,7 @@
 }
 
 .draw-steel-plus.sheet .item-list-container .item-header .item-column {
-  font-size: 0.6rem;
+  font-size: var(--dsp-font-size-sm);
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.08em;
@@ -156,7 +156,7 @@
 .draw-steel-plus.sheet .item-list-container .item-header .item-controls a {
   color: var(--dsp-text-faint);
   text-decoration: none;
-  font-size: 0.7rem;
+  font-size: var(--dsp-font-size-base);
   padding: 2px 4px;
   border-radius: var(--dsp-radius-sm);
   transition: color var(--dsp-transition), background var(--dsp-transition);
@@ -196,7 +196,7 @@
 }
 
 .draw-steel-plus.sheet .item-list .item-column {
-  font-size: 0.75rem;
+  font-size: var(--dsp-font-size-lg);
   color: var(--dsp-text-light);
 }
 
@@ -222,7 +222,7 @@
 }
 
 .draw-steel-plus.sheet .item-list .item-column.item-name .keywords {
-  font-size: 0.6rem;
+  font-size: var(--dsp-font-size-sm);
   color: var(--dsp-text-faint);
   font-weight: 400;
   white-space: nowrap;
@@ -275,7 +275,7 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	font-size: 0.85rem;
+	font-size: var(--dsp-font-size-2xl);
 	color: #fff;
 	background: rgba(0, 0, 0, 0.45);
 	border-radius: var(--dsp-radius-sm);
@@ -320,7 +320,7 @@
 .draw-steel-plus.sheet .item-list .item-column.item-controls a {
   color: var(--dsp-text-faint);
   text-decoration: none;
-  font-size: 0.7rem;
+  font-size: var(--dsp-font-size-base);
   padding: 0;
   border-radius: var(--dsp-radius-sm);
   transition: color var(--dsp-transition), background var(--dsp-transition);
@@ -367,13 +367,13 @@
 
 .draw-steel-plus.sheet .dsp-favorites-empty p {
   margin: 0;
-  font-size: 0.9rem;
+  font-size: var(--dsp-font-size-3xl);
 }
 
 .draw-steel-plus.sheet .document-description {
   transition: grid-template-rows 0.35s ease-out, padding 0.35s ease-out, background-color 0.35s ease-out, border-color 0.35s ease-out, color 0.35s ease-out;
   border-top: 1px solid transparent;
-  font-size: 0.8rem;
+  font-size: var(--dsp-font-size-xl);
   line-height: 1.5;
 }
 
@@ -421,7 +421,7 @@
 .draw-steel-plus.sheet .quantity-controls a {
   color: var(--dsp-text-faint);
   text-decoration: none;
-  font-size: 0.65rem;
+  font-size: var(--dsp-font-size-md);
   width: 20px;
   height: 20px;
   display: flex;
@@ -464,7 +464,7 @@
 }
 
 .draw-steel-plus.sheet .tab.stats .resource-label {
-  font-size: 0.65rem;
+  font-size: var(--dsp-font-size-md);
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.06em;
@@ -511,7 +511,7 @@
 
 .draw-steel-plus.sheet .tab.stats .resource-content .form-group.stacked label,
 .draw-steel-plus.sheet .tab.stats .input-placeholder-label {
-  font-size: 0.55rem;
+  font-size: var(--dsp-font-size-xs);
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.06em;
@@ -520,7 +520,7 @@
 }
 
 .draw-steel-plus.sheet .tab.stats .input-placeholder {
-  font-size: 1.1rem;
+  font-size: var(--dsp-font-size-5xl);
   font-weight: 800;
   color: var(--dsp-text);
   text-align: center;
@@ -539,7 +539,7 @@
 }
 
 .draw-steel-plus.sheet .tab.stats .resource .form-group.slim label {
-  font-size: 0.65rem;
+  font-size: var(--dsp-font-size-md);
   font-weight: 600;
   color: var(--dsp-text-light);
   flex-shrink: 0;
@@ -550,7 +550,7 @@
   border: none;
   color: var(--dsp-text-light);
   cursor: pointer;
-  font-size: 0.65rem;
+  font-size: var(--dsp-font-size-md);
   font-weight: 600;
   padding: 2px 4px;
   border-radius: var(--dsp-radius-sm);
@@ -579,7 +579,7 @@
 
 .draw-steel-plus.sheet .restricted-warning {
   color: var(--dsp-accent);
-  font-size: 0.7rem;
+  font-size: var(--dsp-font-size-base);
   flex-shrink: 0;
 }
 
@@ -603,7 +603,7 @@
   border: 1px solid var(--dsp-border);
   border-radius: var(--dsp-radius-sm);
   color: var(--dsp-text-faint);
-  font-size: 0.65rem;
+  font-size: var(--dsp-font-size-md);
   cursor: pointer;
   transition: all var(--dsp-transition-fast);
 }
@@ -664,7 +664,7 @@
 .draw-steel-plus.sheet .effect-header .effect-name,
 .draw-steel-plus.sheet .effect-header .effect-source,
 .draw-steel-plus.sheet .effect-header .effect-duration {
-  font-size: 0.6rem;
+  font-size: var(--dsp-font-size-sm);
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.08em;
@@ -684,7 +684,7 @@
 .draw-steel-plus.sheet .effect-header .effect-controls a {
   color: var(--dsp-text-faint);
   text-decoration: none;
-  font-size: 0.7rem;
+  font-size: var(--dsp-font-size-base);
   padding: 2px 4px;
   border-radius: var(--dsp-radius-sm);
   transition: color var(--dsp-transition), background var(--dsp-transition);
@@ -723,7 +723,7 @@
   gap: 8px;
   min-width: 0;
   font-weight: 600;
-  font-size: 0.8rem;
+  font-size: var(--dsp-font-size-xl);
   color: var(--dsp-text);
 }
 
@@ -755,7 +755,7 @@
 
 .draw-steel-plus.sheet .effect-row .effect-source,
 .draw-steel-plus.sheet .effect-row .effect-duration {
-  font-size: 0.7rem;
+  font-size: var(--dsp-font-size-base);
   color: var(--dsp-text-faint);
   min-width: 60px;
   text-align: center;
@@ -771,7 +771,7 @@
 .draw-steel-plus.sheet .effect-row .effect-controls a {
 	color: var(--dsp-text-faint);
 	text-decoration: none;
-	font-size: 0.7rem;
+	font-size: var(--dsp-font-size-base);
 	padding: 3px 4px;
 	border-radius: var(--dsp-radius-sm);
 	transition: color var(--dsp-transition), background var(--dsp-transition);
@@ -792,7 +792,7 @@
 .draw-steel-plus.sheet .effect-description {
   transition: grid-template-rows 0.35s ease-out, padding 0.35s ease-out, background-color 0.35s ease-out, border-color 0.35s ease-out, color 0.35s ease-out;
   border-top: 1px solid transparent;
-  font-size: 0.8rem;
+  font-size: var(--dsp-font-size-xl);
   line-height: 1.5;
 }
 
@@ -822,7 +822,7 @@
 }
 
 .draw-steel-plus.sheet .tab.biography .demographics dt {
-  font-size: 0.6rem;
+  font-size: var(--dsp-font-size-sm);
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.06em;
@@ -832,7 +832,7 @@
 }
 
 .draw-steel-plus.sheet .tab.biography .demographics dd {
-  font-size: 0.85rem;
+  font-size: var(--dsp-font-size-2xl);
   font-weight: 600;
   color: var(--dsp-text);
   margin: 0;
@@ -866,7 +866,7 @@
 }
 
 .draw-steel-plus.sheet .form-group label {
-  font-size: 0.7rem;
+  font-size: var(--dsp-font-size-base);
   font-weight: 600;
   color: var(--dsp-text-light);
   white-space: nowrap;
@@ -887,7 +887,7 @@
   border: 1px solid var(--dsp-border);
   border-radius: var(--dsp-radius-sm);
   color: var(--dsp-text);
-  font-size: 0.8rem;
+  font-size: var(--dsp-font-size-xl);
   padding: 4px 8px;
   transition: border-color var(--dsp-transition), box-shadow var(--dsp-transition);
   outline: none;
@@ -906,7 +906,7 @@
   border: 1px solid var(--dsp-border);
   border-radius: var(--dsp-radius-sm);
   color: var(--dsp-text);
-  font-size: 0.8rem;
+  font-size: var(--dsp-font-size-xl);
   padding: 4px 8px;
   cursor: pointer;
   transition: border-color var(--dsp-transition);
@@ -927,7 +927,7 @@
   border: 1px solid var(--dsp-border);
   border-radius: var(--dsp-radius-sm);
   color: var(--dsp-text);
-  font-size: 0.8rem;
+  font-size: var(--dsp-font-size-xl);
   padding: 8px;
   line-height: 1.5;
   resize: vertical;
@@ -982,7 +982,7 @@
 
 .draw-steel-plus.sheet .characteristic .label,
 .draw-steel-plus.sheet .characteristic label {
-  font-size: 0.55rem;
+  font-size: var(--dsp-font-size-xs);
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.06em;
@@ -992,7 +992,7 @@
 
 .draw-steel-plus.sheet .characteristic .value,
 .draw-steel-plus.sheet .characteristic .score {
-  font-size: 1.2rem;
+  font-size: calc(1.2rem * var(--dsp-font-scale, 1));
   font-weight: 800;
   color: var(--dsp-text);
   text-align: center;
@@ -1000,7 +1000,7 @@
 }
 
 .draw-steel-plus.sheet .characteristic .modifier {
-  font-size: 0.65rem;
+  font-size: var(--dsp-font-size-md);
   color: var(--dsp-text-light);
   text-align: center;
 }
@@ -1036,14 +1036,14 @@
   background: rgba(0, 0, 0, 0.1);
   border: 1px solid var(--dsp-border);
   border-radius: var(--dsp-radius-sm);
-  font-size: 0.75rem;
+  font-size: var(--dsp-font-size-lg);
 }
 
 .draw-steel-plus.sheet .combat-stat .label,
 .draw-steel-plus.sheet .movement-stat .label {
   color: var(--dsp-text-faint);
   font-weight: 600;
-  font-size: 0.6rem;
+  font-size: var(--dsp-font-size-sm);
   text-transform: uppercase;
   letter-spacing: 0.04em;
 }
@@ -1077,7 +1077,7 @@
 .draw-steel-plus.sheet .prosemirror .ProseMirror {
   padding: 10px;
   color: var(--dsp-text-light);
-  font-size: 0.85rem;
+  font-size: var(--dsp-font-size-2xl);
   line-height: 1.6;
 }
 
@@ -1113,7 +1113,7 @@
   background: rgba(74, 14, 14, 0.4);
   border: 1px solid var(--dsp-border);
   border-radius: var(--dsp-radius-full);
-  font-size: 0.65rem;
+  font-size: var(--dsp-font-size-md);
   font-weight: 600;
   color: var(--dsp-text-light);
   transition: background var(--dsp-transition), border-color var(--dsp-transition), color var(--dsp-transition);
@@ -1127,7 +1127,7 @@
 
 .draw-steel-plus.sheet .i-fa-star {
   color: var(--dsp-accent);
-  font-size: 0.7rem;
+  font-size: var(--dsp-font-size-base);
 }
 
 .draw-steel-plus.sheet a {
@@ -1140,7 +1140,7 @@
 }
 
 .draw-steel-plus.sheet .content-embed {
-  font-size: 0.8rem;
+  font-size: var(--dsp-font-size-xl);
   line-height: 1.5;
   color: var(--dsp-text-light);
 }
@@ -1152,7 +1152,7 @@
   border-bottom: 1px solid var(--dsp-border);
   padding-bottom: 4px;
   margin: 8px 0 4px;
-  font-size: 0.9rem;
+  font-size: var(--dsp-font-size-3xl);
   font-weight: 700;
 }
 
@@ -1163,7 +1163,7 @@
 .draw-steel-plus.sheet .content-embed table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 0.75rem;
+  font-size: var(--dsp-font-size-lg);
 }
 
 .draw-steel-plus.sheet .content-embed table th {
@@ -1171,7 +1171,7 @@
   color: var(--dsp-text-light);
   font-weight: 700;
   text-transform: uppercase;
-  font-size: 0.6rem;
+  font-size: var(--dsp-font-size-sm);
   letter-spacing: 0.06em;
   padding: 4px 8px;
   border: 1px solid var(--dsp-border);

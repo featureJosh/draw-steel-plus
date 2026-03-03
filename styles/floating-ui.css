@@ -83,7 +83,7 @@
   cursor: grab;
   color: var(--dsp-text-faint);
   padding: 2px 6px;
-  font-size: 0.7rem;
+  font-size: var(--dsp-font-size-base);
   transition: color var(--dsp-fui-transition-fast);
   display: flex;
   align-items: center;
@@ -109,7 +109,7 @@
   background: transparent;
   color: var(--dsp-text-faint);
   cursor: pointer;
-  font-size: 0.6rem;
+  font-size: var(--dsp-font-size-sm);
   transition: var(--dsp-fui-transition-fast);
   transition-property: color, background, transform;
   padding: 0;

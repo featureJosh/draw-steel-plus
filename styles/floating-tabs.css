@@ -48,7 +48,7 @@
 }
 
 .dsp-floating-tabs > .dsp-float-tab i {
-  font-size: 14px;
+  font-size: calc(14px * var(--dsp-font-scale, 1));
   margin: 0;
 }
 

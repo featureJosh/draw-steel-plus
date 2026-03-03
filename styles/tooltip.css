@@ -10,7 +10,7 @@
   --dsp-text-faint: light-dark(#8a8278, #5a5248);
   --dsp-accent: light-dark(#a88b4a, #c8aa6e);
   --dsp-shadow: light-dark(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.6));
-  font-size: 0.8rem;
+  font-size: var(--dsp-font-size-xl);
   text-align: start;
   color: var(--dsp-text-light);
   border-radius: var(--dsp-radius-md);
@@ -61,7 +61,7 @@
 }
 
 :is(#tooltip, .locked-tooltip).dsp-tooltip .header-badge .label {
-  font-size: 0.55rem;
+  font-size: var(--dsp-font-size-xs);
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.5px;
@@ -69,7 +69,7 @@
 }
 
 :is(#tooltip, .locked-tooltip).dsp-tooltip .header-badge .value {
-  font-size: 0.9rem;
+  font-size: var(--dsp-font-size-3xl);
   font-weight: 700;
   color: var(--dsp-text);
 }
@@ -93,14 +93,14 @@
 }
 
 :is(#tooltip, .locked-tooltip).dsp-tooltip .name .title {
-  font-size: 0.85rem;
+  font-size: var(--dsp-font-size-2xl);
   font-weight: 700;
   color: var(--dsp-text);
   line-height: 1.2;
 }
 
 :is(#tooltip, .locked-tooltip).dsp-tooltip .name .subtitle {
-  font-size: 0.7rem;
+  font-size: var(--dsp-font-size-base);
   color: var(--dsp-text-light);
 }
 
@@ -120,7 +120,7 @@
 }
 
 :is(#tooltip, .locked-tooltip).dsp-tooltip .metadata-item .label {
-  font-size: 0.55rem;
+  font-size: var(--dsp-font-size-xs);
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.06em;
@@ -128,7 +128,7 @@
 }
 
 :is(#tooltip, .locked-tooltip).dsp-tooltip .metadata-item .value {
-  font-size: 0.75rem;
+  font-size: var(--dsp-font-size-lg);
   color: var(--dsp-text-light);
 }
 
@@ -140,7 +140,7 @@
   word-break: break-word;
   scrollbar-width: thin;
   scrollbar-color: var(--dsp-accent) transparent;
-  font-size: 0.8rem;
+  font-size: var(--dsp-font-size-xl);
   line-height: 1.5;
   color: var(--dsp-text-light);
 }
@@ -173,7 +173,7 @@
 :is(#tooltip, .locked-tooltip).dsp-tooltip .description table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 0.75rem;
+  font-size: var(--dsp-font-size-lg);
 }
 
 :is(#tooltip, .locked-tooltip).dsp-tooltip .description table th {
@@ -181,7 +181,7 @@
   color: var(--dsp-text-light);
   font-weight: 700;
   text-transform: uppercase;
-  font-size: 0.6rem;
+  font-size: var(--dsp-font-size-sm);
   letter-spacing: 0.06em;
   padding: 3px 6px;
   border: 1px solid var(--dsp-border);
@@ -201,7 +201,7 @@
 }
 
 :is(#tooltip, .locked-tooltip).dsp-tooltip .ability-details {
-  font-size: 0.8rem;
+  font-size: var(--dsp-font-size-xl);
   line-height: 1.5;
   color: var(--dsp-text-light);
   max-height: 350px;
@@ -243,7 +243,7 @@
 
 :is(#tooltip, .locked-tooltip).dsp-tooltip .ability-details .power-roll-line {
   margin: 0 0 4px;
-  font-size: 0.75rem;
+  font-size: var(--dsp-font-size-lg);
 }
 
 :is(#tooltip, .locked-tooltip).dsp-tooltip .ability-details .power-roll-line strong {
@@ -256,7 +256,7 @@
   gap: 2px 8px;
   margin: 0;
   padding: 0;
-  font-size: 0.7rem;
+  font-size: var(--dsp-font-size-base);
 }
 
 :is(#tooltip, .locked-tooltip).dsp-tooltip .ability-details .power-roll-display dt {
@@ -285,14 +285,14 @@
   display: grid;
   grid-template-columns: auto minmax(0, 1fr);
   gap: 2px 8px;
-  font-size: 0.75rem;
+  font-size: var(--dsp-font-size-lg);
 }
 
 :is(#tooltip, .locked-tooltip).dsp-tooltip .ability-details .effect dt {
   font-weight: 600;
   color: var(--dsp-accent);
   text-transform: uppercase;
-  font-size: 0.6rem;
+  font-size: var(--dsp-font-size-sm);
 }
 
 :is(#tooltip, .locked-tooltip).dsp-tooltip .ability-details .effect dd {
@@ -325,7 +325,7 @@
   background: light-dark(rgba(184, 84, 84, 0.15), rgba(74, 14, 14, 0.4));
   border: 1px solid var(--dsp-border);
   border-radius: var(--dsp-radius-full);
-  font-size: 0.65rem;
+  font-size: var(--dsp-font-size-md);
   font-weight: 600;
   color: var(--dsp-text-light);
 }
@@ -334,7 +334,7 @@
   margin-top: 6px;
   padding-top: 4px;
   border-top: 1px solid var(--dsp-text-faint);
-  font-size: 0.65rem;
+  font-size: var(--dsp-font-size-md);
   color: var(--dsp-text-faint);
   text-align: center;
   display: flex;

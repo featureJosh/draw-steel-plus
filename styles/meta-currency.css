@@ -31,7 +31,7 @@ body:not(.dsp-custom-meta-currency) #dsp-meta-currency {
 }
 
 .dsp-mc-value {
-  font-size: 1.8rem;
+  font-size: var(--dsp-font-size-7xl);
   font-weight: 800;
   line-height: 1;
   letter-spacing: 0.02em;
@@ -46,7 +46,7 @@ body:not(.dsp-custom-meta-currency) #dsp-meta-currency {
 }
 
 .dsp-mc-label {
-  font-size: 0.6rem;
+  font-size: var(--dsp-font-size-sm);
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -87,7 +87,7 @@ body:not(.dsp-custom-meta-currency) #dsp-meta-currency {
   background: light-dark(rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0.3));
   color: var(--dsp-text-faint);
   cursor: pointer;
-  font-size: 0.65rem;
+  font-size: var(--dsp-font-size-md);
   transition: var(--dsp-fui-transition-fast);
   transition-property: color, background, border-color, transform, box-shadow;
   padding: 0;
@@ -159,7 +159,7 @@ body:not(.dsp-custom-meta-currency) #dsp-meta-currency {
 }
 
 .dsp-mc-compact-icon {
-  font-size: 0.75rem;
+  font-size: var(--dsp-font-size-lg);
 }
 
 .dsp-mc-hero-icon {
@@ -178,7 +178,7 @@ body:not(.dsp-custom-meta-currency) #dsp-meta-currency {
 }
 
 .dsp-fui-minimized .dsp-mc-value {
-  font-size: 1.1rem;
+  font-size: var(--dsp-font-size-5xl);
   font-weight: 800;
 }
 

@@ -26,7 +26,7 @@
   border: 1px solid var(--dsp-border);
   border-radius: var(--dsp-radius-sm);
   color: var(--dsp-text);
-  font-size: 0.85rem;
+  font-size: var(--dsp-font-size-2xl);
   font-weight: 700;
   padding: 4px 8px;
   outline: none;
@@ -44,7 +44,7 @@
 
 .dsp-mt-title-display {
   display: block;
-  font-size: 0.85rem;
+  font-size: var(--dsp-font-size-2xl);
   font-weight: 700;
   color: var(--dsp-text);
   text-align: center;
@@ -66,7 +66,7 @@
 }
 
 .dsp-mt-slider-label {
-  font-size: 0.65rem;
+  font-size: var(--dsp-font-size-md);
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.08em;
@@ -85,7 +85,7 @@
   background: transparent;
   color: var(--dsp-text-faint);
   cursor: pointer;
-  font-size: 0.6rem;
+  font-size: var(--dsp-font-size-sm);
   padding: 0;
   flex-shrink: 0;
   transition: color var(--dsp-fui-transition-fast);
@@ -135,7 +135,7 @@
   background: light-dark(rgba(0, 0, 0, 0.06), rgba(0, 0, 0, 0.25));
   color: var(--dsp-text-faint);
   cursor: pointer;
-  font-size: 0.55rem;
+  font-size: var(--dsp-font-size-xs);
   padding: 0;
   line-height: 1;
   transition: var(--dsp-fui-transition-fast);
@@ -156,7 +156,7 @@
 }
 
 .dsp-mt-slider-value {
-  font-size: 0.7rem;
+  font-size: var(--dsp-font-size-base);
   font-weight: 700;
   color: var(--dsp-accent-strong);
   min-width: 36px;
@@ -168,7 +168,7 @@
   display: flex;
   align-items: center;
   gap: 4px;
-  font-size: 0.8rem;
+  font-size: var(--dsp-font-size-xl);
   font-weight: 700;
   color: var(--dsp-accent-strong);
   flex: 1;
@@ -193,7 +193,7 @@
 }
 
 .dsp-mt-difficulty-label {
-  font-size: 0.65rem;
+  font-size: var(--dsp-font-size-md);
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.08em;
@@ -201,7 +201,7 @@
 }
 
 .dsp-mt-difficulty-value {
-  font-size: 0.8rem;
+  font-size: var(--dsp-font-size-xl);
   font-weight: 700;
   color: var(--dsp-accent-strong);
 }
@@ -227,7 +227,7 @@
   background: light-dark(rgba(0, 0, 0, 0.04), rgba(0, 0, 0, 0.2));
   color: var(--dsp-text-light);
   cursor: pointer;
-  font-size: 0.6rem;
+  font-size: var(--dsp-font-size-sm);
   font-weight: 600;
   transition: var(--dsp-fui-transition-fast);
   transition-property: color, background, border-color;
@@ -243,7 +243,7 @@
 }
 
 .dsp-mt-popup-btn i {
-  font-size: 0.55rem;
+  font-size: var(--dsp-font-size-xs);
 }
 
 .dsp-mt-popup {
@@ -260,7 +260,7 @@
 }
 
 .dsp-mt-popup-title {
-  font-size: 0.6rem;
+  font-size: var(--dsp-font-size-sm);
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -280,7 +280,7 @@
 }
 
 .dsp-mt-hero-count-label {
-  font-size: 0.7rem;
+  font-size: var(--dsp-font-size-base);
   font-weight: 600;
   color: var(--dsp-text-light);
   flex: 1;
@@ -292,7 +292,7 @@
   border: 1px solid var(--dsp-border);
   border-radius: var(--dsp-radius-sm);
   color: var(--dsp-text);
-  font-size: 0.75rem;
+  font-size: var(--dsp-font-size-lg);
   font-weight: 700;
   padding: 3px 6px;
   text-align: center;
@@ -314,7 +314,7 @@
   background: transparent;
   color: var(--dsp-text-light);
   cursor: pointer;
-  font-size: 0.7rem;
+  font-size: var(--dsp-font-size-base);
   transition: background var(--dsp-fui-transition-fast), color var(--dsp-fui-transition-fast);
   text-align: left;
 }
@@ -335,7 +335,7 @@
 }
 
 .dsp-mt-difficulty-stats {
-  font-size: 0.6rem;
+  font-size: var(--dsp-font-size-sm);
   font-weight: 600;
   color: var(--dsp-text-faint);
   font-family: monospace;
@@ -366,7 +366,7 @@
 
 .dsp-mt-hero-name {
   flex: 1;
-  font-size: 0.7rem;
+  font-size: var(--dsp-font-size-base);
   color: var(--dsp-text-light);
   font-weight: 600;
 }
@@ -381,7 +381,7 @@
   background: transparent;
   color: var(--dsp-text-faint);
   cursor: pointer;
-  font-size: 0.7rem;
+  font-size: var(--dsp-font-size-base);
   padding: 0;
   flex-shrink: 0;
   transition: color var(--dsp-fui-transition-fast);
@@ -402,7 +402,7 @@
   background: light-dark(rgba(168, 139, 74, 0.08), rgba(200, 170, 110, 0.06));
   color: var(--dsp-accent);
   cursor: pointer;
-  font-size: 0.6rem;
+  font-size: var(--dsp-font-size-sm);
   padding: 0;
   flex-shrink: 0;
   transition: var(--dsp-fui-transition-fast);
@@ -417,7 +417,7 @@
 }
 
 .dsp-mt-acted-label {
-  font-size: 0.6rem;
+  font-size: var(--dsp-font-size-sm);
   font-weight: 600;
   color: var(--dsp-text-faint);
   text-transform: uppercase;
@@ -435,7 +435,7 @@
   background: transparent;
   color: var(--dsp-text-faint);
   cursor: pointer;
-  font-size: 0.55rem;
+  font-size: var(--dsp-font-size-xs);
   padding: 0;
   flex-shrink: 0;
   transition: color var(--dsp-fui-transition-fast);
@@ -463,7 +463,7 @@
 }
 
 .dsp-mt-roll-label {
-  font-size: 0.6rem;
+  font-size: var(--dsp-font-size-sm);
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.06em;
@@ -478,7 +478,7 @@
   border: 1px solid var(--dsp-border);
   border-radius: var(--dsp-radius-sm);
   color: var(--dsp-text);
-  font-size: 0.7rem;
+  font-size: var(--dsp-font-size-base);
   font-weight: 600;
   padding: 4px 8px;
   outline: none;
@@ -512,7 +512,7 @@
 }
 
 .dsp-mt-roll-mod-label {
-  font-size: 0.6rem;
+  font-size: var(--dsp-font-size-sm);
   font-weight: 600;
   color: var(--dsp-text-muted);
 }
@@ -528,7 +528,7 @@
   background: transparent;
   color: var(--dsp-text-faint);
   cursor: pointer;
-  font-size: 0.5rem;
+  font-size: var(--dsp-font-size-2xs);
   padding: 0;
   transition: var(--dsp-fui-transition-fast);
   transition-property: color, border-color;
@@ -540,7 +540,7 @@
 }
 
 .dsp-mt-mod-value {
-  font-size: 0.7rem;
+  font-size: var(--dsp-font-size-base);
   font-weight: 700;
   color: var(--dsp-accent-strong);
   min-width: 14px;
@@ -551,14 +551,14 @@
   display: flex;
   align-items: center;
   gap: 4px;
-  font-size: 0.6rem;
+  font-size: var(--dsp-font-size-sm);
   color: var(--dsp-danger);
   font-weight: 600;
   padding: 2px 0;
 }
 
 .dsp-mt-skill-warning i {
-  font-size: 0.55rem;
+  font-size: var(--dsp-font-size-xs);
 }
 
 .dsp-mt-execute-roll-btn {
@@ -572,7 +572,7 @@
   background: light-dark(rgba(168, 139, 74, 0.12), rgba(200, 170, 110, 0.1));
   color: var(--dsp-accent-strong);
   cursor: pointer;
-  font-size: 0.7rem;
+  font-size: var(--dsp-font-size-base);
   font-weight: 700;
   transition: var(--dsp-fui-transition-fast);
   transition-property: background, color, transform;
@@ -593,14 +593,14 @@
   border: 2px dashed var(--dsp-border);
   border-radius: var(--dsp-radius-sm);
   color: var(--dsp-text-faint);
-  font-size: 0.65rem;
+  font-size: var(--dsp-font-size-md);
   font-weight: 600;
   transition: var(--dsp-fui-transition-fast);
   transition-property: border-color, color, background;
 }
 
 .dsp-mt-drop-zone i {
-  font-size: 0.6rem;
+  font-size: var(--dsp-font-size-sm);
 }
 
 .dsp-mt-drop-hover {
@@ -613,7 +613,7 @@
   display: flex;
   gap: 16px;
   padding: 6px 4px;
-  font-size: 0.75rem;
+  font-size: var(--dsp-font-size-lg);
   font-weight: 600;
   color: var(--dsp-text-light);
 }
@@ -621,7 +621,7 @@
 .dsp-mt-outcome-status {
   padding: 6px 8px;
   border-radius: var(--dsp-radius-sm);
-  font-size: 0.8rem;
+  font-size: var(--dsp-font-size-xl);
   font-weight: 800;
   text-align: center;
   text-transform: uppercase;
@@ -660,7 +660,7 @@
   background: light-dark(rgba(168, 139, 74, 0.12), rgba(200, 170, 110, 0.1));
   color: var(--dsp-accent-strong);
   cursor: pointer;
-  font-size: 0.7rem;
+  font-size: var(--dsp-font-size-base);
   font-weight: 700;
   transition: var(--dsp-fui-transition-fast);
   transition-property: background, transform;
@@ -681,7 +681,7 @@
 }
 
 .dsp-mt-outcome-rule {
-  font-size: 0.6rem;
+  font-size: var(--dsp-font-size-sm);
   color: var(--dsp-text-faint);
   line-height: 1.4;
 }
@@ -693,7 +693,7 @@
 .dsp-mt-empty {
   padding: 1.5em;
   color: var(--dsp-text-muted);
-  font-size: 0.8rem;
+  font-size: var(--dsp-font-size-xl);
   text-align: center;
   font-style: italic;
 }
@@ -719,12 +719,12 @@
 }
 
 .dsp-mt-compact-icon {
-  font-size: 0.85rem;
+  font-size: var(--dsp-font-size-2xl);
   color: var(--dsp-accent-strong);
 }
 
 .dsp-mt-compact-label {
-  font-size: 0.7rem;
+  font-size: var(--dsp-font-size-base);
   font-weight: 700;
   color: var(--dsp-text-muted);
   text-transform: uppercase;

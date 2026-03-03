@@ -13,7 +13,7 @@
 }
 
 .draw-steel-plus.sheet .window-header .window-title {
-  font-size: 0.6rem;
+  font-size: var(--dsp-font-size-sm);
   color: var(--dsp-text-faint);
   opacity: 0.4;
   font-weight: 500;
@@ -96,7 +96,7 @@
   padding: 10px 16px;
   color: var(--dsp-text-faint);
   text-decoration: none;
-  font-size: 0.7rem;
+  font-size: var(--dsp-font-size-base);
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.08em;

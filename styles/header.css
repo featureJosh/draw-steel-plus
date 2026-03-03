@@ -129,7 +129,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 3rem;
+  font-size: var(--dsp-font-size-9xl);
   color: rgba(224, 85, 85, 0.85);
   background: rgba(80, 10, 10, 0.55);
   border-radius: var(--dsp-radius-md);
@@ -150,7 +150,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.4rem;
+  font-size: var(--dsp-font-size-6xl);
   font-weight: 900;
   color: var(--dsp-accent);
   box-shadow: 0 2px 12px var(--dsp-shadow),
@@ -206,7 +206,7 @@ inset 0 1px 0 rgba(255, 255, 255, 0.12);
 }
 
 .draw-steel-plus.sheet .sheet-header .portrait-frame .respite-btn i {
-  font-size: 0.9rem;
+  font-size: var(--dsp-font-size-3xl);
 }
 
 @keyframes dsp-badge-glow {
@@ -268,7 +268,7 @@ inset 0 1px 0 rgba(255, 255, 255, 0.12);
   justify-content: center;
   gap: 2px;
   z-index: 2;
-  font-size: 0.75rem;
+  font-size: var(--dsp-font-size-lg);
   font-weight: 800;
   color: var(--dsp-text);
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
@@ -308,13 +308,13 @@ inset 0 1px 0 rgba(255, 255, 255, 0.12);
 }
 
 .draw-steel-plus.sheet .sheet-header .vitals-row .vital-box i {
-  font-size: 0.65rem;
+  font-size: var(--dsp-font-size-md);
   color: var(--dsp-text-light);
   flex-shrink: 0;
 }
 
 .draw-steel-plus.sheet .sheet-header .vitals-row .vital-nums {
-  font-size: 0.75rem;
+  font-size: var(--dsp-font-size-lg);
   font-weight: 700;
   color: var(--dsp-text);
   line-height: 1;
@@ -402,7 +402,7 @@ inset 0 1px 0 rgba(255, 255, 255, 0.12);
 .draw-steel-plus.sheet .sheet-header .header-characteristics .char-badge .char-label {
   position: relative;
   z-index: 1;
-  font-size: 0.5rem;
+  font-size: var(--dsp-font-size-2xs);
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.06em;
@@ -415,7 +415,7 @@ inset 0 1px 0 rgba(255, 255, 255, 0.12);
 .draw-steel-plus.sheet .sheet-header .header-characteristics .char-badge .char-value {
   position: relative;
   z-index: 1;
-  font-size: 1.05rem;
+  font-size: calc(1.05rem * var(--dsp-font-scale, 1));
   font-weight: 900;
   color: var(--dsp-text);
   text-align: center;
@@ -433,7 +433,7 @@ inset 0 1px 0 rgba(255, 255, 255, 0.12);
 	border: 1px solid var(--dsp-border);
 	border-radius: var(--dsp-radius-sm);
 	color: var(--dsp-text-faint);
-	font-size: 0.7rem;
+	font-size: var(--dsp-font-size-base);
 	padding: 4px 8px;
 	cursor: pointer;
 	align-self: center;
@@ -463,7 +463,7 @@ inset 0 1px 0 rgba(255, 255, 255, 0.12);
 	background: transparent;
 	border: none;
 	color: var(--dsp-text);
-	font-size: 1rem;
+	font-size: var(--dsp-font-size-4xl);
 	font-weight: 800;
 	text-align: center;
 	padding: 0;
@@ -502,7 +502,7 @@ inset 0 1px 0 rgba(255, 255, 255, 0.12);
 
 .draw-steel-plus.sheet .sheet-header .identity-block .char-name {
   font-family: var(--dsp-heading-font);
-  font-size: 2.2rem;
+  font-size: calc(2.2rem * var(--dsp-font-scale, 1));
   font-weight: 800;
   color: var(--dsp-text);
   text-shadow: 0 2px 12px light-dark(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7)), 0 0 40px light-dark(rgba(184, 84, 84, 0.15), rgba(122, 27, 27, 0.15));
@@ -518,7 +518,7 @@ inset 0 1px 0 rgba(255, 255, 255, 0.12);
 .draw-steel-plus.sheet .sheet-header .identity-block input.char-name-input,
 .draw-steel-plus.sheet .sheet-header .identity-block .char-name-input input {
   font-family: var(--dsp-heading-font);
-  font-size: 2rem;
+  font-size: var(--dsp-font-size-8xl);
   font-weight: 800;
   color: var(--dsp-text);
   background: transparent;
@@ -547,7 +547,7 @@ inset 0 1px 0 rgba(255, 255, 255, 0.12);
   display: flex;
   align-items: center;
   gap: 6px;
-  font-size: 0.7rem;
+  font-size: var(--dsp-font-size-base);
   color: var(--dsp-text-light);
   margin: 0;
   padding: 0;
@@ -563,7 +563,7 @@ inset 0 1px 0 rgba(255, 255, 255, 0.12);
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.04em;
-  font-size: 0.65rem;
+  font-size: var(--dsp-font-size-md);
 }
 
 .draw-steel-plus.sheet .sheet-header .identity-block .progression-subtitle .prog-sep {
@@ -593,7 +593,7 @@ inset 0 1px 0 rgba(255, 255, 255, 0.12);
 }
 
 .draw-steel-plus.sheet .sheet-header .identity-block .progression-edit .form-group label {
-  font-size: 0.65rem;
+  font-size: var(--dsp-font-size-md);
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.06em;
@@ -615,7 +615,7 @@ inset 0 1px 0 rgba(255, 255, 255, 0.12);
   border: 1px solid var(--dsp-border);
   border-radius: var(--dsp-radius-sm);
   color: var(--dsp-accent);
-  font-size: 0.9rem;
+  font-size: var(--dsp-font-size-3xl);
   font-weight: 800;
   padding: 3px 6px;
   transition: border-color var(--dsp-transition), box-shadow var(--dsp-transition);
@@ -640,7 +640,7 @@ inset 0 1px 0 rgba(255, 255, 255, 0.12);
   background: rgb(74 14 14);
   border: 1px solid var(--dsp-accent);
   border-radius: var(--dsp-radius-full);
-  font-size: 0.65rem;
+  font-size: var(--dsp-font-size-md);
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.04em;
@@ -698,7 +698,7 @@ inset 0 1px 0 rgba(255, 255, 255, 0.12);
 
 .draw-steel-plus.sheet .sheet-header .origins-row .tag .delete-icon {
   color: var(--dsp-text-faint);
-  font-size: 0.6rem;
+  font-size: var(--dsp-font-size-sm);
   cursor: pointer;
   transition: color var(--dsp-transition);
 }
@@ -742,7 +742,7 @@ inset 0 1px 0 rgba(255, 255, 255, 0.12);
 }
 
 .draw-steel-plus.sheet .sheet-header .stats-block .stat-label {
-  font-size: 0.5rem;
+  font-size: var(--dsp-font-size-2xs);
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.08em;
@@ -751,7 +751,7 @@ inset 0 1px 0 rgba(255, 255, 255, 0.12);
 }
 
 .draw-steel-plus.sheet .sheet-header .stats-block .stat-value {
-  font-size: 0.9rem;
+  font-size: var(--dsp-font-size-3xl);
   font-weight: 800;
   color: var(--dsp-text);
   line-height: 1;
@@ -816,7 +816,7 @@ inset 0 1px 0 rgba(255, 255, 255, 0.12);
 }
 
 .draw-steel-plus.sheet .sheet-header .hero-data .form-group label {
-  font-size: 0.7rem;
+  font-size: var(--dsp-font-size-base);
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.06em;
@@ -837,7 +837,7 @@ inset 0 1px 0 rgba(255, 255, 255, 0.12);
   border: none;
   border-bottom: 1px solid var(--dsp-border);
   color: var(--dsp-text);
-  font-size: 1rem;
+  font-size: var(--dsp-font-size-4xl);
   font-weight: 700;
   padding: 2px 4px;
   text-align: right;

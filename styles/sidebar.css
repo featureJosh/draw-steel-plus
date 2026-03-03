@@ -20,7 +20,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.5rem;
+  font-size: var(--dsp-font-size-2xs);
   transition: color var(--dsp-transition), background var(--dsp-transition), border-color var(--dsp-transition);
 }
 
@@ -86,7 +86,7 @@
 }
 
 .draw-steel-plus.sheet .sidebar-section-title {
-  font-size: 0.55rem;
+  font-size: var(--dsp-font-size-xs);
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.12em;
@@ -110,7 +110,7 @@
   background: none;
   border: none;
   color: var(--dsp-text-light);
-  font-size: 0.65rem;
+  font-size: var(--dsp-font-size-md);
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.06em;
@@ -129,7 +129,7 @@
 }
 
 .draw-steel-plus.sheet .sidebar-resource-header span {
-  font-size: 0.65rem;
+  font-size: var(--dsp-font-size-md);
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.06em;
@@ -141,7 +141,7 @@
 }
 
 .draw-steel-plus.sheet .sidebar-resource-header i {
-  font-size: 0.6rem;
+  font-size: var(--dsp-font-size-sm);
   color: var(--dsp-primary-light);
 }
 
@@ -197,28 +197,28 @@
 }
 
 .draw-steel-plus.sheet .stam-bar-text .stam-val {
-  font-size: 0.8rem;
+  font-size: var(--dsp-font-size-xl);
   font-weight: 800;
   color: #fff;
   text-shadow: 0 1px 4px rgba(0, 0, 0, 0.9), 0 0 8px rgba(0, 0, 0, 0.5);
 }
 
 .draw-steel-plus.sheet .stam-bar-text .stam-sep {
-  font-size: 0.7rem;
+  font-size: var(--dsp-font-size-base);
   color: rgba(255, 255, 255, 0.5);
   font-weight: 400;
   text-shadow: 0 1px 4px rgba(0, 0, 0, 0.9);
 }
 
 .draw-steel-plus.sheet .stam-bar-text .stam-max-text {
-  font-size: 0.75rem;
+  font-size: var(--dsp-font-size-lg);
   font-weight: 700;
   color: rgba(255, 255, 255, 0.7);
   text-shadow: 0 1px 4px rgba(0, 0, 0, 0.9);
 }
 
 .draw-steel-plus.sheet .stam-bar-text .stam-temp-text {
-  font-size: 0.65rem;
+  font-size: var(--dsp-font-size-md);
   font-weight: 700;
   color: var(--dsp-accent);
   text-shadow: 0 1px 4px rgba(0, 0, 0, 0.9);
@@ -241,7 +241,7 @@
 }
 
 .draw-steel-plus.sheet .sidebar-field label {
-  font-size: 0.5rem;
+  font-size: var(--dsp-font-size-2xs);
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.04em;
@@ -253,7 +253,7 @@
   border: 1px solid var(--dsp-border);
   border-radius: var(--dsp-radius-sm);
   color: var(--dsp-text);
-  font-size: 0.85rem;
+  font-size: var(--dsp-font-size-2xl);
   font-weight: 700;
   padding: 4px 6px;
   text-align: center;
@@ -268,7 +268,7 @@
 }
 
 .draw-steel-plus.sheet .sidebar-static {
-  font-size: 0.85rem;
+  font-size: var(--dsp-font-size-2xl);
   font-weight: 700;
   color: var(--dsp-text-faint);
   text-align: center;
@@ -303,7 +303,7 @@
 
 .draw-steel-plus.sheet .sidebar-dual-col .sidebar-resource-header button,
 .draw-steel-plus.sheet .sidebar-dual-col .sidebar-resource-header span {
-  font-size: 0.55rem;
+  font-size: var(--dsp-font-size-xs);
   padding: 0;
 }
 
@@ -318,7 +318,7 @@
   border: 1px solid var(--dsp-border);
   border-radius: var(--dsp-radius-sm);
   color: var(--dsp-text);
-  font-size: 1.1rem;
+  font-size: var(--dsp-font-size-5xl);
   font-weight: 800;
   padding: 4px;
   text-align: center;
@@ -368,7 +368,7 @@
 }
 
 .draw-steel-plus.sheet .sidebar-stat-badge .stat-val {
-  font-size: 1.25rem;
+  font-size: calc(1.25rem * var(--dsp-font-scale, 1));
   font-weight: 900;
   color: var(--dsp-text);
   line-height: 1;
@@ -379,7 +379,7 @@
 }
 
 .draw-steel-plus.sheet .sidebar-stat-badge .stat-lbl {
-  font-size: 0.5rem;
+  font-size: var(--dsp-font-size-2xs);
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.08em;
@@ -448,7 +448,7 @@
 }
 
 .draw-steel-plus.sheet .sidebar-tag-header {
-  font-size: 0.6rem;
+  font-size: var(--dsp-font-size-sm);
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -460,7 +460,7 @@
 }
 
 .draw-steel-plus.sheet .sidebar-tag-header i {
-  font-size: 0.55rem;
+  font-size: var(--dsp-font-size-xs);
   color: var(--dsp-primary-light);
 }
 
@@ -469,7 +469,7 @@
   border: none;
   color: var(--dsp-text-faint);
   cursor: pointer;
-  font-size: 0.6rem;
+  font-size: var(--dsp-font-size-sm);
   padding: 1px 3px;
   border-radius: var(--dsp-radius-sm);
   transition: color var(--dsp-transition);
@@ -493,7 +493,7 @@
   background: rgba(0, 0, 0, 0.25);
   border: 1px solid var(--dsp-border);
   border-radius: var(--dsp-radius-full);
-  font-size: 0.65rem;
+  font-size: var(--dsp-font-size-md);
   font-weight: 600;
   color: var(--dsp-text-light);
   white-space: nowrap;
@@ -536,7 +536,7 @@
   background: rgba(0, 0, 0, 0.25);
   border: 1px solid var(--dsp-border);
   border-radius: var(--dsp-radius-full);
-  font-size: 0.65rem;
+  font-size: var(--dsp-font-size-md);
   font-weight: 600;
   color: var(--dsp-text-light);
   transition: background var(--dsp-transition), border-color var(--dsp-transition), color var(--dsp-transition);
@@ -560,7 +560,7 @@
   content: "\f078";
   font-family: "Font Awesome 6 Pro";
   font-weight: 900;
-  font-size: 0.4rem;
+  font-size: var(--dsp-font-size-3xs);
   color: var(--dsp-text-faint);
   margin-left: auto;
   transition: transform var(--dsp-transition), color var(--dsp-transition);

@@ -105,6 +105,10 @@
         "dangerLt": "Danger (Light)",
         "dangerDk": "Danger (Dark)"
       },
+      "fontScale": {
+        "name": "Font Scale",
+        "hint": "Scale all Draw Steel Plus font sizes proportionally. Increase for larger screens (4K, ultrawide) or decrease for smaller ones. Default is 1.0."
+      },
       "floatingNavTabs": {
         "name": "Floating Navigation Tabs",
         "hint": "Display floating icon tabs on the right side of character sheets for quick navigation."

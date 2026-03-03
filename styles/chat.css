@@ -41,7 +41,7 @@ body.dsp-improved-chat :is(.chat-sidebar, #chat-notifications, .chat-popout) .ch
   border: 1px solid var(--dsp-border);
   border-block-end-width: 2px;
   border-radius: var(--dsp-radius);
-  font-size: 0.8125rem;
+  font-size: calc(0.8125rem * var(--dsp-font-scale, 1));
   position: relative;
   background: var(--dsp-surface);
   color: var(--dsp-text);
@@ -87,7 +87,7 @@ body.dsp-improved-chat :is(.chat-sidebar, #chat-notifications, .chat-popout) .me
   align-items: center;
   gap: 0.5rem;
   white-space: unset;
-  font-size: 0.9rem;
+  font-size: var(--dsp-font-size-3xl);
   font-weight: bold;
   color: var(--dsp-text);
 }
@@ -105,7 +105,7 @@ body.dsp-improved-chat :is(.chat-sidebar, #chat-notifications, .chat-popout) .me
 }
 
 body.dsp-improved-chat :is(.chat-sidebar, #chat-notifications, .chat-popout) .message-header .message-metadata {
-  font-size: 0.625rem;
+  font-size: calc(0.625rem * var(--dsp-font-scale, 1));
   flex: none;
   display: flex;
   align-items: center;
@@ -119,7 +119,7 @@ body.dsp-improved-chat :is(.chat-sidebar, #chat-notifications, .chat-popout) .me
 body.dsp-improved-chat :is(.chat-sidebar, #chat-notifications, .chat-popout) .message-header .message-delete,
 body.dsp-improved-chat :is(.chat-sidebar, #chat-notifications, .chat-popout) .message-header .message-dismiss {
   color: var(--dsp-text-tertiary);
-  font-size: 0.6rem;
+  font-size: var(--dsp-font-size-sm);
   background: unset;
   border: unset;
   opacity: 0;
@@ -161,7 +161,7 @@ body.dsp-improved-chat :is(.chat-sidebar, #chat-notifications, .chat-popout) .ch
 
 body.dsp-improved-chat :is(.chat-sidebar, #chat-notifications, .chat-popout) .message-content {
   color: var(--dsp-text);
-  font-size: 0.85rem;
+  font-size: var(--dsp-font-size-2xl);
   line-height: 1.5;
   padding: 0;
 }
@@ -183,7 +183,7 @@ body.dsp-improved-chat :is(.chat-sidebar, #chat-notifications, .chat-popout) doc
 
 body.dsp-improved-chat :is(.chat-sidebar, #chat-notifications, .chat-popout) document-embed.ability h5 {
   color: var(--dsp-accent);
-  font-size: 0.95rem;
+  font-size: calc(0.95rem * var(--dsp-font-scale, 1));
   font-weight: 700;
   margin: 0 0 2px;
   padding: 0;
@@ -192,12 +192,12 @@ body.dsp-improved-chat :is(.chat-sidebar, #chat-notifications, .chat-popout) doc
 
 body.dsp-improved-chat :is(.chat-sidebar, #chat-notifications, .chat-popout) document-embed.ability .metadata {
   margin: 0;
-  font-size: 0.75rem;
+  font-size: var(--dsp-font-size-lg);
 }
 
 body.dsp-improved-chat :is(.chat-sidebar, #chat-notifications, .chat-popout) document-embed.ability .metadata .resource {
   color: var(--dsp-accent-bright);
-  font-size: 0.72rem;
+  font-size: calc(0.72rem * var(--dsp-font-scale, 1));
   font-weight: 600;
   margin: 0 0 2px;
 }
@@ -208,7 +208,7 @@ body.dsp-improved-chat :is(.chat-sidebar, #chat-notifications, .chat-popout) doc
 
 body.dsp-improved-chat :is(.chat-sidebar, #chat-notifications, .chat-popout) document-embed.ability .metadata .flavor em {
   color: var(--dsp-text-secondary);
-  font-size: 0.72rem;
+  font-size: calc(0.72rem * var(--dsp-font-scale, 1));
 }
 
 body.dsp-improved-chat :is(.chat-sidebar, #chat-notifications, .chat-popout) document-embed.ability .metadata dl {
@@ -221,13 +221,13 @@ body.dsp-improved-chat :is(.chat-sidebar, #chat-notifications, .chat-popout) doc
 
 body.dsp-improved-chat :is(.chat-sidebar, #chat-notifications, .chat-popout) document-embed.ability .metadata dt {
   color: var(--dsp-text-tertiary);
-  font-size: 0.65rem;
+  font-size: var(--dsp-font-size-md);
   font-weight: 600;
 }
 
 body.dsp-improved-chat :is(.chat-sidebar, #chat-notifications, .chat-popout) document-embed.ability .metadata dd {
   color: var(--dsp-text-secondary);
-  font-size: 0.72rem;
+  font-size: calc(0.72rem * var(--dsp-font-scale, 1));
   margin: 0;
 }
 
@@ -243,29 +243,29 @@ body.dsp-improved-chat :is(.chat-sidebar, #chat-notifications, .chat-popout) doc
 body.dsp-improved-chat :is(.chat-sidebar, #chat-notifications, .chat-popout) document-embed.ability .metadata dd.keywords {
   grid-column: 1 / -1;
   color: var(--dsp-text-tertiary);
-  font-size: 0.68rem;
+  font-size: calc(0.68rem * var(--dsp-font-scale, 1));
   font-style: italic;
   margin-bottom: 2px;
 }
 
 body.dsp-improved-chat :is(.chat-sidebar, #chat-notifications, .chat-popout) document-embed.ability .powerResult {
-  font-size: 0.78rem;
+  font-size: calc(0.78rem * var(--dsp-font-scale, 1));
 }
 
 body.dsp-improved-chat :is(.chat-sidebar, #chat-notifications, .chat-popout) document-embed.ability .powerResult > p {
   margin: 0 0 3px;
-  font-size: 0.72rem;
+  font-size: calc(0.72rem * var(--dsp-font-scale, 1));
   color: var(--dsp-text-secondary);
 }
 
 body.dsp-improved-chat :is(.chat-sidebar, #chat-notifications, .chat-popout) document-embed.ability .spend {
-  font-size: 0.78rem;
+  font-size: calc(0.78rem * var(--dsp-font-scale, 1));
   line-height: 1.5;
 }
 
 body.dsp-improved-chat :is(.chat-sidebar, #chat-notifications, .chat-popout) document-embed.ability .spend dt {
   color: var(--dsp-accent);
-  font-size: 0.65rem;
+  font-size: var(--dsp-font-size-md);
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.04em;
@@ -278,12 +278,12 @@ body.dsp-improved-chat :is(.chat-sidebar, #chat-notifications, .chat-popout) doc
 }
 
 body.dsp-improved-chat :is(.chat-sidebar, #chat-notifications, .chat-popout) document-embed.ability .effect {
-  font-size: 0.78rem;
+  font-size: calc(0.78rem * var(--dsp-font-scale, 1));
 }
 
 body.dsp-improved-chat :is(.chat-sidebar, #chat-notifications, .chat-popout) document-embed.ability .effect dt {
   color: var(--dsp-accent);
-  font-size: 0.65rem;
+  font-size: var(--dsp-font-size-md);
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.04em;
@@ -308,7 +308,7 @@ body.dsp-improved-chat :is(.chat-sidebar, #chat-notifications, .chat-popout) .ds
   display: flex;
   align-items: center;
   gap: 0.375rem;
-  font-size: 0.68rem;
+  font-size: calc(0.68rem * var(--dsp-font-scale, 1));
   font-weight: 600;
   color: var(--dsp-text-tertiary);
   text-transform: uppercase;
@@ -323,7 +323,7 @@ body.dsp-improved-chat :is(.chat-sidebar, #chat-notifications, .chat-popout) .ds
 }
 
 body.dsp-improved-chat :is(.chat-sidebar, #chat-notifications, .chat-popout) .dsp-collapsible-tray > label > i {
-  font-size: 0.6rem;
+  font-size: var(--dsp-font-size-sm);
   transition: transform var(--dsp-transition);
   width: 10px;
   text-align: center;
@@ -361,7 +361,7 @@ body.dsp-improved-chat :is(.chat-sidebar, #chat-notifications, .chat-popout) .po
 
 body.dsp-improved-chat :is(.chat-sidebar, #chat-notifications, .chat-popout) .power-roll-display dt {
   font-family: "Draw Steel Glyphs", serif;
-  font-size: 1.1rem;
+  font-size: var(--dsp-font-size-5xl);
   font-weight: 500;
   color: var(--dsp-accent);
   line-height: 1;
@@ -370,7 +370,7 @@ body.dsp-improved-chat :is(.chat-sidebar, #chat-notifications, .chat-popout) .po
 body.dsp-improved-chat :is(.chat-sidebar, #chat-notifications, .chat-popout) .power-roll-display dd {
   color: var(--dsp-text);
   margin: 0;
-  font-size: 0.78rem;
+  font-size: calc(0.78rem * var(--dsp-font-scale, 1));
   line-height: 1.4;
 }
 
@@ -415,7 +415,7 @@ body.dsp-improved-chat :is(.chat-sidebar, #chat-notifications, .chat-popout) .di
   top: 0.25rem;
   right: 0.35rem;
   color: var(--dsp-text-tertiary);
-  font-size: 0.7rem;
+  font-size: var(--dsp-font-size-base);
   opacity: 0.4;
   z-index: 1;
   cursor: pointer;
@@ -429,7 +429,7 @@ body.dsp-improved-chat :is(.chat-sidebar, #chat-notifications, .chat-popout) .di
 
 body.dsp-improved-chat :is(.chat-sidebar, #chat-notifications, .chat-popout) .dice-roll .tier {
   color: var(--dsp-accent);
-  font-size: 0.65rem;
+  font-size: var(--dsp-font-size-md);
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.06em;
@@ -438,7 +438,7 @@ body.dsp-improved-chat :is(.chat-sidebar, #chat-notifications, .chat-popout) .di
 
 body.dsp-improved-chat :is(.chat-sidebar, #chat-notifications, .chat-popout) .dice-roll .dice-flavor {
   color: var(--dsp-text-tertiary);
-  font-size: 0.68rem;
+  font-size: calc(0.68rem * var(--dsp-font-scale, 1));
   font-style: italic;
   margin-bottom: 0.25rem;
 }
@@ -462,7 +462,7 @@ body.dsp-improved-chat :is(.chat-sidebar, #chat-notifications, .chat-popout) .di
   background: var(--dsp-surface-input);
   color: var(--dsp-text-secondary);
   padding: 0.25rem 0.5rem;
-  font-size: 0.78rem;
+  font-size: calc(0.78rem * var(--dsp-font-scale, 1));
   font-family: var(--font-body);
   display: flex;
   align-items: center;
@@ -478,7 +478,7 @@ body.dsp-improved-chat :is(.chat-sidebar, #chat-notifications, .chat-popout) .di
   border-left: 1px solid var(--dsp-border);
   color: var(--dsp-accent);
   font-weight: 700;
-  font-size: 1.1rem;
+  font-size: var(--dsp-font-size-5xl);
   padding: 0.25rem 0.625rem;
   text-align: center;
   display: flex;
@@ -495,7 +495,7 @@ body.dsp-improved-chat :is(.chat-sidebar, #chat-notifications, .chat-popout) .di
   border-radius: var(--dsp-radius-sm);
   color: var(--dsp-text-secondary);
   padding: 0.25rem 0.5rem;
-  font-size: 0.78rem;
+  font-size: calc(0.78rem * var(--dsp-font-scale, 1));
   font-family: var(--font-body);
   margin: 0;
   line-height: normal;
@@ -508,7 +508,7 @@ body.dsp-improved-chat :is(.chat-sidebar, #chat-notifications, .chat-popout) .di
   border-radius: var(--dsp-radius-sm);
   color: var(--dsp-accent);
   font-weight: 700;
-  font-size: 1.5rem;
+  font-size: calc(1.5rem * var(--dsp-font-scale, 1));
   padding: 0.25rem;
   text-align: center;
   margin: 0;
@@ -535,7 +535,7 @@ body.dsp-improved-chat :is(.chat-sidebar, #chat-notifications, .chat-popout) .di
   place-content: center;
   padding: 0 0.625rem;
   color: var(--dsp-text-tertiary);
-  font-size: 0.75rem;
+  font-size: var(--dsp-font-size-lg);
   font-weight: 900;
   transition: transform var(--dsp-transition);
 }
@@ -562,7 +562,7 @@ body.dsp-improved-chat :is(.chat-sidebar, #chat-notifications, .chat-popout) .di
 
 
 body.dsp-improved-chat :is(.chat-sidebar, #chat-notifications, .chat-popout) .dice-roll .dice-tooltip {
-  font-size: 0.72rem;
+  font-size: calc(0.72rem * var(--dsp-font-scale, 1));
   color: var(--dsp-text-secondary);
   margin-top: 0.25rem;
 }
@@ -584,7 +584,7 @@ body.dsp-improved-chat :is(.chat-sidebar, #chat-notifications, .chat-popout) .di
 }
 
 body.dsp-improved-chat :is(.chat-sidebar, #chat-notifications, .chat-popout) .dice-roll .dice-tooltip .part-header {
-  font-size: 0.65rem;
+  font-size: var(--dsp-font-size-md);
   color: var(--dsp-text-tertiary);
   margin-bottom: 2px;
 }
@@ -608,7 +608,7 @@ body.dsp-improved-chat :is(.chat-sidebar, #chat-notifications, .chat-popout) .di
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.72rem;
+  font-size: calc(0.72rem * var(--dsp-font-scale, 1));
   font-weight: 600;
   float: unset;
   margin: 0;
@@ -662,7 +662,7 @@ body.dsp-improved-chat :is(.chat-sidebar, #chat-notifications, .chat-popout) .me
   border: 1px solid var(--dsp-border);
   border-radius: var(--dsp-radius-sm);
   color: var(--dsp-text);
-  font-size: 0.75rem;
+  font-size: var(--dsp-font-size-lg);
   font-weight: 600;
   padding: 5px 10px;
   cursor: pointer;
@@ -713,7 +713,7 @@ body.dsp-improved-chat :is(.chat-sidebar, #chat-notifications, .chat-popout) .me
 
 body.dsp-improved-chat :is(.chat-sidebar, #chat-notifications, .chat-popout) .supplement {
   margin: 0;
-  font-size: 0.68rem;
+  font-size: calc(0.68rem * var(--dsp-font-scale, 1));
   color: var(--dsp-text-secondary);
   padding: 0 0.25rem;
 }
@@ -733,21 +733,21 @@ body.dsp-improved-chat :is(.chat-sidebar, #chat-notifications, .chat-popout) .su
 body.dsp-improved-chat :is(.chat-sidebar, #chat-notifications, .chat-popout) .supplement > strong {
   color: var(--dsp-text);
   text-transform: uppercase;
-  font-size: 0.625rem;
+  font-size: calc(0.625rem * var(--dsp-font-scale, 1));
   margin-right: 0.25rem;
 }
 
 
 body.dsp-improved-chat :is(.chat-sidebar, #chat-notifications, .chat-popout) .card-content {
   color: var(--dsp-text);
-  font-size: 0.85rem;
+  font-size: var(--dsp-font-size-2xl);
   line-height: 1.5;
 }
 
 
 body.dsp-improved-chat :is(.chat-sidebar, #chat-notifications, .chat-popout) .content-embed {
   color: var(--dsp-text);
-  font-size: 0.85rem;
+  font-size: var(--dsp-font-size-2xl);
   line-height: 1.5;
 }
 
@@ -758,19 +758,19 @@ body.dsp-improved-chat :is(.chat-sidebar, #chat-notifications, .chat-popout) .co
   border-bottom: 1px solid var(--dsp-border);
   padding-bottom: 3px;
   margin-bottom: 4px;
-  font-size: 0.95rem;
+  font-size: calc(0.95rem * var(--dsp-font-scale, 1));
 }
 
 body.dsp-improved-chat :is(.chat-sidebar, #chat-notifications, .chat-popout) .content-embed table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 0.78rem;
+  font-size: calc(0.78rem * var(--dsp-font-scale, 1));
 }
 
 body.dsp-improved-chat :is(.chat-sidebar, #chat-notifications, .chat-popout) .content-embed table th {
   background: rgba(0, 0, 0, 0.2);
   color: var(--dsp-text-secondary);
-  font-size: 0.65rem;
+  font-size: var(--dsp-font-size-md);
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.04em;
