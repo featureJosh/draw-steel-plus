@@ -41,7 +41,6 @@ export class DspFloatingUI extends HandlebarsApplicationMixin(ApplicationV2) {
     actions: {
       toggleLock: DspFloatingUI.toggleLock,
       resetPosition: DspFloatingUI.resetPosition,
-      toggleExpanded: DspFloatingUI.toggleExpanded,
     },
   };
 
@@ -76,7 +75,6 @@ export class DspFloatingUI extends HandlebarsApplicationMixin(ApplicationV2) {
   getFloatingState() {
     return {
       isLocked: this.#getFlag("locked") ?? false,
-      isExpanded: this.#getFlag("expanded") ?? true,
     };
   }
 
@@ -123,7 +121,6 @@ export class DspFloatingUI extends HandlebarsApplicationMixin(ApplicationV2) {
 
   _onRender(context, options) {
     this.element.classList.toggle("dsp-fui-locked", !!context.isLocked);
-    this.element.classList.toggle("dsp-fui-minimized", !(context.isExpanded ?? true));
 
     const dragHandle = this.element.querySelector(".dsp-fui-drag-handle");
     if (dragHandle) {
@@ -207,9 +204,4 @@ export class DspFloatingUI extends HandlebarsApplicationMixin(ApplicationV2) {
     setTimeout(() => this.element?.classList.remove("dsp-fui-resetting"), 400);
   }
 
-  static async toggleExpanded() {
-    const current = game.user.getFlag(MODULE_ID, `ui.${this.id}.expanded`) ?? true;
-    await game.user.setFlag(MODULE_ID, `ui.${this.id}.expanded`, !current);
-    this.render();
-  }
 }
