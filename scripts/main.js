@@ -1,6 +1,6 @@
 import { MODULE_CONFIG, SHEET_SIZE_DEFAULTS } from "./config.js";
 import { applyColorOverrides } from "./color-settings.js";
-import { applyFontSizeOverrides } from "./font-size-settings.js";
+import { applyScaleOverrides } from "./scale-settings.js";
 import { applyImprovedChat, enhanceChatMessage, registerChatTemplates } from "./chat.js";
 import { registerSettings } from "./settings.js";
 import { registerSheets } from "./sheets.js";
@@ -32,7 +32,7 @@ function applyMetaCurrencySetting() {
 
 Hooks.once("ready", () => {
   applyColorOverrides();
-  applyFontSizeOverrides();
+  applyScaleOverrides();
   applyImprovedChat();
   applyMetaCurrencySetting();
   initializeNegotiationUI();

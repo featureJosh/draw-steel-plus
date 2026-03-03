@@ -27,18 +27,18 @@
 }
 
 .dsp-floating-tabs > .dsp-float-tab {
-	--dsp-tab-full: 44px;
-	--dsp-tab-inactive: 38px;
+	--dsp-tab-full: calc(44px * var(--dsp-scale, 1));
+	--dsp-tab-inactive: calc(38px * var(--dsp-scale, 1));
 	width: var(--dsp-tab-full);
-	height: 40px;
+	height: calc(40px * var(--dsp-scale, 1));
 	display: flex;
 	align-items: center;
 	justify-content: flex-end;
-	padding-right: 12px;
+	padding-right: calc(12px * var(--dsp-scale, 1));
 	background: var(--dsp-background);
 	color: var(--dsp-accent);
 	border: 1px solid var(--color-border);
-	border-radius: 0 8px 8px 0;
+	border-radius: 0 calc(8px * var(--dsp-scale, 1)) calc(8px * var(--dsp-scale, 1)) 0;
 	margin-left: calc((var(--dsp-tab-full) - var(--dsp-tab-inactive)) * -1);
 	transition: all 250ms ease;
 	cursor: pointer;
@@ -48,7 +48,7 @@
 }
 
 .dsp-floating-tabs > .dsp-float-tab i {
-  font-size: calc(14px * var(--dsp-font-scale, 1));
+  font-size: calc(14px * var(--dsp-scale, 1));
   margin: 0;
 }
 
@@ -71,9 +71,9 @@
 .dsp-floating-tabs > .dsp-float-tab::after {
   content: "";
   position: absolute;
-  inset: 4px 4px 4px 0;
+  inset: calc(4px * var(--dsp-scale, 1)) calc(4px * var(--dsp-scale, 1)) calc(4px * var(--dsp-scale, 1)) 0;
   border: 1px solid var(--dsp-accent);
-  border-radius: 0 6px 6px 0;
+  border-radius: 0 calc(6px * var(--dsp-scale, 1)) calc(6px * var(--dsp-scale, 1)) 0;
   border-left: none;
   pointer-events: none;
   opacity: 0;

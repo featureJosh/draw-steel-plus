@@ -2,8 +2,8 @@
   --dsp-surface-raised: light-dark(#e0d9ce, #1e1e1e);
   --dsp-border-light: light-dark(#d4c8b8, #3a302a);
   --dsp-border: light-dark(#c4b8a8, #2a2020);
-  --dsp-radius-md: 8px;
-  --dsp-radius-sm: 4px;
+  --dsp-radius-md: calc(8px * var(--dsp-scale, 1));
+  --dsp-radius-sm: calc(4px * var(--dsp-scale, 1));
   --dsp-radius-full: 9999px;
   --dsp-text: light-dark(#2a2520, #e8e0d4);
   --dsp-text-light: light-dark(#5a5248, #9a8e80);
@@ -14,7 +14,7 @@
   text-align: start;
   color: var(--dsp-text-light);
   border-radius: var(--dsp-radius-md);
-  padding: 6px 8px;
+  padding: calc(6px * var(--dsp-scale, 1)) calc(8px * var(--dsp-scale, 1));
   background: var(--dsp-surface-raised);
   box-shadow: 0 0 16px var(--dsp-shadow);
   border: 2px solid var(--dsp-border-light);
@@ -22,7 +22,7 @@
 }
 
 :is(#tooltip, .locked-tooltip).dsp-tooltip:is(.item-tooltip, .effect-tooltip) {
-  width: 300px;
+  width: calc(300px * var(--dsp-scale, 1));
 }
 
 :is(#tooltip, .locked-tooltip).dsp-tooltip.locked-tooltip {
@@ -40,7 +40,7 @@
 :is(#tooltip, .locked-tooltip).dsp-tooltip .content {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: calc(6px * var(--dsp-scale, 1));
   min-width: 0;
   overflow: hidden;
 }
@@ -48,7 +48,7 @@
 :is(#tooltip, .locked-tooltip).dsp-tooltip .header .top {
   display: flex;
   align-items: flex-start;
-  gap: 8px;
+  gap: calc(8px * var(--dsp-scale, 1));
 }
 
 :is(#tooltip, .locked-tooltip).dsp-tooltip .header-badges {
@@ -75,8 +75,8 @@
 }
 
 :is(#tooltip, .locked-tooltip).dsp-tooltip .header img {
-  width: 48px;
-  height: 48px;
+  width: calc(48px * var(--dsp-scale, 1));
+  height: calc(48px * var(--dsp-scale, 1));
   object-fit: cover;
   border-radius: var(--dsp-radius-sm);
   border: 1px solid var(--dsp-border);
@@ -107,9 +107,9 @@
 :is(#tooltip, .locked-tooltip).dsp-tooltip .header .bottom {
 	display: flex;
 	flex-wrap: wrap;
-	gap: 8px 12px;
-	margin-top: 4px;
-	padding-top: 4px;
+	gap: calc(8px * var(--dsp-scale, 1)) calc(12px * var(--dsp-scale, 1));
+	margin-top: calc(4px * var(--dsp-scale, 1));
+	padding-top: calc(4px * var(--dsp-scale, 1));
 	border-top: 1px solid var(--dsp-border-light);
 }
 
@@ -133,7 +133,7 @@
 }
 
 :is(#tooltip, .locked-tooltip).dsp-tooltip .description {
-  max-height: 350px;
+  max-height: calc(350px * var(--dsp-scale, 1));
   min-width: 0;
   overflow: hidden;
   overflow-wrap: break-word;
@@ -158,7 +158,7 @@
 }
 
 :is(#tooltip, .locked-tooltip).dsp-tooltip .description p {
-  margin: 4px 0;
+  margin: calc(4px * var(--dsp-scale, 1)) 0;
 }
 
 :is(#tooltip, .locked-tooltip).dsp-tooltip .description strong {
@@ -183,28 +183,28 @@
   text-transform: uppercase;
   font-size: var(--dsp-font-size-sm);
   letter-spacing: 0.06em;
-  padding: 3px 6px;
+  padding: calc(3px * var(--dsp-scale, 1)) calc(6px * var(--dsp-scale, 1));
   border: 1px solid var(--dsp-border);
   text-align: left;
 }
 
 :is(#tooltip, .locked-tooltip).dsp-tooltip .description table td {
-  padding: 3px 6px;
+  padding: calc(3px * var(--dsp-scale, 1)) calc(6px * var(--dsp-scale, 1));
   border: 1px solid var(--dsp-border);
   color: var(--dsp-text-light);
 }
 
 :is(#tooltip, .locked-tooltip).dsp-tooltip .description ul,
 :is(#tooltip, .locked-tooltip).dsp-tooltip .description ol {
-  padding-left: 18px;
-  margin: 4px 0;
+  padding-left: calc(18px * var(--dsp-scale, 1));
+  margin: calc(4px * var(--dsp-scale, 1)) 0;
 }
 
 :is(#tooltip, .locked-tooltip).dsp-tooltip .ability-details {
   font-size: var(--dsp-font-size-xl);
   line-height: 1.5;
   color: var(--dsp-text-light);
-  max-height: 350px;
+  max-height: calc(350px * var(--dsp-scale, 1));
   min-width: 0;
   overflow: hidden;
   overflow-wrap: break-word;
@@ -226,7 +226,7 @@
 }
 
 :is(#tooltip, .locked-tooltip).dsp-tooltip .ability-details .flavor {
-  margin: 0 0 6px;
+  margin: 0 0 calc(6px * var(--dsp-scale, 1));
   font-style: italic;
   color: var(--dsp-text-light);
 }
@@ -236,13 +236,13 @@
 }
 
 :is(#tooltip, .locked-tooltip).dsp-tooltip .ability-details .power-result {
-  margin: 6px 0;
-  padding: 4px 0;
+  margin: calc(6px * var(--dsp-scale, 1)) 0;
+  padding: calc(4px * var(--dsp-scale, 1)) 0;
   border-top: 1px solid var(--dsp-border-light);
 }
 
 :is(#tooltip, .locked-tooltip).dsp-tooltip .ability-details .power-roll-line {
-  margin: 0 0 4px;
+  margin: 0 0 calc(4px * var(--dsp-scale, 1));
   font-size: var(--dsp-font-size-lg);
 }
 
@@ -253,7 +253,7 @@
 :is(#tooltip, .locked-tooltip).dsp-tooltip .ability-details .power-roll-display {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr);
-  gap: 2px 8px;
+  gap: 2px calc(8px * var(--dsp-scale, 1));
   margin: 0;
   padding: 0;
   font-size: var(--dsp-font-size-base);
@@ -275,8 +275,8 @@
 }
 
 :is(#tooltip, .locked-tooltip).dsp-tooltip .ability-details .effect {
-  margin: 6px 0;
-  padding: 4px 0;
+  margin: calc(6px * var(--dsp-scale, 1)) 0;
+  padding: calc(4px * var(--dsp-scale, 1)) 0;
   border-top: 1px solid var(--dsp-border-light);
 }
 
@@ -284,7 +284,7 @@
   margin: 0;
   display: grid;
   grid-template-columns: auto minmax(0, 1fr);
-  gap: 2px 8px;
+  gap: 2px calc(8px * var(--dsp-scale, 1));
   font-size: var(--dsp-font-size-lg);
 }
 
@@ -302,7 +302,7 @@
 }
 
 :is(#tooltip, .locked-tooltip).dsp-tooltip .ability-details .effect dd p {
-  margin: 4px 0;
+  margin: calc(4px * var(--dsp-scale, 1)) 0;
 }
 
 :is(#tooltip, .locked-tooltip).dsp-tooltip .ability-details .effect dd p:first-child {
@@ -312,7 +312,7 @@
 :is(#tooltip, .locked-tooltip).dsp-tooltip .pills {
   display: flex;
   flex-wrap: wrap;
-  gap: 4px;
+  gap: calc(4px * var(--dsp-scale, 1));
   list-style: none;
   margin: 0;
   padding: 0;
@@ -321,7 +321,7 @@
 :is(#tooltip, .locked-tooltip).dsp-tooltip .pill {
   display: inline-flex;
   align-items: center;
-  padding: 2px 8px;
+  padding: 2px calc(8px * var(--dsp-scale, 1));
   background: light-dark(rgba(184, 84, 84, 0.15), rgba(74, 14, 14, 0.4));
   border: 1px solid var(--dsp-border);
   border-radius: var(--dsp-radius-full);
@@ -331,8 +331,8 @@
 }
 
 :is(#tooltip, .locked-tooltip).dsp-tooltip .tooltip-hint {
-  margin-top: 6px;
-  padding-top: 4px;
+  margin-top: calc(6px * var(--dsp-scale, 1));
+  padding-top: calc(4px * var(--dsp-scale, 1));
   border-top: 1px solid var(--dsp-text-faint);
   font-size: var(--dsp-font-size-md);
   color: var(--dsp-text-faint);
@@ -340,7 +340,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 4px;
+  gap: calc(4px * var(--dsp-scale, 1));
 }
 
 :is(#tooltip, .locked-tooltip).dsp-tooltip .tooltip-hint .tooltip-hint-icon {

@@ -77,7 +77,7 @@ export const COLOR_CSS_MAP = {
   danger: "--dsp-danger",
 };
 
-export const FONT_SIZE_DEFAULTS = {
+export const SCALE_DEFAULTS = {
   fontScale: 1,
 };
 

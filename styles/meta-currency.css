@@ -17,7 +17,7 @@ body:not(.dsp-custom-meta-currency) #dsp-meta-currency {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 6px;
+  gap: calc(6px * var(--dsp-scale, 1));
   padding: 0;
   flex: 1;
   transition: gap var(--dsp-fui-transition-fast);
@@ -63,14 +63,14 @@ body:not(.dsp-custom-meta-currency) #dsp-meta-currency {
     transparent 100%
   );
   align-self: stretch;
-  margin: 4px 0;
+  margin: calc(4px * var(--dsp-scale, 1)) 0;
 }
 
 .dsp-mc-controls {
   display: flex;
-  gap: 4px;
+  gap: calc(4px * var(--dsp-scale, 1));
   align-items: center;
-  max-height: 30px;
+  max-height: calc(30px * var(--dsp-scale, 1));
   overflow: hidden;
   transition: var(--dsp-fui-transition-fast);
   transition-property: opacity, max-height;
@@ -80,8 +80,8 @@ body:not(.dsp-custom-meta-currency) #dsp-meta-currency {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 24px;
-  height: 24px;
+  width: calc(24px * var(--dsp-scale, 1));
+  height: calc(24px * var(--dsp-scale, 1));
   border-radius: var(--dsp-radius-sm);
   border: 1px solid var(--dsp-border);
   background: light-dark(rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0.3));
@@ -128,7 +128,7 @@ body:not(.dsp-custom-meta-currency) #dsp-meta-currency {
 }
 
 .dsp-fui-panel:not(:has(.dsp-mc-malice)) {
-  min-width: 100px;
+  min-width: calc(100px * var(--dsp-scale, 1));
 }
 
 .dsp-fui-panel:not(:has(.dsp-mc-malice)) .dsp-mc-body {
@@ -148,14 +148,14 @@ body:not(.dsp-custom-meta-currency) #dsp-meta-currency {
   display: flex;
   align-items: center;
   gap: 0;
-  padding: 6px 14px;
+  padding: calc(6px * var(--dsp-scale, 1)) calc(14px * var(--dsp-scale, 1));
 }
 
 .dsp-mc-compact-item {
   display: flex;
   align-items: center;
-  gap: 6px;
-  padding: 0 6px;
+  gap: calc(6px * var(--dsp-scale, 1));
+  padding: 0 calc(6px * var(--dsp-scale, 1));
 }
 
 .dsp-mc-compact-icon {
@@ -172,9 +172,9 @@ body:not(.dsp-custom-meta-currency) #dsp-meta-currency {
 
 .dsp-mc-compact-divider {
   width: 1px;
-  height: 18px;
+  height: calc(18px * var(--dsp-scale, 1));
   background: var(--dsp-border-light);
-  margin: 0 4px;
+  margin: 0 calc(4px * var(--dsp-scale, 1));
 }
 
 .dsp-fui-minimized .dsp-mc-value {
@@ -192,7 +192,7 @@ body:not(.dsp-custom-meta-currency) #dsp-meta-currency {
   align-items: center;
   justify-content: center;
   gap: 2px;
-  padding: 4px 8px;
+  padding: calc(4px * var(--dsp-scale, 1)) calc(8px * var(--dsp-scale, 1));
   border: 1px solid var(--dsp-border-light);
   border-bottom: none;
   background: light-dark(rgba(245, 240, 232, 0.92), rgba(13, 13, 13, 0.92));

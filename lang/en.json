@@ -106,8 +106,8 @@
         "dangerDk": "Danger (Dark)"
       },
       "fontScale": {
-        "name": "Font Scale",
-        "hint": "Scale all Draw Steel Plus font sizes proportionally. Increase for larger screens (4K, ultrawide) or decrease for smaller ones. Default is 1.0."
+        "name": "UI Scale",
+        "hint": "Scale all Draw Steel Plus UI elements proportionally. Increase for larger screens (4K, ultrawide) or decrease for smaller ones. Default is 1.0."
       },
       "floatingNavTabs": {
         "name": "Floating Navigation Tabs",
