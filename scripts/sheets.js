@@ -1,4 +1,5 @@
 import { MODULE_CONFIG } from "./config.js";
+import { getFontScale } from "./scale-settings.js";
 import {
   applyItemTooltips,
   setupItemListCollapse,
@@ -338,6 +339,12 @@ function _registerHeroSheet(sheets, SHEET_SIZES) {
       return deduplicateHeaderControls(super._getHeaderControls());
     }
 
+    _onFirstRender(context, options) {
+      super._onFirstRender(context, options);
+      const scale = getFontScale();
+      if (scale !== 1) this.setPosition({ width: Math.round(SHEET_SIZES.hero.width * scale), height: Math.round(SHEET_SIZES.hero.height * scale) });
+    }
+
     _onRender(context, options) {
       super._onRender(context, options);
       applyMinSize(this.element, SHEET_SIZES.hero);
@@ -485,6 +492,12 @@ function _registerNPCSheet(sheets, SHEET_SIZES) {
       return deduplicateHeaderControls(super._getHeaderControls());
     }
 
+    _onFirstRender(context, options) {
+      super._onFirstRender(context, options);
+      const scale = getFontScale();
+      if (scale !== 1) this.setPosition({ width: Math.round(SHEET_SIZES.npc.width * scale), height: Math.round(SHEET_SIZES.npc.height * scale) });
+    }
+
     _onRender(context, options) {
       super._onRender(context, options);
       applyMinSize(this.element, SHEET_SIZES.npc);
@@ -537,6 +550,12 @@ function _registerItemSheet(sheets, SHEET_SIZES) {
 
     get title() {
       return `${this.document.name} [DS+]`;
+    }
+
+    _onFirstRender(context, options) {
+      super._onFirstRender(context, options);
+      const scale = getFontScale();
+      if (scale !== 1) this.setPosition({ width: Math.round(SHEET_SIZES.item.width * scale), height: Math.round(SHEET_SIZES.item.height * scale) });
     }
 
     _onRender(context, options) {
