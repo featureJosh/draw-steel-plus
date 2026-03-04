@@ -46,6 +46,7 @@ export class DspFloatingUI extends HandlebarsApplicationMixin(ApplicationV2) {
 
   static DEFAULT_WIDTH = 280;
   static DEFAULT_OFFSET_Y = 160;
+  static SAFE_MARGIN = 40;
 
   constructor(options = {}) {
     super(options);
@@ -58,6 +59,7 @@ export class DspFloatingUI extends HandlebarsApplicationMixin(ApplicationV2) {
     };
     this._boundDragStart = this.#onDragStart.bind(this);
     this._boundOnResize = this.#onResize.bind(this);
+    this._needsCenteringAdjust = false;
   }
 
   #flagKey(prop) {
@@ -78,23 +80,24 @@ export class DspFloatingUI extends HandlebarsApplicationMixin(ApplicationV2) {
     };
   }
 
-  static getCanvasBounds() {
-    const canvas = game.canvas;
-    const view = canvas?.app?.canvas ?? canvas?.app?.view;
-    if (canvas?.ready && view) {
-      const rect = view.getBoundingClientRect();
-      return { left: rect.left, top: rect.top, width: rect.width, height: rect.height };
-    }
-    return { left: 0, top: 0, width: window.innerWidth, height: window.innerHeight };
+  static getDefaultPosition(elementWidth) {
+    const w = elementWidth ?? this.DEFAULT_WIDTH;
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
+    return {
+      top: Math.max(this.SAFE_MARGIN, vh - this.DEFAULT_OFFSET_Y),
+      left: Math.max(this.SAFE_MARGIN, Math.round((vw / 2) - (w / 2))),
+    };
   }
 
-  static getDefaultPosition(elementWidth, offsetY) {
+  static clampPosition(pos, elementWidth) {
+    const margin = this.SAFE_MARGIN;
     const w = elementWidth ?? this.DEFAULT_WIDTH;
-    const y = offsetY ?? this.DEFAULT_OFFSET_Y;
-    const bounds = DspFloatingUI.getCanvasBounds();
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
     return {
-      top: bounds.top + bounds.height - y,
-      left: Math.round(bounds.left + (bounds.width / 2) - (w / 2)),
+      left: Math.min(Math.max(pos.left, margin), vw - w - margin),
+      top: Math.min(Math.max(pos.top, margin), vh - margin),
     };
   }
 
@@ -103,9 +106,13 @@ export class DspFloatingUI extends HandlebarsApplicationMixin(ApplicationV2) {
     const isCentered = this.#getFlag("centered");
     if (isCentered || !saved) {
       if (!isCentered) this.#setFlag("centered", true);
+      // Use DEFAULT_WIDTH as rough estimate; _onRender will correct with actual width
       options.position = this.constructor.getDefaultPosition();
+      this._needsCenteringAdjust = true;
     } else {
-      options.position = saved;
+      // Clamp restored position to the current viewport so it can't start off-screen
+      options.position = this.constructor.clampPosition(saved);
+      this._needsCenteringAdjust = false;
     }
   }
 
@@ -128,10 +135,21 @@ export class DspFloatingUI extends HandlebarsApplicationMixin(ApplicationV2) {
       dragHandle.addEventListener("mousedown", this._boundDragStart);
     }
 
-    window.removeEventListener("resize", this._boundOnResize);
-    if (context.isLocked && (this.#getFlag("centered") ?? false)) {
-      window.addEventListener("resize", this._boundOnResize);
+    // After first render, recalculate the centered position using the actual element
+    // width — the initial estimate (DEFAULT_WIDTH) is often wrong.
+    if (this._needsCenteringAdjust) {
+      this._needsCenteringAdjust = false;
+      requestAnimationFrame(() => {
+        if (!this.element) return;
+        const actualWidth = this.element.offsetWidth || this.constructor.DEFAULT_WIDTH;
+        const pos = this.constructor.getDefaultPosition(actualWidth);
+        this.setPosition(pos);
+      });
     }
+
+    // Always listen for window resize: re-center if centered, or clamp if manually placed.
+    window.removeEventListener("resize", this._boundOnResize);
+    window.addEventListener("resize", this._boundOnResize);
   }
 
   #onResize() {
@@ -139,12 +157,18 @@ export class DspFloatingUI extends HandlebarsApplicationMixin(ApplicationV2) {
     this._resizeScheduled = true;
     requestAnimationFrame(() => {
       this._resizeScheduled = false;
-      const isLocked = this.#getFlag("locked") ?? false;
+      if (!this.element) return;
       const isCentered = this.#getFlag("centered") ?? false;
-      if (!isLocked || !isCentered || !this.element) return;
       const width = this.element.offsetWidth || this.constructor.DEFAULT_WIDTH;
-      const pos = this.constructor.getDefaultPosition(width);
-      this.setPosition(pos);
+      if (isCentered) {
+        // Re-center using updated window dimensions
+        this.setPosition(this.constructor.getDefaultPosition(width));
+      } else {
+        // Clamp a manually-placed UI so it doesn't end up fully off-screen
+        const rect = this.element.getBoundingClientRect();
+        const clamped = this.constructor.clampPosition({ left: rect.left, top: rect.top }, width);
+        this.setPosition(clamped);
+      }
     });
   }
 
