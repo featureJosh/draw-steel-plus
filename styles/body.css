@@ -216,6 +216,7 @@
 }
 
 .draw-steel-plus.sheet .item-list .item-column.item-name .label {
+  font-size: var(--dsp-font-size-lg);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -224,6 +225,15 @@
 .draw-steel-plus.sheet .item-list .item-column.item-name .keywords {
   font-size: var(--dsp-font-size-sm);
   color: var(--dsp-text-faint);
+  font-weight: 400;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.draw-steel-plus.sheet .item-list .item-column.item-name .resource-cost {
+  font-size: var(--dsp-font-size-sm);
+  color: var(--dsp-accent);
   font-weight: 400;
   white-space: nowrap;
   overflow: hidden;
@@ -732,6 +742,7 @@
 }
 
 .draw-steel-plus.sheet .effect-row .effect-name .label {
+  font-size: var(--dsp-font-size-xl);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
