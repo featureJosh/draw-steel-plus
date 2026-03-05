@@ -1,0 +1,67 @@
+{{! Sheet Header }}
+<header class="sheet-header" style="
+  {{#if avatarProperties.objectFit}} --avatar-object-fit: {{avatarProperties.objectFit}}; {{/if}}
+  {{#if avatarProperties.objectPosition}} --avatar-object-position: {{avatarProperties.objectPosition}}; {{/if}}
+  ">
+
+  <img class="header-bg-art" src="modules/draw-steel-plus/assets/sketch-images/s3.jpg" aria-hidden="true">
+  <div class="header-bg-overlay"></div>
+
+  <div class="header-portrait">
+    <div class="portrait-frame">
+      <img
+        class="profile-img"
+        src="{{document.img}}"
+        alt="{{document.name}}"
+        data-action="{{ifThen isPlay "showPortraitArtwork" "editImage"}}"
+        {{#unless isPlay}}data-edit="img"{{/unless}}
+        title="{{document.name}}"
+      >
+    </div>
+  </div>
+
+  <div class="header-body">
+    <div class="identity-block">
+      <div class="name-row">
+        {{#if isPlay}}
+        <h1 class="char-name">{{document.name}}</h1>
+        {{else}}
+        {{formInput fields.name value=source.name placeholder=(localize "Name") class="char-name-input"}}
+        {{/if}}
+      </div>
+      <div class="origins-row">
+        {{#if system.object.categoryLabel}}
+        <div class="tag">{{system.object.categoryLabel}}</div>
+        {{/if}}
+        {{#if system.object.roleLabel}}
+        <div class="tag">{{system.object.roleLabel}}</div>
+        {{/if}}
+        {{#unless isPlay}}
+        <div class="tag">
+          <a data-action="editObjectMetadata" class="filled">
+            <i class="fa-solid fa-gear"></i>
+          </a>
+        </div>
+        {{/unless}}
+      </div>
+    </div>
+
+    <div class="stats-block">
+      {{#if system.source.label}}
+      <div class="npc-attribution">{{system.source.label}}</div>
+      {{/if}}
+      <div class="progression-subtitle">
+        {{#if system.level}}
+        <span class="prog-value">{{system.level}}</span>
+        <span class="prog-label">{{systemFields.object.fields.level.label}}</span>
+        {{/if}}
+        {{#if system.ev}}
+        <span class="prog-sep">|</span>
+        <span class="prog-value">{{system.evLabel}}</span>
+        <span class="prog-label">{{localize "DRAW_STEEL.Actor.base.EVLabel.Label"}}</span>
+        {{/if}}
+      </div>
+    </div>
+  </div>
+
+</header>

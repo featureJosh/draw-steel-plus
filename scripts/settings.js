@@ -131,6 +131,27 @@ export function registerSettings() {
     requiresReload: false,
   });
 
+  game.settings.register(MODULE_ID, "objectHeaderEnabled", {
+    name: "DRAW_STEEL_PLUS.Settings.objectHeaderEnabled.name",
+    hint: "DRAW_STEEL_PLUS.Settings.objectHeaderEnabled.hint",
+    scope: "world",
+    config: false,
+    type: Boolean,
+    default: HEADER_DEFAULTS.objectHeaderEnabled,
+    requiresReload: false,
+  });
+
+  game.settings.register(MODULE_ID, "objectHeaderImage", {
+    name: "DRAW_STEEL_PLUS.Settings.objectHeaderImage.name",
+    hint: "DRAW_STEEL_PLUS.Settings.objectHeaderImage.hint",
+    scope: "world",
+    config: false,
+    type: String,
+    default: HEADER_DEFAULTS.objectHeaderImage,
+    filePicker: "image",
+    requiresReload: false,
+  });
+
   game.settings.register(MODULE_ID, "parallaxHeaderArt", {
     name: "DRAW_STEEL_PLUS.Settings.parallaxHeaderArt.name",
     hint: "DRAW_STEEL_PLUS.Settings.parallaxHeaderArt.hint",

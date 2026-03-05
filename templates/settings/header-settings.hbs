@@ -28,4 +28,19 @@
       <p class="hint">{{npcImage.hint}}</p>
     </div>
   </fieldset>
+
+  <fieldset>
+    <legend>{{objectSection}}</legend>
+    {{formGroup objectEnabled.field value=objectEnabled.value name="objectHeaderEnabled" label=objectEnabled.label hint=objectEnabled.hint}}
+    <div class="form-group">
+      <label>{{objectImage.label}}</label>
+      <div class="form-fields">
+        <button type="button" data-action="filePicker" class="icon" tabindex="-1">
+          <i class="fas fa-file-import fa-fw"></i>
+        </button>
+        <input type="text" name="objectHeaderImage" value="{{objectImage.value}}" placeholder="">
+      </div>
+      <p class="hint">{{objectImage.hint}}</p>
+    </div>
+  </fieldset>
 </div>

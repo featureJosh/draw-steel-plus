@@ -13,6 +13,13 @@ export const SHEET_SIZE_DEFAULTS = {
     minHeight: 0,
   },
 
+  object: {
+    width: 600,
+    height: 570,
+    minWidth: 0,
+    minHeight: 0,
+  },
+
   item: {
     width: 600,
     height: 650,
@@ -84,13 +91,16 @@ export const SCALE_DEFAULTS = {
 export const HEADER_DEFAULTS = {
   heroHeaderEnabled: true,
   npcHeaderEnabled: true,
+  objectHeaderEnabled: true,
   heroHeaderImage: "",
   npcHeaderImage: "",
+  objectHeaderImage: "",
 };
 
 export const DEFAULT_HEADER_IMAGES = {
   hero: "modules/draw-steel-plus/assets/sketch-images/s1.jpg",
   npc: "modules/draw-steel-plus/assets/sketch-images/s2.jpg",
+  object: "modules/draw-steel-plus/assets/sketch-images/s3.jpg",
 };
 
 export const NPC_DEFAULTS = {

@@ -167,6 +167,7 @@ export function registerSheets(SHEET_SIZES) {
 
   _registerHeroSheet(sheets, SHEET_SIZES);
   _registerNPCSheet(sheets, SHEET_SIZES);
+  _registerObjectSheet(sheets, SHEET_SIZES);
   _registerItemSheet(sheets, SHEET_SIZES);
 
   console.log(`${MODULE_ID} | Sheet registration complete`);
@@ -517,6 +518,77 @@ function _registerNPCSheet(sheets, SHEET_SIZES) {
   });
 
   console.log(`${MODULE_ID} | Registered DS+ NPC Sheet`);
+}
+
+function _registerObjectSheet(sheets, SHEET_SIZES) {
+  if (!sheets.DrawSteelObjectSheet) return;
+
+  const DrawSteelPlusObjectSheet = class extends sheets.DrawSteelObjectSheet {
+    static DEFAULT_OPTIONS = {
+      ...super.DEFAULT_OPTIONS,
+      classes: [...super.DEFAULT_OPTIONS.classes, "draw-steel-plus"],
+      position: {
+        ...super.DEFAULT_OPTIONS.position,
+        width: SHEET_SIZES.object.width,
+        height: SHEET_SIZES.object.height,
+      },
+      actions: {
+        ...super.DEFAULT_OPTIONS.actions,
+        toggleDocumentDescription,
+        documentListShare,
+      },
+    };
+
+    static PARTS = {
+      ...super.PARTS,
+      header: {
+        ...(super.PARTS?.header || {}),
+        template: `${MODULE_PATH}/templates/sheets/actor/object-sheet/header.hbs`,
+      },
+      features: {
+        ...(super.PARTS?.features || {}),
+        template: `${MODULE_PATH}/templates/sheets/actor/object-sheet/features.hbs`,
+        templates: [`${MODULE_PATH}/templates/sheets/actor/shared/partials/features/features.hbs`],
+      },
+      abilities: {
+        ...(super.PARTS?.abilities || {}),
+        template: `${MODULE_PATH}/templates/sheets/actor/shared/abilities.hbs`,
+      },
+    };
+
+    get title() {
+      return `${this.document.name} [DS+]`;
+    }
+
+    _getHeaderControls() {
+      return deduplicateHeaderControls(super._getHeaderControls());
+    }
+
+    _onFirstRender(context, options) {
+      super._onFirstRender(context, options);
+      const scale = getFontScale();
+      if (scale !== 1) this.setPosition({ width: Math.round(SHEET_SIZES.object.width * scale), height: Math.round(SHEET_SIZES.object.height * scale) });
+    }
+
+    _onRender(context, options) {
+      super._onRender(context, options);
+      applyMinSize(this.element, SHEET_SIZES.object);
+      setupScrollbarAutoHide(this.element);
+      applyHeaderArt(this.element, "object");
+      applyParallaxHeader(this.element);
+      setupItemListCollapse(this.element);
+      applyFloatingTabs(this);
+      applyTooltipPrevent(this.element);
+    }
+  };
+
+  foundry.documents.collections.Actors.registerSheet(MODULE_ID, DrawSteelPlusObjectSheet, {
+    types: ["object"],
+    makeDefault: true,
+    label: game.i18n.localize("DRAW_STEEL_PLUS.Sheet.Object"),
+  });
+
+  console.log(`${MODULE_ID} | Registered DS+ Object Sheet`);
 }
 
 function _registerItemSheet(sheets, SHEET_SIZES) {

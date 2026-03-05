@@ -57,8 +57,20 @@ export default class HeaderSettingsMenu extends HandlebarsApplicationMixin(Appli
         label: game.i18n.localize("DRAW_STEEL_PLUS.Settings.npcHeaderImage.name"),
         hint: game.i18n.localize("DRAW_STEEL_PLUS.Settings.npcHeaderImage.hint"),
       },
+      objectEnabled: {
+        field: new foundry.data.fields.BooleanField(),
+        value: game.settings.get(MODULE_ID, "objectHeaderEnabled"),
+        label: game.i18n.localize("DRAW_STEEL_PLUS.Settings.objectHeaderEnabled.name"),
+        hint: game.i18n.localize("DRAW_STEEL_PLUS.Settings.objectHeaderEnabled.hint"),
+      },
+      objectImage: {
+        value: game.settings.get(MODULE_ID, "objectHeaderImage"),
+        label: game.i18n.localize("DRAW_STEEL_PLUS.Settings.objectHeaderImage.name"),
+        hint: game.i18n.localize("DRAW_STEEL_PLUS.Settings.objectHeaderImage.hint"),
+      },
       heroSection: game.i18n.localize("DRAW_STEEL_PLUS.Settings.menus.headers.heroSection"),
       npcSection: game.i18n.localize("DRAW_STEEL_PLUS.Settings.menus.headers.npcSection"),
+      objectSection: game.i18n.localize("DRAW_STEEL_PLUS.Settings.menus.headers.objectSection"),
       buttons: [
         { type: "button", action: "resetDefaults", icon: "fas fa-arrow-rotate-left", label: "DRAW_STEEL_PLUS.Settings.resetDefaults" },
         { type: "submit", icon: "fas fa-save", label: "DRAW_STEEL_PLUS.Settings.saveChanges" },
@@ -86,6 +98,8 @@ export default class HeaderSettingsMenu extends HandlebarsApplicationMixin(Appli
       game.settings.set(MODULE_ID, "heroHeaderImage", data.heroHeaderImage ?? HEADER_DEFAULTS.heroHeaderImage),
       game.settings.set(MODULE_ID, "npcHeaderEnabled", data.npcHeaderEnabled ?? HEADER_DEFAULTS.npcHeaderEnabled),
       game.settings.set(MODULE_ID, "npcHeaderImage", data.npcHeaderImage ?? HEADER_DEFAULTS.npcHeaderImage),
+      game.settings.set(MODULE_ID, "objectHeaderEnabled", data.objectHeaderEnabled ?? HEADER_DEFAULTS.objectHeaderEnabled),
+      game.settings.set(MODULE_ID, "objectHeaderImage", data.objectHeaderImage ?? HEADER_DEFAULTS.objectHeaderImage),
     ]);
   }
 
@@ -95,6 +109,8 @@ export default class HeaderSettingsMenu extends HandlebarsApplicationMixin(Appli
       game.settings.set(MODULE_ID, "heroHeaderImage", HEADER_DEFAULTS.heroHeaderImage),
       game.settings.set(MODULE_ID, "npcHeaderEnabled", HEADER_DEFAULTS.npcHeaderEnabled),
       game.settings.set(MODULE_ID, "npcHeaderImage", HEADER_DEFAULTS.npcHeaderImage),
+      game.settings.set(MODULE_ID, "objectHeaderEnabled", HEADER_DEFAULTS.objectHeaderEnabled),
+      game.settings.set(MODULE_ID, "objectHeaderImage", HEADER_DEFAULTS.objectHeaderImage),
     ]);
     this.render();
   }
