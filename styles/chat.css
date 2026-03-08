@@ -46,7 +46,6 @@ body.dsp-improved-chat :is(.chat-sidebar, #chat-notifications, .chat-popout) .ch
   background: var(--dsp-surface);
   color: var(--dsp-text);
   margin-bottom: calc(6px * var(--dsp-scale, 1));
-  overflow: hidden;
   box-shadow: 0 2px 8px var(--dsp-shadow);
 }
 
@@ -704,10 +703,17 @@ body.dsp-improved-chat :is(.chat-sidebar, #chat-notifications, .chat-popout) .me
   padding: calc(3px * var(--dsp-scale, 1)) calc(8px * var(--dsp-scale, 1));
 }
 
+/* Constrain condition icons regardless of Improved Chat setting (DSP overrides the system template
+   which uses a <footer> element — the system's own max-height rule no longer applies) */
+.card-buttons button.apply-effect img,
+.message-part-buttons button.apply-effect img {
+  max-height: 1.5rem;
+  border-radius: 2px;
+}
+
 body.dsp-improved-chat :is(.chat-sidebar, #chat-notifications, .chat-popout) .card-buttons button.apply-effect img,
 body.dsp-improved-chat :is(.chat-sidebar, #chat-notifications, .chat-popout) .message-part-buttons button.apply-effect img {
   max-height: 1.1rem;
-  border-radius: 2px;
 }
 
 
