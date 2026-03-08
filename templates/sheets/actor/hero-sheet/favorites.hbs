@@ -18,8 +18,6 @@
       <div class="item-column item-name">{{abilityType.label}}</div>
       {{#if (eq @key "villain")}}
       <div class="item-column item-order">{{localize "DRAW_STEEL.Item.ability.Order"}}</div>
-      {{else}}
-      <div class="item-column item-cost">{{abilityFields.resource.label}}</div>
       {{/if}}
       <div class="item-column item-distance">{{abilityFields.distance.label}}</div>
       <div class="item-column item-target">{{abilityFields.target.label}}</div>
@@ -40,17 +38,16 @@
             {{/if}}
             <div class="name" data-action="toggleDocumentDescription">
               <div class="label">{{abilityContext.item.name}}</div>
+              {{#unless (eq @../key "villain")}}
+              {{#if abilityContext.item.system.resource}}
+              <div class="resource-cost">{{abilityContext.item.system.resource}} {{@root.system.coreResource.name}}</div>
+              {{/if}}
+              {{/unless}}
               <div class="keywords">{{abilityContext.formattedLabels.keywords}}</div>
             </div>
           </div>
           {{#if (eq @../key "villain")}}
           <div class="item-column item-order">{{abilityContext.order}}</div>
-          {{else}}
-          <div class="item-column item-cost">
-            {{#if abilityContext.item.system.resource}}
-            {{abilityContext.item.system.resource}} {{@root.system.coreResource.name}}
-            {{/if}}
-          </div>
           {{/if}}
           <div class="item-column item-distance">{{abilityContext.formattedLabels.distance}}</div>
           <div class="item-column item-target">{{abilityContext.formattedLabels.target}}</div>
