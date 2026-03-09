@@ -243,8 +243,72 @@
         <span class="dsp-mt-hero-name">{{this.name}}</span>
         {{#if this.actedThisRound}}
         <span class="dsp-mt-acted-label">{{localize "DRAW_STEEL_PLUS.MontageTest.acted"}}</span>
+        {{else if this.canRoll}}
+        <button class="dsp-mt-roll-btn" type="button" data-action="openRollForm" data-hero-uuid="{{this.uuid}}" data-tooltip="{{localize 'DRAW_STEEL_PLUS.MontageTest.rollTest'}}">
+          <i class="fa-solid fa-dice-d20" inert></i>
+        </button>
         {{/if}}
       </div>
+      {{#if (eq this.uuid ../rollHeroUuid)}}
+      <div class="dsp-mt-roll-form">
+        <div class="dsp-mt-roll-form-row">
+          <label class="dsp-mt-roll-label">{{localize "DRAW_STEEL_PLUS.MontageTest.characteristic"}}</label>
+          <select class="dsp-mt-roll-select" data-field="characteristic">
+            {{#each ../characteristics}}
+            <option value="{{this.key}}" {{#if this.selected}}selected{{/if}}>{{this.label}}</option>
+            {{/each}}
+          </select>
+        </div>
+        <div class="dsp-mt-roll-form-row">
+          <label class="dsp-mt-roll-label">{{localize "DRAW_STEEL_PLUS.MontageTest.skill"}}</label>
+          <select class="dsp-mt-roll-select" data-field="skill">
+            <option value="">{{localize "DRAW_STEEL_PLUS.MontageTest.noSkill"}}</option>
+            {{#each ../skillGroups}}
+            <optgroup label="{{this.label}}">
+              {{#each this.skills}}
+              <option value="{{this.key}}" {{#if this.selected}}selected{{/if}}>{{this.label}}</option>
+              {{/each}}
+            </optgroup>
+            {{/each}}
+          </select>
+        </div>
+        <div class="dsp-mt-roll-form-row">
+          <label class="dsp-mt-roll-label">{{localize "DRAW_STEEL_PLUS.MontageTest.testDifficulty"}}</label>
+          <select class="dsp-mt-roll-select" data-field="testDifficulty">
+            {{#each ../testDifficulties}}
+            <option value="{{this.key}}" {{#if this.selected}}selected{{/if}}>{{this.label}}</option>
+            {{/each}}
+          </select>
+        </div>
+        <div class="dsp-mt-roll-form-row dsp-mt-roll-modifiers">
+          <span class="dsp-mt-roll-mod-group">
+            <span class="dsp-mt-roll-mod-label">{{localize "DRAW_STEEL_PLUS.MontageTest.edges"}}</span>
+            <button class="dsp-mt-mod-btn" type="button" data-action="decrementRollEdges"><i class="fa-solid fa-minus" inert></i></button>
+            <span class="dsp-mt-mod-value">{{../rollEdges}}</span>
+            <button class="dsp-mt-mod-btn" type="button" data-action="incrementRollEdges"><i class="fa-solid fa-plus" inert></i></button>
+          </span>
+          <span class="dsp-mt-roll-mod-group">
+            <span class="dsp-mt-roll-mod-label">{{localize "DRAW_STEEL_PLUS.MontageTest.banes"}}</span>
+            <button class="dsp-mt-mod-btn" type="button" data-action="decrementRollBanes"><i class="fa-solid fa-minus" inert></i></button>
+            <span class="dsp-mt-mod-value">{{../rollBanes}}</span>
+            <button class="dsp-mt-mod-btn" type="button" data-action="incrementRollBanes"><i class="fa-solid fa-plus" inert></i></button>
+          </span>
+        </div>
+        {{#if ../rollSkill}}
+        {{#each this.usedSkills}}
+        {{#if (eq this ../../rollSkill)}}
+        <div class="dsp-mt-skill-warning">
+          <i class="fa-solid fa-triangle-exclamation" inert></i>
+          {{localize "DRAW_STEEL_PLUS.MontageTest.skillReused"}}
+        </div>
+        {{/if}}
+        {{/each}}
+        {{/if}}
+        <button class="dsp-mt-execute-roll-btn" type="button" data-action="executeRoll">
+          <i class="fa-solid fa-dice-d20" inert></i> {{localize "DRAW_STEEL_PLUS.MontageTest.roll"}}
+        </button>
+      </div>
+      {{/if}}
       {{/each}}
     </div>
     {{/if}}

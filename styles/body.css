@@ -421,6 +421,42 @@
   flex-shrink: 0;
 }
 
+.draw-steel-plus.sheet [data-application-part="favorites"] .item-list-container .item-cost,
+.draw-steel-plus.sheet [data-application-part="favorites"] .item-list-container .item-distance,
+.draw-steel-plus.sheet [data-application-part="favorites"] .item-list-container .item-target {
+  width: calc(100px * var(--dsp-scale, 1));
+}
+
+.draw-steel-plus.sheet [data-application-part="favorites"] .item-list-container .item-order {
+  width: calc(50px * var(--dsp-scale, 1));
+}
+
+.draw-steel-plus.sheet [data-application-part="favorites"] .feature-list-container .item-type,
+.draw-steel-plus.sheet [data-application-part="favorites"] .feature-list-container .item-subtype {
+  width: calc(100px * var(--dsp-scale, 1));
+}
+
+.draw-steel-plus.sheet [data-application-part="favorites"] .kit-list-container .item-melee-bonus,
+.draw-steel-plus.sheet [data-application-part="favorites"] .kit-list-container .item-ranged-bonus {
+  width: calc(150px * var(--dsp-scale, 1));
+}
+
+.draw-steel-plus.sheet [data-application-part="favorites"] .treasure-list-container .item-echelon {
+  width: calc(100px * var(--dsp-scale, 1));
+}
+
+.draw-steel-plus.sheet [data-application-part="favorites"] .treasure-list-container .item-quantity {
+  width: calc(75px * var(--dsp-scale, 1));
+}
+
+.draw-steel-plus.sheet [data-application-part="favorites"] .project-list-container .item-type {
+  width: calc(75px * var(--dsp-scale, 1));
+}
+
+.draw-steel-plus.sheet [data-application-part="favorites"] .project-list-container .item-points {
+  width: calc(100px * var(--dsp-scale, 1));
+}
+
 .draw-steel-plus.sheet .quantity-controls {
   display: flex;
   align-items: center;

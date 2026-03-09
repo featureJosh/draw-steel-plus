@@ -19,8 +19,8 @@
       {{#if (eq @key "villain")}}
       <div class="item-column item-order">{{localize "DRAW_STEEL.Item.ability.Order"}}</div>
       {{/if}}
-      <div class="item-column item-distance">{{abilityFields.distance.label}}</div>
-      <div class="item-column item-target">{{abilityFields.target.label}}</div>
+      <div class="item-column item-distance">{{@root.abilityFields.distance.label}}</div>
+      <div class="item-column item-target">{{@root.abilityFields.target.label}}</div>
       <div class="item-column item-controls"></div>
     </div>
     <ol class="item-list abilities-list">
@@ -184,8 +184,8 @@
   <section class="item-list-container treasure-list-container">
     <div class="item-header">
       <div class="item-column item-name">{{treasureType.label}}</div>
-      <div class="item-column item-echelon">{{treasureFields.echelon.label}}</div>
-      <div class="item-column item-quantity">{{treasureFields.quantity.label}}</div>
+      <div class="item-column item-echelon">{{@root.treasureFields.echelon.label}}</div>
+      <div class="item-column item-quantity">{{@root.treasureFields.quantity.label}}</div>
       <div class="item-column item-controls"></div>
     </div>
     <ol class="item-list treasure-list">

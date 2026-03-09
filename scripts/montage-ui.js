@@ -150,6 +150,8 @@ export class MontageUI extends DspFloatingUI {
       canGoBack: state.currentRound > 1,
     };
 
+    const ownedActorUuids = new Set(game.actors.filter(a => a.isOwner).map(a => a.uuid));
+
     const heroEntries = await Promise.all(state.heroes.map(async (h) => {
       let actor = null;
       try { actor = await fromUuid(h.uuid); } catch (e) {}
@@ -159,6 +161,7 @@ export class MontageUI extends DspFloatingUI {
         img: h.img || actor?.img || "icons/svg/mystery-man.svg",
         actedThisRound: h.actedThisRound,
         usedSkills: h.usedSkills || [],
+        canRoll: !isGM && ownedActorUuids.has(h.uuid),
       };
     }));
 
@@ -261,6 +264,40 @@ export class MontageUI extends DspFloatingUI {
   _onRender(context, options) {
     super._onRender(context, options);
 
+    const charSelect = this.element.querySelector(".dsp-mt-roll-select[data-field='characteristic']");
+    if (charSelect) {
+      charSelect.addEventListener("change", (e) => {
+        this._rollCharacteristic = e.target.value;
+      });
+    }
+
+    const diffSelect = this.element.querySelector(".dsp-mt-roll-select[data-field='testDifficulty']");
+    if (diffSelect) {
+      diffSelect.addEventListener("change", (e) => {
+        this._rollDifficulty = e.target.value;
+      });
+    }
+
+    const skillSelect = this.element.querySelector(".dsp-mt-roll-select[data-field='skill']");
+    if (skillSelect) {
+      skillSelect.addEventListener("change", (e) => {
+        this._rollSkill = e.target.value;
+        this.render();
+      });
+    }
+
+    if (this._boundEscapeKey) {
+      document.removeEventListener("keydown", this._boundEscapeKey);
+    }
+    this._boundEscapeKey = (e) => {
+      if (e.key !== "Escape" || (!this._openPopup && !this._rollHeroUuid)) return;
+      e.stopPropagation();
+      this._openPopup = null;
+      this._rollHeroUuid = null;
+      this.render();
+    };
+    document.addEventListener("keydown", this._boundEscapeKey);
+
     if (!game.user.isGM) return;
 
     const titleInput = this.element.querySelector(".dsp-mt-title-input");
@@ -282,28 +319,6 @@ export class MontageUI extends DspFloatingUI {
           updates.failureLimit = adj.failure;
         }
         await setState(updates);
-      });
-    }
-
-    const charSelect = this.element.querySelector(".dsp-mt-roll-select[data-field='characteristic']");
-    if (charSelect) {
-      charSelect.addEventListener("change", (e) => {
-        this._rollCharacteristic = e.target.value;
-      });
-    }
-
-    const diffSelect = this.element.querySelector(".dsp-mt-roll-select[data-field='testDifficulty']");
-    if (diffSelect) {
-      diffSelect.addEventListener("change", (e) => {
-        this._rollDifficulty = e.target.value;
-      });
-    }
-
-    const skillSelect = this.element.querySelector(".dsp-mt-roll-select[data-field='skill']");
-    if (skillSelect) {
-      skillSelect.addEventListener("change", (e) => {
-        this._rollSkill = e.target.value;
-        this.render();
       });
     }
 
@@ -336,18 +351,6 @@ export class MontageUI extends DspFloatingUI {
         await setStateReplace({ ...state, heroes });
       });
     }
-
-    if (this._boundEscapeKey) {
-      document.removeEventListener("keydown", this._boundEscapeKey);
-    }
-    this._boundEscapeKey = (e) => {
-      if (e.key !== "Escape" || !this._openPopup) return;
-      e.stopPropagation();
-      this._openPopup = null;
-      this._rollHeroUuid = null;
-      this.render();
-    };
-    document.addEventListener("keydown", this._boundEscapeKey);
   }
 
   static async #onToggleSliderVisibility(event, target) {
@@ -511,25 +514,36 @@ export class MontageUI extends DspFloatingUI {
     const successThreshold = { easy: 1, medium: 2, hard: 3 }[difficulty] ?? 2;
     const isSuccess = tier >= successThreshold;
 
-    const state = getState();
-    const heroes = state.heroes.map((h) => {
-      if (h.uuid !== uuid) return h;
-      const usedSkills = [...(h.usedSkills || [])];
-      if (actualSkill && !usedSkills.includes(actualSkill)) usedSkills.push(actualSkill);
-      return { ...h, actedThisRound: true, usedSkills };
-    });
-
-    const updates = { heroes };
-    if (isSuccess) {
-      updates.successes = state.successes + 1;
-    } else {
-      updates.failures = state.failures + 1;
-    }
-
     this._rollHeroUuid = null;
     this._rollSkill = "";
-    this._openPopup = "heroes";
-    await setStateReplace({ ...state, ...updates });
+
+    if (game.user.isGM) {
+      const state = getState();
+      const heroes = state.heroes.map((h) => {
+        if (h.uuid !== uuid) return h;
+        const usedSkills = [...(h.usedSkills || [])];
+        if (actualSkill && !usedSkills.includes(actualSkill)) usedSkills.push(actualSkill);
+        return { ...h, actedThisRound: true, usedSkills };
+      });
+
+      const updates = { heroes };
+      if (isSuccess) {
+        updates.successes = state.successes + 1;
+      } else {
+        updates.failures = state.failures + 1;
+      }
+
+      this._openPopup = "heroes";
+      await setStateReplace({ ...state, ...updates });
+    } else {
+      game.socket.emit(SOCKET_EVENT, {
+        type: "montageRollResult",
+        uuid,
+        isSuccess,
+        skill: actualSkill,
+      });
+      this.render();
+    }
   }
 
   static async #onAwardVictories() {
@@ -574,12 +588,26 @@ export class MontageUI extends DspFloatingUI {
 }
 
 function setupMontageSocket() {
-  game.socket.on(SOCKET_EVENT, (data) => {
+  game.socket.on(SOCKET_EVENT, async (data) => {
     if (data.type === "montageVisibility") {
       MontageUI.syncVisibility(data.visible);
     }
     if (data.type === "montageUpdate") {
       if (MontageUI.instance?.rendered) MontageUI.instance.render();
+    }
+    if (data.type === "montageRollResult" && game.user.isGM) {
+      const { uuid, isSuccess, skill } = data;
+      const state = getState();
+      const heroes = state.heroes.map((h) => {
+        if (h.uuid !== uuid) return h;
+        const usedSkills = [...(h.usedSkills || [])];
+        if (skill && !usedSkills.includes(skill)) usedSkills.push(skill);
+        return { ...h, actedThisRound: true, usedSkills };
+      });
+      const updates = { heroes };
+      if (isSuccess) updates.successes = state.successes + 1;
+      else updates.failures = state.failures + 1;
+      await setStateReplace({ ...state, ...updates });
     }
   });
 }
