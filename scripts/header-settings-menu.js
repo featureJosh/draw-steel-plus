@@ -68,9 +68,21 @@ export default class HeaderSettingsMenu extends HandlebarsApplicationMixin(Appli
         label: game.i18n.localize("DRAW_STEEL_PLUS.Settings.objectHeaderImage.name"),
         hint: game.i18n.localize("DRAW_STEEL_PLUS.Settings.objectHeaderImage.hint"),
       },
+      retainerEnabled: {
+        field: new foundry.data.fields.BooleanField(),
+        value: game.settings.get(MODULE_ID, "retainerHeaderEnabled"),
+        label: game.i18n.localize("DRAW_STEEL_PLUS.Settings.retainerHeaderEnabled.name"),
+        hint: game.i18n.localize("DRAW_STEEL_PLUS.Settings.retainerHeaderEnabled.hint"),
+      },
+      retainerImage: {
+        value: game.settings.get(MODULE_ID, "retainerHeaderImage"),
+        label: game.i18n.localize("DRAW_STEEL_PLUS.Settings.retainerHeaderImage.name"),
+        hint: game.i18n.localize("DRAW_STEEL_PLUS.Settings.retainerHeaderImage.hint"),
+      },
       heroSection: game.i18n.localize("DRAW_STEEL_PLUS.Settings.menus.headers.heroSection"),
       npcSection: game.i18n.localize("DRAW_STEEL_PLUS.Settings.menus.headers.npcSection"),
       objectSection: game.i18n.localize("DRAW_STEEL_PLUS.Settings.menus.headers.objectSection"),
+      retainerSection: game.i18n.localize("DRAW_STEEL_PLUS.Settings.menus.headers.retainerSection"),
       buttons: [
         { type: "button", action: "resetDefaults", icon: "fas fa-arrow-rotate-left", label: "DRAW_STEEL_PLUS.Settings.resetDefaults" },
         { type: "submit", icon: "fas fa-save", label: "DRAW_STEEL_PLUS.Settings.saveChanges" },
@@ -100,6 +112,8 @@ export default class HeaderSettingsMenu extends HandlebarsApplicationMixin(Appli
       game.settings.set(MODULE_ID, "npcHeaderImage", data.npcHeaderImage ?? HEADER_DEFAULTS.npcHeaderImage),
       game.settings.set(MODULE_ID, "objectHeaderEnabled", data.objectHeaderEnabled ?? HEADER_DEFAULTS.objectHeaderEnabled),
       game.settings.set(MODULE_ID, "objectHeaderImage", data.objectHeaderImage ?? HEADER_DEFAULTS.objectHeaderImage),
+      game.settings.set(MODULE_ID, "retainerHeaderEnabled", data.retainerHeaderEnabled ?? HEADER_DEFAULTS.retainerHeaderEnabled),
+      game.settings.set(MODULE_ID, "retainerHeaderImage", data.retainerHeaderImage ?? HEADER_DEFAULTS.retainerHeaderImage),
     ]);
   }
 
@@ -111,6 +125,8 @@ export default class HeaderSettingsMenu extends HandlebarsApplicationMixin(Appli
       game.settings.set(MODULE_ID, "npcHeaderImage", HEADER_DEFAULTS.npcHeaderImage),
       game.settings.set(MODULE_ID, "objectHeaderEnabled", HEADER_DEFAULTS.objectHeaderEnabled),
       game.settings.set(MODULE_ID, "objectHeaderImage", HEADER_DEFAULTS.objectHeaderImage),
+      game.settings.set(MODULE_ID, "retainerHeaderEnabled", HEADER_DEFAULTS.retainerHeaderEnabled),
+      game.settings.set(MODULE_ID, "retainerHeaderImage", HEADER_DEFAULTS.retainerHeaderImage),
     ]);
     this.render();
   }

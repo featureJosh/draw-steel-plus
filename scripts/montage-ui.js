@@ -202,7 +202,7 @@ export class MontageUI extends DspFloatingUI {
       if (rollHeroEntry) {
         try {
           const rollActor = await fromUuid(this._rollHeroUuid);
-          heroSkills = rollActor?.system?.hero?.skills ?? null;
+          heroSkills = rollActor?.system?.skills?.value ?? null;
         } catch (e) {}
       }
       for (const [groupKey, groupData] of Object.entries(dsSkills.groups)) {

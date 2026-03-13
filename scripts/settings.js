@@ -152,6 +152,27 @@ export function registerSettings() {
     requiresReload: false,
   });
 
+  game.settings.register(MODULE_ID, "retainerHeaderEnabled", {
+    name: "DRAW_STEEL_PLUS.Settings.retainerHeaderEnabled.name",
+    hint: "DRAW_STEEL_PLUS.Settings.retainerHeaderEnabled.hint",
+    scope: "world",
+    config: false,
+    type: Boolean,
+    default: HEADER_DEFAULTS.retainerHeaderEnabled,
+    requiresReload: false,
+  });
+
+  game.settings.register(MODULE_ID, "retainerHeaderImage", {
+    name: "DRAW_STEEL_PLUS.Settings.retainerHeaderImage.name",
+    hint: "DRAW_STEEL_PLUS.Settings.retainerHeaderImage.hint",
+    scope: "world",
+    config: false,
+    type: String,
+    default: HEADER_DEFAULTS.retainerHeaderImage,
+    filePicker: "image",
+    requiresReload: false,
+  });
+
   game.settings.register(MODULE_ID, "parallaxHeaderArt", {
     name: "DRAW_STEEL_PLUS.Settings.parallaxHeaderArt.name",
     hint: "DRAW_STEEL_PLUS.Settings.parallaxHeaderArt.hint",

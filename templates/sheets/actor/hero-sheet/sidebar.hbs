@@ -161,7 +161,7 @@
 
     <section class="sidebar-section">
       <div class="sidebar-tag-header">
-        <i class="fa-solid fa-list-check"></i> {{systemFields.hero.fields.skills.label}}
+        <i class="fa-solid fa-list-check"></i> {{systemFields.skills.fields.value.label}}
         {{#if unfilledSkill}}
         <button type="button" class="icon fa-solid fa-clipboard-question" data-tooltip-text="{{localize "DRAW_STEEL.ADVANCEMENT.FillTrait.button" type=(localize "TYPES.Advancement.skill")}}" data-tooltip-direction="UP" data-action="fillTrait" data-type="skill"></button>
         {{/if}}
@@ -172,7 +172,7 @@
       </div>
       {{else}}
       <div class="sidebar-skills-edit">
-        {{formInput systemFields.hero.fields.skills value=systemSource.hero.skills options=skills.options dataset=datasets.isSource}}
+        {{formInput systemFields.skills.fields.value value=systemSource.skills.value options=skills.options dataset=datasets.isSource}}
       </div>
       {{/if}}
     </section>

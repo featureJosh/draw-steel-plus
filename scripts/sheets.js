@@ -168,6 +168,8 @@ export function registerSheets(SHEET_SIZES) {
   _registerHeroSheet(sheets, SHEET_SIZES);
   _registerNPCSheet(sheets, SHEET_SIZES);
   _registerObjectSheet(sheets, SHEET_SIZES);
+  _registerRetainerSheet(sheets, SHEET_SIZES);
+  _registerPartySheet(sheets, SHEET_SIZES);
   _registerItemSheet(sheets, SHEET_SIZES);
 
   console.log(`${MODULE_ID} | Sheet registration complete`);
@@ -284,6 +286,9 @@ function _registerHeroSheet(sheets, SHEET_SIZES) {
       } else if (partId === "projects") {
         context.projects?.forEach(markFavorited);
         this._partContextCache.projects = context.projects;
+      } else if (partId === "sidebar") {
+        context.unfilledSkill = !!this.actor.system._unfilledTraits?.skill?.size;
+        context.skills = this._getSkills();
       } else if (partId === "favorites") {
         const cache = this._partContextCache;
         const [abilities, features, complications, kits, treasure, projects] = await Promise.all([
@@ -589,6 +594,117 @@ function _registerObjectSheet(sheets, SHEET_SIZES) {
   });
 
   console.log(`${MODULE_ID} | Registered DS+ Object Sheet`);
+}
+
+function _registerRetainerSheet(sheets, SHEET_SIZES) {
+  if (!sheets.DrawSteelRetainerSheet) return;
+
+  const DrawSteelPlusRetainerSheet = class extends sheets.DrawSteelRetainerSheet {
+    static DEFAULT_OPTIONS = {
+      ...super.DEFAULT_OPTIONS,
+      classes: [...super.DEFAULT_OPTIONS.classes, "draw-steel-plus", "dsp-retainer"],
+      position: {
+        ...super.DEFAULT_OPTIONS.position,
+        width: SHEET_SIZES.retainer.width,
+        height: SHEET_SIZES.retainer.height,
+      },
+      actions: {
+        ...super.DEFAULT_OPTIONS.actions,
+        toggleDocumentDescription,
+        documentListShare,
+      },
+    };
+
+    static PARTS = {
+      ...super.PARTS,
+      abilities: {
+        ...(super.PARTS?.abilities || {}),
+        template: `${MODULE_PATH}/templates/sheets/actor/shared/abilities.hbs`,
+      },
+      effects: {
+        ...(super.PARTS?.effects || {}),
+        template: `${MODULE_PATH}/templates/sheets/actor/shared/effects.hbs`,
+      },
+    };
+
+    get title() {
+      return `${this.document.name} [DS+]`;
+    }
+
+    _getHeaderControls() {
+      return deduplicateHeaderControls(super._getHeaderControls());
+    }
+
+    _onFirstRender(context, options) {
+      super._onFirstRender(context, options);
+      const scale = getFontScale();
+      if (scale !== 1) this.setPosition({ width: Math.round(SHEET_SIZES.retainer.width * scale), height: Math.round(SHEET_SIZES.retainer.height * scale) });
+    }
+
+    _onRender(context, options) {
+      super._onRender(context, options);
+      applyMinSize(this.element, SHEET_SIZES.retainer);
+      setupScrollbarAutoHide(this.element);
+      applyHeaderArt(this.element, "retainer");
+      applyParallaxHeader(this.element);
+      setupItemListCollapse(this.element);
+      applyFloatingTabs(this);
+      applyTooltipPrevent(this.element);
+    }
+  };
+
+  foundry.documents.collections.Actors.registerSheet(MODULE_ID, DrawSteelPlusRetainerSheet, {
+    types: ["retainer"],
+    makeDefault: true,
+    label: "DS+ Retainer Sheet",
+  });
+
+  console.log(`${MODULE_ID} | Registered DS+ Retainer Sheet`);
+}
+
+function _registerPartySheet(sheets, SHEET_SIZES) {
+  if (!sheets.DrawSteelPartySheet) return;
+
+  const DrawSteelPlusPartySheet = class extends sheets.DrawSteelPartySheet {
+    static DEFAULT_OPTIONS = {
+      ...super.DEFAULT_OPTIONS,
+      classes: [...super.DEFAULT_OPTIONS.classes, "draw-steel-plus", "dsp-party"],
+      position: {
+        ...super.DEFAULT_OPTIONS.position,
+        width: SHEET_SIZES.party.width,
+        height: SHEET_SIZES.party.height,
+      },
+    };
+
+    get title() {
+      return `${this.document.name} [DS+]`;
+    }
+
+    _getHeaderControls() {
+      return deduplicateHeaderControls(super._getHeaderControls());
+    }
+
+    _onFirstRender(context, options) {
+      super._onFirstRender(context, options);
+      const scale = getFontScale();
+      if (scale !== 1) this.setPosition({ width: Math.round(SHEET_SIZES.party.width * scale), height: Math.round(SHEET_SIZES.party.height * scale) });
+    }
+
+    _onRender(context, options) {
+      super._onRender(context, options);
+      applyMinSize(this.element, SHEET_SIZES.party);
+      setupScrollbarAutoHide(this.element);
+      applyFloatingTabs(this);
+    }
+  };
+
+  foundry.documents.collections.Actors.registerSheet(MODULE_ID, DrawSteelPlusPartySheet, {
+    types: ["party"],
+    makeDefault: true,
+    label: "DS+ Party Sheet",
+  });
+
+  console.log(`${MODULE_ID} | Registered DS+ Party Sheet`);
 }
 
 function _registerItemSheet(sheets, SHEET_SIZES) {
