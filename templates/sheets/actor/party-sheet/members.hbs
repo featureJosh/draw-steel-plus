@@ -1,0 +1,42 @@
+<section data-tab="{{tabs.members.id}}" data-group="{{tabs.members.group}}" class="{{tabs.members.cssClass}}">
+  <div class="contents">
+    {{#each members}}
+    <section class="dsp-member" data-member-id="{{actor.id}}">
+      <div class="member-portrait">
+        <img class="member-avatar" src="{{actor.img}}" alt="{{actor.name}}">
+      </div>
+
+      <div class="member-info">
+        <span class="member-name">{{actor.name}}</span>
+
+        <div class="member-resources">
+          <div class="member-resource stamina-resource">
+            <i class="fa-solid fa-heart"></i>
+            <div class="member-resource-bar" style="--res-current: {{stamina.value}}; --res-max: {{stamina.max}};">
+              <div class="member-resource-fill"></div>
+            </div>
+            <span class="member-resource-text">{{stamina.value}} / {{stamina.max}}</span>
+          </div>
+          <div class="member-resource recovery-resource">
+            <i class="fa-solid fa-heart-pulse"></i>
+            <span class="member-resource-text">{{recoveries.value}} / {{recoveries.max}}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="member-controls">
+        {{#if @root.isPlay}}
+        <a class="member-control" data-action="removeMember" data-tooltip="DRAW_STEEL.Actor.party.removeMember">
+          <i class="fa-solid fa-fw fa-trash"></i>
+        </a>
+        {{/if}}
+        {{#if (and (not @root.isPlay) canView)}}
+        <a class="member-control" data-action="showMember" data-tooltip="DRAW_STEEL.Actor.party.showMember">
+          <i class="fa-solid fa-fw fa-magnifying-glass"></i>
+        </a>
+        {{/if}}
+      </div>
+    </section>
+    {{/each}}
+  </div>
+</section>

@@ -1,0 +1,96 @@
+<header class="sheet-header">
+
+  <img class="header-bg-art" src="modules/draw-steel-plus/assets/sketch-images/s3.jpg" aria-hidden="true">
+  <div class="header-bg-overlay"></div>
+
+  <div class="header-portrait">
+    <div class="portrait-frame">
+      <img
+        class="profile-img"
+        src="{{document.img}}"
+        alt="{{document.name}}"
+        data-action="{{ifThen isPlay "showPortraitArtwork" "editImage"}}"
+        data-edit="img"
+        title="{{document.name}}"
+      >
+    </div>
+
+    {{#if isPlay}}
+    <div class="header-vitals">
+      <div class="stamina-bar" style="--stam-current: {{system.stamina.value}}; --stam-max: {{system.stamina.max}}; --stam-temp: {{system.stamina.temporary}};">
+        <div class="stam-fill"></div>
+        {{#if system.stamina.temporary}}
+        <div class="stam-temp"></div>
+        {{/if}}
+        <span class="stam-display">
+          {{system.stamina.value}}{{#if system.stamina.temporary}} <span class="stam-temp-text">(+{{system.stamina.temporary}})</span>{{/if}} / {{system.stamina.max}}
+        </span>
+      </div>
+
+      <div class="vitals-row">
+        <div class="vital-box rec-box" data-tooltip="DRAW_STEEL.Actor.base.SpendRecovery.tooltip">
+          <i class="fa-solid fa-heart-pulse"></i>
+          <span class="vital-nums">{{system.recoveries.value}}<span class="vital-sep">/</span>{{system.recoveries.max}}</span>
+        </div>
+      </div>
+    </div>
+    {{/if}}
+  </div>
+
+  <div class="header-body">
+    <div class="identity-block">
+      <div class="name-row">
+        {{#if isPlay}}
+        <h1 class="char-name">{{document.name}}</h1>
+        {{else}}
+        {{formInput fields.name value=source.name placeholder=(localize "Name") class="char-name-input"}}
+        {{/if}}
+      </div>
+
+      {{#if system.source.label}}
+      <div class="npc-attribution">{{system.source.label}}</div>
+      {{/if}}
+
+      <div class="origins-row">
+        {{#each retainerKeywords as |keyword|}}
+        <div class="tag">{{keyword}}</div>
+        {{/each}}
+        {{#if system.retainer.roleLabel}}
+        <div class="tag">{{system.retainer.roleLabel}}</div>
+        {{/if}}
+        {{#unless isPlay}}
+        <div class="tag">
+          <a data-action="editRetainerMetadata" class="filled">
+            <i class="fa-solid fa-gear"></i>
+          </a>
+        </div>
+        {{/unless}}
+      </div>
+
+      {{#if mentorLink}}
+      <div class="retainer-mentor">
+        <span class="mentor-label">{{systemFields.retainer.fields.mentor.label}}:</span>
+        {{{mentorLink.outerHTML}}}
+      </div>
+      {{/if}}
+    </div>
+
+    <div class="stats-block"></div>
+
+    <div class="header-characteristics">
+      {{#each system.characteristics as |chr key|}}
+      <a
+        class="char-badge {{disabled (not @root.owner)}}"
+        data-action="roll"
+        data-roll-type="characteristic"
+        data-characteristic="{{key}}"
+        {{disabled (not @root.isPlay)}}
+      >
+        <span class="char-label">{{key}}</span>
+        <span class="char-value">{{numberFormat chr.value sign=true}}</span>
+      </a>
+      {{/each}}
+    </div>
+  </div>
+
+</header>

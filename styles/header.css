@@ -36,7 +36,7 @@
   object-fit: cover;
   object-position: right 20%;
   opacity: 0.55;
-  filter: saturate(0.5) brightness(0.8);
+  filter: saturate(0.5) brightness(0.55);
   pointer-events: none;
   z-index: 0;
   margin: 0;
@@ -349,6 +349,7 @@ inset 0 1px 0 rgba(255, 255, 255, 0.12);
   grid-column: 2;
   grid-row: 1;
 }
+
 
 .draw-steel-plus.sheet .sheet-header .header-body .header-characteristics {
   grid-column: 1 / -1;
@@ -852,3 +853,85 @@ inset 0 1px 0 rgba(255, 255, 255, 0.12);
   outline: none;
   box-shadow: 0 1px 8px var(--dsp-accent-dim);
 }
+
+/* ── Object sheet: header-right layout ─────────────────────────────────── */
+
+.draw-steel-plus.sheet .sheet-header .header-right {
+  display: flex;
+  flex-direction: column;
+  z-index: 1;
+  min-width: 0;
+  gap: calc(8px * var(--dsp-scale, 1));
+  justify-content: center;
+}
+
+.draw-steel-plus.sheet .sheet-header .header-right .name-row {
+  display: flex;
+  align-items: center;
+}
+
+.draw-steel-plus.sheet .sheet-header .header-right .name-row .char-name {
+  font-family: var(--dsp-heading-font);
+  font-size: calc(2.2rem * var(--dsp-scale, 1));
+  font-weight: 800;
+  color: var(--dsp-text);
+  text-shadow: 0 2px 12px light-dark(rgba(0,0,0,0.5), rgba(0,0,0,0.7)), 0 0 40px light-dark(rgba(184,84,84,0.15), rgba(122,27,27,0.15));
+  margin: 0;
+  padding: 0;
+  line-height: 1.1;
+  letter-spacing: 0.04em;
+  border: none;
+  text-transform: uppercase;
+  background: none;
+  white-space: nowrap;
+}
+
+.draw-steel-plus.sheet .sheet-header .header-right .name-row input.char-name-input,
+.draw-steel-plus.sheet .sheet-header .header-right .name-row .char-name-input input {
+  font-family: var(--dsp-heading-font);
+  font-size: var(--dsp-font-size-8xl);
+  font-weight: 800;
+  color: var(--dsp-text);
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid var(--dsp-border);
+  border-radius: 0;
+  padding: calc(4px * var(--dsp-scale, 1)) calc(6px * var(--dsp-scale, 1));
+  margin: 0;
+  line-height: 1.1;
+  letter-spacing: 0.04em;
+  width: 100%;
+  text-transform: uppercase;
+  transition: border-color var(--dsp-transition), box-shadow var(--dsp-transition);
+  box-shadow: none;
+  outline: none;
+}
+
+.draw-steel-plus.sheet .sheet-header .header-right .name-row input.char-name-input:focus,
+.draw-steel-plus.sheet .sheet-header .header-right .name-row .char-name-input input:focus {
+  border-bottom-color: var(--dsp-accent);
+  outline: none;
+  box-shadow: 0 2px 14px var(--dsp-accent-dim);
+}
+
+.draw-steel-plus.sheet .sheet-header .header-right-lower {
+  display: flex;
+  align-items: flex-start;
+  gap: calc(12px * var(--dsp-scale, 1));
+}
+
+.draw-steel-plus.sheet .sheet-header .header-right-lower .header-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.draw-steel-plus.sheet .sheet-header .header-resources {
+  display: flex;
+  flex-direction: column;
+  gap: calc(10px * var(--dsp-scale, 1));
+  z-index: 1;
+  min-width: calc(160px * var(--dsp-scale, 1));
+  justify-content: center;
+  flex-shrink: 0;
+}
+

@@ -555,6 +555,10 @@ function _registerObjectSheet(sheets, SHEET_SIZES) {
         template: `${MODULE_PATH}/templates/sheets/actor/object-sheet/features.hbs`,
         templates: [`${MODULE_PATH}/templates/sheets/actor/shared/partials/features/features.hbs`],
       },
+      stats: {
+        ...(super.PARTS?.stats || {}),
+        template: `${MODULE_PATH}/templates/sheets/actor/object-sheet/stats.hbs`,
+      },
       abilities: {
         ...(super.PARTS?.abilities || {}),
         template: `${MODULE_PATH}/templates/sheets/actor/shared/abilities.hbs`,
@@ -617,6 +621,22 @@ function _registerRetainerSheet(sheets, SHEET_SIZES) {
 
     static PARTS = {
       ...super.PARTS,
+      header: {
+        ...(super.PARTS?.header || {}),
+        template: `${MODULE_PATH}/templates/sheets/actor/retainer-sheet/header.hbs`,
+      },
+      sidebar: {
+        template: `${MODULE_PATH}/templates/sheets/actor/retainer-sheet/sidebar.hbs`,
+      },
+      features: {
+        ...(super.PARTS?.features || {}),
+        template: `${MODULE_PATH}/templates/sheets/actor/retainer-sheet/features.hbs`,
+        templates: [`${MODULE_PATH}/templates/sheets/actor/shared/partials/features/features.hbs`],
+      },
+      biography: {
+        ...(super.PARTS?.biography || {}),
+        template: `${MODULE_PATH}/templates/sheets/actor/retainer-sheet/biography.hbs`,
+      },
       abilities: {
         ...(super.PARTS?.abilities || {}),
         template: `${MODULE_PATH}/templates/sheets/actor/shared/abilities.hbs`,
@@ -624,6 +644,15 @@ function _registerRetainerSheet(sheets, SHEET_SIZES) {
       effects: {
         ...(super.PARTS?.effects || {}),
         template: `${MODULE_PATH}/templates/sheets/actor/shared/effects.hbs`,
+      },
+    };
+
+    static TABS = {
+      ...super.TABS,
+      primary: {
+        ...super.TABS?.primary,
+        tabs: (super.TABS?.primary?.tabs || []).filter(t => t.id !== "stats"),
+        initial: "features",
       },
     };
 
@@ -647,7 +676,7 @@ function _registerRetainerSheet(sheets, SHEET_SIZES) {
       setupScrollbarAutoHide(this.element);
       applyHeaderArt(this.element, "retainer");
       applyParallaxHeader(this.element);
-      setupItemListCollapse(this.element);
+      applyCommonRender(this.element, this.document);
       applyFloatingTabs(this);
       applyTooltipPrevent(this.element);
     }
@@ -673,6 +702,22 @@ function _registerPartySheet(sheets, SHEET_SIZES) {
         ...super.DEFAULT_OPTIONS.position,
         width: SHEET_SIZES.party.width,
         height: SHEET_SIZES.party.height,
+      },
+    };
+
+    static PARTS = {
+      ...super.PARTS,
+      header: {
+        ...(super.PARTS?.header || {}),
+        template: `${MODULE_PATH}/templates/sheets/actor/party-sheet/header.hbs`,
+      },
+      members: {
+        ...(super.PARTS?.members || {}),
+        template: `${MODULE_PATH}/templates/sheets/actor/party-sheet/members.hbs`,
+      },
+      details: {
+        ...(super.PARTS?.details || {}),
+        template: `${MODULE_PATH}/templates/sheets/actor/party-sheet/details.hbs`,
       },
     };
 
