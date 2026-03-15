@@ -627,6 +627,15 @@ inset 0 1px 0 rgba(255, 255, 255, 0.12);
   box-shadow: 0 0 8px var(--dsp-accent-dim);
 }
 
+.draw-steel-plus.sheet .sheet-header .npc-attribution {
+  font-size: var(--dsp-font-size-lg);
+  font-weight: 400;
+  font-style: italic;
+  color: var(--dsp-text-faint);
+  letter-spacing: 0.02em;
+  line-height: 1;
+}
+
 .draw-steel-plus.sheet .sheet-header .origins-row {
   display: flex;
   flex-wrap: wrap;
@@ -930,7 +939,9 @@ inset 0 1px 0 rgba(255, 255, 255, 0.12);
   flex-direction: column;
   gap: calc(10px * var(--dsp-scale, 1));
   z-index: 1;
+  width: calc(200px * var(--dsp-scale, 1));
   min-width: calc(160px * var(--dsp-scale, 1));
+  max-width: calc(220px * var(--dsp-scale, 1));
   justify-content: center;
   flex-shrink: 0;
 }

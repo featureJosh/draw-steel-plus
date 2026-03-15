@@ -31,6 +31,22 @@
     <div class="header-right-lower">
       <div class="header-body">
         <div class="identity-block">
+          <div class="progression-subtitle">
+            {{#if system.level}}
+            <span class="prog-value">{{system.level}}</span>
+            <span class="prog-label">{{systemFields.object.fields.level.label}}</span>
+            {{/if}}
+            {{#if system.ev}}
+            <span class="prog-sep">|</span>
+            <span class="prog-value">{{system.evLabel}}</span>
+            <span class="prog-label">{{localize "DRAW_STEEL.Actor.base.EVLabel.Label"}}</span>
+            {{/if}}
+          </div>
+
+          {{#if system.source.label}}
+          <div class="npc-attribution">{{system.source.label}}</div>
+          {{/if}}
+
           <div class="origins-row">
             {{#if system.object.categoryLabel}}
             <div class="tag">{{system.object.categoryLabel}}</div>
@@ -47,22 +63,7 @@
             {{/unless}}
           </div>
         </div>
-        <div class="stats-block">
-          {{#if system.source.label}}
-          <div class="npc-attribution">{{system.source.label}}</div>
-          {{/if}}
-          <div class="progression-subtitle">
-            {{#if system.level}}
-            <span class="prog-value">{{system.level}}</span>
-            <span class="prog-label">{{systemFields.object.fields.level.label}}</span>
-            {{/if}}
-            {{#if system.ev}}
-            <span class="prog-sep">|</span>
-            <span class="prog-value">{{system.evLabel}}</span>
-            <span class="prog-label">{{localize "DRAW_STEEL.Actor.base.EVLabel.Label"}}</span>
-            {{/if}}
-          </div>
-        </div>
+        <div class="stats-block"></div>
       </div>
 
       <div class="header-resources">

@@ -9,7 +9,7 @@ body:not(.dsp-custom-meta-currency) #dsp-meta-currency {
 .dsp-mc-body {
   display: flex;
   align-items: stretch;
-  gap: 0;
+  gap: 0.25em;
   padding: 1em 1em;
 }
 
@@ -46,11 +46,12 @@ body:not(.dsp-custom-meta-currency) #dsp-meta-currency {
 }
 
 .dsp-mc-label {
-  font-size: var(--dsp-font-size-sm);
+  font-size: var(--dsp-font-size-2xs);
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.1em;
   color: var(--dsp-text-muted);
+  text-align: center;
 }
 
 .dsp-mc-divider {
