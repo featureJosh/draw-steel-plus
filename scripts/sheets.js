@@ -1,3 +1,4 @@
+
 import { MODULE_CONFIG } from "./config.js";
 import { getFontScale } from "./scale-settings.js";
 import {
@@ -624,6 +625,10 @@ function _registerRetainerSheet(sheets, SHEET_SIZES) {
       header: {
         ...(super.PARTS?.header || {}),
         template: `${MODULE_PATH}/templates/sheets/actor/retainer-sheet/header.hbs`,
+      },
+      stats: {
+        ...(super.PARTS?.stats || {}),
+        template: `${MODULE_PATH}/templates/sheets/actor/retainer-sheet/stats.hbs`,
       },
       sidebar: {
         template: `${MODULE_PATH}/templates/sheets/actor/retainer-sheet/sidebar.hbs`,

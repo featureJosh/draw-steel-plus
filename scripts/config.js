@@ -1,3 +1,4 @@
+
 export const SHEET_SIZE_DEFAULTS = {
   hero: {
     width: 880,

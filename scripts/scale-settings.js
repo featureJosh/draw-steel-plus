@@ -28,7 +28,6 @@ export function applyScaleOverrides() {
     styleEl.textContent = css;
   }
 
-  // Resize all currently open DSP sheets to match the new scale
   for (const app of foundry.applications.instances.values()) {
     if (!app.options?.classes?.includes("draw-steel-plus")) continue;
     const baseWidth = app.options?.position?.width;

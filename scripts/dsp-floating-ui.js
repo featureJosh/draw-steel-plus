@@ -1,26 +1,3 @@
-/**
- * New floating UI: extend, set id + PARTS, spread getFloatingState() in _prepareContext.
- * Template: dsp-fui-panel, dsp-fui-body, dsp-fui-toolbar, dsp-fui-drag-handle, dsp-fui-toolbar-btn.
- * Inherited: drag, position (user flags), toggleLock, resetPosition, toggleExpanded.
- *
- * class NewUI extends DspFloatingUI {
- *   static DEFAULT_OPTIONS = {
- *     id: "dsp-new-ui",
- *     classes: ["dsp-new-ui"],
- *   };
- *
- *   static PARTS = {
- *     content: { template: "..." },
- *   };
- *
- *   async _prepareContext() {
- *     return {
- *       ...this.getFloatingState(),
- *       // do stuff
- *     };
- *   }
- * }
- */
 
 import { MODULE_CONFIG } from "./config.js";
 
@@ -106,11 +83,9 @@ export class DspFloatingUI extends HandlebarsApplicationMixin(ApplicationV2) {
     const isCentered = this.#getFlag("centered");
     if (isCentered || !saved) {
       if (!isCentered) this.#setFlag("centered", true);
-      // Use DEFAULT_WIDTH as rough estimate; _onRender will correct with actual width
       options.position = this.constructor.getDefaultPosition();
       this._needsCenteringAdjust = true;
     } else {
-      // Clamp restored position to the current viewport so it can't start off-screen
       options.position = this.constructor.clampPosition(saved);
       this._needsCenteringAdjust = false;
     }
@@ -135,8 +110,6 @@ export class DspFloatingUI extends HandlebarsApplicationMixin(ApplicationV2) {
       dragHandle.addEventListener("mousedown", this._boundDragStart);
     }
 
-    // After first render, recalculate the centered position using the actual element
-    // width — the initial estimate (DEFAULT_WIDTH) is often wrong.
     if (this._needsCenteringAdjust) {
       this._needsCenteringAdjust = false;
       requestAnimationFrame(() => {
@@ -147,7 +120,6 @@ export class DspFloatingUI extends HandlebarsApplicationMixin(ApplicationV2) {
       });
     }
 
-    // Always listen for window resize: re-center if centered, or clamp if manually placed.
     window.removeEventListener("resize", this._boundOnResize);
     window.addEventListener("resize", this._boundOnResize);
   }
@@ -161,10 +133,8 @@ export class DspFloatingUI extends HandlebarsApplicationMixin(ApplicationV2) {
       const isCentered = this.#getFlag("centered") ?? false;
       const width = this.element.offsetWidth || this.constructor.DEFAULT_WIDTH;
       if (isCentered) {
-        // Re-center using updated window dimensions
         this.setPosition(this.constructor.getDefaultPosition(width));
       } else {
-        // Clamp a manually-placed UI so it doesn't end up fully off-screen
         const rect = this.element.getBoundingClientRect();
         const clamped = this.constructor.clampPosition({ left: rect.left, top: rect.top }, width);
         this.setPosition(clamped);
