@@ -200,6 +200,13 @@
       "hintUnpin": "Middle-click to unpin",
       "effect": "Effect"
     },
+    "Search": {
+      "placeholder": "Search items..."
+    },
+    "TabConfig": {
+      "title": "Configure Tabs",
+      "resetDefaults": "Use Defaults"
+    },
     "Favorites": {
       "TabTitle": "Favorites",
       "Empty": "No favorites yet. Star items in other tabs to add them here.",

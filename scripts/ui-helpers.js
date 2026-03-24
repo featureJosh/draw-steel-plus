@@ -275,6 +275,64 @@ export function applyMinSize(element, sizeConfig) {
   if (sizeConfig.minHeight) element.style.minHeight = `${sizeConfig.minHeight}px`;
 }
 
+const _searchState = new WeakMap();
+
+export function setupItemSearch(element) {
+  const inputs = element.querySelectorAll("[data-dsp-search]");
+  inputs.forEach(input => {
+    const tab = input.closest("[data-tab]");
+    if (!tab) return;
+
+    const stateMap = _searchState.get(element) || {};
+    if (stateMap[tab.dataset.tab]) {
+      input.value = stateMap[tab.dataset.tab];
+      _applySearchFilter(tab, stateMap[tab.dataset.tab]);
+    }
+
+    if (input.dataset.dspSearchBound) return;
+    input.dataset.dspSearchBound = "1";
+
+    input.addEventListener("input", (e) => {
+      const query = e.target.value.toLowerCase().trim();
+      const map = _searchState.get(element) || {};
+      map[tab.dataset.tab] = query;
+      _searchState.set(element, map);
+      _applySearchFilter(tab, query);
+    });
+  });
+
+  element.querySelectorAll('[data-action="clearSearch"]').forEach(btn => {
+    if (btn.dataset.dspClearBound) return;
+    btn.dataset.dspClearBound = "1";
+    btn.addEventListener("click", () => {
+      const input = btn.closest(".dsp-search-filter")?.querySelector("[data-dsp-search]");
+      if (input) {
+        input.value = "";
+        input.dispatchEvent(new Event("input"));
+      }
+    });
+  });
+}
+
+function _applySearchFilter(tab, query) {
+  tab.querySelectorAll(".item-list .item").forEach(item => {
+    const name = item.querySelector(".item-name .label")?.textContent?.toLowerCase() || "";
+    const keywords = item.querySelector(".keywords")?.textContent?.toLowerCase() || "";
+    item.classList.toggle("dsp-filtered-out", query && !name.includes(query) && !keywords.includes(query));
+  });
+}
+
+let _renderTimer = null;
+export function debouncedRenderAllSheets(delay = 150) {
+  if (_renderTimer) clearTimeout(_renderTimer);
+  _renderTimer = setTimeout(() => {
+    _renderTimer = null;
+    Object.values(ui.windows)
+      .filter(w => w.element?.classList.contains("draw-steel-plus"))
+      .forEach(w => w.render());
+  }, delay);
+}
+
 export function processSidebarTags(element) {
   element.querySelectorAll('.sidebar-tags[data-tag-type]').forEach((container) => {
     if (container.querySelector('.sidebar-tag, .sidebar-tag-none')) return;

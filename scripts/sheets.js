@@ -1,6 +1,7 @@
 
 import { MODULE_CONFIG } from "./config.js";
 import { getFontScale } from "./scale-settings.js";
+import { TabConfigDialog } from "./tab-config.js";
 import {
   applyItemTooltips,
   setupItemListCollapse,
@@ -12,6 +13,7 @@ import {
   setupScrollbarAutoHide,
   applyMinSize,
   processSidebarTags,
+  setupItemSearch,
 } from "./ui-helpers.js";
 
 const MODULE_ID = MODULE_CONFIG.id;
@@ -48,6 +50,17 @@ async function toggleFavorite(event, target) {
   const item = await fromUuid(li.dataset.documentUuid);
   if (!item) return;
   await item.setFlag("draw-steel-plus", "favorite", !item.getFlag("draw-steel-plus", "favorite"));
+}
+
+function openTabConfig() {
+  const allTabs = {};
+  for (const tab of (this.constructor.TABS?.primary?.tabs || [])) {
+    allTabs[tab.id] = tab;
+  }
+  new TabConfigDialog({
+    document: this.document,
+    sheetTabs: allTabs,
+  }).render({ force: true });
 }
 
 async function documentListShare(event, target) {
@@ -98,6 +111,20 @@ function prepareFavoriteTabs(tabs, element, actor) {
   }
 }
 
+function filterHiddenTabs(tabs, actor) {
+  const visibility = actor.getFlag(MODULE_ID, "tabVisibility") || {};
+  for (const tabId of Object.keys(tabs)) {
+    if (visibility[tabId] === false) delete tabs[tabId];
+  }
+}
+
+function filterHiddenParts(parts, actor) {
+  const visibility = actor.getFlag(MODULE_ID, "tabVisibility") || {};
+  for (const [partId, visible] of Object.entries(visibility)) {
+    if (visible === false && partId !== "header" && partId !== "sidebar") delete parts[partId];
+  }
+}
+
 function deduplicateHeaderControls(controls) {
   const seen = new Set();
   return controls.filter(c => {
@@ -124,6 +151,7 @@ function applyCommonRender(element, actor) {
   setupSidebarCollapse(element);
   setupItemListCollapse(element);
   processSidebarTags(element);
+  setupItemSearch(element);
 }
 
 function applyTooltipPrevent(element) {
@@ -188,11 +216,24 @@ function _registerHeroSheet(sheets, SHEET_SIZES) {
         width: SHEET_SIZES.hero.width,
         height: SHEET_SIZES.hero.height,
       },
+      window: {
+        ...super.DEFAULT_OPTIONS.window,
+        controls: [
+          ...(super.DEFAULT_OPTIONS.window?.controls || []),
+          {
+            action: "configureTabVisibility",
+            icon: "fas fa-file-invoice",
+            label: "DRAW_STEEL_PLUS.TabConfig.title",
+            ownership: "OWNER",
+          },
+        ],
+      },
       actions: {
         ...super.DEFAULT_OPTIONS.actions,
         toggleDocumentDescription,
         toggleFavorite,
         documentListShare,
+        configureTabVisibility: openTabConfig,
       },
     };
 
@@ -202,29 +243,33 @@ function _registerHeroSheet(sheets, SHEET_SIZES) {
         ...(super.PARTS?.header || {}),
         template: `${MODULE_PATH}/templates/sheets/actor/hero-sheet/header.hbs`,
       },
-      stats: {
-        ...(super.PARTS?.stats || {}),
-        template: `${MODULE_PATH}/templates/sheets/actor/hero-sheet/stats.hbs`,
-      },
       sidebar: {
         template: `${MODULE_PATH}/templates/sheets/actor/hero-sheet/sidebar.hbs`,
       },
       features: {
         ...(super.PARTS?.features || {}),
         template: `${MODULE_PATH}/templates/sheets/actor/hero-sheet/features.hbs`,
-        templates: [`${MODULE_PATH}/templates/sheets/actor/shared/partials/features/features.hbs`],
+        templates: [
+          `${MODULE_PATH}/templates/sheets/actor/shared/partials/features/features.hbs`,
+          `${MODULE_PATH}/templates/sheets/actor/shared/partials/search-filter.hbs`,
+        ],
+        scrollable: [""],
       },
       equipment: {
         ...(super.PARTS?.equipment || {}),
         template: `${MODULE_PATH}/templates/sheets/actor/hero-sheet/equipment.hbs`,
+        templates: [`${MODULE_PATH}/templates/sheets/actor/shared/partials/search-filter.hbs`],
+        scrollable: [""],
       },
       projects: {
         ...(super.PARTS?.projects || {}),
         template: `${MODULE_PATH}/templates/sheets/actor/hero-sheet/projects.hbs`,
+        scrollable: [""],
       },
       biography: {
         ...(super.PARTS?.biography || {}),
         template: `${MODULE_PATH}/templates/sheets/actor/hero-sheet/biography.hbs`,
+        scrollable: [""],
       },
       favorites: {
         template: `${MODULE_PATH}/templates/sheets/actor/hero-sheet/favorites.hbs`,
@@ -233,10 +278,13 @@ function _registerHeroSheet(sheets, SHEET_SIZES) {
       abilities: {
         ...(super.PARTS?.abilities || {}),
         template: `${MODULE_PATH}/templates/sheets/actor/shared/abilities.hbs`,
+        templates: [`${MODULE_PATH}/templates/sheets/actor/shared/partials/search-filter.hbs`],
+        scrollable: [""],
       },
       effects: {
         ...(super.PARTS?.effects || {}),
         template: `${MODULE_PATH}/templates/sheets/actor/shared/effects.hbs`,
+        scrollable: [""],
       },
     };
 
@@ -249,10 +297,28 @@ function _registerHeroSheet(sheets, SHEET_SIZES) {
       },
     };
 
+    _configureRenderOptions(options) {
+      super._configureRenderOptions(options);
+      const dataChanges = ["updateActor", "createItem", "updateItem", "deleteItem"];
+      if (options.renderContext && dataChanges.includes(options.renderContext)) {
+        this._cachedContext = null;
+      } else if (this._cachedContext) {
+        options.dspSoft = true;
+      }
+    }
+
+    _configureRenderParts(options) {
+      const parts = super._configureRenderParts(options);
+      delete parts.stats;
+      filterHiddenParts(parts, this.actor);
+      return parts;
+    }
+
     _prepareTabs(group) {
       const tabs = super._prepareTabs(group);
-      if (group === "primary" && tabs.favorites) {
-        prepareFavoriteTabs(tabs, this.element, this.actor);
+      if (group === "primary") {
+        filterHiddenTabs(tabs, this.actor);
+        if (tabs.favorites) prepareFavoriteTabs(tabs, this.element, this.actor);
       }
       return tabs;
     }
@@ -262,12 +328,13 @@ function _registerHeroSheet(sheets, SHEET_SIZES) {
     }
 
     async _prepareContext(options) {
+      if (options.dspSoft && this._cachedContext) return this._cachedContext;
       const context = await super._prepareContext(options);
       context.favoritesEnabled = true;
       this._partContextCache = {};
+      this._cachedContext = context;
       return context;
     }
-
     async _preparePartContext(partId, context, options) {
       await super._preparePartContext(partId, context, options);
 
@@ -385,11 +452,24 @@ function _registerNPCSheet(sheets, SHEET_SIZES) {
         width: SHEET_SIZES.npc.width,
         height: SHEET_SIZES.npc.height,
       },
+      window: {
+        ...super.DEFAULT_OPTIONS.window,
+        controls: [
+          ...(super.DEFAULT_OPTIONS.window?.controls || []),
+          {
+            action: "configureTabVisibility",
+            icon: "fas fa-file-invoice",
+            label: "DRAW_STEEL_PLUS.TabConfig.title",
+            ownership: "OWNER",
+          },
+        ],
+      },
       actions: {
         ...super.DEFAULT_OPTIONS.actions,
         toggleDocumentDescription,
         toggleFavorite,
         documentListShare,
+        configureTabVisibility: openTabConfig,
       },
     };
 
@@ -399,21 +479,23 @@ function _registerNPCSheet(sheets, SHEET_SIZES) {
         ...(super.PARTS?.header || {}),
         template: `${MODULE_PATH}/templates/sheets/actor/npc-sheet/header.hbs`,
       },
-      stats: {
-        ...(super.PARTS?.stats || {}),
-        template: `${MODULE_PATH}/templates/sheets/actor/npc-sheet/stats.hbs`,
-      },
       sidebar: {
         template: `${MODULE_PATH}/templates/sheets/actor/npc-sheet/sidebar.hbs`,
       },
       features: {
         ...(super.PARTS?.features || {}),
         template: `${MODULE_PATH}/templates/sheets/actor/npc/features.hbs`,
-        templates: [`${MODULE_PATH}/templates/sheets/actor/shared/partials/features/features.hbs`],
+        templates: [
+          `${MODULE_PATH}/templates/sheets/actor/shared/partials/features/features.hbs`,
+          `${MODULE_PATH}/templates/sheets/actor/shared/partials/search-filter.hbs`,
+        ],
+        scrollable: [""],
       },
       abilities: {
         ...(super.PARTS?.abilities || {}),
         template: `${MODULE_PATH}/templates/sheets/actor/shared/abilities.hbs`,
+        templates: [`${MODULE_PATH}/templates/sheets/actor/shared/partials/search-filter.hbs`],
+        scrollable: [""],
       },
       favorites: {
         template: `${MODULE_PATH}/templates/sheets/actor/npc-sheet/npc-favorites.hbs`,
@@ -422,10 +504,12 @@ function _registerNPCSheet(sheets, SHEET_SIZES) {
       biography: {
         ...(super.PARTS?.biography || {}),
         template: `${MODULE_PATH}/templates/sheets/actor/npc/biography.hbs`,
+        scrollable: [""],
       },
       effects: {
         ...(super.PARTS?.effects || {}),
         template: `${MODULE_PATH}/templates/sheets/actor/shared/effects.hbs`,
+        scrollable: [""],
       },
     };
 
@@ -442,11 +526,23 @@ function _registerNPCSheet(sheets, SHEET_SIZES) {
       return `${this.document.name} [DS+]`;
     }
 
+    _configureRenderOptions(options) {
+      super._configureRenderOptions(options);
+      const dataChanges = ["updateActor", "createItem", "updateItem", "deleteItem"];
+      if (options.renderContext && dataChanges.includes(options.renderContext)) {
+        this._cachedContext = null;
+      } else if (this._cachedContext) {
+        options.dspSoft = true;
+      }
+    }
+
     _configureRenderParts(options) {
       const parts = super._configureRenderParts(options);
+      delete parts.stats;
       if (!game.settings.get(MODULE_ID, "npcFavoritesEnabled")) {
         delete parts.favorites;
       }
+      filterHiddenParts(parts, this.actor);
       return parts;
     }
 
@@ -454,18 +550,20 @@ function _registerNPCSheet(sheets, SHEET_SIZES) {
       const tabs = super._prepareTabs(group);
       if (!game.settings.get(MODULE_ID, "npcFavoritesEnabled")) {
         delete tabs.favorites;
-        return tabs;
       }
-      if (group === "primary" && tabs.favorites) {
-        prepareFavoriteTabs(tabs, this.element, this.actor);
+      if (group === "primary") {
+        filterHiddenTabs(tabs, this.actor);
+        if (tabs.favorites) prepareFavoriteTabs(tabs, this.element, this.actor);
       }
       return tabs;
     }
 
     async _prepareContext(options) {
+      if (options.dspSoft && this._cachedContext) return this._cachedContext;
       const context = await super._prepareContext(options);
       context.favoritesEnabled = game.settings.get(MODULE_ID, "npcFavoritesEnabled");
       this._partContextCache = {};
+      this._cachedContext = context;
       return context;
     }
 
@@ -554,7 +652,11 @@ function _registerObjectSheet(sheets, SHEET_SIZES) {
       features: {
         ...(super.PARTS?.features || {}),
         template: `${MODULE_PATH}/templates/sheets/actor/object-sheet/features.hbs`,
-        templates: [`${MODULE_PATH}/templates/sheets/actor/shared/partials/features/features.hbs`],
+        templates: [
+          `${MODULE_PATH}/templates/sheets/actor/shared/partials/features/features.hbs`,
+          `${MODULE_PATH}/templates/sheets/actor/shared/partials/search-filter.hbs`,
+        ],
+        scrollable: [""],
       },
       stats: {
         ...(super.PARTS?.stats || {}),
@@ -563,6 +665,8 @@ function _registerObjectSheet(sheets, SHEET_SIZES) {
       abilities: {
         ...(super.PARTS?.abilities || {}),
         template: `${MODULE_PATH}/templates/sheets/actor/shared/abilities.hbs`,
+        templates: [`${MODULE_PATH}/templates/sheets/actor/shared/partials/search-filter.hbs`],
+        scrollable: [""],
       },
     };
 
@@ -587,6 +691,7 @@ function _registerObjectSheet(sheets, SHEET_SIZES) {
       applyHeaderArt(this.element, "object");
       applyParallaxHeader(this.element);
       setupItemListCollapse(this.element);
+      setupItemSearch(this.element);
       applyFloatingTabs(this);
       applyTooltipPrevent(this.element);
     }
@@ -613,10 +718,23 @@ function _registerRetainerSheet(sheets, SHEET_SIZES) {
         width: SHEET_SIZES.retainer.width,
         height: SHEET_SIZES.retainer.height,
       },
+      window: {
+        ...super.DEFAULT_OPTIONS.window,
+        controls: [
+          ...(super.DEFAULT_OPTIONS.window?.controls || []),
+          {
+            action: "configureTabVisibility",
+            icon: "fas fa-file-invoice",
+            label: "DRAW_STEEL_PLUS.TabConfig.title",
+            ownership: "OWNER",
+          },
+        ],
+      },
       actions: {
         ...super.DEFAULT_OPTIONS.actions,
         toggleDocumentDescription,
         documentListShare,
+        configureTabVisibility: openTabConfig,
       },
     };
 
@@ -626,29 +744,33 @@ function _registerRetainerSheet(sheets, SHEET_SIZES) {
         ...(super.PARTS?.header || {}),
         template: `${MODULE_PATH}/templates/sheets/actor/retainer-sheet/header.hbs`,
       },
-      stats: {
-        ...(super.PARTS?.stats || {}),
-        template: `${MODULE_PATH}/templates/sheets/actor/retainer-sheet/stats.hbs`,
-      },
       sidebar: {
         template: `${MODULE_PATH}/templates/sheets/actor/retainer-sheet/sidebar.hbs`,
       },
       features: {
         ...(super.PARTS?.features || {}),
         template: `${MODULE_PATH}/templates/sheets/actor/retainer-sheet/features.hbs`,
-        templates: [`${MODULE_PATH}/templates/sheets/actor/shared/partials/features/features.hbs`],
+        templates: [
+          `${MODULE_PATH}/templates/sheets/actor/shared/partials/features/features.hbs`,
+          `${MODULE_PATH}/templates/sheets/actor/shared/partials/search-filter.hbs`,
+        ],
+        scrollable: [""],
       },
       biography: {
         ...(super.PARTS?.biography || {}),
         template: `${MODULE_PATH}/templates/sheets/actor/retainer-sheet/biography.hbs`,
+        scrollable: [""],
       },
       abilities: {
         ...(super.PARTS?.abilities || {}),
         template: `${MODULE_PATH}/templates/sheets/actor/shared/abilities.hbs`,
+        templates: [`${MODULE_PATH}/templates/sheets/actor/shared/partials/search-filter.hbs`],
+        scrollable: [""],
       },
       effects: {
         ...(super.PARTS?.effects || {}),
         template: `${MODULE_PATH}/templates/sheets/actor/shared/effects.hbs`,
+        scrollable: [""],
       },
     };
 
@@ -660,6 +782,19 @@ function _registerRetainerSheet(sheets, SHEET_SIZES) {
         initial: "features",
       },
     };
+
+    _configureRenderParts(options) {
+      const parts = super._configureRenderParts(options);
+      delete parts.stats;
+      filterHiddenParts(parts, this.actor);
+      return parts;
+    }
+
+    _prepareTabs(group) {
+      const tabs = super._prepareTabs(group);
+      if (group === "primary") filterHiddenTabs(tabs, this.actor);
+      return tabs;
+    }
 
     get title() {
       return `${this.document.name} [DS+]`;
@@ -719,10 +854,12 @@ function _registerPartySheet(sheets, SHEET_SIZES) {
       members: {
         ...(super.PARTS?.members || {}),
         template: `${MODULE_PATH}/templates/sheets/actor/party-sheet/members.hbs`,
+        scrollable: [""],
       },
       details: {
         ...(super.PARTS?.details || {}),
         template: `${MODULE_PATH}/templates/sheets/actor/party-sheet/details.hbs`,
+        scrollable: [""],
       },
     };
 

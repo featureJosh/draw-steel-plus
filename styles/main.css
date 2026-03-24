@@ -5,6 +5,8 @@
 @import url("./tooltip.css");
 @import url("./sidebar.css");
 @import url("./floating-tabs.css");
+@import url("./search-filter.css");
+@import url("./tab-config.css");
 @import url("./chat.css");
 
 @import url("./npc-overrides.css");

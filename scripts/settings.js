@@ -49,6 +49,7 @@ export function registerSettings() {
     requiresReload: false,
   });
 
+  const debouncedColors = foundry.utils.debounce(() => applyColorOverrides(), 150);
   for (const [key, defaults] of Object.entries(COLOR_LIGHT_DARK_DEFAULTS)) {
     game.settings.register(MODULE_ID, colorSettingKey(key, "light"), {
       name: `DRAW_STEEL_PLUS.Settings.colors.${key}Lt`,
@@ -56,7 +57,7 @@ export function registerSettings() {
       config: false,
       type: new foundry.data.fields.ColorField(),
       default: defaults.light,
-      onChange: () => applyColorOverrides(),
+      onChange: debouncedColors,
     });
     game.settings.register(MODULE_ID, colorSettingKey(key, "dark"), {
       name: `DRAW_STEEL_PLUS.Settings.colors.${key}Dk`,
@@ -64,7 +65,7 @@ export function registerSettings() {
       config: false,
       type: new foundry.data.fields.ColorField(),
       default: defaults.dark,
-      onChange: () => applyColorOverrides(),
+      onChange: debouncedColors,
     });
   }
 

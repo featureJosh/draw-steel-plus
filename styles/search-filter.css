@@ -1,0 +1,59 @@
+.draw-steel-plus.sheet .dsp-filtered-out {
+  display: none !important;
+}
+
+.draw-steel-plus.sheet .dsp-search-filter {
+  padding: 0;
+}
+
+.draw-steel-plus.sheet .dsp-search-bar {
+  display: flex;
+  align-items: center;
+  gap: calc(6px * var(--dsp-scale, 1));
+  background: color-mix(in srgb, var(--dsp-bg) 60%, transparent);
+  border: 1px solid var(--dsp-border);
+  border-radius: calc(6px * var(--dsp-scale, 1));
+  padding: calc(4px * var(--dsp-scale, 1)) calc(8px * var(--dsp-scale, 1));
+  transition: border-color 0.2s ease;
+}
+
+.draw-steel-plus.sheet .dsp-search-bar > i {
+  color: var(--dsp-text-light);
+  font-size: calc(12px * var(--dsp-scale, 1));
+  flex-shrink: 0;
+}
+
+.draw-steel-plus.sheet .dsp-search-input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  color: var(--dsp-text);
+  font-family: inherit;
+  font-size: calc(13px * var(--dsp-scale, 1));
+  outline: none;
+  padding: 0;
+  min-width: 0;
+}
+
+.draw-steel-plus.sheet .dsp-search-input::placeholder {
+  color: var(--dsp-text-light);
+  opacity: 0.6;
+}
+
+.draw-steel-plus.sheet .dsp-search-clear {
+  color: var(--dsp-text-light);
+  font-size: calc(12px * var(--dsp-scale, 1));
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+  flex-shrink: 0;
+}
+
+.draw-steel-plus.sheet .dsp-search-input:not(:placeholder-shown) ~ .dsp-search-clear {
+  opacity: 0.6;
+}
+
+.draw-steel-plus.sheet .dsp-search-clear:hover {
+  opacity: 1;
+  color: var(--dsp-primary);
+}

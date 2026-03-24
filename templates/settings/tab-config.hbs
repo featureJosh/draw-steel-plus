@@ -1,0 +1,14 @@
+<div class="dsp-tab-config-body">
+  {{#each tabs}}
+  <div class="dsp-tab-config-row">
+    <label>
+      <input type="checkbox" name="tabs.{{@key}}" {{#if this.visible}}checked{{/if}} {{#if this.locked}}disabled{{/if}}>
+      <span>{{this.label}}</span>
+    </label>
+  </div>
+  {{/each}}
+  <footer class="form-footer">
+    <button type="submit"><i class="fa-solid fa-check"></i> {{localize "Save"}}</button>
+    <button type="button" data-action="resetDefaults"><i class="fa-solid fa-undo"></i> {{localize "DRAW_STEEL_PLUS.TabConfig.resetDefaults"}}</button>
+  </footer>
+</div>

@@ -1,0 +1,30 @@
+.dsp-tab-config .dsp-tab-config-body {
+  padding: 8px;
+}
+
+.dsp-tab-config .dsp-tab-config-row {
+  padding: 4px 0;
+}
+
+.dsp-tab-config .dsp-tab-config-row label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.dsp-tab-config .dsp-tab-config-row input[disabled] + span {
+  opacity: 0.5;
+}
+
+.dsp-tab-config .form-footer {
+  display: flex;
+  gap: 8px;
+  padding-top: 8px;
+  margin-top: 8px;
+  border-top: 1px solid var(--color-border-light-2, #ccc);
+}
+
+.dsp-tab-config .form-footer button {
+  flex: 1;
+}
