@@ -238,7 +238,7 @@ export function applyFloatingTabs(sheet) {
 
     a.addEventListener("click", (e) => {
       e.preventDefault();
-      sheet.changeTab(tabName, "primary");
+      sheet.changeTab(tabName, "primary", { force: true });
       nav.querySelectorAll(".dsp-float-tab").forEach((t) => {
         t.classList.toggle("active", t.dataset.tab === tabName);
       });

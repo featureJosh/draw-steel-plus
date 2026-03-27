@@ -100,14 +100,14 @@ function filterTreasure(obj) {
   return out;
 }
 
-function prepareFavoriteTabs(tabs, element, actor) {
-  const currentActive = element?.querySelector?.("a[data-tab].active")?.dataset?.tab;
+function ensureActiveTab(tabs, actor) {
+  if (Object.values(tabs).some(t => t.active)) return;
   const hasFavorites = actor.items.some((i) => i.getFlag("draw-steel-plus", "favorite"));
-  const defaultTab = hasFavorites ? "favorites" : "features";
-  const initialTab = (currentActive && tabs[currentActive]) ? currentActive : defaultTab;
-  for (const [tabId, tab] of Object.entries(tabs)) {
-    tab.active = tabId === initialTab;
-    tab.cssClass = tabId === initialTab ? "active" : "";
+  const defaultTab = (hasFavorites && tabs.favorites) ? "favorites" : "features";
+  const fallback = tabs[defaultTab] ? defaultTab : Object.keys(tabs)[0];
+  if (fallback && tabs[fallback]) {
+    tabs[fallback].active = true;
+    tabs[fallback].cssClass = "active";
   }
 }
 
@@ -315,10 +315,15 @@ function _registerHeroSheet(sheets, SHEET_SIZES) {
     }
 
     _prepareTabs(group) {
+      if (group === "primary" && !this._dspInitialTabSet) {
+        this._dspInitialTabSet = true;
+        const hasFavorites = this.actor.items.some((i) => i.getFlag("draw-steel-plus", "favorite"));
+        if (hasFavorites) this.tabGroups["primary"] = "favorites";
+      }
       const tabs = super._prepareTabs(group);
       if (group === "primary") {
         filterHiddenTabs(tabs, this.actor);
-        if (tabs.favorites) prepareFavoriteTabs(tabs, this.element, this.actor);
+        ensureActiveTab(tabs, this.actor);
       }
       return tabs;
     }
@@ -328,7 +333,10 @@ function _registerHeroSheet(sheets, SHEET_SIZES) {
     }
 
     async _prepareContext(options) {
-      if (options.dspSoft && this._cachedContext) return this._cachedContext;
+      if (options.dspSoft && this._cachedContext) {
+        this._cachedContext.tabs = this._prepareTabs("primary");
+        return this._cachedContext;
+      }
       const context = await super._prepareContext(options);
       context.favoritesEnabled = true;
       this._partContextCache = {};
@@ -547,19 +555,29 @@ function _registerNPCSheet(sheets, SHEET_SIZES) {
     }
 
     _prepareTabs(group) {
+      if (group === "primary" && !this._dspInitialTabSet) {
+        this._dspInitialTabSet = true;
+        if (game.settings.get(MODULE_ID, "npcFavoritesEnabled")) {
+          const hasFavorites = this.actor.items.some((i) => i.getFlag("draw-steel-plus", "favorite"));
+          if (hasFavorites) this.tabGroups["primary"] = "favorites";
+        }
+      }
       const tabs = super._prepareTabs(group);
       if (!game.settings.get(MODULE_ID, "npcFavoritesEnabled")) {
         delete tabs.favorites;
       }
       if (group === "primary") {
         filterHiddenTabs(tabs, this.actor);
-        if (tabs.favorites) prepareFavoriteTabs(tabs, this.element, this.actor);
+        ensureActiveTab(tabs, this.actor);
       }
       return tabs;
     }
 
     async _prepareContext(options) {
-      if (options.dspSoft && this._cachedContext) return this._cachedContext;
+      if (options.dspSoft && this._cachedContext) {
+        this._cachedContext.tabs = this._prepareTabs("primary");
+        return this._cachedContext;
+      }
       const context = await super._prepareContext(options);
       context.favoritesEnabled = game.settings.get(MODULE_ID, "npcFavoritesEnabled");
       this._partContextCache = {};

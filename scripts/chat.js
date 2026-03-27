@@ -131,17 +131,19 @@ function _initCollapsibleTrays(html) {
 
 function _injectRollContextMenu(html) {
   for (const card of html.querySelectorAll(".chat-card.result-card")) {
-    const firstRoll = card.querySelector(".card-rolls .dice-roll");
-    if (!firstRoll) continue;
+    const rolls = card.querySelectorAll(".card-rolls .dice-roll");
+    if (rolls.length < 2) continue;
 
-    const existing = firstRoll.querySelector("[data-action='resultPartContext']");
-    if (existing) continue;
+    for (let i = 1; i < rolls.length; i++) {
+      const roll = rolls[i];
+      if (roll.querySelector("[data-action='resultPartContext']")) continue;
 
-    const link = document.createElement("a");
-    link.className = "dsp-roll-context fa-fw fa-solid fa-ellipsis-vertical";
-    link.setAttribute("data-action", "resultPartContext");
-    link.setAttribute("aria-label", "Options");
-    firstRoll.appendChild(link);
+      const link = document.createElement("a");
+      link.className = "dsp-roll-context fa-fw fa-solid fa-ellipsis-vertical";
+      link.setAttribute("data-action", "resultPartContext");
+      link.setAttribute("aria-label", "Options");
+      roll.appendChild(link);
+    }
   }
 }
 
