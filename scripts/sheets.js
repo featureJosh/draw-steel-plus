@@ -245,6 +245,11 @@ function _registerHeroSheet(sheets, SHEET_SIZES) {
       },
       sidebar: {
         template: `${MODULE_PATH}/templates/sheets/actor/hero-sheet/sidebar.hbs`,
+        templates: [
+          "systems/draw-steel/templates/sheets/actor/shared/partials/stats/combat.hbs",
+          "systems/draw-steel/templates/sheets/actor/shared/partials/stats/movement.hbs",
+          "systems/draw-steel/templates/sheets/actor/shared/partials/stats/immunities-weaknesses.hbs",
+        ],
       },
       features: {
         ...(super.PARTS?.features || {}),
@@ -297,16 +302,6 @@ function _registerHeroSheet(sheets, SHEET_SIZES) {
       },
     };
 
-    _configureRenderOptions(options) {
-      super._configureRenderOptions(options);
-      const dataChanges = ["updateActor", "createItem", "updateItem", "deleteItem"];
-      if (options.renderContext && dataChanges.includes(options.renderContext)) {
-        this._cachedContext = null;
-      } else if (this._cachedContext) {
-        options.dspSoft = true;
-      }
-    }
-
     _configureRenderParts(options) {
       const parts = super._configureRenderParts(options);
       delete parts.stats;
@@ -333,14 +328,9 @@ function _registerHeroSheet(sheets, SHEET_SIZES) {
     }
 
     async _prepareContext(options) {
-      if (options.dspSoft && this._cachedContext) {
-        this._cachedContext.tabs = this._prepareTabs("primary");
-        return this._cachedContext;
-      }
       const context = await super._prepareContext(options);
       context.favoritesEnabled = true;
       this._partContextCache = {};
-      this._cachedContext = context;
       return context;
     }
     async _preparePartContext(partId, context, options) {
@@ -489,6 +479,11 @@ function _registerNPCSheet(sheets, SHEET_SIZES) {
       },
       sidebar: {
         template: `${MODULE_PATH}/templates/sheets/actor/npc-sheet/sidebar.hbs`,
+        templates: [
+          "systems/draw-steel/templates/sheets/actor/shared/partials/stats/combat.hbs",
+          "systems/draw-steel/templates/sheets/actor/shared/partials/stats/movement.hbs",
+          "systems/draw-steel/templates/sheets/actor/shared/partials/stats/immunities-weaknesses.hbs",
+        ],
       },
       features: {
         ...(super.PARTS?.features || {}),
@@ -534,16 +529,6 @@ function _registerNPCSheet(sheets, SHEET_SIZES) {
       return `${this.document.name} [DS+]`;
     }
 
-    _configureRenderOptions(options) {
-      super._configureRenderOptions(options);
-      const dataChanges = ["updateActor", "createItem", "updateItem", "deleteItem"];
-      if (options.renderContext && dataChanges.includes(options.renderContext)) {
-        this._cachedContext = null;
-      } else if (this._cachedContext) {
-        options.dspSoft = true;
-      }
-    }
-
     _configureRenderParts(options) {
       const parts = super._configureRenderParts(options);
       delete parts.stats;
@@ -574,14 +559,9 @@ function _registerNPCSheet(sheets, SHEET_SIZES) {
     }
 
     async _prepareContext(options) {
-      if (options.dspSoft && this._cachedContext) {
-        this._cachedContext.tabs = this._prepareTabs("primary");
-        return this._cachedContext;
-      }
       const context = await super._prepareContext(options);
       context.favoritesEnabled = game.settings.get(MODULE_ID, "npcFavoritesEnabled");
       this._partContextCache = {};
-      this._cachedContext = context;
       return context;
     }
 
@@ -764,6 +744,11 @@ function _registerRetainerSheet(sheets, SHEET_SIZES) {
       },
       sidebar: {
         template: `${MODULE_PATH}/templates/sheets/actor/retainer-sheet/sidebar.hbs`,
+        templates: [
+          "systems/draw-steel/templates/sheets/actor/shared/partials/stats/combat.hbs",
+          "systems/draw-steel/templates/sheets/actor/shared/partials/stats/movement.hbs",
+          "systems/draw-steel/templates/sheets/actor/shared/partials/stats/immunities-weaknesses.hbs",
+        ],
       },
       features: {
         ...(super.PARTS?.features || {}),
