@@ -353,6 +353,7 @@ function _registerHeroSheet(sheets, SHEET_SIZES) {
         context.projects?.forEach(markFavorited);
         this._partContextCache.projects = context.projects;
       } else if (partId === "sidebar") {
+        await super._preparePartContext("stats", context, options);
         context.unfilledSkill = !!this.actor.system._unfilledTraits?.skill?.size;
         context.skills = this._getSkills();
       } else if (partId === "favorites") {
@@ -574,6 +575,8 @@ function _registerNPCSheet(sheets, SHEET_SIZES) {
       } else if (partId === "abilities") {
         for (const at of Object.values(context.abilities || {})) at.abilities?.forEach(markFavorited);
         this._partContextCache.abilities = context.abilities;
+      } else if (partId === "sidebar") {
+        await super._preparePartContext("stats", context, options);
       } else if (partId === "favorites" && game.settings.get(MODULE_ID, "npcFavoritesEnabled")) {
         const cache = this._partContextCache;
         const [abilities, features] = await Promise.all([
@@ -801,6 +804,14 @@ function _registerRetainerSheet(sheets, SHEET_SIZES) {
 
     get title() {
       return `${this.document.name} [DS+]`;
+    }
+
+    async _preparePartContext(partId, context, options) {
+      await super._preparePartContext(partId, context, options);
+      if (partId === "sidebar") {
+        await super._preparePartContext("stats", context, options);
+      }
+      return context;
     }
 
     _getHeaderControls() {

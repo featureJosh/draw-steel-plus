@@ -415,9 +415,9 @@ export class TooltipsDSP {
 
   async _buildEffectContext(doc) {
     const desc =
-      doc.description?.value ??
-      doc.system?.effect?.description ??
-      doc.system?.description?.value ??
+      (typeof doc.description === "string" ? doc.description : doc.description?.value) ||
+      doc.system?.effect?.description ||
+      doc.system?.description?.value ||
       "";
     let enriched = "";
     if (desc) {
@@ -431,10 +431,15 @@ export class TooltipsDSP {
       }
     }
 
+    const safeLocalize = (key, fallback) => {
+      const t = game.i18n.localize(key);
+      return (t && t !== key) ? t : fallback;
+    };
+
     const props = [];
-    if (doc.disabled) props.push(game.i18n.localize("EFFECT.StatusInactive"));
-    else if (doc.isTemporary) props.push(game.i18n.localize("EFFECT.StatusTemporary"));
-    else props.push(game.i18n.localize("EFFECT.StatusPassive"));
+    if (doc.disabled) props.push(safeLocalize("EFFECT.StatusInactive", game.i18n.localize("DRAW_STEEL_PLUS.Tooltip.statusInactive")));
+    else if (doc.isTemporary) props.push(safeLocalize("EFFECT.StatusTemporary", game.i18n.localize("DRAW_STEEL_PLUS.Tooltip.statusTemporary")));
+    else props.push(safeLocalize("EFFECT.StatusPassive", game.i18n.localize("DRAW_STEEL_PLUS.Tooltip.statusPassive")));
 
     const durationLabel = doc.duration?.remaining
       ? doc.duration.label ?? ""
@@ -447,6 +452,7 @@ export class TooltipsDSP {
       properties: props,
       durationLabel,
       sourceName: doc.sourceName ?? "",
+      sourceLabel: game.i18n.localize("DRAW_STEEL_PLUS.Tooltip.source"),
       hintPin: game.i18n.localize("DRAW_STEEL_PLUS.Tooltip.hintPin"),
       hintUnpin: game.i18n.localize("DRAW_STEEL_PLUS.Tooltip.hintUnpin"),
     };
@@ -479,7 +485,7 @@ export class TooltipsDSP {
 
     game.tooltip?._setAnchor?.(direction);
 
-    if (this.#tooltip.classList.contains("item-tooltip")) {
+    if (this.#tooltip.classList.contains("item-tooltip") || this.#tooltip.classList.contains("effect-tooltip")) {
       const scrollable = this.#tooltip.querySelector(".description, .ability-details");
       if (scrollable) {
         scrollable.classList.toggle(
