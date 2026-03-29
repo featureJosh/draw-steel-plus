@@ -414,11 +414,7 @@ export class TooltipsDSP {
   }
 
   async _buildEffectContext(doc) {
-    const desc =
-      (typeof doc.description === "string" ? doc.description : doc.description?.value) ||
-      doc.system?.effect?.description ||
-      doc.system?.description?.value ||
-      "";
+    const desc = (typeof doc.description === "string" ? doc.description : doc.description?.value) ?? "";
     let enriched = "";
     if (desc) {
       try {
@@ -431,19 +427,23 @@ export class TooltipsDSP {
       }
     }
 
-    const safeLocalize = (key, fallback) => {
-      const t = game.i18n.localize(key);
-      return (t && t !== key) ? t : fallback;
-    };
-
     const props = [];
-    if (doc.disabled) props.push(safeLocalize("EFFECT.StatusInactive", game.i18n.localize("DRAW_STEEL_PLUS.Tooltip.statusInactive")));
-    else if (doc.isTemporary) props.push(safeLocalize("EFFECT.StatusTemporary", game.i18n.localize("DRAW_STEEL_PLUS.Tooltip.statusTemporary")));
-    else props.push(safeLocalize("EFFECT.StatusPassive", game.i18n.localize("DRAW_STEEL_PLUS.Tooltip.statusPassive")));
 
-    const durationLabel = doc.duration?.remaining
-      ? doc.duration.label ?? ""
-      : "";
+    const endType = doc.system?.end?.type;
+    if (endType) {
+      const endLabel = globalThis.ds?.CONFIG?.effectEnds?.[endType]?.label
+        ?? globalThis.ds?.CONFIG?.effectEnds?.[endType]?.abbreviation;
+      if (endLabel) props.push(game.i18n.localize(endLabel));
+    }
+
+    for (const status of (doc.statuses ?? [])) {
+      const conditionCfg = globalThis.ds?.CONFIG?.conditions?.[status];
+      if (conditionCfg?.name) props.push(game.i18n.localize(conditionCfg.name));
+    }
+
+    const durationLabel = doc.system?.durationLabel
+      ?? doc.duration?.label
+      ?? "";
 
     return {
       name: doc.name,
@@ -452,7 +452,6 @@ export class TooltipsDSP {
       properties: props,
       durationLabel,
       sourceName: doc.sourceName ?? "",
-      sourceLabel: game.i18n.localize("DRAW_STEEL_PLUS.Tooltip.source"),
       hintPin: game.i18n.localize("DRAW_STEEL_PLUS.Tooltip.hintPin"),
       hintUnpin: game.i18n.localize("DRAW_STEEL_PLUS.Tooltip.hintUnpin"),
     };
@@ -485,7 +484,7 @@ export class TooltipsDSP {
 
     game.tooltip?._setAnchor?.(direction);
 
-    if (this.#tooltip.classList.contains("item-tooltip") || this.#tooltip.classList.contains("effect-tooltip")) {
+    if (this.#tooltip.classList.contains("item-tooltip")) {
       const scrollable = this.#tooltip.querySelector(".description, .ability-details");
       if (scrollable) {
         scrollable.classList.toggle(
