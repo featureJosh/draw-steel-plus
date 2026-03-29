@@ -1,7 +1,6 @@
 import { MODULE_CONFIG, COLOR_LIGHT_DARK_DEFAULTS, SCALE_DEFAULTS, HEADER_DEFAULTS, NPC_DEFAULTS, NEGOTIATION_DEFAULTS, DEFAULT_NEGOTIATION_STATE, MONTAGE_DEFAULTS, DEFAULT_MONTAGE_STATE, UI_DEFAULTS, colorSettingKey } from "./config.js";
 import { applyColorOverrides } from "./color-settings.js";
 import { applyScaleOverrides } from "./scale-settings.js";
-import { applyImprovedChat } from "./chat.js";
 import { MetaCurrencyTracker } from "./meta-currency.js";
 import { NegotiationUI } from "./negotiation-ui.js";
 import { MontageUI } from "./montage-ui.js";
@@ -191,8 +190,7 @@ export function registerSettings() {
     config: true,
     type: Boolean,
     default: UI_DEFAULTS.improvedChat,
-    requiresReload: false,
-    onChange: () => applyImprovedChat(),
+    requiresReload: true,
   });
 
   game.settings.register(MODULE_ID, "useCustomMetaCurrency", {

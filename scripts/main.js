@@ -15,7 +15,9 @@ const MODULE_ID = MODULE_CONFIG.id;
 Hooks.once("init", () => {
   console.log(`${MODULE_ID} | Initializing Draw Steel Plus`);
   registerSettings();
-  registerChatTemplates();
+  if (game.settings.get(MODULE_ID, "improvedChat")) {
+    registerChatTemplates();
+  }
   registerSheets(SHEET_SIZE_DEFAULTS);
 });
 
