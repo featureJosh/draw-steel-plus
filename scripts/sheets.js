@@ -302,6 +302,13 @@ function _registerHeroSheet(sheets, SHEET_SIZES) {
       },
     };
 
+    render(options = {}, _options = {}) {
+      if (options?.parts?.includes("stats")) {
+        options.parts = options.parts.map(p => p === "stats" ? "sidebar" : p);
+      }
+      return super.render(options, _options);
+    }
+
     _configureRenderParts(options) {
       const parts = super._configureRenderParts(options);
       delete parts.stats;
@@ -528,6 +535,13 @@ function _registerNPCSheet(sheets, SHEET_SIZES) {
 
     get title() {
       return `${this.document.name} [DS+]`;
+    }
+
+    render(options = {}, _options = {}) {
+      if (options?.parts?.includes("stats")) {
+        options.parts = options.parts.map(p => p === "stats" ? "sidebar" : p);
+      }
+      return super.render(options, _options);
     }
 
     _configureRenderParts(options) {
@@ -788,6 +802,13 @@ function _registerRetainerSheet(sheets, SHEET_SIZES) {
         initial: "features",
       },
     };
+
+    render(options = {}, _options = {}) {
+      if (options?.parts?.includes("stats")) {
+        options.parts = options.parts.map(p => p === "stats" ? "sidebar" : p);
+      }
+      return super.render(options, _options);
+    }
 
     _configureRenderParts(options) {
       const parts = super._configureRenderParts(options);
