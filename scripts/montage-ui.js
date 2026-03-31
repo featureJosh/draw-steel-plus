@@ -3,6 +3,7 @@ import { DspFloatingUI } from "./dsp-floating-ui.js";
 
 const MODULE_ID = MODULE_CONFIG.id;
 const MODULE_PATH = MODULE_CONFIG.path;
+
 const SOCKET_EVENT = "module.draw-steel-plus";
 
 let _pendingMontageSkill = null;

@@ -282,6 +282,7 @@ export class TooltipsDSP {
       }
       ctx.hasHeaderBadges = ctx.headerBadges.length > 0;
       ctx.hasMetadata = ctx.metadata.length > 0;
+
     } else if (type === "kit") {
       const eq = sys.equipment;
       if (eq) {
@@ -338,6 +339,7 @@ export class TooltipsDSP {
           ctx.metadata.push({ label: game.i18n.localize("DRAW_STEEL_PLUS.Tooltip.rangedDistance"), value: `+${b.ranged.distance}` });
       }
       ctx.hasMetadata = ctx.metadata.length > 0;
+
     } else if (type === "treasure") {
       if (sys.kind) {
         const kindLabel = ds?.CONFIG?.equipment?.kinds?.[sys.kind]?.label ?? sys.kind;
@@ -357,6 +359,7 @@ export class TooltipsDSP {
         ctx.hasPills = ctx.pills.length > 0;
       }
       ctx.hasMetadata = ctx.metadata.length > 0;
+
     } else if (type === "project") {
       const typeLabelProj = ds?.CONFIG?.projects?.types?.[sys.type]?.label ?? sys.type;
       ctx.metadata.push({ label: game.i18n.localize("DRAW_STEEL_PLUS.Tooltip.type"), value: typeLabelProj });
@@ -375,11 +378,13 @@ export class TooltipsDSP {
         });
       }
       ctx.hasMetadata = ctx.metadata.length > 0;
+
     } else if (type === "title") {
       if (sys.echelon != null)
         ctx.metadata.push({ label: game.i18n.localize("DRAW_STEEL_PLUS.Tooltip.echelon"), value: String(sys.echelon) });
       if (sys.story?.trim()) ctx.subtitle = `${typeLabel} • ${sys.story}`;
       ctx.hasMetadata = ctx.metadata.length > 0;
+
     } else if (type === "class") {
       if (sys.level != null)
         ctx.metadata.push({ label: game.i18n.localize("DRAW_STEEL_PLUS.Tooltip.level"), value: String(sys.level) });
@@ -389,6 +394,7 @@ export class TooltipsDSP {
       if (sys.recoveries != null)
         ctx.metadata.push({ label: game.i18n.localize("DRAW_STEEL_PLUS.Tooltip.recoveries"), value: String(sys.recoveries) });
       ctx.hasMetadata = ctx.metadata.length > 0;
+
     } else if (type === "career") {
       if (sys.projectPoints != null)
         ctx.metadata.push({ label: game.i18n.localize("DRAW_STEEL_PLUS.Tooltip.projectPoints"), value: String(sys.projectPoints) });
@@ -397,11 +403,13 @@ export class TooltipsDSP {
       if (sys.wealth != null)
         ctx.metadata.push({ label: game.i18n.localize("DRAW_STEEL_PLUS.Tooltip.wealth"), value: String(sys.wealth) });
       ctx.hasMetadata = ctx.metadata.length > 0;
+
     } else if (type === "ancestryTrait") {
       if (sys.points != null) {
         ctx.headerBadges.push({ label: game.i18n.localize("DRAW_STEEL_PLUS.Tooltip.points"), value: String(sys.points) });
         ctx.hasHeaderBadges = true;
       }
+
     } else if (type === "perk") {
       const ptLabel = ds?.CONFIG?.perks?.types?.[sys.perkType]?.label ?? sys.perkType;
       if (ptLabel) {
