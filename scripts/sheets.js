@@ -357,7 +357,9 @@ function _registerHeroSheet(sheets, SHEET_SIZES) {
         this._partContextCache.kits = context.kits;
         this._partContextCache.treasure = context.treasure;
       } else if (partId === "projects") {
+        context.followers?.forEach(markFavorited);
         context.projects?.forEach(markFavorited);
+        this._partContextCache.followers = context.followers;
         this._partContextCache.projects = context.projects;
       } else if (partId === "sidebar") {
         await super._preparePartContext("stats", context, options);
@@ -365,13 +367,14 @@ function _registerHeroSheet(sheets, SHEET_SIZES) {
         context.skills = this._getSkills();
       } else if (partId === "favorites") {
         const cache = this._partContextCache;
-        const [abilities, features, complications, kits, treasure, projects] = await Promise.all([
+        const [abilities, features, complications, kits, treasure, projects, followers] = await Promise.all([
           cache.abilities != null ? cache.abilities : this._prepareAbilitiesContext(),
           cache.features != null ? cache.features : this._prepareFeaturesContext(),
           cache.complications != null ? cache.complications : this._prepareComplicationsContext(),
           cache.kits != null ? cache.kits : this._prepareKitsContext(),
           cache.treasure != null ? cache.treasure : this._prepareTreasureContext(),
           cache.projects != null ? cache.projects : this._prepareProjectsContext(),
+          cache.followers != null ? cache.followers : this._prepareFollowersContext(),
         ]);
 
         context.favAbilities = filterAbilities(abilities);
@@ -381,6 +384,7 @@ function _registerHeroSheet(sheets, SHEET_SIZES) {
         context.favKits = filterFav(kits);
         context.favTreasure = filterTreasure(treasure);
         context.favProjects = filterFav(projects);
+        context.favFollowers = filterFav(followers);
         context.abilityFields = getAbilityFields(this.actor);
         const kit0 = this.actor.itemTypes.kit[0];
         context.kitFields = kit0?.system?.constructor?.schema?.fields ?? {
@@ -401,6 +405,10 @@ function _registerHeroSheet(sheets, SHEET_SIZES) {
           points: { label: game.i18n.localize("DRAW_STEEL.Item.project.FIELDS.points.label") },
           type: { label: game.i18n.localize("DRAW_STEEL.Item.project.FIELDS.type.label") },
         };
+        const fol0 = this.actor.itemTypes.follower?.[0];
+        context.followerFields = fol0?.system?.constructor?.schema?.fields ?? {
+          type: { label: game.i18n.localize("DRAW_STEEL.Item.follower.FIELDS.type.label") },
+        };
         context.featureFields = getFeatureFields(this.actor);
         const anyAbilities = Object.values(context.favAbilities || {}).some((at) => (at?.abilities?.length || 0) > 0);
         const anyTreasure = Object.values(context.favTreasure || {}).some((tt) => (tt?.treasure?.length || 0) > 0);
@@ -410,7 +418,8 @@ function _registerHeroSheet(sheets, SHEET_SIZES) {
           (context.favComplications?.length || 0) > 0 ||
           (context.favKits?.length || 0) > 0 ||
           anyTreasure ||
-          (context.favProjects?.length || 0) > 0;
+          (context.favProjects?.length || 0) > 0 ||
+          (context.favFollowers?.length || 0) > 0;
       }
       return context;
     }
