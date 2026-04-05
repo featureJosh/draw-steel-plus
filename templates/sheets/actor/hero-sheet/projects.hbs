@@ -1,6 +1,45 @@
 {{! Projects Tab }}
 <section class="tab projects {{tab.cssClass}}" data-group="primary" data-tab="projects">
   <h2 class="dsp-tab-title"><i class="fa-solid fa-hammer"></i> Projects</h2>
+  <section class="item-list-container follower-container">
+    <div class="item-header">
+      <div class="item-column item-name">{{localize "TYPES.Item.follower"}}</div>
+      <div class="item-column item-follower-type">{{followerFields.type.label}}</div>
+      <div class="item-column item-controls">
+        {{#unless isPlay}}
+        {{#with (localize "DRAW_STEEL.SHEET.Add" itemName=(localize "TYPES.Item.follower")) as |addItemTooltip|}}
+        <a class="createDoc" data-action="createDoc" data-document-class="Item" data-type="follower" data-render-sheet="true" data-tooltip-text="{{addItemTooltip}}">
+          <i class="fa-solid fa-plus"></i>
+        </a>
+        {{/with}}
+        {{/unless}}
+      </div>
+    </div>
+    <ol class="item-list follower-list">
+      {{#each followers as |followerContext|}}
+      <li class="item follower draggable expandable-document" data-document-uuid="{{followerContext.item.uuid}}">
+        <div class="item-row">
+          <div class="item-column item-name item-tooltip">
+            <img class="item-image" src="{{followerContext.item.img}}" alt="{{followerContext.item.name}}">
+            <div class="name" data-action="toggleDocumentDescription">
+              <div class="label">{{followerContext.item.name}}</div>
+            </div>
+          </div>
+          <div class="item-column item-type">{{followerContext.item.system.followerType}}</div>
+          <div class="item-column item-controls">
+            <a class="fa-fw fa-solid fa-comment" data-action="documentListShare"></a>
+            <a class="dsp-favorite-btn {{#if followerContext.isFavorited}}dsp-favorited{{/if}}" data-action="toggleFavorite" data-tooltip="{{#if followerContext.isFavorited}}DRAW_STEEL_PLUS.Favorites.Unfavorite{{else}}DRAW_STEEL_PLUS.Favorites.Favorite{{/if}}"><i class="fa-{{#if followerContext.isFavorited}}solid{{else}}regular{{/if}} fa-star"></i></a>
+            <a class="fa-fw fa-solid fa-ellipsis-vertical" data-action="documentListContext"></a>
+            <a class="fa-fw fa-solid fa-angle-{{ifThen followerContext.expanded "down" "right"}}" data-action="toggleDocumentDescription"></a>
+          </div>
+        </div>
+        <div class="document-description item-embed {{#if followerContext.expanded}}expanded{{/if}}">
+          {{#if followerContext.expanded}}{{{followerContext.embed.outerHTML}}}{{/if}}
+        </div>
+      </li>
+      {{/each}}
+    </ol>
+  </section>
   <section class="item-list-container project-list-container">
     <div class="item-header">
       <div class="item-column item-name">{{localize "TYPES.Item.project"}}</div>
