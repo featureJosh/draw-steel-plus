@@ -161,6 +161,10 @@
       "useCustomMetaCurrency": {
         "name": "Custom Meta Currency Panel",
         "hint": "Use the Draw Steel Plus meta currency panel. When disabled, the core Draw Steel meta currency panel is shown instead."
+      },
+      "useCombatTrackerPanel": {
+        "name": "Floating Combat Tracker",
+        "hint": "Wrap the Draw Steel Combat Tracker module in a draggable DS+ floating panel. Requires the 'Draw Steel Combat Tracker' module."
       }
     },
     "Tooltip": {
@@ -294,6 +298,11 @@
       "remove": "Remove",
       "expand": "Expand",
       "minimize": "Minimize",
+      "lock": "Lock Position",
+      "unlock": "Unlock Position",
+      "resetPosition": "Reset Position"
+    },
+    "CombatTracker": {
       "lock": "Lock Position",
       "unlock": "Unlock Position",
       "resetPosition": "Reset Position"

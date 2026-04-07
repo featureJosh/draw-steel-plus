@@ -212,6 +212,16 @@ export function registerSettings() {
     },
   });
 
+  game.settings.register(MODULE_ID, "useCombatTrackerPanel", {
+    name: "DRAW_STEEL_PLUS.Settings.useCombatTrackerPanel.name",
+    hint: "DRAW_STEEL_PLUS.Settings.useCombatTrackerPanel.hint",
+    scope: "client",
+    config: true,
+    type: Boolean,
+    default: UI_DEFAULTS.useCombatTrackerPanel,
+    requiresReload: true,
+  });
+
   game.settings.register(MODULE_ID, "negotiationUIVisible", {
     scope: "world",
     config: false,

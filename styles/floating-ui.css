@@ -124,3 +124,54 @@
 .dsp-fui-resetting {
   transition: top 0.35s ease, left 0.35s ease !important;
 }
+
+/* ============================================================
+   Combat Tracker floating panel
+   Wraps the draw-steel-combat-tracker module's #ds-combat-dock
+   ============================================================ */
+
+.dsp-combat-tracker-ui .dsp-fui-panel {
+  min-width: 0;
+}
+
+.dsp-ct-content {
+  border-radius: 0 0 var(--dsp-radius-md) var(--dsp-radius-md);
+  overflow: hidden;
+}
+
+/* Strip the dock's own chrome — our panel provides background + blur */
+.dsp-ct-content #ds-combat-dock {
+  width: 100%;
+  z-index: unset;
+}
+
+.dsp-ct-content .ds-combat-dock {
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border-bottom: none;
+}
+
+/* Align dividers with DS+ border color */
+.dsp-ct-content .ds-dock-center {
+  border-left-color: var(--dsp-border);
+  border-right-color: var(--dsp-border);
+}
+
+/* Active portrait pulse uses DS+ accent gold instead of orange */
+.dsp-ct-content .ds-portrait.active,
+.dsp-ct-content .ds-mini-portrait.active {
+  border-color: var(--dsp-accent-bright) !important;
+}
+
+/* Text colors inherit DS+ theme */
+.dsp-ct-content .ds-round-number,
+.dsp-ct-content .ds-dock-turn {
+  color: var(--dsp-text);
+}
+
+/* Portrait borders use DS+ border color */
+.dsp-ct-content .ds-portrait,
+.dsp-ct-content .ds-mini-portrait {
+  border-color: var(--dsp-border);
+}

@@ -128,6 +128,7 @@ export const NPC_DEFAULTS = {
 export const UI_DEFAULTS = {
   improvedChat: true,
   useCustomMetaCurrency: true,
+  useCombatTrackerPanel: true,
 };
 
 export const NEGOTIATION_DEFAULTS = {
