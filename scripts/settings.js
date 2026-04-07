@@ -173,6 +173,27 @@ export function registerSettings() {
     requiresReload: false,
   });
 
+  game.settings.register(MODULE_ID, "partyHeaderEnabled", {
+    name: "DRAW_STEEL_PLUS.Settings.partyHeaderEnabled.name",
+    hint: "DRAW_STEEL_PLUS.Settings.partyHeaderEnabled.hint",
+    scope: "world",
+    config: false,
+    type: Boolean,
+    default: HEADER_DEFAULTS.partyHeaderEnabled,
+    requiresReload: false,
+  });
+
+  game.settings.register(MODULE_ID, "partyHeaderImage", {
+    name: "DRAW_STEEL_PLUS.Settings.partyHeaderImage.name",
+    hint: "DRAW_STEEL_PLUS.Settings.partyHeaderImage.hint",
+    scope: "world",
+    config: false,
+    type: String,
+    default: HEADER_DEFAULTS.partyHeaderImage,
+    filePicker: "image",
+    requiresReload: false,
+  });
+
   game.settings.register(MODULE_ID, "parallaxHeaderArt", {
     name: "DRAW_STEEL_PLUS.Settings.parallaxHeaderArt.name",
     hint: "DRAW_STEEL_PLUS.Settings.parallaxHeaderArt.hint",

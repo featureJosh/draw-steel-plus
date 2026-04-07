@@ -925,6 +925,8 @@ function _registerPartySheet(sheets, SHEET_SIZES) {
       super._onRender(context, options);
       applyMinSize(this.element, SHEET_SIZES.party);
       setupScrollbarAutoHide(this.element);
+      applyHeaderArt(this.element, "party");
+      applyParallaxHeader(this.element);
       applyFloatingTabs(this);
     }
   };

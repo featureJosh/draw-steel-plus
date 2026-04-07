@@ -58,4 +58,19 @@
       <p class="hint">{{retainerImage.hint}}</p>
     </div>
   </fieldset>
+
+  <fieldset>
+    <legend>{{partySection}}</legend>
+    {{formGroup partyEnabled.field value=partyEnabled.value name="partyHeaderEnabled" label=partyEnabled.label hint=partyEnabled.hint}}
+    <div class="form-group">
+      <label>{{partyImage.label}}</label>
+      <div class="form-fields">
+        <button type="button" data-action="filePicker" class="icon" tabindex="-1">
+          <i class="fas fa-file-import fa-fw"></i>
+        </button>
+        <input type="text" name="partyHeaderImage" value="{{partyImage.value}}" placeholder="">
+      </div>
+      <p class="hint">{{partyImage.hint}}</p>
+    </div>
+  </fieldset>
 </div>

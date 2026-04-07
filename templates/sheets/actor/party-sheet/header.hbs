@@ -1,27 +1,40 @@
-<header class="dsp-party-header">
-  <div class="party-emblem-wrap">
-    <img
-      class="party-emblem"
-      src="{{document.img}}"
-      alt="{{document.name}}"
-      data-action="{{ifThen isPlay "showPortraitArtwork" "editImage"}}"
-      data-edit="img"
-      title="{{document.name}}"
-    >
+<header class="sheet-header">
+
+  <img class="header-bg-art" src="modules/draw-steel-plus/assets/sketch-images/s3.jpg" aria-hidden="true">
+  <div class="header-bg-overlay"></div>
+
+  <div class="header-portrait">
+    <div class="portrait-frame">
+      <img
+        class="profile-img"
+        src="{{document.img}}"
+        alt="{{document.name}}"
+        data-action="{{ifThen isPlay "showPortraitArtwork" "editImage"}}"
+        data-edit="img"
+        title="{{document.name}}"
+      >
+    </div>
   </div>
 
-  <div class="party-identity">
-    {{#if isPlay}}
-    <h1 class="party-name">{{document.name}}</h1>
-    {{else}}
-    {{formInput fields.name value=source.name placeholder=(localize "Name") class="party-name-input"}}
-    {{/if}}
+  <div class="header-body">
+    <div class="identity-block">
+      <div class="name-row">
+        {{#if isPlay}}
+        <h1 class="char-name">{{document.name}}</h1>
+        {{else}}
+        {{formInput fields.name value=source.name placeholder=(localize "Name") class="char-name-input"}}
+        {{/if}}
+      </div>
+
+      <div class="party-header-actions">
+        <a data-action="placeMembers" {{disabled (not header.canPlaceMembers)}} class="dsp-party-btn">
+          <i class="fa-solid fa-fw fa-bullseye"></i>
+          <span>{{localize "DRAW_STEEL.Actor.party.placeMembers"}}</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="stats-block"></div>
   </div>
 
-  <div class="party-actions">
-    <a data-action="placeMembers" {{disabled (not header.canPlaceMembers)}} class="party-action-btn" data-tooltip="DRAW_STEEL.Actor.party.placeMembers">
-      <i class="fa-solid fa-fw fa-bullseye"></i>
-      <span>{{localize "DRAW_STEEL.Actor.party.placeMembers"}}</span>
-    </a>
-  </div>
 </header>
