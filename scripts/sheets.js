@@ -654,7 +654,7 @@ function _registerObjectSheet(sheets, SHEET_SIZES) {
   const DrawSteelPlusObjectSheet = class extends sheets.DrawSteelObjectSheet {
     static DEFAULT_OPTIONS = {
       ...super.DEFAULT_OPTIONS,
-      classes: [...super.DEFAULT_OPTIONS.classes, "draw-steel-plus"],
+      classes: [...super.DEFAULT_OPTIONS.classes, "draw-steel-plus", "dsp-object"],
       position: {
         ...super.DEFAULT_OPTIONS.position,
         width: SHEET_SIZES.object.width,
