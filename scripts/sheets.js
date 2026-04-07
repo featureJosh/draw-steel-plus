@@ -654,7 +654,7 @@ function _registerObjectSheet(sheets, SHEET_SIZES) {
   const DrawSteelPlusObjectSheet = class extends sheets.DrawSteelObjectSheet {
     static DEFAULT_OPTIONS = {
       ...super.DEFAULT_OPTIONS,
-      classes: [...super.DEFAULT_OPTIONS.classes, "draw-steel-plus"],
+      classes: [...super.DEFAULT_OPTIONS.classes, "draw-steel-plus", "dsp-object"],
       position: {
         ...super.DEFAULT_OPTIONS.position,
         width: SHEET_SIZES.object.width,
@@ -925,6 +925,8 @@ function _registerPartySheet(sheets, SHEET_SIZES) {
       super._onRender(context, options);
       applyMinSize(this.element, SHEET_SIZES.party);
       setupScrollbarAutoHide(this.element);
+      applyHeaderArt(this.element, "party");
+      applyParallaxHeader(this.element);
       applyFloatingTabs(this);
     }
   };

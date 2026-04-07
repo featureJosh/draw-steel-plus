@@ -1,42 +1,49 @@
 <section data-tab="{{tabs.members.id}}" data-group="{{tabs.members.group}}" class="{{tabs.members.cssClass}}">
-  <div class="contents">
+  <div class="contents dsp-party-members">
     {{#each members}}
-    <section class="dsp-member" data-member-id="{{actor.id}}">
-      <div class="member-portrait">
-        <img class="member-avatar" src="{{actor.img}}" alt="{{actor.name}}">
+    <div class="dsp-party-member" data-member-id="{{actor.id}}">
+
+      <div class="dsp-member-portrait">
+        <img class="dsp-member-avatar" src="{{actor.img}}" alt="{{actor.name}}">
       </div>
 
-      <div class="member-info">
-        <span class="member-name">{{actor.name}}</span>
+      <div class="dsp-member-info">
+        <span class="dsp-member-name">{{actor.name}}</span>
 
-        <div class="member-resources">
-          <div class="member-resource stamina-resource">
-            <i class="fa-solid fa-heart"></i>
-            <div class="member-resource-bar" style="--res-current: {{stamina.value}}; --res-max: {{stamina.max}};">
-              <div class="member-resource-fill"></div>
+        <div class="dsp-member-resources">
+          <div class="dsp-member-stamina-wrap">
+            <div class="dsp-member-stamina-bar" style="--stam-current: {{stamina.value}}; --stam-max: {{stamina.max}}; --stam-temp: {{stamina.temporary}};">
+              <div class="dsp-member-stamina-fill"></div>
+              {{#if stamina.temporary}}
+              <div class="dsp-member-stamina-temp"></div>
+              {{/if}}
+              <span class="dsp-member-stamina-text">
+                {{stamina.value}}{{#if stamina.temporary}}<span class="dsp-member-stam-temp"> (+{{stamina.temporary}})</span>{{/if}} / {{stamina.max}}
+              </span>
             </div>
-            <span class="member-resource-text">{{stamina.value}} / {{stamina.max}}</span>
           </div>
-          <div class="member-resource recovery-resource">
+
+          <div class="dsp-member-recoveries">
             <i class="fa-solid fa-heart-pulse"></i>
-            <span class="member-resource-text">{{recoveries.value}} / {{recoveries.max}}</span>
+            <span>{{recoveries.value}} / {{recoveries.max}}</span>
           </div>
         </div>
       </div>
 
-      <div class="member-controls">
-        {{#if @root.isPlay}}
-        <a class="member-control" data-action="removeMember" data-tooltip="DRAW_STEEL.Actor.party.removeMember">
+      <div class="dsp-member-controls">
+        {{#unless @root.isPlay}}
+        <a class="dsp-member-control" data-action="removeMember" data-tooltip="DRAW_STEEL.Actor.party.removeMember">
           <i class="fa-solid fa-fw fa-trash"></i>
         </a>
-        {{/if}}
-        {{#if (and (not @root.isPlay) canView)}}
-        <a class="member-control" data-action="showMember" data-tooltip="DRAW_STEEL.Actor.party.showMember">
-          <i class="fa-solid fa-fw fa-magnifying-glass"></i>
+        {{/unless}}
+        {{#if (and @root.isPlay canView)}}
+        <a class="dsp-member-control" data-action="showMember" data-tooltip="DRAW_STEEL.Actor.party.showMember">
+          <i class="fa-solid fa-fw fa-arrow-up-right-from-square"></i>
         </a>
         {{/if}}
       </div>
-    </section>
+
+    </div>
     {{/each}}
   </div>
 </section>

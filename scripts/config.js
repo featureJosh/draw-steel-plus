@@ -108,10 +108,12 @@ export const HEADER_DEFAULTS = {
   npcHeaderEnabled: true,
   objectHeaderEnabled: true,
   retainerHeaderEnabled: true,
+  partyHeaderEnabled: true,
   heroHeaderImage: "",
   npcHeaderImage: "",
   objectHeaderImage: "",
   retainerHeaderImage: "",
+  partyHeaderImage: "",
 };
 
 export const DEFAULT_HEADER_IMAGES = {
@@ -119,6 +121,7 @@ export const DEFAULT_HEADER_IMAGES = {
   npc: "modules/draw-steel-plus/assets/sketch-images/s2.jpg",
   object: "modules/draw-steel-plus/assets/sketch-images/s3.jpg",
   retainer: "modules/draw-steel-plus/assets/sketch-images/s2.jpg",
+  party: "modules/draw-steel-plus/assets/sketch-images/s1.jpg",
 };
 
 export const NPC_DEFAULTS = {
@@ -128,6 +131,7 @@ export const NPC_DEFAULTS = {
 export const UI_DEFAULTS = {
   improvedChat: true,
   useCustomMetaCurrency: true,
+  useCombatTrackerPanel: true,
 };
 
 export const NEGOTIATION_DEFAULTS = {

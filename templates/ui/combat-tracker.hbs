@@ -1,0 +1,18 @@
+<div class="dsp-fui-panel">
+
+  <div class="dsp-fui-toolbar">
+    <div class="dsp-fui-drag-handle" data-tooltip="Drag to move">
+      <i class="fa-solid fa-grip-vertical" inert></i>
+    </div>
+    <button class="dsp-fui-toolbar-btn" type="button" data-action="toggleLock" data-tooltip="{{#if isLocked}}{{localize 'DRAW_STEEL_PLUS.CombatTracker.unlock'}}{{else}}{{localize 'DRAW_STEEL_PLUS.CombatTracker.lock'}}{{/if}}">
+      <i class="fa-solid {{#if isLocked}}fa-lock{{else}}fa-lock-open{{/if}}" inert></i>
+    </button>
+    <button class="dsp-fui-toolbar-btn" type="button" data-action="resetPosition" data-tooltip="{{localize 'DRAW_STEEL_PLUS.CombatTracker.resetPosition'}}">
+      <i class="fa-solid fa-crosshairs" inert></i>
+    </button>
+  </div>
+
+  {{!-- The #ds-combat-dock element is adopted into this container at runtime --}}
+  <div class="dsp-ct-content"></div>
+
+</div>

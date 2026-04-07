@@ -5,6 +5,7 @@ import { applyImprovedChat, enhanceChatMessage, registerChatTemplates } from "./
 import { registerSettings } from "./settings.js";
 import { registerSheets } from "./sheets.js";
 import { MetaCurrencyTracker } from "./meta-currency.js";
+import { CombatTrackerUI } from "./combat-tracker-ui.js";
 import { initializeNegotiationUI } from "./negotiation-ui.js";
 import { initializeMontageUI } from "./montage-ui.js";
 import { TooltipsDSP } from "./tooltips.js";
@@ -37,12 +38,18 @@ Hooks.once("ready", () => {
   applyScaleOverrides();
   applyImprovedChat();
   applyMetaCurrencySetting();
+  CombatTrackerUI.initialize();
   initializeNegotiationUI();
   initializeMontageUI();
   TooltipsDSP.activateListeners();
   const tooltips = new TooltipsDSP();
   tooltips.observe();
   game.modules.get(MODULE_ID).tooltips = tooltips;
+});
+
+Hooks.on("combatStart", () => CombatTrackerUI.show());
+Hooks.on("deleteCombat", () => {
+  if (!game.combats?.some(c => c.started)) CombatTrackerUI.hide();
 });
 
 const rerenderTracker = () => {
