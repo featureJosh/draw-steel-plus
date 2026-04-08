@@ -79,11 +79,13 @@ export class CombatTrackerUI extends DspFloatingUI {
   _onRender(context, options) {
     super._onRender(context, options);
     this._tryAdoptDock();
+    document.body.classList.toggle("dsp-ct-styled", game.settings.get(MODULE_ID, "combatTrackerDspStyle"));
   }
 
   _onClose(options) {
     this._dockObserver?.disconnect();
     this._dockObserver = null;
+    document.body.classList.remove("dsp-ct-styled");
     // Return dock element to #ui-top so the module continues functioning
     const dockEl = document.getElementById("ds-combat-dock");
     if (dockEl) document.getElementById("ui-top")?.prepend(dockEl);
