@@ -185,15 +185,20 @@
 }
 
 /* -----------------------------------------------
+   DS+ styling — only active when combatTrackerDspStyle setting is on.
+   The body.dsp-ct-styled class is toggled by combat-tracker-ui.js.
+   ----------------------------------------------- */
+
+/* -----------------------------------------------
    Center panel text & buttons
    ----------------------------------------------- */
 
-.dsp-ct-content .ds-round-number {
+body.dsp-ct-styled .dsp-ct-content .ds-round-number {
   color: var(--dsp-text);
 }
 
 /* Turn label — match dsp-mc-label: muted, uppercase, small caps */
-.dsp-ct-content .ds-dock-turn {
+body.dsp-ct-styled .dsp-ct-content .ds-dock-turn {
   font-size: var(--dsp-font-size-2xs);
   font-weight: 700;
   text-transform: uppercase;
@@ -201,7 +206,7 @@
   color: var(--dsp-text-muted);
 }
 
-.dsp-ct-content .ds-round-btn {
+body.dsp-ct-styled .dsp-ct-content .ds-round-btn {
   background: light-dark(rgba(0, 0, 0, 0.06), rgba(0, 0, 0, 0.25));
   border-color: var(--dsp-border);
   color: var(--dsp-text-faint);
@@ -209,37 +214,37 @@
   transition: color 0.15s ease, background 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
 }
 
-.dsp-ct-content .ds-round-btn:hover {
+body.dsp-ct-styled .dsp-ct-content .ds-round-btn:hover {
   background: light-dark(rgba(168, 139, 74, 0.06), rgba(200, 170, 110, 0.08));
   border-color: var(--dsp-border-light);
   color: var(--dsp-accent);
   transform: translateY(-1px);
 }
 
-.dsp-ct-content .ds-dock-close {
+body.dsp-ct-styled .dsp-ct-content .ds-dock-close {
   color: var(--dsp-text-faint);
 }
 
-.dsp-ct-content .ds-dock-close:hover {
+body.dsp-ct-styled .dsp-ct-content .ds-dock-close:hover {
   color: var(--dsp-danger);
 }
 
-.dsp-ct-content .ds-dock-toggle {
+body.dsp-ct-styled .dsp-ct-content .ds-dock-toggle {
   color: var(--dsp-text-faint);
 }
 
-.dsp-ct-content .ds-dock-toggle:hover {
+body.dsp-ct-styled .dsp-ct-content .ds-dock-toggle:hover {
   color: var(--dsp-text);
 }
 
-.dsp-ct-content .ds-dock-show {
+body.dsp-ct-styled .dsp-ct-content .ds-dock-show {
   background: light-dark(rgba(245, 240, 232, 0.9), rgba(13, 13, 13, 0.9));
   border-color: var(--dsp-border);
   border-radius: 0 0 var(--dsp-radius-sm) var(--dsp-radius-sm);
 }
 
 /* Action buttons — match dsp-neg-popup-btn pattern */
-.dsp-ct-content .ds-dock-btn {
+body.dsp-ct-styled .dsp-ct-content .ds-dock-btn {
   background: light-dark(rgba(0, 0, 0, 0.06), rgba(0, 0, 0, 0.25));
   border-color: var(--dsp-border);
   color: var(--dsp-text-light);
@@ -248,33 +253,33 @@
   transition: color 0.15s ease, background 0.15s ease, border-color 0.15s ease;
 }
 
-.dsp-ct-content .ds-dock-btn:hover:not(:disabled) {
+body.dsp-ct-styled .dsp-ct-content .ds-dock-btn:hover:not(:disabled) {
   background: light-dark(rgba(168, 139, 74, 0.06), rgba(200, 170, 110, 0.08));
   border-color: var(--dsp-border-light);
   color: var(--dsp-accent);
 }
 
 /* End Turn — DS+ danger red, same layered pattern as neg reset btn */
-.dsp-ct-content .ds-dock-btn.ds-end-turn:not(:disabled) {
+body.dsp-ct-styled .dsp-ct-content .ds-dock-btn.ds-end-turn:not(:disabled) {
   background: light-dark(rgba(192, 64, 64, 0.1), rgba(180, 30, 30, 0.22));
   border-color: light-dark(rgba(192, 64, 64, 0.35), rgba(180, 30, 30, 0.5));
   color: var(--dsp-text-light);
 }
 
-.dsp-ct-content .ds-dock-btn.ds-end-turn:hover:not(:disabled) {
+body.dsp-ct-styled .dsp-ct-content .ds-dock-btn.ds-end-turn:hover:not(:disabled) {
   background: light-dark(rgba(192, 64, 64, 0.18), rgba(180, 30, 30, 0.35));
   border-color: var(--dsp-danger);
   color: var(--dsp-danger);
 }
 
 /* Next Round — DS+ accent gold */
-.dsp-ct-content .ds-dock-btn.ds-next-round {
+body.dsp-ct-styled .dsp-ct-content .ds-dock-btn.ds-next-round {
   background: light-dark(rgba(168, 139, 74, 0.1), rgba(200, 170, 110, 0.12));
   border-color: light-dark(rgba(168, 139, 74, 0.4), rgba(200, 170, 110, 0.45));
   color: var(--dsp-text-light);
 }
 
-.dsp-ct-content .ds-dock-btn.ds-next-round:hover {
+body.dsp-ct-styled .dsp-ct-content .ds-dock-btn.ds-next-round:hover {
   background: light-dark(rgba(168, 139, 74, 0.18), rgba(200, 170, 110, 0.2));
   border-color: var(--dsp-accent);
   color: var(--dsp-accent);
@@ -284,19 +289,19 @@
    Portrait base styles
    ----------------------------------------------- */
 
-.dsp-ct-content .ds-portrait-img {
+body.dsp-ct-styled .dsp-ct-content .ds-portrait-img {
   border-color: var(--dsp-border);
   background: light-dark(rgba(200, 195, 185, 0.25), rgba(0, 0, 0, 0.5));
 }
 
-.dsp-ct-content .ds-portrait-name,
-.dsp-ct-content .ds-group-name {
+body.dsp-ct-styled .dsp-ct-content .ds-portrait-name,
+body.dsp-ct-styled .dsp-ct-content .ds-group-name {
   color: var(--dsp-text);
 }
 
 /* Stamina labels — match dsp-mc-label for readability */
-.dsp-ct-content .ds-portrait-stamina,
-.dsp-ct-content .ds-group-stamina {
+body.dsp-ct-styled .dsp-ct-content .ds-portrait-stamina,
+body.dsp-ct-styled .dsp-ct-content .ds-group-stamina {
   font-size: var(--dsp-font-size-2xs);
   font-weight: 700;
   letter-spacing: 0.05em;
@@ -304,11 +309,11 @@
 }
 
 /* Status colors */
-.dsp-ct-content .status-healthy { color: var(--dsp-text-light); }
-.dsp-ct-content .status-winded  { color: var(--dsp-accent-bright); }
-.dsp-ct-content .status-critical { color: var(--dsp-danger); }
+body.dsp-ct-styled .dsp-ct-content .status-healthy { color: var(--dsp-text-light); }
+body.dsp-ct-styled .dsp-ct-content .status-winded  { color: var(--dsp-accent-bright); }
+body.dsp-ct-styled .dsp-ct-content .status-critical { color: var(--dsp-danger); }
 
-.dsp-ct-content .ds-portrait-label {
+body.dsp-ct-styled .dsp-ct-content .ds-portrait-label {
   color: var(--dsp-accent-bright);
 }
 
@@ -317,26 +322,26 @@
    ----------------------------------------------- */
 
 /* Can act — keep a muted green (semantically meaningful) */
-.dsp-ct-content .ds-portrait.can-act .ds-portrait-img,
-.dsp-ct-content .ds-mini-portrait.can-act .ds-mini-portrait-img {
+body.dsp-ct-styled .dsp-ct-content .ds-portrait.can-act .ds-portrait-img,
+body.dsp-ct-styled .dsp-ct-content .ds-mini-portrait.can-act .ds-mini-portrait-img {
   border-color: rgba(46, 204, 113, 0.55);
 }
 
-.dsp-ct-content .ds-dock-side.highlighted .ds-portrait.can-act .ds-portrait-img,
-.dsp-ct-content .ds-dock-side.highlighted .ds-group-container.can-act {
+body.dsp-ct-styled .dsp-ct-content .ds-dock-side.highlighted .ds-portrait.can-act .ds-portrait-img,
+body.dsp-ct-styled .dsp-ct-content .ds-dock-side.highlighted .ds-group-container.can-act {
   border-color: rgba(46, 204, 113, 0.85);
   box-shadow: 0 0 10px rgba(46, 204, 113, 0.35), 0 0 20px rgba(46, 204, 113, 0.1);
 }
 
 /* Active — DS+ gold pulse, replaces the original orange */
-.dsp-ct-content .ds-portrait.active .ds-portrait-img {
+body.dsp-ct-styled .dsp-ct-content .ds-portrait.active .ds-portrait-img {
   border-color: var(--dsp-accent-bright);
   box-shadow: 0 0 12px color-mix(in srgb, var(--dsp-accent-bright) 60%, transparent),
               0 0 24px color-mix(in srgb, var(--dsp-accent-bright) 15%, transparent);
   animation: dsp-ct-active-pulse 2s ease-in-out infinite;
 }
 
-.dsp-ct-content .ds-mini-portrait.active .ds-mini-portrait-img {
+body.dsp-ct-styled .dsp-ct-content .ds-mini-portrait.active .ds-mini-portrait-img {
   border-color: var(--dsp-accent-bright);
   box-shadow: 0 0 8px color-mix(in srgb, var(--dsp-accent-bright) 55%, transparent);
   animation: dsp-ct-active-pulse 2s ease-in-out infinite;
@@ -346,23 +351,23 @@
    Group containers
    ----------------------------------------------- */
 
-.dsp-ct-content .ds-group-container {
+body.dsp-ct-styled .dsp-ct-content .ds-group-container {
   border-color: var(--dsp-border);
 }
 
-.dsp-ct-content .ds-group-container.active {
+body.dsp-ct-styled .dsp-ct-content .ds-group-container.active {
   border-color: var(--dsp-accent-bright);
   box-shadow: 0 0 12px color-mix(in srgb, var(--dsp-accent-bright) 40%, transparent);
   animation: dsp-ct-active-pulse 2s ease-in-out infinite;
 }
 
 /* Captain portrait — DS+ accent gold */
-.dsp-ct-content .ds-mini-portrait.captain .ds-mini-portrait-img {
+body.dsp-ct-styled .dsp-ct-content .ds-mini-portrait.captain .ds-mini-portrait-img {
   border-color: var(--dsp-accent);
 }
 
 /* Minion portrait */
-.dsp-ct-content .ds-mini-portrait.minion .ds-mini-portrait-img {
+body.dsp-ct-styled .dsp-ct-content .ds-mini-portrait.minion .ds-mini-portrait-img {
   border-color: var(--dsp-border);
 }
 
@@ -388,26 +393,26 @@
    Floating tooltip (appended to <body>)
    ----------------------------------------------- */
 
-.ds-floating-tooltip {
+body.dsp-ct-styled .ds-floating-tooltip {
   background: light-dark(rgba(245, 240, 232, 0.98), rgba(13, 13, 13, 0.98));
   border-color: var(--dsp-border);
   border-radius: var(--dsp-radius-md);
   box-shadow: 0 4px 20px var(--dsp-shadow);
 }
 
-.ds-tooltip-header {
+body.dsp-ct-styled .ds-tooltip-header {
   color: var(--dsp-text);
   border-bottom-color: var(--dsp-border);
 }
 
-.ds-tooltip-hint {
+body.dsp-ct-styled .ds-tooltip-hint {
   color: var(--dsp-text-faint);
 }
 
-.ds-tooltip-line {
+body.dsp-ct-styled .ds-tooltip-line {
   color: var(--dsp-text-light);
 }
 
-.ds-tooltip-divider {
+body.dsp-ct-styled .ds-tooltip-divider {
   background: var(--dsp-border);
 }

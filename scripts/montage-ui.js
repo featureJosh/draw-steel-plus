@@ -615,8 +615,15 @@ function setupMontageSocket() {
 
 function setupMontageSkillInjection() {
   const PRDialog = ds?.applications?.apps?.PowerRollDialog;
-  if (!PRDialog) return;
+  if (!PRDialog) {
+    console.warn(`${MODULE_ID} | ds.applications.apps.PowerRollDialog not found — montage skill injection disabled. The Draw Steel API may have moved; please file an issue.`);
+    return;
+  }
   const origCreate = PRDialog.create;
+  if (typeof origCreate !== "function") {
+    console.warn(`${MODULE_ID} | PowerRollDialog.create is not a function — montage skill injection disabled.`);
+    return;
+  }
   PRDialog.create = function (options) {
     if (_pendingMontageSkill && options?.context) {
       const ctx = options.context;

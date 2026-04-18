@@ -132,6 +132,7 @@ export const UI_DEFAULTS = {
   improvedChat: true,
   useCustomMetaCurrency: true,
   useCombatTrackerPanel: true,
+  combatTrackerDspStyle: true,
 };
 
 export const NEGOTIATION_DEFAULTS = {

@@ -243,6 +243,16 @@ export function registerSettings() {
     requiresReload: true,
   });
 
+  game.settings.register(MODULE_ID, "combatTrackerDspStyle", {
+    name: "DRAW_STEEL_PLUS.Settings.combatTrackerDspStyle.name",
+    hint: "DRAW_STEEL_PLUS.Settings.combatTrackerDspStyle.hint",
+    scope: "client",
+    config: true,
+    type: Boolean,
+    default: UI_DEFAULTS.combatTrackerDspStyle,
+    requiresReload: false,
+  });
+
   game.settings.register(MODULE_ID, "negotiationUIVisible", {
     scope: "world",
     config: false,
