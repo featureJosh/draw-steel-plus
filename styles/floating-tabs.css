@@ -92,3 +92,7 @@
 .draw-steel-plus.sheet.dsp-has-floating-tabs.minimizing .dsp-floating-tabs {
   display: none;
 }
+
+.draw-steel-plus.sheet.dsp-detached .dsp-floating-tabs {
+  z-index: 1;
+}

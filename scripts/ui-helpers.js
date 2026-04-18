@@ -187,6 +187,52 @@ export function applyHeaderArt(element, sheetType) {
   }
 }
 
+const _detachedResizeHandlers = new WeakMap();
+
+function _cleanupDetachedHandler(element) {
+  const existing = _detachedResizeHandlers.get(element);
+  if (!existing) return;
+  try { existing.win.removeEventListener("resize", existing.handler); } catch {}
+  _detachedResizeHandlers.delete(element);
+}
+
+function _syncDetachedWindowWidth(element, nav) {
+  _cleanupDetachedHandler(element);
+
+  const ownerDoc = element.ownerDocument;
+  const win = ownerDoc?.defaultView;
+  const isDetached = !!win && win !== window;
+
+  element.classList.toggle("dsp-detached", isDetached);
+  if (!isDetached) return;
+
+  const grow = () => {
+    if (!element.isConnected) return;
+    const navRect = nav.getBoundingClientRect();
+    const winWidth = win.innerWidth;
+    const overflow = Math.ceil(navRect.right - winWidth);
+    if (overflow > 0) {
+      try {
+        win.resizeBy(overflow + 8, 0);
+      } catch (err) {
+        console.warn(`${MODULE_ID} | Could not resize detached window to fit floating tabs`, err);
+      }
+    }
+  };
+
+  requestAnimationFrame(grow);
+
+  const handler = () => {
+    if (!element.isConnected) {
+      _cleanupDetachedHandler(element);
+      return;
+    }
+    grow();
+  };
+  win.addEventListener("resize", handler);
+  _detachedResizeHandlers.set(element, { win, handler });
+}
+
 export function applyFloatingTabs(sheet) {
   const enabled = game.settings.get(MODULE_ID, "floatingNavTabs");
   const element = sheet.element;
@@ -195,6 +241,8 @@ export function applyFloatingTabs(sheet) {
     const existing = element.querySelector(".dsp-floating-tabs");
     if (existing) existing.remove();
     element.classList.remove("dsp-has-floating-tabs");
+    element.classList.remove("dsp-detached");
+    _cleanupDetachedHandler(element);
     return;
   }
 
@@ -212,10 +260,11 @@ export function applyFloatingTabs(sheet) {
       const tab = existingFloating.querySelector(`[data-tab="${link.dataset.tab}"]`);
       if (tab) tab.classList.toggle("active", link.classList.contains("active"));
     });
+    _syncDetachedWindowWidth(element, existingFloating);
     return;
   }
 
-  const nav = document.createElement("nav");
+  const nav = element.ownerDocument.createElement("nav");
   nav.className = "dsp-floating-tabs tabs-right";
   nav.style.top = `35%`;
 
@@ -225,13 +274,13 @@ export function applyFloatingTabs(sheet) {
     const isActive = originalLink.classList.contains("active");
     const icon = FLOATING_TAB_ICONS[tabName] || "fas fa-file";
 
-    const a = document.createElement("a");
+    const a = element.ownerDocument.createElement("a");
     a.className = `dsp-float-tab${isActive ? " active" : ""}`;
     a.dataset.tab = tabName;
     a.setAttribute("data-tooltip", label);
     a.setAttribute("aria-label", label);
 
-    const i = document.createElement("i");
+    const i = element.ownerDocument.createElement("i");
     i.className = icon;
     i.setAttribute("inert", "");
     a.appendChild(i);
@@ -248,6 +297,8 @@ export function applyFloatingTabs(sheet) {
   });
 
   element.appendChild(nav);
+
+  _syncDetachedWindowWidth(element, nav);
 }
 
 const _scrollTimers = new WeakMap();
@@ -327,9 +378,9 @@ export function debouncedRenderAllSheets(delay = 150) {
   if (_renderTimer) clearTimeout(_renderTimer);
   _renderTimer = setTimeout(() => {
     _renderTimer = null;
-    Object.values(ui.windows)
-      .filter(w => w.element?.classList.contains("draw-steel-plus"))
-      .forEach(w => w.render());
+    for (const app of foundry.applications.instances.values()) {
+      if (app.element?.classList.contains("draw-steel-plus")) app.render();
+    }
   }, delay);
 }
 
