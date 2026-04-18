@@ -437,11 +437,9 @@ export class TooltipsDSP {
 
     const props = [];
 
-    const endType = doc.system?.end?.type;
-    if (endType) {
-      const endLabel = globalThis.ds?.CONFIG?.effectEnds?.[endType]?.label
-        ?? globalThis.ds?.CONFIG?.effectEnds?.[endType]?.abbreviation;
-      if (endLabel) props.push(game.i18n.localize(endLabel));
+    const expiry = doc.duration?.expiry;
+    if (expiry && doc.duration?.label) {
+      props.push(doc.duration.label);
     }
 
     for (const status of (doc.statuses ?? [])) {
