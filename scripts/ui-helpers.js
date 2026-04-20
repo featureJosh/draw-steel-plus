@@ -187,50 +187,37 @@ export function applyHeaderArt(element, sheetType) {
   }
 }
 
-const _detachedResizeHandlers = new WeakMap();
+const _wrappedSheets = new WeakSet();
 
-function _cleanupDetachedHandler(element) {
-  const existing = _detachedResizeHandlers.get(element);
-  if (!existing) return;
-  try { existing.win.removeEventListener("resize", existing.handler); } catch {}
-  _detachedResizeHandlers.delete(element);
+function _syncDetachedState(element) {
+  const win = element.ownerDocument?.defaultView;
+  const isDetached = !!win && win !== window;
+  element.classList.toggle("dsp-detached", isDetached);
 }
 
-function _syncDetachedWindowWidth(element, nav) {
-  _cleanupDetachedHandler(element);
-
-  const ownerDoc = element.ownerDocument;
-  const win = ownerDoc?.defaultView;
-  const isDetached = !!win && win !== window;
-
-  element.classList.toggle("dsp-detached", isDetached);
-  if (!isDetached) return;
-
-  const grow = () => {
-    if (!element.isConnected) return;
-    const navRect = nav.getBoundingClientRect();
-    const winWidth = win.innerWidth;
-    const overflow = Math.ceil(navRect.right - winWidth);
-    if (overflow > 0) {
-      try {
-        win.resizeBy(overflow + 8, 0);
-      } catch (err) {
-        console.warn(`${MODULE_ID} | Could not resize detached window to fit floating tabs`, err);
-      }
+function _installPositionClamp(sheet) {
+  if (_wrappedSheets.has(sheet)) return;
+  const original = sheet._updatePosition;
+  if (typeof original !== "function") return;
+  sheet._updatePosition = function(position) {
+    const pos = original.call(this, position);
+    const element = this.element;
+    if (!element) return pos;
+    const nav = element.querySelector(".dsp-floating-tabs.tabs-right");
+    const rightOverhang = nav?.offsetWidth ?? 0;
+    if (!rightOverhang) return pos;
+    const clientWidth = element.ownerDocument?.documentElement?.clientWidth ?? 0;
+    if (!clientWidth) return pos;
+    const sheetWidth = typeof pos.width === "number" ? pos.width : (element.offsetWidth ?? 0);
+    const maxLeft = Math.max(clientWidth - sheetWidth - rightOverhang, 0);
+    const currentLeft = typeof pos.left === "number" ? pos.left : 0;
+    pos.left = Math.min(Math.max(currentLeft, 0), maxLeft);
+    if (typeof pos.width === "number") {
+      pos.width = Math.min(pos.width, Math.max(clientWidth - pos.left - rightOverhang, 0));
     }
+    return pos;
   };
-
-  requestAnimationFrame(grow);
-
-  const handler = () => {
-    if (!element.isConnected) {
-      _cleanupDetachedHandler(element);
-      return;
-    }
-    grow();
-  };
-  win.addEventListener("resize", handler);
-  _detachedResizeHandlers.set(element, { win, handler });
+  _wrappedSheets.add(sheet);
 }
 
 export function applyFloatingTabs(sheet) {
@@ -242,7 +229,6 @@ export function applyFloatingTabs(sheet) {
     if (existing) existing.remove();
     element.classList.remove("dsp-has-floating-tabs");
     element.classList.remove("dsp-detached");
-    _cleanupDetachedHandler(element);
     return;
   }
 
@@ -260,7 +246,8 @@ export function applyFloatingTabs(sheet) {
       const tab = existingFloating.querySelector(`[data-tab="${link.dataset.tab}"]`);
       if (tab) tab.classList.toggle("active", link.classList.contains("active"));
     });
-    _syncDetachedWindowWidth(element, existingFloating);
+    _syncDetachedState(element);
+    _installPositionClamp(sheet);
     return;
   }
 
@@ -298,7 +285,11 @@ export function applyFloatingTabs(sheet) {
 
   element.appendChild(nav);
 
-  _syncDetachedWindowWidth(element, nav);
+  _syncDetachedState(element);
+  _installPositionClamp(sheet);
+  requestAnimationFrame(() => {
+    if (element.isConnected) sheet.setPosition?.({});
+  });
 }
 
 const _scrollTimers = new WeakMap();
