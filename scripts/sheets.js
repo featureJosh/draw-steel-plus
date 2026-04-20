@@ -67,7 +67,7 @@ async function documentListShare(event, target) {
   const row = target.closest("[data-document-uuid]");
   if (!row) return;
   const entries = this._getDocumentListContextOptions?.() ?? [];
-  const shareEntry = entries.find(e => e.name === "DRAW_STEEL.SHEET.Share");
+  const shareEntry = entries.find(e => e.label === "DRAW_STEEL.SHEET.Share");
   if (shareEntry?.condition?.(target) !== false && shareEntry?.callback) {
     await shareEntry.callback(target);
   }
