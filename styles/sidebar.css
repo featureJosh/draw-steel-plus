@@ -558,7 +558,7 @@
 .draw-steel-plus.sheet .sidebar-section > .sidebar-section-title::after,
 .draw-steel-plus.sheet .sidebar-tag-section > .sidebar-tag-header::after {
   content: "\f078";
-  font-family: "Font Awesome 6 Pro";
+  font-family: var(--font-awesome);
   font-weight: 900;
   font-size: var(--dsp-font-size-3xs);
   color: var(--dsp-text-faint);
