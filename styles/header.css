@@ -122,7 +122,7 @@
 
 .draw-steel-plus.sheet .sheet-header .portrait-frame.dsp-dead::after {
   content: "\f54c";
-  font-family: "Font Awesome 6 Pro";
+  font-family: var(--font-awesome);
   font-weight: 900;
   position: absolute;
   inset: 0;
@@ -437,7 +437,7 @@ inset 0 1px 0 rgba(255, 255, 255, 0.12);
 	cursor: pointer;
 	align-self: center;
 	transition: color var(--dsp-transition), border-color var(--dsp-transition), background var(--dsp-transition);
-	font-family: "Font Awesome 6 Pro";
+	font-family: var(--font-awesome);
 }
 
 .draw-steel-plus.sheet .sheet-header .header-characteristics .char-edit-btn:hover {
