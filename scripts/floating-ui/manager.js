@@ -276,6 +276,15 @@ export class FloatingUIManager {
     GridOverlay.updateZone(pos.anchor);
     GridOverlay.updatePreview(snapped.left, snapped.top, primary.width, primary.height);
 
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
+    const centerX = snapped.left + primary.width / 2;
+    const centerY = snapped.top + primary.height / 2;
+    const tol = Math.max(getGridSize() / 2, 3);
+    const onVCenter = Math.abs(centerX - vw / 2) <= tol;
+    const onHCenter = Math.abs(centerY - vh / 2) <= tol;
+    GridOverlay.setCenterActive(onVCenter, onHCenter);
+
     this._drag.pendingPos = pos;
     this._drag.pendingSnapped = snapped;
   }

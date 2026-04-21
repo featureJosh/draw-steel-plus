@@ -250,6 +250,120 @@ body.dsp-fui-link-mode .dsp-fui-link-source .dsp-fui-panel {
   height: 1px;
 }
 
+.dsp-grid-overlay .dsp-grid-center-axes {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.dsp-grid-overlay .dsp-grid-center-line {
+  position: absolute;
+  background: light-dark(rgba(60, 55, 45, 0.45), rgba(220, 215, 205, 0.4));
+  box-shadow: 0 0 8px light-dark(rgba(60, 55, 45, 0.15), rgba(220, 215, 205, 0.12));
+}
+
+.dsp-grid-overlay .dsp-grid-center-vline {
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 1px;
+  transform: translateX(-0.5px);
+  background-image: linear-gradient(
+    to bottom,
+    light-dark(rgba(60, 55, 45, 0.55), rgba(220, 215, 205, 0.5)) 0 6px,
+    transparent 6px 12px
+  );
+  background-size: 1px 12px;
+  background-color: transparent;
+  box-shadow: none;
+}
+
+.dsp-grid-overlay .dsp-grid-center-hline {
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 1px;
+  transform: translateY(-0.5px);
+  background-image: linear-gradient(
+    to right,
+    light-dark(rgba(60, 55, 45, 0.55), rgba(220, 215, 205, 0.5)) 0 6px,
+    transparent 6px 12px
+  );
+  background-size: 12px 1px;
+  background-color: transparent;
+  box-shadow: none;
+}
+
+.dsp-grid-overlay .dsp-grid-center-point {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 28px;
+  height: 28px;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dsp-grid-overlay .dsp-grid-center-point::before,
+.dsp-grid-overlay .dsp-grid-center-point::after {
+  content: "";
+  position: absolute;
+  background: light-dark(rgba(60, 55, 45, 0.75), rgba(235, 230, 220, 0.7));
+}
+
+.dsp-grid-overlay .dsp-grid-center-point::before {
+  width: 14px;
+  height: 1.5px;
+}
+
+.dsp-grid-overlay .dsp-grid-center-point::after {
+  width: 1.5px;
+  height: 14px;
+}
+
+.dsp-grid-overlay .dsp-grid-center-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: light-dark(rgba(60, 55, 45, 0.85), rgba(235, 230, 220, 0.85));
+  box-shadow: 0 0 0 2px light-dark(rgba(245, 240, 232, 0.9), rgba(13, 13, 13, 0.7));
+  position: relative;
+  z-index: 1;
+}
+
+.dsp-grid-overlay.dsp-grid-center-v-active .dsp-grid-center-vline {
+  background-image: none;
+  background-color: var(--dsp-accent-bright);
+  box-shadow: 0 0 10px color-mix(in srgb, var(--dsp-accent-bright) 55%, transparent);
+  opacity: 0.9;
+}
+
+.dsp-grid-overlay.dsp-grid-center-h-active .dsp-grid-center-hline {
+  background-image: none;
+  background-color: var(--dsp-accent-bright);
+  box-shadow: 0 0 10px color-mix(in srgb, var(--dsp-accent-bright) 55%, transparent);
+  opacity: 0.9;
+}
+
+.dsp-grid-overlay.dsp-grid-center-v-active .dsp-grid-center-point::after {
+  background: var(--dsp-accent-bright);
+  box-shadow: 0 0 6px color-mix(in srgb, var(--dsp-accent-bright) 55%, transparent);
+}
+
+.dsp-grid-overlay.dsp-grid-center-h-active .dsp-grid-center-point::before {
+  background: var(--dsp-accent-bright);
+  box-shadow: 0 0 6px color-mix(in srgb, var(--dsp-accent-bright) 55%, transparent);
+}
+
+.dsp-grid-overlay.dsp-grid-center-active .dsp-grid-center-dot {
+  background: var(--dsp-accent-bright);
+  box-shadow:
+    0 0 0 2px light-dark(rgba(245, 240, 232, 0.95), rgba(13, 13, 13, 0.8)),
+    0 0 16px color-mix(in srgb, var(--dsp-accent-bright) 75%, transparent);
+}
+
 .dsp-grid-overlay .dsp-grid-zone-highlight {
   position: absolute;
   background: light-dark(rgba(60, 55, 45, 0.06), rgba(220, 215, 205, 0.05));

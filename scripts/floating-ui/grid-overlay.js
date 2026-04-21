@@ -43,6 +43,20 @@ export class GridOverlay {
     dots.className = "dsp-grid-dots";
     el.appendChild(dots);
 
+    const centerAxes = document.createElement("div");
+    centerAxes.className = "dsp-grid-center-axes";
+    const cv = document.createElement("div");
+    cv.className = "dsp-grid-center-line dsp-grid-center-vline";
+    const ch = document.createElement("div");
+    ch.className = "dsp-grid-center-line dsp-grid-center-hline";
+    const cp = document.createElement("div");
+    cp.className = "dsp-grid-center-point";
+    cp.innerHTML = '<span class="dsp-grid-center-dot"></span>';
+    centerAxes.appendChild(cv);
+    centerAxes.appendChild(ch);
+    centerAxes.appendChild(cp);
+    el.appendChild(centerAxes);
+
     const highlight = document.createElement("div");
     highlight.className = "dsp-grid-zone-highlight";
     el.appendChild(highlight);
@@ -99,5 +113,12 @@ export class GridOverlay {
   static hidePreview() {
     if (!this._preview) return;
     this._preview.style.opacity = "0";
+  }
+
+  static setCenterActive(vertical, horizontal) {
+    if (!this._el) return;
+    this._el.classList.toggle("dsp-grid-center-v-active", !!vertical);
+    this._el.classList.toggle("dsp-grid-center-h-active", !!horizontal);
+    this._el.classList.toggle("dsp-grid-center-active", !!vertical && !!horizontal);
   }
 }
