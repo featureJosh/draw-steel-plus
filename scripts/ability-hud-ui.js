@@ -75,6 +75,14 @@ export class AbilityHudUI extends DspFloatingUI {
     return { ...this.getFloatingState() };
   }
 
+  _onFirstRender(context, options) {
+    super._onFirstRender?.(context, options);
+    if (this.element) {
+      this.element.style.visibility = "hidden";
+    }
+    this._revealFallback = setTimeout(() => this._reveal(), 750);
+  }
+
   _onRender(context, options) {
     super._onRender(context, options);
     this._tryAdoptHud();
@@ -86,6 +94,9 @@ export class AbilityHudUI extends DspFloatingUI {
     this._hudObserver = null;
     this._hudResizeObserver?.disconnect();
     this._hudResizeObserver = null;
+    clearTimeout(this._revealFallback);
+    this._revealFallback = null;
+    this._revealed = false;
     document.body.classList.remove("dsp-ahud-styled");
     const hudEl = document.getElementById("ds-ability-hud");
     if (hudEl) document.body.appendChild(hudEl);
@@ -101,7 +112,7 @@ export class AbilityHudUI extends DspFloatingUI {
       this._hudObserver?.disconnect();
       this._hudObserver = null;
       this._observeHudSize(hudEl);
-      this._recenterIfNeeded();
+      this._recenterAndReveal();
     } else if (!hudEl) {
       this._watchForHud();
     }
@@ -123,6 +134,26 @@ export class AbilityHudUI extends DspFloatingUI {
       const w = this.element.offsetWidth || this.constructor.DEFAULT_WIDTH;
       this.setPosition(this.constructor.getDefaultPosition(w));
     });
+  }
+
+  _recenterAndReveal() {
+    const isCentered = game.user.getFlag(MODULE_ID, `ui.${this.id}.centered`) ?? true;
+    requestAnimationFrame(() => {
+      if (!this.element) return;
+      if (isCentered) {
+        const w = this.element.offsetWidth || this.constructor.DEFAULT_WIDTH;
+        this.setPosition(this.constructor.getDefaultPosition(w));
+      }
+      requestAnimationFrame(() => this._reveal());
+    });
+  }
+
+  _reveal() {
+    if (this._revealed) return;
+    this._revealed = true;
+    clearTimeout(this._revealFallback);
+    this._revealFallback = null;
+    if (this.element) this.element.style.visibility = "";
   }
 
   _watchForHud() {
