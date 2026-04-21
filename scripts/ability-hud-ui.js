@@ -30,8 +30,11 @@ export class AbilityHudUI extends DspFloatingUI {
     const w = elementWidth ?? this.DEFAULT_WIDTH;
     const vw = window.innerWidth;
     const vh = window.innerHeight;
+    const hotbar = document.getElementById("hotbar");
+    const hotbarTop = hotbar?.getBoundingClientRect().top ?? (vh - 80);
+    const gap = 12;
     return {
-      top: Math.max(this.SAFE_MARGIN, vh - 200),
+      top: Math.max(this.SAFE_MARGIN, Math.round(hotbarTop - 56 - gap)),
       left: Math.max(this.SAFE_MARGIN, Math.round((vw / 2) - (w / 2))),
     };
   }
@@ -81,6 +84,8 @@ export class AbilityHudUI extends DspFloatingUI {
   _onClose(options) {
     this._hudObserver?.disconnect();
     this._hudObserver = null;
+    this._hudResizeObserver?.disconnect();
+    this._hudResizeObserver = null;
     document.body.classList.remove("dsp-ahud-styled");
     const hudEl = document.getElementById("ds-ability-hud");
     if (hudEl) document.body.appendChild(hudEl);
@@ -95,9 +100,29 @@ export class AbilityHudUI extends DspFloatingUI {
       container.appendChild(hudEl);
       this._hudObserver?.disconnect();
       this._hudObserver = null;
+      this._observeHudSize(hudEl);
+      this._recenterIfNeeded();
     } else if (!hudEl) {
       this._watchForHud();
     }
+  }
+
+  _observeHudSize(hudEl) {
+    this._hudResizeObserver?.disconnect();
+    this._hudResizeObserver = new ResizeObserver(() => {
+      this._recenterIfNeeded();
+    });
+    this._hudResizeObserver.observe(hudEl);
+  }
+
+  _recenterIfNeeded() {
+    const isCentered = game.user.getFlag(MODULE_ID, `ui.${this.id}.centered`) ?? true;
+    if (!isCentered) return;
+    requestAnimationFrame(() => {
+      if (!this.element) return;
+      const w = this.element.offsetWidth || this.constructor.DEFAULT_WIDTH;
+      this.setPosition(this.constructor.getDefaultPosition(w));
+    });
   }
 
   _watchForHud() {

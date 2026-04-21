@@ -326,7 +326,10 @@
     "CombatTracker": {
       "lock": "Lock Position",
       "unlock": "Unlock Position",
-      "resetPosition": "Reset Position"
+      "resetPosition": "Reset Position",
+      "collapse": "Collapse",
+      "expand": "Expand",
+      "endCombat": "End Encounter"
     },
     "AbilityHud": {
       "lock": "Lock Position",

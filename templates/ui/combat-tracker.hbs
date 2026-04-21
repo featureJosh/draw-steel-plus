@@ -10,7 +10,17 @@
     <button class="dsp-fui-toolbar-btn" type="button" data-action="resetPosition" data-tooltip="{{localize 'DRAW_STEEL_PLUS.CombatTracker.resetPosition'}}">
       <i class="fa-solid fa-crosshairs" inert></i>
     </button>
+    <button class="dsp-fui-toolbar-btn dsp-ct-collapse-btn" type="button" data-action="toggleCollapse" data-tooltip="{{#if isCollapsed}}{{localize 'DRAW_STEEL_PLUS.CombatTracker.expand'}}{{else}}{{localize 'DRAW_STEEL_PLUS.CombatTracker.collapse'}}{{/if}}">
+      <i class="fa-solid {{#if isCollapsed}}fa-chevron-down{{else}}fa-chevron-up{{/if}}" inert></i>
+    </button>
+    {{#if isGM}}
+    <button class="dsp-fui-toolbar-btn dsp-ct-end-btn" type="button" data-action="endCombat" data-tooltip="{{localize 'DRAW_STEEL_PLUS.CombatTracker.endCombat'}}">
+      <i class="fa-solid fa-xmark" inert></i>
+    </button>
+    {{/if}}
   </div>
+
+  <div class="dsp-ct-mini"></div>
 
   {{!-- The #ds-combat-dock element is adopted into this container at runtime --}}
   <div class="dsp-ct-content"></div>
