@@ -7,6 +7,7 @@ import { registerSheets } from "./sheets.js";
 import { MetaCurrencyTracker } from "./meta-currency.js";
 import { CombatTrackerUI } from "./combat-tracker-ui.js";
 import { AbilityHudUI } from "./ability-hud-ui.js";
+import "./ability-hud-popup-flip.js";
 import { initializeNegotiationUI } from "./negotiation-ui.js";
 import { initializeMontageUI } from "./montage-ui.js";
 import { TooltipsDSP } from "./tooltips.js";

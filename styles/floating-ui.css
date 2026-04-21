@@ -79,22 +79,36 @@
   pointer-events: auto;
 }
 
-.dsp-fui-drag-handle {
+.dsp-fui-toolbar {
   cursor: grab;
+}
+
+.dsp-fui-toolbar:active {
+  cursor: grabbing;
+}
+
+.dsp-fui-locked .dsp-fui-toolbar {
+  cursor: default;
+}
+
+.dsp-fui-toolbar button,
+.dsp-fui-toolbar a,
+.dsp-fui-toolbar input,
+.dsp-fui-toolbar [data-action] {
+  cursor: pointer;
+}
+
+.dsp-fui-drag-handle {
   color: var(--dsp-text-faint);
   padding: 2px 6px;
   font-size: var(--dsp-font-size-base);
   transition: color var(--dsp-fui-transition-fast);
   display: flex;
   align-items: center;
-}
-
-.dsp-fui-drag-handle:hover {
-  color: var(--dsp-text-light);
+  pointer-events: none;
 }
 
 .dsp-fui-locked .dsp-fui-drag-handle {
-  cursor: default;
   opacity: 0.3;
 }
 
@@ -823,6 +837,11 @@ body.dsp-ct-styled .ds-tooltip-divider {
 
 .dsp-ahud-content .dsahud-bar {
   flex-wrap: nowrap !important;
+}
+
+.dsp-ahud-content .dsahud-button.dsahud-open-down .dsahud-popup {
+  bottom: auto !important;
+  top: calc(100% + 4px) !important;
 }
 
 body.dsp-ahud-styled .dsp-ahud-content .dsahud-button {

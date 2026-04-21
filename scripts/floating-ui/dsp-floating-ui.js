@@ -104,10 +104,10 @@ export class DspFloatingUI extends HandlebarsApplicationMixin(ApplicationV2) {
     if (groupId) this.element.dataset.dspGroup = groupId;
     else delete this.element.dataset.dspGroup;
 
-    const handle = this.element.querySelector(".dsp-fui-drag-handle");
-    if (handle) {
-      handle.removeEventListener("mousedown", this._boundDragStart);
-      handle.addEventListener("mousedown", this._boundDragStart);
+    const toolbar = this.element.querySelector(".dsp-fui-toolbar");
+    if (toolbar) {
+      toolbar.removeEventListener("mousedown", this._boundDragStart);
+      toolbar.addEventListener("mousedown", this._boundDragStart);
     }
 
     this.#ensureLinkButton();
@@ -214,6 +214,7 @@ export class DspFloatingUI extends HandlebarsApplicationMixin(ApplicationV2) {
   }
 
   #onDragStart(event) {
+    if (event.target.closest("button, a, input, select, textarea, [data-action], [contenteditable=\"true\"]")) return;
     FloatingUIManager.startDrag(this, event);
   }
 
