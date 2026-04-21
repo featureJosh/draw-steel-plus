@@ -20,7 +20,7 @@ export class AbilityHudUI extends DspFloatingUI {
     },
   };
 
-  static DEFAULT_WIDTH = 520;
+  static DEFAULT_WIDTH = 110;
 
   static isModuleActive() {
     return !!game.modules.get(ABILITY_HUD_MODULE_ID)?.active;
@@ -30,12 +30,27 @@ export class AbilityHudUI extends DspFloatingUI {
     const w = elementWidth ?? this.DEFAULT_WIDTH;
     const vw = window.innerWidth;
     const vh = window.innerHeight;
-    const hotbar = document.getElementById("hotbar");
-    const hotbarTop = hotbar?.getBoundingClientRect().top ?? (vh - 80);
     const gap = 12;
+    const toolbarH = 56;
+
+    const hud = document.getElementById("ds-ability-hud");
+    const hudRect = hud?.getBoundingClientRect();
+    const hotbar = document.getElementById("hotbar");
+    const hotbarRect = hotbar?.getBoundingClientRect();
+
+    const target = (hudRect && hudRect.width > 0) ? hudRect : hotbarRect;
+
+    if (target) {
+      const centerX = target.left + target.width / 2;
+      return {
+        top: Math.max(this.SAFE_MARGIN, Math.round(target.top - toolbarH - gap)),
+        left: Math.max(this.SAFE_MARGIN, Math.round(centerX - w / 2)),
+      };
+    }
+
     return {
-      top: Math.max(this.SAFE_MARGIN, Math.round(hotbarTop - 56 - gap)),
-      left: Math.max(this.SAFE_MARGIN, Math.round((vw / 2) - (w / 2))),
+      top: Math.max(this.SAFE_MARGIN, vh - 160),
+      left: Math.max(this.SAFE_MARGIN, Math.round(vw / 2 - w / 2)),
     };
   }
 
@@ -75,28 +90,17 @@ export class AbilityHudUI extends DspFloatingUI {
     return { ...this.getFloatingState() };
   }
 
-  _onFirstRender(context, options) {
-    super._onFirstRender?.(context, options);
-    if (this.element) {
-      this.element.style.visibility = "hidden";
-    }
-    this._revealFallback = setTimeout(() => this._reveal(), 750);
-  }
-
   _onRender(context, options) {
     super._onRender(context, options);
     this._tryAdoptHud();
+    this._bindSidebarHooks();
     document.body.classList.toggle("dsp-ahud-styled", game.settings.get(MODULE_ID, "abilityHudDspStyle"));
   }
 
   _onClose(options) {
     this._hudObserver?.disconnect();
     this._hudObserver = null;
-    this._hudResizeObserver?.disconnect();
-    this._hudResizeObserver = null;
-    clearTimeout(this._revealFallback);
-    this._revealFallback = null;
-    this._revealed = false;
+    this._unbindSidebarHooks();
     document.body.classList.remove("dsp-ahud-styled");
     const hudEl = document.getElementById("ds-ability-hud");
     if (hudEl) document.body.appendChild(hudEl);
@@ -111,49 +115,33 @@ export class AbilityHudUI extends DspFloatingUI {
       container.appendChild(hudEl);
       this._hudObserver?.disconnect();
       this._hudObserver = null;
-      this._observeHudSize(hudEl);
-      this._recenterAndReveal();
+      this._recenterIfNeeded();
     } else if (!hudEl) {
       this._watchForHud();
     }
   }
 
-  _observeHudSize(hudEl) {
-    this._hudResizeObserver?.disconnect();
-    this._hudResizeObserver = new ResizeObserver(() => {
-      this._recenterIfNeeded();
-    });
-    this._hudResizeObserver.observe(hudEl);
-  }
-
   _recenterIfNeeded() {
     const isCentered = game.user.getFlag(MODULE_ID, `ui.${this.id}.centered`) ?? true;
     if (!isCentered) return;
-    requestAnimationFrame(() => {
-      if (!this.element) return;
-      const w = this.element.offsetWidth || this.constructor.DEFAULT_WIDTH;
-      this.setPosition(this.constructor.getDefaultPosition(w));
-    });
+    if (!this.element) return;
+    const w = this.element.offsetWidth || this.constructor.DEFAULT_WIDTH;
+    this.setPosition(this.constructor.getDefaultPosition(w));
   }
 
-  _recenterAndReveal() {
-    const isCentered = game.user.getFlag(MODULE_ID, `ui.${this.id}.centered`) ?? true;
-    requestAnimationFrame(() => {
-      if (!this.element) return;
-      if (isCentered) {
-        const w = this.element.offsetWidth || this.constructor.DEFAULT_WIDTH;
-        this.setPosition(this.constructor.getDefaultPosition(w));
-      }
-      requestAnimationFrame(() => this._reveal());
-    });
+  _bindSidebarHooks() {
+    if (this._sidebarHookIds?.length) return;
+    const realign = () => setTimeout(() => this._recenterIfNeeded(), 320);
+    this._sidebarHookIds = [
+      { event: "collapseSidebar", id: Hooks.on("collapseSidebar", realign) },
+      { event: "renderSidebar", id: Hooks.on("renderSidebar", realign) },
+    ];
   }
 
-  _reveal() {
-    if (this._revealed) return;
-    this._revealed = true;
-    clearTimeout(this._revealFallback);
-    this._revealFallback = null;
-    if (this.element) this.element.style.visibility = "";
+  _unbindSidebarHooks() {
+    if (!this._sidebarHookIds) return;
+    for (const { event, id } of this._sidebarHookIds) Hooks.off(event, id);
+    this._sidebarHookIds = [];
   }
 
   _watchForHud() {
