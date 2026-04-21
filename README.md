@@ -2,8 +2,6 @@
 
 Improves the UI/UX of the Draw Steel system for character sheets, item sheets, and general UI elements. Adds new sleek custom sheets, item preview tooltips, improved chat styling and new UIs for metacurrency, negotiation, montage tests and etc.
 
-> **Requirements (v2.0.0+):** Foundry VTT **14.360+** and Draw Steel system **1.0.0+**. Earlier versions (Foundry 13 / Draw Steel 0.11.x) are no longer supported — use Draw Steel Plus 1.9.x if you need them.
-
 **Custom Sheets**
 
 ![New custom sheets](https://github.com/user-attachments/assets/d4a379a4-175d-4f6b-9f03-5781c73688e7)
