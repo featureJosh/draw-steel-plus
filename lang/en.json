@@ -119,6 +119,14 @@
         "name": "Floating Navigation Tabs",
         "hint": "Display floating icon tabs on the right side of character sheets for quick navigation."
       },
+      "floatingUIGridSize": {
+        "name": "Floating UI Grid Size",
+        "hint": "Pixel size of the snap grid used when dragging floating panels. Hold Shift while dragging to disable snapping."
+      },
+      "floatingUIShowOverlay": {
+        "name": "Show Drag Grid Overlay",
+        "hint": "Show the zone + grid overlay on the canvas while dragging floating panels. Snap behavior still applies when hidden."
+      },
       "heroHeaderEnabled": {
         "name": "Hero Header Art",
         "hint": "Show the background art banner in the Hero sheet header."
@@ -237,6 +245,11 @@
       "Empty": "No favorites yet. Star items in other tabs to add them here.",
       "Unfavorite": "Remove from favorites",
       "Favorite": "Add to favorites"
+    },
+    "FloatingUI": {
+      "link": "Link with another panel",
+      "unlink": "Unlink from group",
+      "linkModeHint": "Click another panel to link it, or press Esc to cancel."
     },
     "MetaCurrency": {
       "heroTokens": "Hero Tokens",

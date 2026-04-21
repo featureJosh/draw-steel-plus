@@ -1,5 +1,5 @@
 import { MODULE_CONFIG, NEGOTIATION_ATTITUDES, NEGOTIATION_MOTIVATIONS, DEFAULT_NEGOTIATION_STATE } from "./config.js";
-import { DspFloatingUI } from "./dsp-floating-ui.js";
+import { DspFloatingUI } from "./floating-ui/dsp-floating-ui.js";
 
 const MODULE_ID = MODULE_CONFIG.id;
 const MODULE_PATH = MODULE_CONFIG.path;
@@ -87,6 +87,10 @@ export class NegotiationUI extends DspFloatingUI {
       template: `${MODULE_PATH}/templates/ui/negotiation.hbs`,
     },
   };
+
+  static DEFAULT_WIDTH = 360;
+  static DEFAULT_HEIGHT = 320;
+  static DEFAULT_POSITION = { anchor: "tr", offsetX: -24, offsetY: 80, snap: "grid" };
 
   static syncVisibility(visible) {
     if (visible) {

@@ -1,4 +1,4 @@
-import { DspFloatingUI } from "./dsp-floating-ui.js";
+import { DspFloatingUI } from "./floating-ui/dsp-floating-ui.js";
 import { MODULE_CONFIG } from "./config.js";
 
 const MODULE_PATH = MODULE_CONFIG.path;
@@ -24,21 +24,12 @@ export class CombatTrackerUI extends DspFloatingUI {
     },
   };
 
-  // Default width used for centering math before element renders
   static DEFAULT_WIDTH = 600;
+  static DEFAULT_HEIGHT = 180;
+  static DEFAULT_POSITION = { anchor: "tc", offsetX: 0, offsetY: 80, snap: "grid" };
 
   static isModuleActive() {
     return !!game.modules.get(COMBAT_TRACKER_MODULE_ID)?.active;
-  }
-
-  // Position near the top-center, like the original dock
-  static getDefaultPosition(elementWidth) {
-    const w = elementWidth ?? this.DEFAULT_WIDTH;
-    const vw = window.innerWidth;
-    return {
-      top: 80,
-      left: Math.max(this.SAFE_MARGIN, Math.round((vw / 2) - (w / 2))),
-    };
   }
 
   static initialize() {
@@ -200,10 +191,6 @@ export class CombatTrackerUI extends DspFloatingUI {
   }
 
   static async toggleCollapse() {
-    const centerX = this.element
-      ? this.element.getBoundingClientRect().left + this.element.offsetWidth / 2
-      : null;
-
     const toggleBtn = document.querySelector("#ds-combat-dock .ds-dock-toggle");
     if (toggleBtn) {
       toggleBtn.click();
@@ -212,17 +199,7 @@ export class CombatTrackerUI extends DspFloatingUI {
     }
     this._syncCollapseButton();
     this._updateMini();
-
-    if (centerX != null) {
-      requestAnimationFrame(() => {
-        if (!this.element) return;
-        const newWidth = this.element.offsetWidth || this.constructor.DEFAULT_WIDTH;
-        const newLeft = Math.round(centerX - newWidth / 2);
-        const top = Math.round(this.element.getBoundingClientRect().top);
-        const clamped = this.constructor.clampPosition({ left: newLeft, top }, newWidth);
-        this.setPosition(clamped);
-      });
-    }
+    requestAnimationFrame(() => this.reflow?.());
   }
 
   static async endCombat() {

@@ -1,4 +1,4 @@
-import { DspFloatingUI } from "./dsp-floating-ui.js";
+import { DspFloatingUI } from "./floating-ui/dsp-floating-ui.js";
 import { MODULE_CONFIG } from "./config.js";
 
 const MODULE_PATH = MODULE_CONFIG.path;
@@ -21,22 +21,11 @@ export class AbilityHudUI extends DspFloatingUI {
   };
 
   static DEFAULT_WIDTH = 520;
+  static DEFAULT_HEIGHT = 56;
+  static DEFAULT_POSITION = { anchor: "element:#hotbar", edge: "top", offsetX: 0, offsetY: -12, snap: "grid" };
 
   static isModuleActive() {
     return !!game.modules.get(ABILITY_HUD_MODULE_ID)?.active;
-  }
-
-  static getDefaultPosition(elementWidth) {
-    const w = elementWidth ?? this.DEFAULT_WIDTH;
-    const vw = window.innerWidth;
-    const vh = window.innerHeight;
-    const hotbar = document.getElementById("hotbar");
-    const hotbarTop = hotbar?.getBoundingClientRect().top ?? (vh - 80);
-    const gap = 12;
-    return {
-      top: Math.max(this.SAFE_MARGIN, Math.round(hotbarTop - 56 - gap)),
-      left: Math.max(this.SAFE_MARGIN, Math.round((vw / 2) - (w / 2))),
-    };
   }
 
   static initialize() {
@@ -111,7 +100,10 @@ export class AbilityHudUI extends DspFloatingUI {
       this._hudObserver?.disconnect();
       this._hudObserver = null;
       this._observeHudSize(hudEl);
-      this._recenterAndReveal();
+      requestAnimationFrame(() => {
+        this.reflow?.();
+        requestAnimationFrame(() => this._reveal());
+      });
     } else if (!hudEl) {
       this._watchForHud();
     }
@@ -119,32 +111,8 @@ export class AbilityHudUI extends DspFloatingUI {
 
   _observeHudSize(hudEl) {
     this._hudResizeObserver?.disconnect();
-    this._hudResizeObserver = new ResizeObserver(() => {
-      this._recenterIfNeeded();
-    });
+    this._hudResizeObserver = new ResizeObserver(() => this.reflow?.());
     this._hudResizeObserver.observe(hudEl);
-  }
-
-  _recenterIfNeeded() {
-    const isCentered = game.user.getFlag(MODULE_ID, `ui.${this.id}.centered`) ?? true;
-    if (!isCentered) return;
-    requestAnimationFrame(() => {
-      if (!this.element) return;
-      const w = this.element.offsetWidth || this.constructor.DEFAULT_WIDTH;
-      this.setPosition(this.constructor.getDefaultPosition(w));
-    });
-  }
-
-  _recenterAndReveal() {
-    const isCentered = game.user.getFlag(MODULE_ID, `ui.${this.id}.centered`) ?? true;
-    requestAnimationFrame(() => {
-      if (!this.element) return;
-      if (isCentered) {
-        const w = this.element.offsetWidth || this.constructor.DEFAULT_WIDTH;
-        this.setPosition(this.constructor.getDefaultPosition(w));
-      }
-      requestAnimationFrame(() => this._reveal());
-    });
   }
 
   _reveal() {

@@ -10,6 +10,8 @@ import { AbilityHudUI } from "./ability-hud-ui.js";
 import { initializeNegotiationUI } from "./negotiation-ui.js";
 import { initializeMontageUI } from "./montage-ui.js";
 import { TooltipsDSP } from "./tooltips.js";
+import { FloatingUIApi } from "./floating-ui/api.js";
+import { FloatingUIManager } from "./floating-ui/manager.js";
 import "./scene-controls.js";
 
 const MODULE_ID = MODULE_CONFIG.id;
@@ -34,7 +36,13 @@ function applyMetaCurrencySetting() {
   }
 }
 
-Hooks.once("ready", () => {
+Hooks.once("ready", async () => {
+  await FloatingUIManager.migrate();
+  const mod = game.modules.get(MODULE_ID);
+  if (mod) {
+    mod.api = mod.api ?? {};
+    mod.api.floatingUI = FloatingUIApi;
+  }
   applyColorOverrides();
   applyScaleOverrides();
   applyImprovedChat();
@@ -46,7 +54,7 @@ Hooks.once("ready", () => {
   TooltipsDSP.activateListeners();
   const tooltips = new TooltipsDSP();
   tooltips.observe();
-  game.modules.get(MODULE_ID).tooltips = tooltips;
+  mod.tooltips = tooltips;
 });
 
 Hooks.on("combatStart", () => CombatTrackerUI.show());

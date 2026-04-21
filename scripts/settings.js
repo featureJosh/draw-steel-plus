@@ -312,4 +312,25 @@ export function registerSettings() {
     },
   });
 
+  game.settings.register(MODULE_ID, "floatingUIGridSize", {
+    name: "DRAW_STEEL_PLUS.Settings.floatingUIGridSize.name",
+    hint: "DRAW_STEEL_PLUS.Settings.floatingUIGridSize.hint",
+    scope: "client",
+    config: true,
+    type: Number,
+    default: 20,
+    range: { min: 4, max: 80, step: 2 },
+    requiresReload: false,
+  });
+
+  game.settings.register(MODULE_ID, "floatingUIShowOverlay", {
+    name: "DRAW_STEEL_PLUS.Settings.floatingUIShowOverlay.name",
+    hint: "DRAW_STEEL_PLUS.Settings.floatingUIShowOverlay.hint",
+    scope: "client",
+    config: true,
+    type: Boolean,
+    default: true,
+    requiresReload: false,
+  });
+
 }

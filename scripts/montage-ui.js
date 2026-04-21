@@ -1,5 +1,5 @@
 import { MODULE_CONFIG, MONTAGE_DIFFICULTIES, MONTAGE_CHARACTERISTICS, MONTAGE_TEST_DIFFICULTIES, DEFAULT_MONTAGE_STATE } from "./config.js";
-import { DspFloatingUI } from "./dsp-floating-ui.js";
+import { DspFloatingUI } from "./floating-ui/dsp-floating-ui.js";
 
 const MODULE_ID = MODULE_CONFIG.id;
 const MODULE_PATH = MODULE_CONFIG.path;
@@ -103,6 +103,10 @@ export class MontageUI extends DspFloatingUI {
       template: `${MODULE_PATH}/templates/ui/montage.hbs`,
     },
   };
+
+  static DEFAULT_WIDTH = 400;
+  static DEFAULT_HEIGHT = 360;
+  static DEFAULT_POSITION = { anchor: "tl", offsetX: 24, offsetY: 80, snap: "grid" };
 
   static syncVisibility(visible) {
     if (visible) {

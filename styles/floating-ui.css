@@ -125,6 +125,149 @@
   transition: top 0.35s ease, left 0.35s ease !important;
 }
 
+.dsp-fui-link-btn.dsp-fui-link-active {
+  color: var(--dsp-accent-bright);
+}
+
+.dsp-fui-grouped .dsp-fui-panel {
+  box-shadow:
+    0 4px 20px var(--dsp-shadow),
+    0 0 0 1px color-mix(in srgb, var(--dsp-accent-bright) 35%, transparent);
+}
+
+.dsp-fui-grouped:hover .dsp-fui-panel,
+.dsp-floating-ui.dsp-fui-grouped:hover ~ .dsp-floating-ui.dsp-fui-grouped .dsp-fui-panel {
+  box-shadow:
+    0 6px 28px var(--dsp-shadow-heavy),
+    0 0 0 1px var(--dsp-accent-bright),
+    0 0 12px color-mix(in srgb, var(--dsp-accent-bright) 30%, transparent);
+}
+
+.dsp-fui-drag-active {
+  pointer-events: none;
+}
+
+body.dsp-fui-dragging {
+  user-select: none;
+  cursor: grabbing;
+}
+
+body.dsp-fui-dragging .dsp-floating-ui > .dsp-fui-panel {
+  opacity: 0.22;
+  transition: opacity 0.12s ease;
+}
+
+body.dsp-fui-dragging .dsp-floating-ui::after {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border: 2px solid var(--dsp-accent-bright);
+  border-radius: var(--dsp-radius-md);
+  pointer-events: none;
+  box-shadow:
+    0 0 10px color-mix(in srgb, var(--dsp-accent-bright) 45%, transparent),
+    inset 0 0 0 1px color-mix(in srgb, var(--dsp-accent-bright) 20%, transparent);
+  opacity: 0.9;
+}
+
+body.dsp-fui-dragging .dsp-floating-ui.dsp-fui-drag-active > .dsp-fui-panel {
+  opacity: 0.4;
+}
+
+body.dsp-fui-dragging .dsp-floating-ui.dsp-fui-drag-active::after {
+  border-style: dashed;
+  opacity: 0.55;
+}
+
+body.dsp-fui-link-mode,
+body.dsp-fui-link-mode * {
+  cursor: crosshair !important;
+}
+
+body.dsp-fui-link-mode .dsp-floating-ui .dsp-fui-panel {
+  outline: 1px dashed color-mix(in srgb, var(--dsp-accent-bright) 60%, transparent);
+  outline-offset: 4px;
+}
+
+body.dsp-fui-link-mode .dsp-floating-ui:hover .dsp-fui-panel {
+  outline-color: var(--dsp-accent-bright);
+  box-shadow:
+    0 6px 28px var(--dsp-shadow-heavy),
+    0 0 0 2px var(--dsp-accent-bright),
+    0 0 20px color-mix(in srgb, var(--dsp-accent-bright) 50%, transparent);
+}
+
+body.dsp-fui-link-mode .dsp-fui-link-source .dsp-fui-panel {
+  outline-style: solid;
+  outline-color: var(--dsp-accent-bright);
+}
+
+.dsp-grid-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+
+.dsp-grid-overlay.visible {
+  opacity: 1;
+}
+
+.dsp-grid-overlay .dsp-grid-dots {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(
+    circle,
+    light-dark(rgba(60, 55, 45, 0.32), rgba(220, 215, 205, 0.22)) 1px,
+    transparent 1.5px
+  );
+  background-size: var(--dsp-grid-size, 20px) var(--dsp-grid-size, 20px);
+  background-position: 0 0;
+  opacity: 0.7;
+}
+
+.dsp-grid-overlay .dsp-grid-zones {
+  position: absolute;
+  inset: 0;
+}
+
+.dsp-grid-overlay .dsp-grid-zone-line {
+  position: absolute;
+  background: light-dark(rgba(60, 55, 45, 0.22), rgba(220, 215, 205, 0.18));
+}
+
+.dsp-grid-overlay .dsp-grid-zone-vline {
+  top: 0;
+  bottom: 0;
+  width: 1px;
+}
+
+.dsp-grid-overlay .dsp-grid-zone-hline {
+  left: 0;
+  right: 0;
+  height: 1px;
+}
+
+.dsp-grid-overlay .dsp-grid-zone-highlight {
+  position: absolute;
+  background: light-dark(rgba(60, 55, 45, 0.06), rgba(220, 215, 205, 0.05));
+  border: 1px dashed light-dark(rgba(60, 55, 45, 0.35), rgba(220, 215, 205, 0.28));
+  transition: left 0.12s ease, top 0.12s ease, width 0.12s ease, height 0.12s ease, opacity 0.12s ease;
+}
+
+.dsp-grid-overlay .dsp-grid-snap-preview {
+  position: absolute;
+  border: 2px solid var(--dsp-accent-bright);
+  border-radius: var(--dsp-radius-md);
+  background: color-mix(in srgb, var(--dsp-accent-bright) 14%, transparent);
+  box-shadow:
+    0 0 22px color-mix(in srgb, var(--dsp-accent-bright) 50%, transparent),
+    inset 0 0 16px color-mix(in srgb, var(--dsp-accent-bright) 18%, transparent);
+  transition: opacity 0.12s ease;
+}
+
 /* ============================================================
    Combat Tracker floating panel
    Wraps the draw-steel-combat-tracker module's #ds-combat-dock

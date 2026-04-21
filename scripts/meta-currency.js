@@ -1,5 +1,5 @@
 import { MODULE_CONFIG } from "./config.js";
-import { DspFloatingUI } from "./dsp-floating-ui.js";
+import { DspFloatingUI } from "./floating-ui/dsp-floating-ui.js";
 
 const MODULE_PATH = MODULE_CONFIG.path;
 const SYSTEM_ID = MODULE_CONFIG.systemId;
@@ -25,6 +25,10 @@ export class MetaCurrencyTracker extends DspFloatingUI {
       template: `${MODULE_PATH}/templates/ui/meta-currency.hbs`,
     },
   };
+
+  static DEFAULT_POSITION = { anchor: "bc", offsetX: 0, offsetY: -80, snap: "grid" };
+  static DEFAULT_WIDTH = 280;
+  static DEFAULT_HEIGHT = 80;
 
   static initialize() {
     if (this.instance?.rendered) return;
