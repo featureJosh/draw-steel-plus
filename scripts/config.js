@@ -133,6 +133,8 @@ export const UI_DEFAULTS = {
   useCustomMetaCurrency: true,
   useCombatTrackerPanel: true,
   combatTrackerDspStyle: true,
+  useAbilityHudPanel: true,
+  abilityHudDspStyle: true,
 };
 
 export const NEGOTIATION_DEFAULTS = {

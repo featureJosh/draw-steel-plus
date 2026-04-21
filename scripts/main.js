@@ -6,6 +6,7 @@ import { registerSettings } from "./settings.js";
 import { registerSheets } from "./sheets.js";
 import { MetaCurrencyTracker } from "./meta-currency.js";
 import { CombatTrackerUI } from "./combat-tracker-ui.js";
+import { AbilityHudUI } from "./ability-hud-ui.js";
 import { initializeNegotiationUI } from "./negotiation-ui.js";
 import { initializeMontageUI } from "./montage-ui.js";
 import { TooltipsDSP } from "./tooltips.js";
@@ -39,6 +40,7 @@ Hooks.once("ready", () => {
   applyImprovedChat();
   applyMetaCurrencySetting();
   CombatTrackerUI.initialize();
+  AbilityHudUI.initialize();
   initializeNegotiationUI();
   initializeMontageUI();
   TooltipsDSP.activateListeners();

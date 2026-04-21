@@ -416,3 +416,99 @@ body.dsp-ct-styled .ds-tooltip-line {
 body.dsp-ct-styled .ds-tooltip-divider {
   background: var(--dsp-border);
 }
+
+/* ============================================================
+   Ability HUD floating panel
+   Wraps the draw-steel-ability-hud module's #ds-ability-hud
+   ============================================================ */
+
+.dsp-ability-hud-ui .dsp-fui-panel {
+  min-width: 0;
+}
+
+.dsp-ahud-content {
+  border-radius: 0 0 var(--dsp-radius-md) var(--dsp-radius-md);
+  padding: calc(6px * var(--dsp-scale, 1)) calc(8px * var(--dsp-scale, 1));
+}
+
+.dsp-ahud-content #ds-ability-hud {
+  position: static !important;
+  left: auto !important;
+  right: auto !important;
+  bottom: auto !important;
+  top: auto !important;
+  width: auto !important;
+  z-index: auto;
+  display: flex;
+}
+
+.dsp-ahud-content .dsahud-bar {
+  flex-wrap: nowrap !important;
+}
+
+body.dsp-ahud-styled .dsp-ahud-content .dsahud-button {
+  background: light-dark(rgba(0, 0, 0, 0.06), rgba(0, 0, 0, 0.25));
+  border-color: var(--dsp-border);
+  color: var(--dsp-text-light);
+  border-radius: var(--dsp-radius-sm);
+  font-weight: 600;
+  transition: color 0.15s ease, background 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
+}
+
+body.dsp-ahud-styled .dsp-ahud-content .dsahud-button:hover {
+  background: light-dark(rgba(168, 139, 74, 0.08), rgba(200, 170, 110, 0.1));
+  border-color: var(--dsp-border-light);
+  color: var(--dsp-accent);
+  transform: translateY(-1px);
+}
+
+body.dsp-ahud-styled .dsp-ahud-content .dsahud-button-label {
+  opacity: 1;
+  letter-spacing: 0.02em;
+}
+
+body.dsp-ahud-styled .dsahud-popup {
+  background: light-dark(rgba(245, 240, 232, 0.96), rgba(13, 13, 13, 0.96));
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-color: var(--dsp-border-light);
+  border-radius: var(--dsp-radius-md);
+  box-shadow: 0 6px 28px var(--dsp-shadow-heavy);
+  color: var(--dsp-text-light);
+}
+
+body.dsp-ahud-styled .dsahud-section-title {
+  color: var(--dsp-text-muted);
+  border-bottom-color: var(--dsp-border);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+}
+
+body.dsp-ahud-styled .dsahud-action {
+  background: light-dark(rgba(0, 0, 0, 0.04), rgba(0, 0, 0, 0.25));
+  border-color: var(--dsp-border);
+  color: var(--dsp-text-light);
+  border-radius: var(--dsp-radius-sm);
+  transition: color 0.12s ease, background 0.12s ease, border-color 0.12s ease;
+}
+
+body.dsp-ahud-styled .dsahud-action:hover {
+  background: light-dark(rgba(168, 139, 74, 0.08), rgba(200, 170, 110, 0.1));
+  border-color: var(--dsp-border-light);
+  color: var(--dsp-accent);
+}
+
+body.dsp-ahud-styled .dsahud-action-name {
+  opacity: 1;
+}
+
+body.dsp-ahud-styled .dsahud-action-cost {
+  background: light-dark(rgba(168, 139, 74, 0.12), rgba(200, 170, 110, 0.15));
+  color: var(--dsp-accent);
+  font-weight: 700;
+}
+
+body.dsp-ahud-styled .dsahud-popup::-webkit-scrollbar-thumb {
+  background: var(--dsp-border);
+}
+

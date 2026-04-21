@@ -253,6 +253,29 @@ export function registerSettings() {
     requiresReload: false,
   });
 
+  game.settings.register(MODULE_ID, "useAbilityHudPanel", {
+    name: "DRAW_STEEL_PLUS.Settings.useAbilityHudPanel.name",
+    hint: "DRAW_STEEL_PLUS.Settings.useAbilityHudPanel.hint",
+    scope: "client",
+    config: true,
+    type: Boolean,
+    default: UI_DEFAULTS.useAbilityHudPanel,
+    requiresReload: true,
+  });
+
+  game.settings.register(MODULE_ID, "abilityHudDspStyle", {
+    name: "DRAW_STEEL_PLUS.Settings.abilityHudDspStyle.name",
+    hint: "DRAW_STEEL_PLUS.Settings.abilityHudDspStyle.hint",
+    scope: "client",
+    config: true,
+    type: Boolean,
+    default: UI_DEFAULTS.abilityHudDspStyle,
+    requiresReload: false,
+    onChange: (value) => {
+      document.body.classList.toggle("dsp-ahud-styled", value);
+    },
+  });
+
   game.settings.register(MODULE_ID, "negotiationUIVisible", {
     scope: "world",
     config: false,

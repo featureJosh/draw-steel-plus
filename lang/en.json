@@ -178,6 +178,14 @@
       "combatTrackerDspStyle": {
         "name": "Combat Tracker DS+ Styling",
         "hint": "Apply Draw Steel Plus visual styling to the floating Combat Tracker panel. Disable to use the original module appearance."
+      },
+      "useAbilityHudPanel": {
+        "name": "Floating Ability HUD",
+        "hint": "Wrap the Draw Steel Ability HUD module in a draggable DS+ floating panel. Requires the 'Draw Steel - Ability HUD' module."
+      },
+      "abilityHudDspStyle": {
+        "name": "Ability HUD DS+ Styling",
+        "hint": "Apply Draw Steel Plus visual styling to the floating Ability HUD panel. Disable to use the original module appearance."
       }
     },
     "Tooltip": {
@@ -316,6 +324,11 @@
       "resetPosition": "Reset Position"
     },
     "CombatTracker": {
+      "lock": "Lock Position",
+      "unlock": "Unlock Position",
+      "resetPosition": "Reset Position"
+    },
+    "AbilityHud": {
       "lock": "Lock Position",
       "unlock": "Unlock Position",
       "resetPosition": "Reset Position"
