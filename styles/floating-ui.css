@@ -164,10 +164,10 @@
 .dsp-ct-mini-badge {
   display: inline-flex;
   align-items: center;
-  gap: 5px;
-  padding: 3px 8px;
+  gap: 6px;
+  padding: 4px 10px;
   border-radius: 999px;
-  font-size: var(--dsp-font-size-2xs, 0.7rem);
+  font-size: 0.85rem;
   font-weight: 600;
   color: var(--dsp-text-light, inherit);
   background: light-dark(rgba(0, 0, 0, 0.05), rgba(255, 255, 255, 0.04));
@@ -177,8 +177,8 @@
 }
 
 .dsp-ct-mini-badge i {
-  font-size: 10px;
-  opacity: 0.8;
+  font-size: 13px;
+  opacity: 0.85;
 }
 
 .dsp-ct-mini-badge.party i {
@@ -213,8 +213,8 @@
 }
 
 .dsp-ct-mini-portrait {
-  width: 20px;
-  height: 20px;
+  width: 26px;
+  height: 26px;
   border-radius: 50%;
   overflow: hidden;
   border: 1.5px solid var(--dsp-accent-bright, #f0c040);
@@ -230,13 +230,13 @@
 }
 
 .dsp-ct-mini-name {
-  font-size: var(--dsp-font-size-xs, 0.78rem);
+  font-size: 0.95rem;
   font-weight: 600;
   color: var(--dsp-text, inherit);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 160px;
+  max-width: 200px;
 }
 
 .dsp-ct-mini-idle .dsp-ct-mini-name {
@@ -245,7 +245,7 @@
 }
 
 .dsp-ct-mini-round {
-  font-size: 0.62rem;
+  font-size: 0.72rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.08em;
