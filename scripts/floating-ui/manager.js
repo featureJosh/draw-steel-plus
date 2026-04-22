@@ -232,7 +232,7 @@ export class FloatingUIManager {
     };
 
     document.body.classList.add("dsp-fui-dragging");
-    ui.element.classList.add("dsp-fui-drag-active");
+    for (const m of membersData) m.ui.element.classList.add("dsp-fui-drag-active");
     GridOverlay.mount();
 
     this._moveHandler = (e) => this._onDrag(e);
@@ -300,7 +300,7 @@ export class FloatingUIManager {
     this._upHandler = null;
 
     document.body.classList.remove("dsp-fui-dragging");
-    drag.primary.element.classList.remove("dsp-fui-drag-active");
+    for (const m of drag.members) m.ui.element.classList.remove("dsp-fui-drag-active");
     GridOverlay.unmount();
 
     if (!drag.pendingPos || !drag.pendingSnapped) {
