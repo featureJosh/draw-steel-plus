@@ -31,6 +31,10 @@ export class AbilityHudUI extends DspFloatingUI {
   static initialize() {
     if (!this.isModuleActive()) return;
     if (!game.settings.get(MODULE_ID, "useAbilityHudPanel")) return;
+    if (!AbilityHudUI._hooksBound) {
+      Hooks.on("renderAbilityHud", () => AbilityHudUI.instance?._tryAdoptHud());
+      AbilityHudUI._hooksBound = true;
+    }
     this.show();
   }
 
@@ -74,6 +78,7 @@ export class AbilityHudUI extends DspFloatingUI {
   _onRender(context, options) {
     super._onRender(context, options);
     this._tryAdoptHud();
+    this._watchForHud();
     document.body.classList.toggle("dsp-ahud-styled", game.settings.get(MODULE_ID, "abilityHudDspStyle"));
   }
 
@@ -82,6 +87,10 @@ export class AbilityHudUI extends DspFloatingUI {
     this._hudObserver = null;
     this._hudResizeObserver?.disconnect();
     this._hudResizeObserver = null;
+    this._styleGuardObserver?.disconnect();
+    this._styleGuardObserver = null;
+    this._barStyleGuardObserver?.disconnect();
+    this._barStyleGuardObserver = null;
     clearTimeout(this._revealFallback);
     this._revealFallback = null;
     this._revealed = false;
@@ -97,15 +106,12 @@ export class AbilityHudUI extends DspFloatingUI {
     if (!container) return;
     if (hudEl && !container.contains(hudEl)) {
       container.appendChild(hudEl);
-      this._hudObserver?.disconnect();
-      this._hudObserver = null;
+      this._blockHudAutoPosition(hudEl);
       this._observeHudSize(hudEl);
       requestAnimationFrame(() => {
         this.reflow?.();
         requestAnimationFrame(() => this._reveal());
       });
-    } else if (!hudEl) {
-      this._watchForHud();
     }
   }
 
@@ -113,6 +119,34 @@ export class AbilityHudUI extends DspFloatingUI {
     this._hudResizeObserver?.disconnect();
     this._hudResizeObserver = new ResizeObserver(() => this.reflow?.());
     this._hudResizeObserver.observe(hudEl);
+  }
+
+  _blockHudAutoPosition(hudEl) {
+    this._styleGuardObserver?.disconnect();
+    const BLOCKED = ["left", "right", "top", "bottom", "width", "height", "position", "z-index", "transform", "inset", "margin"];
+    const strip = () => {
+      let dirty = false;
+      for (const prop of BLOCKED) {
+        if (hudEl.style.getPropertyValue(prop)) { dirty = true; break; }
+      }
+      if (!dirty) return;
+      for (const prop of BLOCKED) hudEl.style.removeProperty(prop);
+    };
+    strip();
+    this._styleGuardObserver = new MutationObserver(strip);
+    this._styleGuardObserver.observe(hudEl, { attributes: true, attributeFilter: ["style"] });
+
+    this._barStyleGuardObserver?.disconnect();
+    const bar = hudEl.querySelector(".dsahud-bar");
+    if (bar) {
+      const stripBar = () => {
+        if (!bar.style.getPropertyValue("flex-wrap")) return;
+        bar.style.removeProperty("flex-wrap");
+      };
+      stripBar();
+      this._barStyleGuardObserver = new MutationObserver(stripBar);
+      this._barStyleGuardObserver.observe(bar, { attributes: true, attributeFilter: ["style"] });
+    }
   }
 
   _reveal() {
@@ -125,14 +159,7 @@ export class AbilityHudUI extends DspFloatingUI {
 
   _watchForHud() {
     if (this._hudObserver) return;
-    this._hudObserver = new MutationObserver(() => {
-      const hud = document.getElementById("ds-ability-hud");
-      if (hud) {
-        this._hudObserver.disconnect();
-        this._hudObserver = null;
-        this._tryAdoptHud();
-      }
-    });
+    this._hudObserver = new MutationObserver(() => this._tryAdoptHud());
     this._hudObserver.observe(document.body, { childList: true });
   }
 }

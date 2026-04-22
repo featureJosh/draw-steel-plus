@@ -846,17 +846,23 @@ body.dsp-ct-styled .ds-tooltip-divider {
 
 .dsp-ahud-content #ds-ability-hud {
   position: static !important;
+  inset: auto !important;
   left: auto !important;
   right: auto !important;
   bottom: auto !important;
   top: auto !important;
   width: auto !important;
-  z-index: auto;
+  height: auto !important;
+  margin: 0 !important;
+  transform: none !important;
+  pointer-events: auto !important;
+  z-index: auto !important;
   display: flex;
 }
 
 .dsp-ahud-content .dsahud-bar {
   flex-wrap: nowrap !important;
+  width: auto !important;
 }
 
 .dsp-ahud-content .dsahud-button.dsahud-open-down .dsahud-popup {
