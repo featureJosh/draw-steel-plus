@@ -6,7 +6,7 @@ const MODULE_ID = MODULE_CONFIG.id;
 export class GridOverlay {
   static _el = null;
   static _highlight = null;
-  static _preview = null;
+  static _previews = [];
 
   static _shouldShow() {
     try {
@@ -62,10 +62,7 @@ export class GridOverlay {
     el.appendChild(highlight);
     this._highlight = highlight;
 
-    const preview = document.createElement("div");
-    preview.className = "dsp-grid-snap-preview";
-    el.appendChild(preview);
-    this._preview = preview;
+    this._previews = [];
 
     document.body.appendChild(el);
     this._el = el;
@@ -77,7 +74,7 @@ export class GridOverlay {
     const el = this._el;
     this._el = null;
     this._highlight = null;
-    this._preview = null;
+    this._previews = [];
     el.classList.remove("visible");
     setTimeout(() => el.remove(), 180);
   }
@@ -101,18 +98,35 @@ export class GridOverlay {
     this._highlight.style.height = `${vh / 3}px`;
   }
 
+  static updatePreviews(rects) {
+    if (!this._el) return;
+    while (this._previews.length < rects.length) {
+      const p = document.createElement("div");
+      p.className = "dsp-grid-snap-preview";
+      this._el.appendChild(p);
+      this._previews.push(p);
+    }
+    for (let i = 0; i < this._previews.length; i++) {
+      const p = this._previews[i];
+      if (i < rects.length) {
+        const r = rects[i];
+        p.style.left = `${r.left}px`;
+        p.style.top = `${r.top}px`;
+        p.style.width = `${r.width}px`;
+        p.style.height = `${r.height}px`;
+        p.style.opacity = "";
+      } else {
+        p.style.opacity = "0";
+      }
+    }
+  }
+
   static updatePreview(left, top, width, height) {
-    if (!this._preview) return;
-    this._preview.style.left = `${left}px`;
-    this._preview.style.top = `${top}px`;
-    this._preview.style.width = `${width}px`;
-    this._preview.style.height = `${height}px`;
-    this._preview.style.opacity = "";
+    this.updatePreviews([{ left, top, width, height }]);
   }
 
   static hidePreview() {
-    if (!this._preview) return;
-    this._preview.style.opacity = "0";
+    for (const p of this._previews) p.style.opacity = "0";
   }
 
   static setCenterActive(vertical, horizontal) {

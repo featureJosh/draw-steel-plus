@@ -149,15 +149,24 @@ export class FloatingUIManager {
     }
   }
 
+  static _zCounter = 100;
+
   static highlightGroup(ui) {
     const members = this.getGroupMembers(ui);
-    if (members.length <= 1) return;
-    for (const m of members) m.element?.classList.add("dsp-fui-group-hover");
+    const z = ++this._zCounter;
+    for (const m of members) {
+      if (!m.element) continue;
+      m.element.style.zIndex = z;
+      if (members.length > 1) m.element.classList.add("dsp-fui-group-hover");
+    }
   }
 
   static unhighlightGroup(ui) {
-    for (const m of this.getGroupMembers(ui))
-      m.element?.classList.remove("dsp-fui-group-hover");
+    for (const m of this.getGroupMembers(ui)) {
+      if (!m.element) continue;
+      m.element.style.zIndex = "";
+      m.element.classList.remove("dsp-fui-group-hover");
+    }
   }
 
   static enterLinkMode(sourceUI) {
@@ -285,7 +294,16 @@ export class FloatingUIManager {
 
     const snapped = resolveAnchor(pos, null, { width: primary.width, height: primary.height });
     GridOverlay.updateZone(pos.anchor);
-    GridOverlay.updatePreview(snapped.left, snapped.top, primary.width, primary.height);
+
+    const deltaX = snapped.left - primary.startLeft;
+    const deltaY = snapped.top - primary.startTop;
+    const previewRects = this._drag.members.map(m => ({
+      left: m.ui === this._drag.primary ? snapped.left : m.startLeft + deltaX,
+      top: m.ui === this._drag.primary ? snapped.top : m.startTop + deltaY,
+      width: m.width,
+      height: m.height,
+    }));
+    GridOverlay.updatePreviews(previewRects);
 
     const vw = window.innerWidth;
     const vh = window.innerHeight;
