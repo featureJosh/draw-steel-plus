@@ -163,8 +163,8 @@
   top: auto;
   bottom: -1px;
   transform: translateY(100%);
-  border-top: 1px solid var(--dsp-border-light);
-  border-bottom: none;
+  border-top: none;
+  border-bottom: 1px solid var(--dsp-border-light);
   border-radius: 0 0 var(--dsp-radius-md) var(--dsp-radius-md);
 }
 
