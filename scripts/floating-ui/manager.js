@@ -149,6 +149,17 @@ export class FloatingUIManager {
     }
   }
 
+  static highlightGroup(ui) {
+    const members = this.getGroupMembers(ui);
+    if (members.length <= 1) return;
+    for (const m of members) m.element?.classList.add("dsp-fui-group-hover");
+  }
+
+  static unhighlightGroup(ui) {
+    for (const m of this.getGroupMembers(ui))
+      m.element?.classList.remove("dsp-fui-group-hover");
+  }
+
   static enterLinkMode(sourceUI) {
     if (this._linkSource) this.exitLinkMode();
     this._linkSource = sourceUI;

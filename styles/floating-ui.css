@@ -26,7 +26,9 @@
     border-color var(--dsp-fui-transition),
     background var(--dsp-fui-transition),
     border-top-left-radius 0.05s ease,
-    border-top-right-radius 0.05s ease;
+    border-top-right-radius 0.05s ease,
+    border-bottom-left-radius 0.05s ease,
+    border-bottom-right-radius 0.05s ease;
 }
 
 .dsp-floating-ui:hover .dsp-fui-panel {
@@ -149,12 +151,30 @@
     0 0 0 1px color-mix(in srgb, var(--dsp-accent-bright) 35%, transparent);
 }
 
-.dsp-fui-grouped:hover .dsp-fui-panel,
-.dsp-floating-ui.dsp-fui-grouped:hover ~ .dsp-floating-ui.dsp-fui-grouped .dsp-fui-panel {
+.dsp-fui-group-hover .dsp-fui-panel {
   box-shadow:
     0 6px 28px var(--dsp-shadow-heavy),
     0 0 0 1px var(--dsp-accent-bright),
     0 0 12px color-mix(in srgb, var(--dsp-accent-bright) 30%, transparent);
+}
+
+/* Toolbar flipped below the panel when near the top of the viewport */
+.dsp-fui-flip-toolbar .dsp-fui-toolbar {
+  top: auto;
+  bottom: -1px;
+  transform: translateY(100%);
+  border-top: 1px solid var(--dsp-border-light);
+  border-bottom: none;
+  border-radius: 0 0 var(--dsp-radius-md) var(--dsp-radius-md);
+}
+
+.dsp-fui-flip-toolbar:hover .dsp-fui-panel {
+  border-top-color: var(--dsp-border-light);
+  border-top-left-radius: var(--dsp-radius-md);
+  border-top-right-radius: var(--dsp-radius-md);
+  border-bottom-color: transparent;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
 }
 
 .dsp-fui-drag-active {

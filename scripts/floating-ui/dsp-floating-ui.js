@@ -31,6 +31,8 @@ export class DspFloatingUI extends HandlebarsApplicationMixin(ApplicationV2) {
     super(options);
     this._boundDragStart = this.#onDragStart.bind(this);
     this._boundLinkPointerClick = this.#onLinkPointerClick.bind(this);
+    this._boundGroupEnter = () => FloatingUIManager.highlightGroup(this);
+    this._boundGroupLeave = () => FloatingUIManager.unhighlightGroup(this);
     this._elementAnchorObserver = null;
     this._elementResizeObserver = null;
   }
@@ -117,6 +119,11 @@ export class DspFloatingUI extends HandlebarsApplicationMixin(ApplicationV2) {
     this.element.removeEventListener("click", this._boundLinkPointerClick, true);
     this.element.addEventListener("click", this._boundLinkPointerClick, true);
 
+    this.element.removeEventListener("mouseenter", this._boundGroupEnter);
+    this.element.addEventListener("mouseenter", this._boundGroupEnter);
+    this.element.removeEventListener("mouseleave", this._boundGroupLeave);
+    this.element.addEventListener("mouseleave", this._boundGroupLeave);
+
     requestAnimationFrame(() => this.reflow());
     this.#watchElementAnchor();
   }
@@ -138,6 +145,10 @@ export class DspFloatingUI extends HandlebarsApplicationMixin(ApplicationV2) {
       height: this.constructor.DEFAULT_HEIGHT,
     });
     this.setPosition(resolved);
+
+    const toolbar = this.element.querySelector(".dsp-fui-toolbar");
+    const toolbarH = toolbar ? (toolbar.offsetHeight || 32) : 32;
+    this.element.classList.toggle("dsp-fui-flip-toolbar", resolved.top < toolbarH);
   }
 
   #ensureLinkButton() {
