@@ -58,8 +58,8 @@ jobs:
                 "manifest": "https://github.com/${{ github.repository }}/releases/latest/download/module.json",
                 "notes": "https://github.com/${{ github.repository }}/releases/tag/${{ steps.version.outputs.VERSION }}",
                 "compatibility": {
-                  "minimum": "13",
-                  "verified": "13",
+                  "minimum": "14",
+                  "verified": "14",
                   "maximum": ""
                 }
               }
