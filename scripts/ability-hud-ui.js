@@ -28,8 +28,14 @@ export class AbilityHudUI extends DspFloatingUI {
     return !!game.modules.get(ABILITY_HUD_MODULE_ID)?.active;
   }
 
+  static applyBodyStyle() {
+    const active = this.isModuleActive();
+    document.body.classList.toggle("dsp-ahud-styled", active && !!game.settings.get(MODULE_ID, "abilityHudDspStyle"));
+  }
+
   static initialize() {
     if (!this.isModuleActive()) return;
+    this.applyBodyStyle();
     if (!game.settings.get(MODULE_ID, "useAbilityHudPanel")) return;
     if (!AbilityHudUI._hooksBound) {
       Hooks.on("renderAbilityHud", () => AbilityHudUI.instance?._tryAdoptHud());
@@ -79,7 +85,7 @@ export class AbilityHudUI extends DspFloatingUI {
     super._onRender(context, options);
     this._tryAdoptHud();
     this._watchForHud();
-    document.body.classList.toggle("dsp-ahud-styled", game.settings.get(MODULE_ID, "abilityHudDspStyle"));
+    AbilityHudUI.applyBodyStyle();
   }
 
   _onClose(options) {
@@ -94,7 +100,7 @@ export class AbilityHudUI extends DspFloatingUI {
     clearTimeout(this._revealFallback);
     this._revealFallback = null;
     this._revealed = false;
-    document.body.classList.remove("dsp-ahud-styled");
+    AbilityHudUI.applyBodyStyle();
     const hudEl = document.getElementById("ds-ability-hud");
     if (hudEl) document.body.appendChild(hudEl);
     super._onClose(options);
