@@ -276,6 +276,20 @@ export function registerSettings() {
     },
   });
 
+  game.settings.register(MODULE_ID, "targetDamageStyling", {
+    name: "DRAW_STEEL_PLUS.Settings.targetDamageStyling.name",
+    hint: "DRAW_STEEL_PLUS.Settings.targetDamageStyling.hint",
+    scope: "client",
+    config: true,
+    type: Boolean,
+    default: UI_DEFAULTS.targetDamageStyling,
+    requiresReload: false,
+    onChange: (value) => {
+      const improvedChat = game.settings.get(MODULE_ID, "improvedChat");
+      document.body.classList.toggle("dsp-target-damage-styled", value && improvedChat);
+    },
+  });
+
   game.settings.register(MODULE_ID, "negotiationUIVisible", {
     scope: "world",
     config: false,

@@ -1,7 +1,7 @@
 import { MODULE_CONFIG, SHEET_SIZE_DEFAULTS } from "./config.js";
 import { applyColorOverrides } from "./color-settings.js";
 import { applyScaleOverrides } from "./scale-settings.js";
-import { applyImprovedChat, enhanceChatMessage, registerChatTemplates } from "./chat.js";
+import { applyImprovedChat, applyTargetDamageStyling, enhanceChatMessage, registerChatTemplates } from "./chat.js";
 import { registerSettings } from "./settings.js";
 import { registerSheets } from "./sheets.js";
 import { MetaCurrencyTracker } from "./meta-currency.js";
@@ -47,6 +47,7 @@ Hooks.once("ready", async () => {
   applyColorOverrides();
   applyScaleOverrides();
   applyImprovedChat();
+  applyTargetDamageStyling();
   applyMetaCurrencySetting();
   CombatTrackerUI.initialize();
   AbilityHudUI.initialize();

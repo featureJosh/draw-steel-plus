@@ -57,6 +57,13 @@ export function applyImprovedChat() {
   document.body.classList.toggle("dsp-improved-chat", enabled);
 }
 
+export function applyTargetDamageStyling() {
+  if (typeof game === "undefined") return;
+  const improvedChat = game.settings.get(MODULE_ID, "improvedChat");
+  const enabled = game.settings.get(MODULE_ID, "targetDamageStyling");
+  document.body.classList.toggle("dsp-target-damage-styled", enabled && improvedChat);
+}
+
 export function enhanceChatMessage(message, html) {
   html.classList.add("dsp-chat");
   _enhanceHeader(message, html);

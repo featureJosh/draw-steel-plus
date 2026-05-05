@@ -29,12 +29,10 @@ body.dsp-improved-chat :is(.chat-sidebar, #chat-notifications, .chat-popout) {
   scrollbar-color: rgba(255, 255, 255, 0.06) transparent;
 }
 
-
 body.dsp-improved-chat :is(.chat-sidebar, .chat-popout)::-webkit-scrollbar { width: 5px; }
 body.dsp-improved-chat :is(.chat-sidebar, .chat-popout)::-webkit-scrollbar-track { background: transparent; }
 body.dsp-improved-chat :is(.chat-sidebar, .chat-popout)::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.06); border-radius: 9999px; }
 body.dsp-improved-chat :is(.chat-sidebar, .chat-popout)::-webkit-scrollbar-thumb:hover { background: var(--dsp-border-light); }
-
 
 body.dsp-improved-chat :is(.chat-sidebar, #chat-notifications, .chat-popout) .chat-message {
   padding: 0.5rem;
@@ -73,7 +71,6 @@ body.dsp-improved-chat :is(.chat-sidebar, #chat-notifications, .chat-popout) .ch
   background: #1a141a;
   border-left: 3px solid #3a3a6e;
 }
-
 
 body.dsp-improved-chat :is(.chat-sidebar, #chat-notifications, .chat-popout) .message-header {
   margin-bottom: 0.375rem;
@@ -140,7 +137,6 @@ body.dsp-improved-chat :is(.chat-sidebar, #chat-notifications, .chat-popout) .me
   opacity: 1 !important;
 }
 
-
 body.dsp-improved-chat :is(.chat-sidebar, #chat-notifications, .chat-popout) .chat-message.draw-steel > section[data-message-part] {
   padding: 0.25rem 0;
 }
@@ -150,7 +146,6 @@ body.dsp-improved-chat :is(.chat-sidebar, #chat-notifications, .chat-popout) .ch
   padding-bottom: 0.375rem;
   margin-bottom: 0.25rem;
 }
-
 
 body.dsp-improved-chat :is(.chat-sidebar, #chat-notifications, .chat-popout) .chat-card {
   display: flex;
@@ -165,7 +160,6 @@ body.dsp-improved-chat :is(.chat-sidebar, #chat-notifications, .chat-popout) .me
   padding: 0;
 }
 
-
 body.dsp-improved-chat :is(.chat-sidebar, #chat-notifications, .chat-popout) .card-embed {
   border: 1px solid var(--dsp-border-gold);
   border-radius: var(--dsp-radius-sm);
@@ -173,7 +167,6 @@ body.dsp-improved-chat :is(.chat-sidebar, #chat-notifications, .chat-popout) .ca
   padding: 0.5rem;
   overflow: hidden;
 }
-
 
 body.dsp-improved-chat :is(.chat-sidebar, #chat-notifications, .chat-popout) document-embed.ability {
   color: var(--dsp-text);
@@ -295,7 +288,6 @@ body.dsp-improved-chat :is(.chat-sidebar, #chat-notifications, .chat-popout) doc
   line-height: 1.5;
 }
 
-
 body.dsp-improved-chat :is(.chat-sidebar, #chat-notifications, .chat-popout) .dsp-collapsible-tray {
   margin-top: 0.375rem;
   padding-top: 0.375rem;
@@ -351,7 +343,6 @@ body.dsp-improved-chat :is(.chat-sidebar, #chat-notifications, .chat-popout) .ds
   padding-top: 0;
 }
 
-
 body.dsp-improved-chat :is(.chat-sidebar, #chat-notifications, .chat-popout) .power-roll-display {
   gap: 2px calc(8px * var(--dsp-scale, 1));
   margin: 0;
@@ -373,12 +364,10 @@ body.dsp-improved-chat :is(.chat-sidebar, #chat-notifications, .chat-popout) .po
   line-height: 1.4;
 }
 
-
 body.dsp-improved-chat :is(.chat-sidebar, #chat-notifications, .chat-popout) .card-rolls {
   display: flex;
   flex-direction: column;
 }
-
 
 body.dsp-improved-chat :is(.chat-sidebar, #chat-notifications, .chat-popout) .dice-roll {
   position: relative;
@@ -559,7 +548,6 @@ body.dsp-improved-chat :is(.chat-sidebar, #chat-notifications, .chat-popout) .di
   border-style: double;
 }
 
-
 body.dsp-improved-chat :is(.chat-sidebar, #chat-notifications, .chat-popout) .dice-roll .dice-tooltip {
   font-size: calc(0.72rem * var(--dsp-scale, 1));
   color: var(--dsp-text-secondary);
@@ -633,14 +621,12 @@ body.dsp-improved-chat :is(.chat-sidebar, #chat-notifications, .chat-popout) spa
   color: var(--dsp-accent);
 }
 
-
 body.dsp-improved-chat :is(.chat-sidebar, #chat-notifications, .chat-popout) .card-result {
   padding: 0.375rem 0.5rem;
   border: 1px solid var(--dsp-border-gold);
   border-radius: var(--dsp-radius-sm);
   background: var(--dsp-surface-card);
 }
-
 
 body.dsp-improved-chat :is(.chat-sidebar, #chat-notifications, .chat-popout) .card-buttons,
 body.dsp-improved-chat :is(.chat-sidebar, #chat-notifications, .chat-popout) .message-part-buttons {
@@ -716,7 +702,6 @@ body.dsp-improved-chat :is(.chat-sidebar, #chat-notifications, .chat-popout) .me
   max-height: 1.1rem;
 }
 
-
 body.dsp-improved-chat :is(.chat-sidebar, #chat-notifications, .chat-popout) .supplement {
   margin: 0;
   font-size: calc(0.68rem * var(--dsp-scale, 1));
@@ -743,13 +728,11 @@ body.dsp-improved-chat :is(.chat-sidebar, #chat-notifications, .chat-popout) .su
   margin-right: 0.25rem;
 }
 
-
 body.dsp-improved-chat :is(.chat-sidebar, #chat-notifications, .chat-popout) .card-content {
   color: var(--dsp-text);
   font-size: var(--dsp-font-size-2xl);
   line-height: 1.5;
 }
-
 
 body.dsp-improved-chat :is(.chat-sidebar, #chat-notifications, .chat-popout) .content-embed {
   color: var(--dsp-text);
@@ -790,7 +773,6 @@ body.dsp-improved-chat :is(.chat-sidebar, #chat-notifications, .chat-popout) .co
   border: 1px solid var(--dsp-border);
   color: var(--dsp-text);
 }
-
 
 body.dsp-improved-chat :is(.chat-sidebar, #chat-notifications, .chat-popout) a {
 	color: var(--dsp-accent);
@@ -858,7 +840,6 @@ body.dsp-improved-chat :is(.chat-sidebar, #chat-notifications, .chat-popout) .in
   background: var(--dsp-accent-dim);
 }
 
-
 body.dsp-improved-chat .chat-popout {
   margin: 0;
   background: none;
@@ -887,4 +868,116 @@ body.dsp-improved-chat .chat-popout .window-content {
 body.dsp-improved-chat .chat-popout .window-content .chat-message {
   margin: 0;
   box-shadow: 0 0 20px var(--dsp-shadow);
+}
+
+/* ===== Draw Steel Target Damage module integration ===== */
+
+body.dsp-improved-chat.dsp-target-damage-styled .draw-steel-target-damage-panel {
+  background: var(--dsp-surface-raised);
+  border-color: var(--dsp-border);
+  border-radius: var(--dsp-radius);
+}
+
+body.dsp-improved-chat.dsp-target-damage-styled .draw-steel-target-damage-target-row {
+  border-color: var(--dsp-border-light);
+  background: rgba(0, 0, 0, 0.15);
+  border-radius: var(--dsp-radius-sm);
+}
+
+body.dsp-improved-chat.dsp-target-damage-styled .draw-steel-target-damage-target-head {
+  border-bottom-color: var(--dsp-border);
+}
+
+body.dsp-improved-chat.dsp-target-damage-styled .draw-steel-target-damage-target-head:hover {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+body.dsp-improved-chat.dsp-target-damage-styled .draw-steel-target-damage-target-name {
+  color: var(--dsp-text);
+}
+
+body.dsp-improved-chat.dsp-target-damage-styled .draw-steel-target-damage-header-text strong {
+  color: var(--dsp-accent-bright);
+}
+
+body.dsp-improved-chat.dsp-target-damage-styled .draw-steel-target-damage-header-text span {
+  color: var(--dsp-text-secondary);
+}
+
+body.dsp-improved-chat.dsp-target-damage-styled :is(
+  .draw-steel-target-damage-icon-button,
+  .draw-steel-target-damage-action-button
+) {
+  border-color: var(--dsp-border-light);
+  background: var(--dsp-surface);
+  color: var(--dsp-text);
+  border-radius: var(--dsp-radius-sm);
+}
+
+body.dsp-improved-chat.dsp-target-damage-styled :is(
+  .draw-steel-target-damage-icon-button:hover:not(:disabled),
+  .draw-steel-target-damage-action-button:hover:not(:disabled)
+) {
+  background: var(--dsp-surface-raised);
+  border-color: var(--dsp-border-light);
+}
+
+body.dsp-improved-chat.dsp-target-damage-styled .draw-steel-target-damage-roll-box {
+  border-color: var(--dsp-border);
+  background: var(--dsp-surface);
+  color: var(--dsp-text);
+  border-radius: var(--dsp-radius-sm);
+}
+
+body.dsp-improved-chat.dsp-target-damage-styled .draw-steel-target-damage-roll-display.is-critical .draw-steel-target-damage-roll-box {
+  border-color: var(--dsp-accent);
+  background: var(--dsp-accent-dim);
+}
+
+body.dsp-improved-chat.dsp-target-damage-styled .draw-steel-target-damage-tier-line {
+  color: var(--dsp-accent-bright);
+}
+
+body.dsp-improved-chat.dsp-target-damage-styled .draw-steel-target-damage-action-row.is-applied .draw-steel-target-damage-stretch-button {
+  background: var(--dsp-success-bg);
+  border-color: rgba(74, 222, 128, 0.25);
+}
+
+body.dsp-improved-chat.dsp-target-damage-styled .draw-steel-target-damage-action-row.is-undone .draw-steel-target-damage-stretch-button {
+  background: var(--dsp-surface);
+  opacity: 0.6;
+}
+
+body.dsp-improved-chat.dsp-target-damage-styled .draw-steel-target-damage-undo-button:not(:disabled) {
+  background: rgba(224, 85, 85, 0.15);
+  border-color: rgba(224, 85, 85, 0.3);
+}
+
+body.dsp-improved-chat.dsp-target-damage-styled .draw-steel-target-damage-undo-button:not(:disabled):hover {
+  background: rgba(224, 85, 85, 0.28);
+}
+
+body.dsp-improved-chat.dsp-target-damage-styled .draw-steel-target-damage-portrait {
+  border-color: var(--dsp-border-light);
+  border-radius: var(--dsp-radius-sm);
+}
+
+body.dsp-improved-chat.dsp-target-damage-styled .draw-steel-target-damage-result-badge {
+  background: var(--dsp-surface-raised);
+  border: 1px solid var(--dsp-border);
+  color: var(--dsp-text-secondary);
+  border-radius: var(--dsp-radius-sm);
+}
+
+body.dsp-improved-chat.dsp-target-damage-styled :is(
+  .draw-steel-target-damage-empty,
+  .draw-steel-target-damage-muted,
+  .draw-steel-target-damage-roll-empty
+) {
+  color: var(--dsp-text-secondary);
+}
+
+body.dsp-improved-chat.dsp-target-damage-styled .draw-steel-target-damage-quick-damage:disabled {
+  background: var(--dsp-success-bg);
+  border-color: rgba(74, 222, 128, 0.25);
 }

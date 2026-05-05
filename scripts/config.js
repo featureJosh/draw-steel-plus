@@ -135,6 +135,7 @@ export const UI_DEFAULTS = {
   combatTrackerDspStyle: true,
   useAbilityHudPanel: true,
   abilityHudDspStyle: true,
+  targetDamageStyling: true,
 };
 
 export const NEGOTIATION_DEFAULTS = {

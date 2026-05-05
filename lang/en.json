@@ -194,6 +194,10 @@
       "abilityHudDspStyle": {
         "name": "Ability HUD DS+ Styling",
         "hint": "Apply Draw Steel Plus visual styling to the floating Ability HUD panel. Disable to use the original module appearance."
+      },
+      "targetDamageStyling": {
+        "name": "Target Damage DS+ Styling",
+        "hint": "Apply Draw Steel Plus visual styling to the 'Draw Steel Target Damage' module panels in chat. Requires Improved Chat to be enabled."
       }
     },
     "Tooltip": {
