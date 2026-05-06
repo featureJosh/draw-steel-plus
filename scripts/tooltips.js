@@ -309,13 +309,6 @@ export class TooltipsDSP {
       }
     }
 
-    if (sys.power?.roll?.reactive && sys.power?.effects?.size) {
-      const localized = game.i18n.localize("DRAW_STEEL.ROLL.Power.Label");
-      supplemental.reactiveLabel = (localized && !localized.startsWith("DRAW_STEEL."))
-        ? localized
-        : game.i18n.localize("DRAW_STEEL_PLUS.Tooltip.powerRoll");
-    }
-
     supplemental.descriptionLabel = game.i18n.localize("DRAW_STEEL_PLUS.Tooltip.description");
     return supplemental;
   }
@@ -328,7 +321,10 @@ export class TooltipsDSP {
           { includeName: false, includeProjectInfo: true },
           { relativeTo: doc }
         );
-        if (el) return { html: el.outerHTML, kind: "embed" };
+        if (el) {
+          this._prepareEmbedElement(doc, el);
+          return { html: el.outerHTML, kind: "embed" };
+        }
       } catch (err) {
         console.warn(`${MODULE_ID} | toEmbed failed for ${doc.uuid}, using fallback`, err);
       }
@@ -336,6 +332,25 @@ export class TooltipsDSP {
 
     const fallback = await this._buildFallbackBody(doc);
     return fallback ? { html: fallback, kind: "fallback" } : null;
+  }
+
+  _prepareEmbedElement(doc, el) {
+    if (doc.type !== "ability") return;
+    const sys = doc.system ?? {};
+    if (!sys.power?.roll?.reactive || !sys.power?.effects?.size) return;
+
+    const powerResult = el.querySelector?.(".powerResult");
+    if (!powerResult || powerResult.querySelector(":scope > p")) return;
+
+    const label = document.createElement("p");
+    label.classList.add("dsp-reactive-power-roll");
+    const strong = document.createElement("strong");
+    const localized = game.i18n.localize("DRAW_STEEL.ROLL.Power.Label");
+    strong.textContent = (localized && !localized.startsWith("DRAW_STEEL."))
+      ? localized
+      : game.i18n.localize("DRAW_STEEL_PLUS.Tooltip.powerRoll");
+    label.append(strong);
+    powerResult.prepend(label);
   }
 
   async _buildFallbackBody(doc) {
@@ -402,6 +417,8 @@ export class TooltipsDSP {
           bodyKind = "fallback";
         } catch (err) {
           console.warn(`${MODULE_ID} | Failed to enrich effect tooltip description`, err);
+          bodyHtml = desc;
+          bodyKind = "fallback";
         }
       }
     }

@@ -69,6 +69,8 @@
 }
 
 :is(#tooltip, .locked-tooltip).dsp-tooltip .header-badge {
+  display: flex;
+  flex-direction: column;
   align-items: flex-end;
 }
 
@@ -200,12 +202,6 @@
   margin-top: 0;
 }
 
-:is(#tooltip, .locked-tooltip).dsp-tooltip .supplemental-reactive {
-  margin: calc(4px * var(--dsp-scale, 1)) 0 0;
-  font-size: var(--dsp-font-size-lg);
-  color: var(--dsp-text);
-}
-
 :is(#tooltip, .locked-tooltip).dsp-tooltip :is(.embed-body, .embed-fallback) {
   flex: 1 1 auto;
   min-height: 0;
@@ -271,6 +267,54 @@
   margin-top: 0;
 }
 
+:is(#tooltip, .locked-tooltip).dsp-tooltip .embed-body .draw-steel p {
+  margin: calc(4px * var(--dsp-scale, 1)) 0;
+}
+
+:is(#tooltip, .locked-tooltip).dsp-tooltip .embed-body .draw-steel > p:first-child,
+:is(#tooltip, .locked-tooltip).dsp-tooltip .embed-body .draw-steel section > p:first-child {
+  margin-top: 0;
+}
+
+:is(#tooltip, .locked-tooltip).dsp-tooltip .embed-body .draw-steel strong {
+  color: var(--dsp-text);
+}
+
+:is(#tooltip, .locked-tooltip).dsp-tooltip .embed-body .draw-steel em {
+  color: var(--dsp-text-light);
+  font-style: italic;
+}
+
+:is(#tooltip, .locked-tooltip).dsp-tooltip .embed-body .draw-steel ul,
+:is(#tooltip, .locked-tooltip).dsp-tooltip .embed-body .draw-steel ol {
+  padding-left: calc(18px * var(--dsp-scale, 1));
+  margin: calc(4px * var(--dsp-scale, 1)) 0;
+}
+
+:is(#tooltip, .locked-tooltip).dsp-tooltip .embed-body .draw-steel table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--dsp-font-size-lg);
+}
+
+:is(#tooltip, .locked-tooltip).dsp-tooltip .embed-body .draw-steel table th {
+  background: light-dark(rgba(0, 0, 0, 0.06), rgba(0, 0, 0, 0.2));
+  color: var(--dsp-text-light);
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: var(--dsp-font-size-sm);
+  letter-spacing: 0.06em;
+  padding: calc(3px * var(--dsp-scale, 1)) calc(6px * var(--dsp-scale, 1));
+  border: 1px solid var(--dsp-border);
+  text-align: left;
+}
+
+:is(#tooltip, .locked-tooltip).dsp-tooltip .embed-body .draw-steel table td {
+  padding: calc(3px * var(--dsp-scale, 1)) calc(6px * var(--dsp-scale, 1));
+  border: 1px solid var(--dsp-border);
+  color: var(--dsp-text-light);
+}
+
 :is(#tooltip, .locked-tooltip).dsp-tooltip .embed-body .draw-steel .flavor,
 :is(#tooltip, .locked-tooltip).dsp-tooltip .embed-body .draw-steel.ability .metadata > p.flavor {
   margin: 0 0 calc(4px * var(--dsp-scale, 1));
@@ -292,6 +336,10 @@
   margin: 0 0 calc(4px * var(--dsp-scale, 1));
   font-size: var(--dsp-font-size-lg);
   color: var(--dsp-text);
+}
+
+:is(#tooltip, .locked-tooltip).dsp-tooltip .embed-body .draw-steel .powerResult > p.dsp-reactive-power-roll {
+  margin-bottom: calc(4px * var(--dsp-scale, 1));
 }
 
 :is(#tooltip, .locked-tooltip).dsp-tooltip .embed-body .draw-steel .power-roll-display {
