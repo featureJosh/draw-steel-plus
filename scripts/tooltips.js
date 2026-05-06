@@ -114,7 +114,7 @@ export class TooltipsDSP {
       bodyIsEmbed: body?.kind === "embed",
       bodyIsFallback: body?.kind === "fallback",
       hasBody: !!body?.html,
-      hasSupplemental: !!(supplemental?.description || supplemental?.reactiveLabel),
+      hasSupplemental: !!supplemental?.description,
       hintPin: game.i18n.localize("DRAW_STEEL_PLUS.Tooltip.hintPin"),
       hintUnpin: game.i18n.localize("DRAW_STEEL_PLUS.Tooltip.hintUnpin"),
     };
@@ -292,7 +292,7 @@ export class TooltipsDSP {
   }
 
   async _buildSupplemental(doc) {
-    const supplemental = { description: null, reactiveLabel: null };
+    const supplemental = { description: null };
     if (doc.type !== "ability") return supplemental;
 
     const sys = doc.system ?? {};
@@ -337,20 +337,28 @@ export class TooltipsDSP {
   _prepareEmbedElement(doc, el) {
     if (doc.type !== "ability") return;
     const sys = doc.system ?? {};
-    if (!sys.power?.roll?.reactive || !sys.power?.effects?.size) return;
 
-    const powerResult = el.querySelector?.(".powerResult");
-    if (!powerResult || powerResult.querySelector(":scope > p")) return;
+    const metadata = el.querySelector?.(":scope > .metadata") ?? el.querySelector?.(".metadata");
+    if (metadata) {
+      metadata.querySelector(":scope > dl")?.remove();
+      metadata.querySelector(":scope > p.resource")?.remove();
+      if (!metadata.children.length) metadata.remove();
+    }
 
-    const label = document.createElement("p");
-    label.classList.add("dsp-reactive-power-roll");
-    const strong = document.createElement("strong");
-    const localized = game.i18n.localize("DRAW_STEEL.ROLL.Power.Label");
-    strong.textContent = (localized && !localized.startsWith("DRAW_STEEL."))
-      ? localized
-      : game.i18n.localize("DRAW_STEEL_PLUS.Tooltip.powerRoll");
-    label.append(strong);
-    powerResult.prepend(label);
+    if (sys.power?.roll?.reactive && sys.power?.effects?.size) {
+      const powerResult = el.querySelector?.(".powerResult");
+      if (powerResult && !powerResult.querySelector(":scope > p")) {
+        const label = document.createElement("p");
+        label.classList.add("dsp-reactive-power-roll");
+        const strong = document.createElement("strong");
+        const localized = game.i18n.localize("DRAW_STEEL.ROLL.Power.Label");
+        strong.textContent = (localized && !localized.startsWith("DRAW_STEEL."))
+          ? localized
+          : game.i18n.localize("DRAW_STEEL_PLUS.Tooltip.powerRoll");
+        label.append(strong);
+        powerResult.prepend(label);
+      }
+    }
   }
 
   async _buildFallbackBody(doc) {
@@ -360,8 +368,15 @@ export class TooltipsDSP {
     if (descValue && doc.type !== "ability") parts.push(descValue);
     if (sys.story) parts.push(`<p><em>${sys.story}</em></p>`);
     if (sys.effect?.before) parts.push(sys.effect.before);
+    if (doc.type === "ability") {
+      const powerRoll = await this._buildFallbackPowerRoll(doc);
+      if (powerRoll) parts.push(powerRoll);
+    }
     if (sys.effect?.after) parts.push(sys.effect.after);
-    if (sys.spend?.text) parts.push(`<p>${sys.spend.text}</p>`);
+    if (sys.spend?.text) {
+      const spendLabel = await this._getAbilitySpendLabel(doc);
+      parts.push(`<section class="spend"><dl><dt>${spendLabel}</dt><dd>${sys.spend.text}</dd></dl></section>`);
+    }
 
     const raw = parts.filter((s) => typeof s === "string" && s.trim()).join("<hr>");
     if (!raw) return "";
@@ -374,6 +389,53 @@ export class TooltipsDSP {
       console.warn(`${MODULE_ID} | Failed to enrich fallback body`, err);
       return raw;
     }
+  }
+
+  async _buildFallbackPowerRoll(doc) {
+    const sys = doc.system ?? {};
+    if (doc.type !== "ability" || !sys.power?.effects?.size || typeof sys.powerRollText !== "function") {
+      return "";
+    }
+
+    const tiers = [];
+    for (const tier of [1, 2, 3]) {
+      try {
+        const effect = await sys.powerRollText.call(sys, tier);
+        if (effect) tiers.push({ label: ["!", "@", "#"][tier - 1], effect, tier });
+      } catch (err) {
+        console.warn(`${MODULE_ID} | Failed to build fallback power roll tier ${tier}`, err);
+      }
+    }
+    if (!tiers.length) return "";
+
+    const localized = game.i18n.localize("DRAW_STEEL.ROLL.Power.Label");
+    const rollLabel = (localized && !localized.startsWith("DRAW_STEEL."))
+      ? localized
+      : game.i18n.localize("DRAW_STEEL_PLUS.Tooltip.powerRoll");
+    const heading = sys.power?.roll?.reactive
+      ? rollLabel
+      : game.i18n.format("DRAW_STEEL.ROLL.Power.RollPlusBonus", { bonus: sys.power.roll.formula });
+    const rows = tiers.map(({ label, effect, tier }) => `<dt class="tier${tier}">${label}</dt><dd class="tier${tier}">${effect}</dd>`).join("");
+    return `<section class="powerResult"><p><strong>${heading}</strong></p><dl class="power-roll-display">${rows}</dl></section>`;
+  }
+
+  async _getAbilitySpendLabel(doc) {
+    const sys = doc.system ?? {};
+    const cardContext = {};
+    try {
+      if (typeof sys.getSheetContext === "function") await sys.getSheetContext(cardContext);
+    } catch (err) {
+      console.warn(`${MODULE_ID} | Failed to build fallback spend label`, err);
+    }
+
+    if (cardContext.spendLabel) return cardContext.spendLabel;
+    const resourceName = doc.parent?.system?.coreResource?.name
+      ?? cardContext.resourceName
+      ?? game.i18n.localize("DRAW_STEEL_PLUS.Tooltip.resource");
+    return game.i18n.format("DRAW_STEEL.Item.ability.SpendLabel", {
+      value: sys.spend?.value ?? "",
+      name: resourceName,
+    });
   }
 
   _coerceArray(value) {
@@ -485,7 +547,7 @@ export class TooltipsDSP {
 
     game.tooltip?._setAnchor?.(direction);
 
-    const scrollable = this.#tooltip.querySelector(".embed-body, .draw-steel, .embed-fallback");
+    const scrollable = this.#tooltip.querySelector(".embed-body, .embed-fallback");
     if (scrollable) {
       scrollable.classList.toggle(
         "overflowing",

@@ -253,6 +253,17 @@
   letter-spacing: 0.04em;
 }
 
+:is(#tooltip, .locked-tooltip).dsp-tooltip .embed-body .draw-steel.ability dt.distance,
+:is(#tooltip, .locked-tooltip).dsp-tooltip .embed-body .draw-steel.ability dt.target {
+  font-family: "Draw Steel Glyphs";
+  font-size: var(--dsp-font-size-2xl);
+  font-weight: 500;
+  line-height: 0.9;
+  text-align: right;
+  text-transform: none;
+  letter-spacing: 0;
+}
+
 :is(#tooltip, .locked-tooltip).dsp-tooltip .embed-body .draw-steel dd {
   margin: 0;
   min-width: 0;
@@ -352,6 +363,7 @@
 }
 
 :is(#tooltip, .locked-tooltip).dsp-tooltip .embed-body .draw-steel .power-roll-display dt {
+  font-family: "Draw Steel Glyphs";
   font-weight: 700;
   font-size: var(--dsp-font-size-2xl);
   text-transform: none;
@@ -396,6 +408,12 @@
   margin-top: 0;
 }
 
+:is(#tooltip, .locked-tooltip).dsp-tooltip .embed-fallback hr {
+  border: 0;
+  border-top: 1px solid var(--dsp-border-light);
+  margin: calc(6px * var(--dsp-scale, 1)) 0;
+}
+
 :is(#tooltip, .locked-tooltip).dsp-tooltip .embed-fallback strong {
   color: var(--dsp-text);
 }
@@ -433,6 +451,65 @@
 :is(#tooltip, .locked-tooltip).dsp-tooltip .embed-fallback ol {
   padding-left: calc(18px * var(--dsp-scale, 1));
   margin: calc(4px * var(--dsp-scale, 1)) 0;
+}
+
+:is(#tooltip, .locked-tooltip).dsp-tooltip .embed-fallback .powerResult,
+:is(#tooltip, .locked-tooltip).dsp-tooltip .embed-fallback .spend {
+  margin: 0;
+}
+
+:is(#tooltip, .locked-tooltip).dsp-tooltip .embed-fallback .powerResult > p {
+  margin: 0 0 calc(4px * var(--dsp-scale, 1));
+  font-size: var(--dsp-font-size-lg);
+  color: var(--dsp-text);
+}
+
+:is(#tooltip, .locked-tooltip).dsp-tooltip .embed-fallback .power-roll-display,
+:is(#tooltip, .locked-tooltip).dsp-tooltip .embed-fallback .spend dl {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 2px calc(10px * var(--dsp-scale, 1));
+  margin: 0;
+  padding: 0;
+  font-size: var(--dsp-font-size-base);
+}
+
+:is(#tooltip, .locked-tooltip).dsp-tooltip .embed-fallback .power-roll-display dt {
+  font-family: "Draw Steel Glyphs";
+  font-weight: 700;
+  font-size: var(--dsp-font-size-2xl);
+  text-transform: none;
+  letter-spacing: 0;
+  line-height: 1;
+}
+
+:is(#tooltip, .locked-tooltip).dsp-tooltip .embed-fallback .spend dt {
+  font-weight: 600;
+  color: var(--dsp-accent);
+  text-transform: uppercase;
+  font-size: var(--dsp-font-size-sm);
+  letter-spacing: 0.04em;
+}
+
+:is(#tooltip, .locked-tooltip).dsp-tooltip .embed-fallback .power-roll-display dd,
+:is(#tooltip, .locked-tooltip).dsp-tooltip .embed-fallback .spend dd {
+  margin: 0;
+  min-width: 0;
+}
+
+:is(#tooltip, .locked-tooltip).dsp-tooltip .embed-fallback .power-roll-display dt.tier1,
+:is(#tooltip, .locked-tooltip).dsp-tooltip .embed-fallback .power-roll-display dd.tier1 {
+  color: var(--dsp-tier1);
+}
+
+:is(#tooltip, .locked-tooltip).dsp-tooltip .embed-fallback .power-roll-display dt.tier2,
+:is(#tooltip, .locked-tooltip).dsp-tooltip .embed-fallback .power-roll-display dd.tier2 {
+  color: var(--dsp-text);
+}
+
+:is(#tooltip, .locked-tooltip).dsp-tooltip .embed-fallback .power-roll-display dt.tier3,
+:is(#tooltip, .locked-tooltip).dsp-tooltip .embed-fallback .power-roll-display dd.tier3 {
+  color: var(--dsp-tier3);
 }
 
 :is(#tooltip, .locked-tooltip).dsp-tooltip .tooltip-hint {
