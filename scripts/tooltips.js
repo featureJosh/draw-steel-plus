@@ -3,6 +3,7 @@ import { MODULE_CONFIG } from "./config.js";
 const MODULE_ID = MODULE_CONFIG.id;
 const MODULE_PATH = MODULE_CONFIG.path;
 const TOOLTIP_MARGIN_PX = 8;
+const GUARDED_ENRICHER_LINKS = new WeakSet();
 
 const Dir = foundry?.helpers?.interaction?.TooltipManager?.TOOLTIP_DIRECTIONS ?? {
   UP: "UP",
@@ -80,7 +81,10 @@ export class TooltipsDSP {
 
     const tooltipEl = game.tooltip?.element;
     const direction = tooltipEl?.dataset?.tooltipDirection ?? Dir.LEFT;
-    requestAnimationFrame(() => this._positionItemTooltip(direction));
+    requestAnimationFrame(() => {
+      this._positionItemTooltip(direction);
+      this._activateEnricherClickGuard(this.#tooltip);
+    });
   }
 
   async _renderItemTooltip(doc) {
@@ -556,6 +560,12 @@ export class TooltipsDSP {
     }
   }
 
+  _activateEnricherClickGuard(root) {
+    for (const link of root.querySelectorAll("enriched-content .roll-link")) {
+      guardEnricherLink(link);
+    }
+  }
+
   static activateListeners() {
     document.addEventListener(
       "pointerdown",
@@ -569,5 +579,36 @@ export class TooltipsDSP {
       },
       { capture: true }
     );
+
+    document.addEventListener(
+      "click",
+      (event) => {
+        const tooltip = event.target.closest?.(":is(#tooltip, .locked-tooltip).dsp-tooltip");
+        if (!tooltip) return;
+        const enricherLink = event.target.closest?.("enriched-content .roll-link");
+        if (!enricherLink) return;
+        guardEnricherLink(enricherLink);
+      },
+      { capture: true }
+    );
+
+    document.addEventListener(
+      "click",
+      (event) => {
+        const tooltip = event.target.closest?.(":is(#tooltip, .locked-tooltip).dsp-tooltip");
+        if (!tooltip) return;
+        const enricherLink = event.target.closest?.("enriched-content .roll-link");
+        if (!enricherLink) return;
+        event.stopPropagation();
+      }
+    );
   }
+}
+
+function guardEnricherLink(link) {
+  if (GUARDED_ENRICHER_LINKS.has(link)) return;
+  GUARDED_ENRICHER_LINKS.add(link);
+  link.addEventListener("click", (event) => {
+    event.stopPropagation();
+  });
 }
