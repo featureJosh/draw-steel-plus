@@ -235,7 +235,10 @@
       "keywords": "Keywords",
       "hintPin": "Middle-click to pin",
       "hintUnpin": "Middle-click to unpin",
-      "effect": "Effect"
+      "effect": "Effect",
+      "appliedBy": "Applied by",
+      "description": "Description",
+      "powerRoll": "Power Roll"
     },
     "Search": {
       "placeholder": "Search items..."

@@ -9,6 +9,8 @@
   --dsp-text-light: light-dark(#5a5248, #9a8e80);
   --dsp-text-faint: light-dark(#8a8278, #5a5248);
   --dsp-accent: light-dark(#a88b4a, #c8aa6e);
+  --dsp-tier1: light-dark(#a13a2a, #d97565);
+  --dsp-tier3: light-dark(#7a5d2a, #d6b86a);
   --dsp-shadow: light-dark(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.6));
   font-size: var(--dsp-font-size-xl);
   text-align: start;
@@ -22,7 +24,8 @@
 }
 
 :is(#tooltip, .locked-tooltip).dsp-tooltip:is(.item-tooltip, .effect-tooltip) {
-  width: calc(300px * var(--dsp-scale, 1));
+  width: calc(340px * var(--dsp-scale, 1));
+  max-height: 80vh;
 }
 
 :is(#tooltip, .locked-tooltip).dsp-tooltip.locked-tooltip {
@@ -42,7 +45,12 @@
   flex-direction: column;
   gap: calc(6px * var(--dsp-scale, 1));
   min-width: 0;
+  max-height: inherit;
   overflow: hidden;
+}
+
+:is(#tooltip, .locked-tooltip).dsp-tooltip .header {
+  flex-shrink: 0;
 }
 
 :is(#tooltip, .locked-tooltip).dsp-tooltip .header .top {
@@ -60,6 +68,10 @@
   flex-shrink: 0;
 }
 
+:is(#tooltip, .locked-tooltip).dsp-tooltip .header-badge {
+  align-items: flex-end;
+}
+
 :is(#tooltip, .locked-tooltip).dsp-tooltip .header-badge .label {
   font-size: var(--dsp-font-size-xs);
   font-weight: 600;
@@ -69,9 +81,10 @@
 }
 
 :is(#tooltip, .locked-tooltip).dsp-tooltip .header-badge .value {
-  font-size: var(--dsp-font-size-3xl);
+  font-size: var(--dsp-font-size-xl);
   font-weight: 700;
   color: var(--dsp-text);
+  white-space: nowrap;
 }
 
 :is(#tooltip, .locked-tooltip).dsp-tooltip .header img {
@@ -104,209 +117,40 @@
   color: var(--dsp-text-light);
 }
 
-:is(#tooltip, .locked-tooltip).dsp-tooltip .header .bottom {
-	display: flex;
-	flex-wrap: wrap;
-	gap: calc(8px * var(--dsp-scale, 1)) calc(12px * var(--dsp-scale, 1));
-	margin-top: calc(4px * var(--dsp-scale, 1));
-	padding-top: calc(4px * var(--dsp-scale, 1));
-	border-top: 1px solid var(--dsp-border-light);
+:is(#tooltip, .locked-tooltip).dsp-tooltip .name .subtitle.source {
+  font-style: italic;
+  color: var(--dsp-text-faint);
 }
 
-:is(#tooltip, .locked-tooltip).dsp-tooltip .metadata-item {
+:is(#tooltip, .locked-tooltip).dsp-tooltip .quick-facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: calc(6px * var(--dsp-scale, 1)) calc(14px * var(--dsp-scale, 1));
+  margin: calc(6px * var(--dsp-scale, 1)) 0 0;
+  padding: calc(4px * var(--dsp-scale, 1)) 0 0;
+  list-style: none;
+  border-top: 1px solid var(--dsp-border-light);
+}
+
+:is(#tooltip, .locked-tooltip).dsp-tooltip .quick-fact {
   display: flex;
   flex-direction: column;
   gap: 0;
+  min-width: 0;
 }
 
-:is(#tooltip, .locked-tooltip).dsp-tooltip .metadata-item .label {
+:is(#tooltip, .locked-tooltip).dsp-tooltip .quick-fact .label {
   font-size: var(--dsp-font-size-xs);
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.06em;
-  color: var(--dsp-text-faint);
-}
-
-:is(#tooltip, .locked-tooltip).dsp-tooltip .metadata-item .value {
-  font-size: var(--dsp-font-size-lg);
-  color: var(--dsp-text-light);
-}
-
-:is(#tooltip, .locked-tooltip).dsp-tooltip .description {
-  max-height: calc(350px * var(--dsp-scale, 1));
-  min-width: 0;
-  overflow: hidden;
-  overflow-wrap: break-word;
-  word-break: break-word;
-  scrollbar-width: thin;
-  scrollbar-color: var(--dsp-accent) transparent;
-  font-size: var(--dsp-font-size-xl);
-  line-height: 1.5;
-  color: var(--dsp-text-light);
-}
-
-:is(#tooltip, .locked-tooltip).dsp-tooltip .description.overflowing {
-  mask-image: linear-gradient(to bottom, black 90%, transparent);
-}
-
-:is(#tooltip, .locked-tooltip).dsp-tooltip.locked-tooltip .description {
-  overflow-y: scroll;
-}
-
-:is(#tooltip, .locked-tooltip).dsp-tooltip.locked-tooltip .description.overflowing {
-  mask-image: unset;
-}
-
-:is(#tooltip, .locked-tooltip).dsp-tooltip .description p {
-  margin: calc(4px * var(--dsp-scale, 1)) 0;
-}
-
-:is(#tooltip, .locked-tooltip).dsp-tooltip .description strong {
-  color: var(--dsp-text);
-}
-
-:is(#tooltip, .locked-tooltip).dsp-tooltip .description em {
-  color: var(--dsp-text-light);
-  font-style: italic;
-}
-
-:is(#tooltip, .locked-tooltip).dsp-tooltip .description table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: var(--dsp-font-size-lg);
-}
-
-:is(#tooltip, .locked-tooltip).dsp-tooltip .description table th {
-  background: light-dark(rgba(0, 0, 0, 0.06), rgba(0, 0, 0, 0.2));
-  color: var(--dsp-text-light);
-  font-weight: 700;
-  text-transform: uppercase;
-  font-size: var(--dsp-font-size-sm);
-  letter-spacing: 0.06em;
-  padding: calc(3px * var(--dsp-scale, 1)) calc(6px * var(--dsp-scale, 1));
-  border: 1px solid var(--dsp-border);
-  text-align: left;
-}
-
-:is(#tooltip, .locked-tooltip).dsp-tooltip .description table td {
-  padding: calc(3px * var(--dsp-scale, 1)) calc(6px * var(--dsp-scale, 1));
-  border: 1px solid var(--dsp-border);
-  color: var(--dsp-text-light);
-}
-
-:is(#tooltip, .locked-tooltip).dsp-tooltip .description ul,
-:is(#tooltip, .locked-tooltip).dsp-tooltip .description ol {
-  padding-left: calc(18px * var(--dsp-scale, 1));
-  margin: calc(4px * var(--dsp-scale, 1)) 0;
-}
-
-:is(#tooltip, .locked-tooltip).dsp-tooltip .ability-details {
-  font-size: var(--dsp-font-size-xl);
-  line-height: 1.5;
-  color: var(--dsp-text-light);
-  max-height: calc(350px * var(--dsp-scale, 1));
-  min-width: 0;
-  overflow: hidden;
-  overflow-wrap: break-word;
-  word-break: break-word;
-  scrollbar-width: thin;
-  scrollbar-color: var(--dsp-accent) transparent;
-}
-
-:is(#tooltip, .locked-tooltip).dsp-tooltip .ability-details.overflowing {
-  mask-image: linear-gradient(to bottom, black 90%, transparent);
-}
-
-:is(#tooltip, .locked-tooltip).dsp-tooltip.locked-tooltip .ability-details {
-  overflow-y: scroll;
-}
-
-:is(#tooltip, .locked-tooltip).dsp-tooltip.locked-tooltip .ability-details.overflowing {
-  mask-image: unset;
-}
-
-:is(#tooltip, .locked-tooltip).dsp-tooltip .ability-details .flavor {
-  margin: 0 0 calc(6px * var(--dsp-scale, 1));
-  font-style: italic;
-  color: var(--dsp-text-light);
-}
-
-:is(#tooltip, .locked-tooltip).dsp-tooltip .ability-details .flavor em {
-  font-style: italic;
-}
-
-:is(#tooltip, .locked-tooltip).dsp-tooltip .ability-details .power-result {
-  margin: calc(6px * var(--dsp-scale, 1)) 0;
-  padding: calc(4px * var(--dsp-scale, 1)) 0;
-  border-top: 1px solid var(--dsp-border-light);
-}
-
-:is(#tooltip, .locked-tooltip).dsp-tooltip .ability-details .power-roll-line {
-  margin: 0 0 calc(4px * var(--dsp-scale, 1));
-  font-size: var(--dsp-font-size-lg);
-}
-
-:is(#tooltip, .locked-tooltip).dsp-tooltip .ability-details .power-roll-line strong {
-  color: var(--dsp-text);
-}
-
-:is(#tooltip, .locked-tooltip).dsp-tooltip .ability-details .power-roll-display {
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
-  gap: 2px calc(8px * var(--dsp-scale, 1));
-  margin: 0;
-  padding: 0;
-  font-size: var(--dsp-font-size-base);
-}
-
-:is(#tooltip, .locked-tooltip).dsp-tooltip .ability-details .power-roll-display dt {
-	font-weight: 300;
-	color: var(--dsp-accent);
-}
-
-:is(#tooltip, .locked-tooltip).dsp-tooltip .ability-details .power-roll-display dd {
-  margin: 0;
-  min-width: 0;
-  color: var(--dsp-text-light);
-}
-
-:is(#tooltip, .locked-tooltip).dsp-tooltip .ability-details .power-roll-display dd p {
-  margin: 0;
-}
-
-:is(#tooltip, .locked-tooltip).dsp-tooltip .ability-details .effect {
-  margin: calc(6px * var(--dsp-scale, 1)) 0;
-  padding: calc(4px * var(--dsp-scale, 1)) 0;
-  border-top: 1px solid var(--dsp-border-light);
-}
-
-:is(#tooltip, .locked-tooltip).dsp-tooltip .ability-details .effect dl {
-  margin: 0;
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
-  gap: 2px calc(8px * var(--dsp-scale, 1));
-  font-size: var(--dsp-font-size-lg);
-}
-
-:is(#tooltip, .locked-tooltip).dsp-tooltip .ability-details .effect dt {
-  font-weight: 600;
   color: var(--dsp-accent);
-  text-transform: uppercase;
-  font-size: var(--dsp-font-size-sm);
 }
 
-:is(#tooltip, .locked-tooltip).dsp-tooltip .ability-details .effect dd {
-  margin: 0;
-  min-width: 0;
-  color: var(--dsp-text-light);
-}
-
-:is(#tooltip, .locked-tooltip).dsp-tooltip .ability-details .effect dd p {
-  margin: calc(4px * var(--dsp-scale, 1)) 0;
-}
-
-:is(#tooltip, .locked-tooltip).dsp-tooltip .ability-details .effect dd p:first-child {
-  margin-top: 0;
+:is(#tooltip, .locked-tooltip).dsp-tooltip .quick-fact .value {
+  font-size: var(--dsp-font-size-lg);
+  color: var(--dsp-text);
+  font-weight: 600;
 }
 
 :is(#tooltip, .locked-tooltip).dsp-tooltip .pills {
@@ -314,7 +158,7 @@
   flex-wrap: wrap;
   gap: calc(4px * var(--dsp-scale, 1));
   list-style: none;
-  margin: 0;
+  margin: calc(4px * var(--dsp-scale, 1)) 0 0;
   padding: 0;
 }
 
@@ -330,7 +174,221 @@
   color: var(--dsp-text-light);
 }
 
+:is(#tooltip, .locked-tooltip).dsp-tooltip .supplemental {
+  flex-shrink: 0;
+  padding: calc(4px * var(--dsp-scale, 1)) 0;
+  border-top: 1px solid var(--dsp-border-light);
+  font-size: var(--dsp-font-size-xl);
+  line-height: 1.5;
+  color: var(--dsp-text-light);
+}
+
+:is(#tooltip, .locked-tooltip).dsp-tooltip .supplemental-label {
+  font-size: var(--dsp-font-size-xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--dsp-accent);
+  margin-bottom: 2px;
+}
+
+:is(#tooltip, .locked-tooltip).dsp-tooltip .supplemental-body p {
+  margin: calc(3px * var(--dsp-scale, 1)) 0;
+}
+
+:is(#tooltip, .locked-tooltip).dsp-tooltip .supplemental-body p:first-child {
+  margin-top: 0;
+}
+
+:is(#tooltip, .locked-tooltip).dsp-tooltip .supplemental-reactive {
+  margin: calc(4px * var(--dsp-scale, 1)) 0 0;
+  font-size: var(--dsp-font-size-lg);
+  color: var(--dsp-text);
+}
+
+:is(#tooltip, .locked-tooltip).dsp-tooltip :is(.embed-body, .embed-fallback) {
+  flex: 1 1 auto;
+  min-height: 0;
+  min-width: 0;
+  overflow-y: auto;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  scrollbar-width: thin;
+  scrollbar-color: var(--dsp-accent) transparent;
+  font-size: var(--dsp-font-size-xl);
+  line-height: 1.5;
+  color: var(--dsp-text-light);
+  padding-top: calc(4px * var(--dsp-scale, 1));
+  border-top: 1px solid var(--dsp-border-light);
+}
+
+:is(#tooltip, .locked-tooltip).dsp-tooltip :is(.embed-body, .embed-fallback).overflowing {
+  mask-image: linear-gradient(to bottom, black 92%, transparent);
+}
+
+:is(#tooltip, .locked-tooltip).dsp-tooltip.locked-tooltip :is(.embed-body, .embed-fallback).overflowing {
+  mask-image: unset;
+}
+
+:is(#tooltip, .locked-tooltip).dsp-tooltip .embed-body .draw-steel {
+  display: flex;
+  flex-direction: column;
+  gap: calc(6px * var(--dsp-scale, 1));
+}
+
+:is(#tooltip, .locked-tooltip).dsp-tooltip .embed-body .draw-steel section + section {
+  padding-top: calc(4px * var(--dsp-scale, 1));
+  border-top: 1px solid var(--dsp-border-light);
+}
+
+:is(#tooltip, .locked-tooltip).dsp-tooltip .embed-body .draw-steel dl {
+  margin: 0;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 2px calc(8px * var(--dsp-scale, 1));
+  font-size: var(--dsp-font-size-lg);
+}
+
+:is(#tooltip, .locked-tooltip).dsp-tooltip .embed-body .draw-steel dt {
+  font-weight: 600;
+  color: var(--dsp-accent);
+  text-transform: uppercase;
+  font-size: var(--dsp-font-size-sm);
+  letter-spacing: 0.04em;
+}
+
+:is(#tooltip, .locked-tooltip).dsp-tooltip .embed-body .draw-steel dd {
+  margin: 0;
+  min-width: 0;
+  color: var(--dsp-text-light);
+}
+
+:is(#tooltip, .locked-tooltip).dsp-tooltip .embed-body .draw-steel dd p {
+  margin: calc(3px * var(--dsp-scale, 1)) 0;
+}
+
+:is(#tooltip, .locked-tooltip).dsp-tooltip .embed-body .draw-steel dd p:first-child {
+  margin-top: 0;
+}
+
+:is(#tooltip, .locked-tooltip).dsp-tooltip .embed-body .draw-steel .flavor,
+:is(#tooltip, .locked-tooltip).dsp-tooltip .embed-body .draw-steel.ability .metadata > p.flavor {
+  margin: 0 0 calc(4px * var(--dsp-scale, 1));
+  font-style: italic;
+  color: var(--dsp-text-light);
+}
+
+:is(#tooltip, .locked-tooltip).dsp-tooltip .embed-body .draw-steel.ability .metadata p.resource {
+  margin: 0 0 calc(4px * var(--dsp-scale, 1));
+  font-weight: 600;
+  color: var(--dsp-text);
+}
+
+:is(#tooltip, .locked-tooltip).dsp-tooltip .embed-body .draw-steel .powerResult {
+  margin: 0;
+}
+
+:is(#tooltip, .locked-tooltip).dsp-tooltip .embed-body .draw-steel .powerResult > p {
+  margin: 0 0 calc(4px * var(--dsp-scale, 1));
+  font-size: var(--dsp-font-size-lg);
+  color: var(--dsp-text);
+}
+
+:is(#tooltip, .locked-tooltip).dsp-tooltip .embed-body .draw-steel .power-roll-display {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 2px calc(10px * var(--dsp-scale, 1));
+  margin: 0;
+  padding: 0;
+  font-size: var(--dsp-font-size-base);
+}
+
+:is(#tooltip, .locked-tooltip).dsp-tooltip .embed-body .draw-steel .power-roll-display dt {
+  font-weight: 700;
+  font-size: var(--dsp-font-size-2xl);
+  text-transform: none;
+  letter-spacing: 0;
+  line-height: 1;
+}
+
+:is(#tooltip, .locked-tooltip).dsp-tooltip .embed-body .draw-steel .power-roll-display dt.tier1,
+:is(#tooltip, .locked-tooltip).dsp-tooltip .embed-body .draw-steel .power-roll-display dd.tier1 {
+  color: var(--dsp-tier1);
+}
+
+:is(#tooltip, .locked-tooltip).dsp-tooltip .embed-body .draw-steel .power-roll-display dt.tier2,
+:is(#tooltip, .locked-tooltip).dsp-tooltip .embed-body .draw-steel .power-roll-display dd.tier2 {
+  color: var(--dsp-text);
+}
+
+:is(#tooltip, .locked-tooltip).dsp-tooltip .embed-body .draw-steel .power-roll-display dt.tier3,
+:is(#tooltip, .locked-tooltip).dsp-tooltip .embed-body .draw-steel .power-roll-display dd.tier3 {
+  color: var(--dsp-tier3);
+}
+
+:is(#tooltip, .locked-tooltip).dsp-tooltip .embed-body .draw-steel .power-roll-display dd p {
+  margin: 0;
+}
+
+:is(#tooltip, .locked-tooltip).dsp-tooltip .embed-body .draw-steel.kit h6,
+:is(#tooltip, .locked-tooltip).dsp-tooltip .embed-body .draw-steel h6 {
+  margin: 0 0 calc(2px * var(--dsp-scale, 1));
+  font-size: var(--dsp-font-size-sm);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--dsp-accent);
+}
+
+:is(#tooltip, .locked-tooltip).dsp-tooltip .embed-fallback p {
+  margin: calc(4px * var(--dsp-scale, 1)) 0;
+}
+
+:is(#tooltip, .locked-tooltip).dsp-tooltip .embed-fallback p:first-child {
+  margin-top: 0;
+}
+
+:is(#tooltip, .locked-tooltip).dsp-tooltip .embed-fallback strong {
+  color: var(--dsp-text);
+}
+
+:is(#tooltip, .locked-tooltip).dsp-tooltip .embed-fallback em {
+  color: var(--dsp-text-light);
+  font-style: italic;
+}
+
+:is(#tooltip, .locked-tooltip).dsp-tooltip .embed-fallback table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--dsp-font-size-lg);
+}
+
+:is(#tooltip, .locked-tooltip).dsp-tooltip .embed-fallback table th {
+  background: light-dark(rgba(0, 0, 0, 0.06), rgba(0, 0, 0, 0.2));
+  color: var(--dsp-text-light);
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: var(--dsp-font-size-sm);
+  letter-spacing: 0.06em;
+  padding: calc(3px * var(--dsp-scale, 1)) calc(6px * var(--dsp-scale, 1));
+  border: 1px solid var(--dsp-border);
+  text-align: left;
+}
+
+:is(#tooltip, .locked-tooltip).dsp-tooltip .embed-fallback table td {
+  padding: calc(3px * var(--dsp-scale, 1)) calc(6px * var(--dsp-scale, 1));
+  border: 1px solid var(--dsp-border);
+  color: var(--dsp-text-light);
+}
+
+:is(#tooltip, .locked-tooltip).dsp-tooltip .embed-fallback ul,
+:is(#tooltip, .locked-tooltip).dsp-tooltip .embed-fallback ol {
+  padding-left: calc(18px * var(--dsp-scale, 1));
+  margin: calc(4px * var(--dsp-scale, 1)) 0;
+}
+
 :is(#tooltip, .locked-tooltip).dsp-tooltip .tooltip-hint {
+  flex-shrink: 0;
   margin-top: calc(6px * var(--dsp-scale, 1));
   padding-top: calc(4px * var(--dsp-scale, 1));
   border-top: 1px solid var(--dsp-text-faint);

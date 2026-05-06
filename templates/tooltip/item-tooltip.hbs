@@ -8,77 +8,56 @@
         <span class="subtitle">{{subtitle}}</span>
         {{/if}}
       </div>
-      {{#if hasHeaderBadges}}
+      {{#if hasCostBadge}}
       <div class="header-badges">
-        {{#each headerBadges as |b|}}
         <div class="metadata-item header-badge">
-          <span class="label">{{b.label}}</span>
-          <span class="value">{{b.value}}</span>
+          <span class="label">{{costBadge.label}}</span>
+          <span class="value">{{costBadge.value}}</span>
         </div>
-        {{/each}}
       </div>
       {{/if}}
     </div>
-    {{#if hasMetadata}}
-    <div class="bottom">
-      {{#each metadata as |m|}}
-      <div class="metadata-item">
-        <span class="label">{{m.label}}</span>
-        <span class="value">{{m.value}}</span>
-      </div>
+    {{#if hasQuickFacts}}
+    <ul class="quick-facts">
+      {{#each quickFacts as |f|}}
+      <li class="quick-fact">
+        <span class="label">{{f.label}}</span>
+        <span class="value">{{f.value}}</span>
+      </li>
       {{/each}}
+    </ul>
+    {{/if}}
+    {{#if hasPills}}
+    <ul class="pills">
+      {{#each pills as |pill|}}
+      <li class="pill"><span class="label">{{pill}}</span></li>
+      {{/each}}
+    </ul>
+    {{/if}}
+  </section>
+
+  {{#if hasSupplemental}}
+  <section class="supplemental">
+    {{#if supplemental.description}}
+    <div class="supplemental-description">
+      <div class="supplemental-label">{{supplemental.descriptionLabel}}</div>
+      <div class="supplemental-body">{{{supplemental.description}}}</div>
     </div>
     {{/if}}
-  </section>
-  {{#if abilityDetails}}
-  <section class="ability-details">
-    {{#if abilityDetails.flavor}}
-    <p class="flavor">{{{abilityDetails.flavor}}}</p>
-    {{/if}}
-    {{#if abilityDetails.hasPowerResult}}
-    <section class="power-result">
-      {{#if abilityDetails.powerRollLine}}
-      <p class="power-roll-line"><strong>{{{abilityDetails.powerRollLine}}}</strong></p>
-      {{/if}}
-      {{#if abilityDetails.powerRollTiers.length}}
-      <dl class="power-roll-display">
-        {{#each abilityDetails.powerRollTiers as |tier|}}
-        <dt class="tier{{tier.tierNum}}">{{tier.label}}</dt>
-        <dd class="tier{{tier.tierNum}}">{{{tier.effect}}}</dd>
-        {{/each}}
-      </dl>
-      {{/if}}
-    </section>
-    {{/if}}
-    {{#if abilityDetails.beforeEffect}}
-    <section class="effect before">
-      <dl>
-        <dt>{{effectLabel}}</dt>
-        <dd>{{{abilityDetails.beforeEffect}}}</dd>
-      </dl>
-    </section>
-    {{/if}}
-    {{#if abilityDetails.afterEffect}}
-    <section class="effect after">
-      <dl>
-        <dt>{{effectLabel}}</dt>
-        <dd>{{{abilityDetails.afterEffect}}}</dd>
-      </dl>
-    </section>
+    {{#if supplemental.reactiveLabel}}
+    <p class="supplemental-reactive"><strong>{{supplemental.reactiveLabel}}</strong></p>
     {{/if}}
   </section>
-  {{else}}
-  {{#if description}}
-  <section class="description">{{{description}}}</section>
   {{/if}}
+
+  {{#if hasBody}}
+    {{#if bodyIsEmbed}}
+    <section class="embed-body">{{{bodyHtml}}}</section>
+    {{else}}
+    <section class="embed-fallback description">{{{bodyHtml}}}</section>
+    {{/if}}
   {{/if}}
-  {{#if hasPills}}
-  <ul class="pills">
-    {{#each pills as |pill|}}
-    <li class="pill"><span class="label">{{pill}}</span></li>
-    {{/each}}
-  </ul>
-  {{/if}}
+
   <div class="tooltip-hint">
     <span class="tooltip-hint-pin"><i class="fa-solid fa-computer-mouse tooltip-hint-icon" inert></i>{{hintPin}}</span>
     <span class="tooltip-hint-unpin"><i class="fa-solid fa-computer-mouse tooltip-hint-icon" inert></i>{{hintUnpin}}</span>

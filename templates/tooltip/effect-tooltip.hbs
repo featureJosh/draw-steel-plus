@@ -7,12 +7,21 @@
         {{#if durationLabel}}
         <span class="subtitle duration">{{durationLabel}}</span>
         {{/if}}
+        {{#if originName}}
+        <span class="subtitle source">{{appliedByLabel}} {{originName}}</span>
+        {{/if}}
       </div>
     </div>
   </section>
-  {{#if description}}
-  <section class="description">{{{description}}}</section>
+
+  {{#if hasBody}}
+    {{#if bodyIsEmbed}}
+    <section class="embed-body">{{{bodyHtml}}}</section>
+    {{else}}
+    <section class="embed-fallback description">{{{bodyHtml}}}</section>
+    {{/if}}
   {{/if}}
+
   {{#if properties.length}}
   <ul class="pills">
     {{#each properties as |prop|}}
@@ -20,6 +29,7 @@
     {{/each}}
   </ul>
   {{/if}}
+
   <div class="tooltip-hint">
     <span class="tooltip-hint-pin"><i class="fa-solid fa-computer-mouse tooltip-hint-icon" inert></i>{{hintPin}}</span>
     <span class="tooltip-hint-unpin"><i class="fa-solid fa-computer-mouse tooltip-hint-icon" inert></i>{{hintUnpin}}</span>
