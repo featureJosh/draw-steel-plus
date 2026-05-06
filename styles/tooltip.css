@@ -224,6 +224,38 @@
   border-top: 1px solid var(--dsp-border-light);
 }
 
+:is(#tooltip, .locked-tooltip).dsp-tooltip enriched-content[data-dsp-sealed-enricher="ds.roll"],
+:is(#tooltip, .locked-tooltip).dsp-tooltip enriched-content[data-dsp-sealed-enricher="ds.apply"] {
+  background: var(--content-link-background);
+  border: 1px solid var(--content-link-border-color);
+  border-radius: 2px;
+  color: var(--content-link-text-color);
+  padding: 1px 4px 0;
+  text-wrap-mode: nowrap;
+  word-break: break-all;
+}
+
+:is(#tooltip, .locked-tooltip).dsp-tooltip enriched-content[data-dsp-sealed-enricher] .roll-link i {
+  padding-right: 0.25em;
+}
+
+:is(#tooltip, .locked-tooltip).dsp-tooltip enriched-content[data-dsp-sealed-enricher="ds.roll"] a[data-type="requestTest"] {
+  margin-left: 0.25rem;
+  padding-left: 0.4rem;
+  border-left: 1px solid var(--content-link-border-color);
+}
+
+:is(#tooltip, .locked-tooltip).dsp-tooltip enriched-content[data-dsp-sealed-enricher="ds.lookup"] {
+  text-decoration: underline dotted;
+}
+
+:is(#tooltip, .locked-tooltip).dsp-tooltip enriched-content[data-dsp-sealed-enricher="ds.potency"] span.potency {
+  font-family: "Draw Steel Glyphs";
+  font-size: var(--font-size-16);
+  text-transform: lowercase;
+  line-height: 0.9;
+}
+
 :is(#tooltip, .locked-tooltip).dsp-tooltip :is(.embed-body, .embed-fallback).overflowing {
   mask-image: linear-gradient(to bottom, black 92%, transparent);
 }

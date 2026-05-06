@@ -3,6 +3,7 @@ import { MODULE_CONFIG } from "./config.js";
 const MODULE_ID = MODULE_CONFIG.id;
 const MODULE_PATH = MODULE_CONFIG.path;
 const TOOLTIP_MARGIN_PX = 8;
+const TOOLTIP_LAYER_SELECTOR = "#tooltip, .locked-tooltip, .ds-floating-tooltip";
 
 const Dir = foundry?.helpers?.interaction?.TooltipManager?.TOOLTIP_DIRECTIONS ?? {
   UP: "UP",
@@ -13,10 +14,12 @@ const Dir = foundry?.helpers?.interaction?.TooltipManager?.TOOLTIP_DIRECTIONS ??
 
 export class TooltipsDSP {
   #observer = null;
+  #layerObserver = null;
   #tooltip = null;
 
   constructor() {
     this.#tooltip = document.getElementById("tooltip");
+    this._liftTooltipLayer();
   }
 
   get tooltip() {
@@ -24,15 +27,21 @@ export class TooltipsDSP {
   }
 
   observe() {
+    this._liftTooltipLayer();
     this.#observer?.disconnect();
     this.#observer = new MutationObserver(this._onMutation.bind(this));
     this.#observer.observe(this.#tooltip, {
       attributeFilter: ["class"],
       attributeOldValue: true,
     });
+
+    this.#layerObserver?.disconnect();
+    this.#layerObserver = new MutationObserver(() => this._liftTooltipLayer());
+    this.#layerObserver.observe(document.body, { childList: true, subtree: true });
   }
 
   _onMutation(mutationList) {
+    this._liftTooltipLayer();
     for (const mutation of mutationList) {
       if (mutation.attributeName !== "class") continue;
       const oldClasses = new Set((mutation.oldValue ?? "").split(/\s+/).filter(Boolean));
@@ -77,12 +86,12 @@ export class TooltipsDSP {
     this.#tooltip.innerHTML = content;
     this.#tooltip.classList.remove("theme-dark");
     this.#tooltip.classList.add(...classes);
+    this._sealEnrichers(this.#tooltip);
 
     const tooltipEl = game.tooltip?.element;
     const direction = tooltipEl?.dataset?.tooltipDirection ?? Dir.LEFT;
     requestAnimationFrame(() => {
       this._positionItemTooltip(direction);
-      this._sealEnrichers(this.#tooltip);
     });
   }
 
@@ -563,6 +572,18 @@ export class TooltipsDSP {
     for (const ec of root.querySelectorAll("enriched-content[enricher]")) {
       ec.dataset.dspSealedEnricher = ec.getAttribute("enricher");
       ec.removeAttribute("enricher");
+    }
+  }
+
+  _liftTooltipLayer() {
+    if (!document.body) return;
+
+    const tooltip = document.getElementById("tooltip");
+    if (tooltip) this.#tooltip = tooltip;
+
+    for (const el of document.querySelectorAll(TOOLTIP_LAYER_SELECTOR)) {
+      if (el.parentElement !== document.body) document.body.appendChild(el);
+      el.style.zIndex = "var(--dsp-tooltip-z-index, 2147483647)";
     }
   }
 
