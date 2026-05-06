@@ -36,6 +36,7 @@ body {
   --dsp-radius-lg: calc(16px * var(--dsp-scale, 1));
   --dsp-radius-xl: calc(24px * var(--dsp-scale, 1));
   --dsp-radius-full: 9999px;
+  --dsp-tooltip-z-index: 2147483647;
   --dsp-scale: 1;
   --dsp-font-size-3xs: calc(0.4rem * var(--dsp-scale, 1));
   --dsp-font-size-2xs: calc(0.5rem * var(--dsp-scale, 1));

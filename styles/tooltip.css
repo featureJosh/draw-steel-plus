@@ -1,3 +1,9 @@
+#tooltip,
+.locked-tooltip,
+.ds-floating-tooltip {
+  z-index: var(--dsp-tooltip-z-index, 2147483647) !important;
+}
+
 :is(#tooltip, .locked-tooltip).dsp-tooltip {
   --dsp-surface-raised: light-dark(#e0d9ce, #1e1e1e);
   --dsp-border-light: light-dark(#d4c8b8, #3a302a);
