@@ -934,6 +934,15 @@ body.dsp-ahud-styled .dsp-ahud-content .dsahud-actor-label {
   top: calc(100% + 4px) !important;
 }
 
+.dsp-ahud-content .dsahud-button {
+  z-index: 10;
+}
+
+.dsp-ahud-content .dsahud-button:hover,
+.dsp-ahud-content .dsahud-button:has(.dsahud-popup.active) {
+  z-index: 20;
+}
+
 .dsp-ahud-content .dsahud-popup {
   z-index: 1000 !important;
 }
