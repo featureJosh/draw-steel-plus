@@ -4,7 +4,7 @@ const MODULE_ID = MODULE_CONFIG.id;
 const MODULE_PATH = MODULE_CONFIG.path;
 const TOOLTIP_MARGIN_PX = 8;
 const TOOLTIP_LAYER_SELECTOR = "#tooltip, .locked-tooltip, .ds-floating-tooltip";
-const ABILITY_HUD_LIFT_BODY_CLASS = "dsp-lift-ahud-tooltip";
+const ABILITY_HUD_ACTION_SELECTOR = ".dsahud-action[data-tooltip-uuid]";
 
 const Dir = foundry?.helpers?.interaction?.TooltipManager?.TOOLTIP_DIRECTIONS ?? {
   UP: "UP",
@@ -586,18 +586,6 @@ export class TooltipsDSP {
       if (el.parentElement !== document.body) document.body.appendChild(el);
       el.style.zIndex = "var(--dsp-tooltip-z-index, 2147483647)";
     }
-
-    this._syncAbilityHudLift();
-  }
-
-  _syncAbilityHudLift() {
-    let lift = true;
-    try {
-      lift = game.settings.get(MODULE_ID, "liftAbilityHudTooltip");
-    } catch (_err) {
-      lift = true;
-    }
-    document.body.classList.toggle(ABILITY_HUD_LIFT_BODY_CLASS, !!lift);
   }
 
   static activateListeners() {
@@ -613,5 +601,44 @@ export class TooltipsDSP {
       },
       { capture: true }
     );
+
+    let activeAhudEl = null;
+
+    const isOverrideEnabled = () => {
+      try {
+        return !!game.settings.get(MODULE_ID, "abilityHudDspStyle");
+      } catch (_err) {
+        return true;
+      }
+    };
+
+    document.addEventListener("mouseover", (ev) => {
+      const el = ev.target?.closest?.(ABILITY_HUD_ACTION_SELECTOR);
+      if (el === activeAhudEl) return;
+      activeAhudEl = el ?? null;
+      if (!el) return;
+      if (!isOverrideEnabled()) return;
+      const uuid = el.dataset.tooltipUuid;
+      if (!uuid) return;
+      try {
+        game.tooltip?.activate?.(el, {
+          html: `<section class="loading" data-uuid="${uuid}"></section>`,
+          cssClass: "dsp-tooltip item-tooltip",
+          direction: Dir.LEFT,
+        });
+      } catch (err) {
+        console.warn(`${MODULE_ID} | Failed to activate DSP tooltip on Ability HUD action`, err);
+      }
+    });
+
+    document.addEventListener("mouseout", (ev) => {
+      if (!activeAhudEl) return;
+      const next = ev.relatedTarget?.closest?.(ABILITY_HUD_ACTION_SELECTOR);
+      if (next === activeAhudEl) return;
+      activeAhudEl = null;
+      try {
+        game.tooltip?.deactivate?.();
+      } catch (_err) { /* noop */ }
+    });
   }
 }

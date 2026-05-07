@@ -4,9 +4,8 @@
   z-index: var(--dsp-tooltip-z-index, 2147483647) !important;
 }
 
-body.dsp-lift-ahud-tooltip #dsahud-tooltip,
-body.dsp-lift-ahud-tooltip .dsahud-pinned-window {
-  z-index: calc(var(--dsp-tooltip-z-index, 2147483647) - 1) !important;
+body.dsp-ahud-styled #dsahud-tooltip {
+  display: none !important;
 }
 
 :is(#tooltip, .locked-tooltip).dsp-tooltip {

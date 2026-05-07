@@ -47,6 +47,24 @@
           "name": "NPC Settings",
           "label": "Configure NPCs",
           "hint": "Customize NPC sheet options."
+        },
+        "ui": {
+          "name": "UI Settings",
+          "label": "Configure UI",
+          "hint": "Customize the Draw Steel Plus user interface (scale, navigation, chat, panels, drag grid)."
+        },
+        "sheets": {
+          "name": "Sheet Settings",
+          "label": "Configure Sheets",
+          "hint": "Customize Draw Steel Plus actor sheet behavior."
+        },
+        "modules": {
+          "name": "Module Integrations",
+          "label": "Configure Module Integrations",
+          "hint": "Configure Draw Steel Plus support for third-party Draw Steel modules.",
+          "combatTrackerSection": "Draw Steel Combat Tracker",
+          "abilityHudSection": "Draw Steel - Ability HUD",
+          "targetDamageSection": "Draw Steel Target Damage"
         }
       },
       "npcFavoritesEnabled": {
@@ -184,7 +202,7 @@
         "hint": "Wrap the Draw Steel Combat Tracker module in a draggable DS+ floating panel. Requires the 'Draw Steel Combat Tracker' module."
       },
       "combatTrackerDspStyle": {
-        "name": "Combat Tracker DS+ Styling",
+        "name": "Combat Tracker DS+ Integration",
         "hint": "Apply Draw Steel Plus visual styling to the floating Combat Tracker panel. Disable to use the original module appearance."
       },
       "useAbilityHudPanel": {
@@ -192,16 +210,12 @@
         "hint": "Wrap the Draw Steel Ability HUD module in a draggable DS+ floating panel. Requires the 'Draw Steel - Ability HUD' module."
       },
       "abilityHudDspStyle": {
-        "name": "Ability HUD DS+ Styling",
-        "hint": "Apply Draw Steel Plus visual styling to the floating Ability HUD panel. Disable to use the original module appearance."
+        "name": "Ability HUD DS+ Integration",
+        "hint": "Restyle the 'Draw Steel - Ability HUD' panel to match Draw Steel Plus (colors, padding, layout) and replace its hover tooltip with the DS+ tooltip so it isn't hidden behind floating UIs. Disable to use the original module's appearance and tooltips."
       },
       "targetDamageStyling": {
-        "name": "Target Damage DS+ Styling",
+        "name": "Target Damage DS+ Integration",
         "hint": "Apply Draw Steel Plus visual styling to the 'Draw Steel Target Damage' module panels in chat. Requires Improved Chat to be enabled."
-      },
-      "liftAbilityHudTooltip": {
-        "name": "Prioritize Ability HUD Tooltips",
-        "hint": "Workaround: lift the 'Draw Steel - Ability HUD' module's tooltip above floating UIs so it isn't hidden behind them. Disable to leave the Ability HUD's native z-index untouched."
       }
     },
     "Tooltip": {

@@ -8,6 +8,9 @@ import { AbilityHudUI } from "./ability-hud-ui.js";
 import ColorSettingsMenu from "./color-settings-menu.js";
 import HeaderSettingsMenu from "./header-settings-menu.js";
 import NPCSettingsMenu from "./npc-settings-menu.js";
+import UISettingsMenu from "./ui-settings-menu.js";
+import SheetSettingsMenu from "./sheet-settings-menu.js";
+import ModuleSettingsMenu from "./module-settings-menu.js";
 
 const MODULE_ID = MODULE_CONFIG.id;
 
@@ -37,6 +40,33 @@ export function registerSettings() {
     icon: "fa-solid fa-ghost",
     type: NPCSettingsMenu,
     restricted: true,
+  });
+
+  game.settings.registerMenu(MODULE_ID, "uiSettingsMenu", {
+    name: "DRAW_STEEL_PLUS.Settings.menus.ui.name",
+    label: "DRAW_STEEL_PLUS.Settings.menus.ui.label",
+    hint: "DRAW_STEEL_PLUS.Settings.menus.ui.hint",
+    icon: "fa-solid fa-display",
+    type: UISettingsMenu,
+    restricted: false,
+  });
+
+  game.settings.registerMenu(MODULE_ID, "sheetSettingsMenu", {
+    name: "DRAW_STEEL_PLUS.Settings.menus.sheets.name",
+    label: "DRAW_STEEL_PLUS.Settings.menus.sheets.label",
+    hint: "DRAW_STEEL_PLUS.Settings.menus.sheets.hint",
+    icon: "fa-solid fa-id-card",
+    type: SheetSettingsMenu,
+    restricted: false,
+  });
+
+  game.settings.registerMenu(MODULE_ID, "moduleSettingsMenu", {
+    name: "DRAW_STEEL_PLUS.Settings.menus.modules.name",
+    label: "DRAW_STEEL_PLUS.Settings.menus.modules.label",
+    hint: "DRAW_STEEL_PLUS.Settings.menus.modules.hint",
+    icon: "fa-solid fa-puzzle-piece",
+    type: ModuleSettingsMenu,
+    restricted: false,
   });
 
   game.settings.register(MODULE_ID, "npcFavoritesEnabled", {
@@ -73,7 +103,7 @@ export function registerSettings() {
     name: "DRAW_STEEL_PLUS.Settings.fontScale.name",
     hint: "DRAW_STEEL_PLUS.Settings.fontScale.hint",
     scope: "client",
-    config: true,
+    config: false,
     type: Number,
     default: SCALE_DEFAULTS.fontScale,
     range: { min: 0.75, max: 1.5, step: 0.05 },
@@ -84,7 +114,7 @@ export function registerSettings() {
     name: "DRAW_STEEL_PLUS.Settings.floatingNavTabs.name",
     hint: "DRAW_STEEL_PLUS.Settings.floatingNavTabs.hint",
     scope: "client",
-    config: true,
+    config: false,
     type: Boolean,
     default: true,
     requiresReload: false,
@@ -199,7 +229,7 @@ export function registerSettings() {
     name: "DRAW_STEEL_PLUS.Settings.parallaxHeaderArt.name",
     hint: "DRAW_STEEL_PLUS.Settings.parallaxHeaderArt.hint",
     scope: "client",
-    config: true,
+    config: false,
     type: Boolean,
     default: false,
     requiresReload: false,
@@ -209,7 +239,7 @@ export function registerSettings() {
     name: "DRAW_STEEL_PLUS.Settings.improvedChat.name",
     hint: "DRAW_STEEL_PLUS.Settings.improvedChat.hint",
     scope: "client",
-    config: true,
+    config: false,
     type: Boolean,
     default: UI_DEFAULTS.improvedChat,
     requiresReload: true,
@@ -219,7 +249,7 @@ export function registerSettings() {
     name: "DRAW_STEEL_PLUS.Settings.useCustomMetaCurrency.name",
     hint: "DRAW_STEEL_PLUS.Settings.useCustomMetaCurrency.hint",
     scope: "client",
-    config: true,
+    config: false,
     type: Boolean,
     default: UI_DEFAULTS.useCustomMetaCurrency,
     requiresReload: false,
@@ -238,7 +268,7 @@ export function registerSettings() {
     name: "DRAW_STEEL_PLUS.Settings.useCombatTrackerPanel.name",
     hint: "DRAW_STEEL_PLUS.Settings.useCombatTrackerPanel.hint",
     scope: "client",
-    config: true,
+    config: false,
     type: Boolean,
     default: UI_DEFAULTS.useCombatTrackerPanel,
     requiresReload: true,
@@ -248,7 +278,7 @@ export function registerSettings() {
     name: "DRAW_STEEL_PLUS.Settings.combatTrackerDspStyle.name",
     hint: "DRAW_STEEL_PLUS.Settings.combatTrackerDspStyle.hint",
     scope: "client",
-    config: true,
+    config: false,
     type: Boolean,
     default: UI_DEFAULTS.combatTrackerDspStyle,
     requiresReload: false,
@@ -258,7 +288,7 @@ export function registerSettings() {
     name: "DRAW_STEEL_PLUS.Settings.useAbilityHudPanel.name",
     hint: "DRAW_STEEL_PLUS.Settings.useAbilityHudPanel.hint",
     scope: "client",
-    config: true,
+    config: false,
     type: Boolean,
     default: UI_DEFAULTS.useAbilityHudPanel,
     requiresReload: true,
@@ -268,7 +298,7 @@ export function registerSettings() {
     name: "DRAW_STEEL_PLUS.Settings.abilityHudDspStyle.name",
     hint: "DRAW_STEEL_PLUS.Settings.abilityHudDspStyle.hint",
     scope: "client",
-    config: true,
+    config: false,
     type: Boolean,
     default: UI_DEFAULTS.abilityHudDspStyle,
     requiresReload: false,
@@ -283,7 +313,7 @@ export function registerSettings() {
     name: "DRAW_STEEL_PLUS.Settings.targetDamageStyling.name",
     hint: "DRAW_STEEL_PLUS.Settings.targetDamageStyling.hint",
     scope: "client",
-    config: true,
+    config: false,
     type: Boolean,
     default: UI_DEFAULTS.targetDamageStyling,
     requiresReload: false,
@@ -329,24 +359,11 @@ export function registerSettings() {
     },
   });
 
-  game.settings.register(MODULE_ID, "liftAbilityHudTooltip", {
-    name: "DRAW_STEEL_PLUS.Settings.liftAbilityHudTooltip.name",
-    hint: "DRAW_STEEL_PLUS.Settings.liftAbilityHudTooltip.hint",
-    scope: "client",
-    config: true,
-    type: Boolean,
-    default: true,
-    requiresReload: false,
-    onChange: () => {
-      game.modules.get(MODULE_ID)?.tooltips?._syncAbilityHudLift?.();
-    },
-  });
-
   game.settings.register(MODULE_ID, "floatingUIGridSize", {
     name: "DRAW_STEEL_PLUS.Settings.floatingUIGridSize.name",
     hint: "DRAW_STEEL_PLUS.Settings.floatingUIGridSize.hint",
     scope: "client",
-    config: true,
+    config: false,
     type: Number,
     default: 20,
     range: { min: 4, max: 80, step: 2 },
@@ -357,7 +374,7 @@ export function registerSettings() {
     name: "DRAW_STEEL_PLUS.Settings.floatingUIShowOverlay.name",
     hint: "DRAW_STEEL_PLUS.Settings.floatingUIShowOverlay.hint",
     scope: "client",
-    config: true,
+    config: false,
     type: Boolean,
     default: true,
     requiresReload: false,

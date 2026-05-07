@@ -849,8 +849,25 @@ body.dsp-ct-styled .ds-tooltip-divider {
    Wraps the draw-steel-ability-hud module's #ds-ability-hud
    ============================================================ */
 
+.dsp-ability-hud-ui {
+  z-index: 200;
+}
+
+.dsp-ability-hud-ui:hover {
+  z-index: 1000 !important;
+}
+
 .dsp-ability-hud-ui .dsp-fui-panel {
   min-width: 0;
+  z-index: 5;
+}
+
+.dsp-ability-hud-ui .dsp-fui-toolbar {
+  z-index: 4;
+}
+
+body.dsp-ahud-styled .dsahud-pinned-window {
+  z-index: 201 !important;
 }
 
 .dsp-ability-hud-ui:not(:hover) .dsp-fui-panel {
@@ -862,10 +879,20 @@ body.dsp-ct-styled .ds-tooltip-divider {
 }
 
 .dsp-ahud-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
   border-radius: 0 0 var(--dsp-radius-md) var(--dsp-radius-md);
   padding: calc(6px * var(--dsp-scale, 1)) calc(8px * var(--dsp-scale, 1));
 }
 
+.dsp-ahud-content,
+.dsp-ahud-content * {
+  box-sizing: border-box;
+}
+
+body.dsp-ahud-panel-active #ds-ability-hud,
 .dsp-ahud-content #ds-ability-hud {
   position: static !important;
   inset: auto !important;
@@ -879,12 +906,23 @@ body.dsp-ct-styled .ds-tooltip-divider {
   transform: none !important;
   pointer-events: auto !important;
   z-index: auto !important;
+}
+
+body.dsp-ahud-panel-active > #ds-ability-hud {
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
+.dsp-ahud-content #ds-ability-hud {
   display: flex;
+  justify-content: center;
+  max-width: 100%;
 }
 
 .dsp-ahud-content .dsahud-bar {
   flex-wrap: nowrap !important;
   width: auto !important;
+  max-width: 100%;
 }
 
 body.dsp-ahud-styled .dsp-ahud-content .dsahud-actor-label {
@@ -894,6 +932,10 @@ body.dsp-ahud-styled .dsp-ahud-content .dsahud-actor-label {
 .dsp-ahud-content .dsahud-button.dsahud-open-down .dsahud-popup {
   bottom: auto !important;
   top: calc(100% + 4px) !important;
+}
+
+.dsp-ahud-content .dsahud-popup {
+  z-index: 1000 !important;
 }
 
 body.dsp-ahud-styled .dsp-ahud-content .dsahud-button {
