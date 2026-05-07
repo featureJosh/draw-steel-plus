@@ -4,6 +4,7 @@ const MODULE_ID = MODULE_CONFIG.id;
 const MODULE_PATH = MODULE_CONFIG.path;
 const TOOLTIP_MARGIN_PX = 8;
 const TOOLTIP_LAYER_SELECTOR = "#tooltip, .locked-tooltip, .ds-floating-tooltip";
+const ABILITY_HUD_LIFT_BODY_CLASS = "dsp-lift-ahud-tooltip";
 
 const Dir = foundry?.helpers?.interaction?.TooltipManager?.TOOLTIP_DIRECTIONS ?? {
   UP: "UP",
@@ -585,6 +586,18 @@ export class TooltipsDSP {
       if (el.parentElement !== document.body) document.body.appendChild(el);
       el.style.zIndex = "var(--dsp-tooltip-z-index, 2147483647)";
     }
+
+    this._syncAbilityHudLift();
+  }
+
+  _syncAbilityHudLift() {
+    let lift = true;
+    try {
+      lift = game.settings.get(MODULE_ID, "liftAbilityHudTooltip");
+    } catch (_err) {
+      lift = true;
+    }
+    document.body.classList.toggle(ABILITY_HUD_LIFT_BODY_CLASS, !!lift);
   }
 
   static activateListeners() {

@@ -12,6 +12,9 @@ export class AbilityHudUI extends DspFloatingUI {
     id: "dsp-ability-hud",
     tag: "div",
     classes: ["dsp-ability-hud-ui"],
+    actions: {
+      openAbilityHudActor: AbilityHudUI.openAbilityHudActor,
+    },
   };
 
   static PARTS = {
@@ -31,6 +34,12 @@ export class AbilityHudUI extends DspFloatingUI {
   static applyBodyStyle() {
     const active = this.isModuleActive();
     document.body.classList.toggle("dsp-ahud-styled", active && !!game.settings.get(MODULE_ID, "abilityHudDspStyle"));
+  }
+
+  static usesToolbarActorLabel() {
+    return this.isModuleActive()
+      && !!game.settings.get(MODULE_ID, "abilityHudDspStyle")
+      && !!game.settings.get(MODULE_ID, "useAbilityHudPanel");
   }
 
   static initialize() {
@@ -119,6 +128,7 @@ export class AbilityHudUI extends DspFloatingUI {
         requestAnimationFrame(() => this._reveal());
       });
     }
+    this._syncActorLabelToolbar(hudEl);
   }
 
   _observeHudSize(hudEl) {
@@ -153,6 +163,42 @@ export class AbilityHudUI extends DspFloatingUI {
       this._barStyleGuardObserver = new MutationObserver(stripBar);
       this._barStyleGuardObserver.observe(bar, { attributes: true, attributeFilter: ["style"] });
     }
+  }
+
+  _syncActorLabelToolbar(hudEl = document.getElementById("ds-ability-hud")) {
+    const toolbar = this.element?.querySelector(".dsp-fui-toolbar");
+    const label = hudEl?.querySelector(".dsahud-actor-label");
+    const existing = toolbar?.querySelector('[data-action="openAbilityHudActor"]');
+    const enabled = this.constructor.usesToolbarActorLabel();
+
+    if (!toolbar || !label || !enabled) {
+      existing?.remove();
+      return;
+    }
+
+    const actorName = label.textContent?.trim();
+    const tooltip = actorName
+      ? `${label.getAttribute("title") || "Open Character Sheet"}: ${actorName}`
+      : label.getAttribute("title") || "Open Character Sheet";
+
+    const btn = existing ?? document.createElement("button");
+    btn.type = "button";
+    btn.className = "dsp-fui-toolbar-btn dsp-ahud-actor-btn";
+    btn.dataset.action = "openAbilityHudActor";
+    btn.setAttribute("data-tooltip", tooltip);
+    btn.setAttribute("aria-label", tooltip);
+    btn.innerHTML = '<i class="fa-solid fa-user" inert></i>';
+
+    if (!existing) {
+      const dragHandle = toolbar.querySelector(".dsp-fui-drag-handle");
+      if (dragHandle?.nextSibling) toolbar.insertBefore(btn, dragHandle.nextSibling);
+      else toolbar.prepend(btn);
+    }
+  }
+
+  static openAbilityHudActor() {
+    const label = this.element?.querySelector(".dsp-ahud-content .dsahud-actor-label");
+    label?.click();
   }
 
   _reveal() {

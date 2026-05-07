@@ -198,6 +198,10 @@
       "targetDamageStyling": {
         "name": "Target Damage DS+ Styling",
         "hint": "Apply Draw Steel Plus visual styling to the 'Draw Steel Target Damage' module panels in chat. Requires Improved Chat to be enabled."
+      },
+      "liftAbilityHudTooltip": {
+        "name": "Prioritize Ability HUD Tooltips",
+        "hint": "Workaround: lift the 'Draw Steel - Ability HUD' module's tooltip above floating UIs so it isn't hidden behind them. Disable to leave the Ability HUD's native z-index untouched."
       }
     },
     "Tooltip": {

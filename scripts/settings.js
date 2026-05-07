@@ -4,6 +4,7 @@ import { applyScaleOverrides } from "./scale-settings.js";
 import { MetaCurrencyTracker } from "./meta-currency.js";
 import { NegotiationUI } from "./negotiation-ui.js";
 import { MontageUI } from "./montage-ui.js";
+import { AbilityHudUI } from "./ability-hud-ui.js";
 import ColorSettingsMenu from "./color-settings-menu.js";
 import HeaderSettingsMenu from "./header-settings-menu.js";
 import NPCSettingsMenu from "./npc-settings-menu.js";
@@ -271,8 +272,10 @@ export function registerSettings() {
     type: Boolean,
     default: UI_DEFAULTS.abilityHudDspStyle,
     requiresReload: false,
-    onChange: (value) => {
-      document.body.classList.toggle("dsp-ahud-styled", value);
+    onChange: () => {
+      AbilityHudUI.applyBodyStyle();
+      AbilityHudUI.instance?._syncActorLabelToolbar?.();
+      AbilityHudUI.instance?.reflow?.();
     },
   });
 
@@ -323,6 +326,19 @@ export function registerSettings() {
     default: foundry.utils.deepClone(DEFAULT_MONTAGE_STATE),
     onChange: () => {
       if (MontageUI.instance?.rendered) MontageUI.instance.render();
+    },
+  });
+
+  game.settings.register(MODULE_ID, "liftAbilityHudTooltip", {
+    name: "DRAW_STEEL_PLUS.Settings.liftAbilityHudTooltip.name",
+    hint: "DRAW_STEEL_PLUS.Settings.liftAbilityHudTooltip.hint",
+    scope: "client",
+    config: true,
+    type: Boolean,
+    default: true,
+    requiresReload: false,
+    onChange: () => {
+      game.modules.get(MODULE_ID)?.tooltips?._syncAbilityHudLift?.();
     },
   });
 
