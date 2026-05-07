@@ -1,6 +1,6 @@
 .dsp-floating-ui {
   position: fixed;
-  z-index: 100;
+  /* z-index: 100; */
   pointer-events: auto;
   --dsp-fui-transition: 0.25s ease;
   --dsp-fui-transition-fast: 0.15s ease;
