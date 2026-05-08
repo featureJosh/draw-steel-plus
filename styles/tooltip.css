@@ -152,8 +152,8 @@ body.dsp-ahud-styled #dsahud-tooltip {
 }
 
 :is(#tooltip, .locked-tooltip).dsp-tooltip .quick-fact .label {
-  font-size: var(--dsp-font-size-xs);
-  font-weight: 600;
+  font-size: var(--dsp-font-size-base);
+  font-weight: unset;
   text-transform: uppercase;
   letter-spacing: 0.06em;
   color: var(--dsp-accent);
@@ -293,6 +293,11 @@ body.dsp-ahud-styled #dsahud-tooltip {
   text-transform: uppercase;
   font-size: var(--dsp-font-size-6xl);
   line-height: 100%;
+}
+
+:is(#tooltip, .locked-tooltip).dsp-tooltip .embed-body .draw-steel dt.effect {
+  font-weight: unset;
+  font-size: var(--dsp-font-size-base);
 }
 
 :is(#tooltip, .locked-tooltip).dsp-tooltip .embed-body .draw-steel.ability dt.distance,
