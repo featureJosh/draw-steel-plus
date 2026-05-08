@@ -291,11 +291,16 @@ body.dsp-ahud-styled #dsahud-tooltip {
   font-weight: unset;
   color: var(--dsp-accent);
   text-transform: uppercase;
-  font-size: var(--dsp-font-size-6xl);
+  font-size: var(--dsp-font-size-base);
   line-height: 100%;
 }
 
-:is(#tooltip, .locked-tooltip).dsp-tooltip .embed-body .draw-steel dt.effect {
+:is(#tooltip, .locked-tooltip).dsp-tooltip .embed-body .draw-steel .power-roll-display dt:is(.tier1, .tier2, .tier3) {
+  font-size: var(--dsp-font-size-6xl);
+}
+
+:is(#tooltip, .locked-tooltip).dsp-tooltip .embed-body .draw-steel dt.effect,
+:is(#tooltip, .locked-tooltip).dsp-tooltip .embed-body .draw-steel section.spend dt {
   font-weight: unset;
   font-size: var(--dsp-font-size-base);
 }
