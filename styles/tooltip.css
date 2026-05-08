@@ -93,7 +93,7 @@ body.dsp-ahud-styled #dsahud-tooltip {
 }
 
 :is(#tooltip, .locked-tooltip).dsp-tooltip .header-badge .value {
-  font-size: var(--dsp-font-size-xl);
+  font-size: var(--dsp-font-size-4xl);
   font-weight: 700;
   color: var(--dsp-text);
   white-space: nowrap;
@@ -118,10 +118,10 @@ body.dsp-ahud-styled #dsahud-tooltip {
 }
 
 :is(#tooltip, .locked-tooltip).dsp-tooltip .name .title {
-  font-size: var(--dsp-font-size-2xl);
+  font-size: var(--dsp-font-size-xl);
   font-weight: 700;
   color: var(--dsp-text);
-  line-height: 1.2;
+  line-height: 100%;
 }
 
 :is(#tooltip, .locked-tooltip).dsp-tooltip .name .subtitle {
@@ -160,9 +160,9 @@ body.dsp-ahud-styled #dsahud-tooltip {
 }
 
 :is(#tooltip, .locked-tooltip).dsp-tooltip .quick-fact .value {
-  font-size: var(--dsp-font-size-lg);
+  font-size: var(--dsp-font-size-xl);
   color: var(--dsp-text);
-  font-weight: 600;
+  font-weight: 300;
 }
 
 :is(#tooltip, .locked-tooltip).dsp-tooltip .pills {
@@ -181,7 +181,7 @@ body.dsp-ahud-styled #dsahud-tooltip {
   background: light-dark(rgba(184, 84, 84, 0.15), rgba(74, 14, 14, 0.4));
   border: 1px solid var(--dsp-border);
   border-radius: var(--dsp-radius-full);
-  font-size: var(--dsp-font-size-md);
+  font-size: var(--dsp-font-size-2xl);
   font-weight: 600;
   color: var(--dsp-text-light);
 }
@@ -284,14 +284,14 @@ body.dsp-ahud-styled #dsahud-tooltip {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr);
   gap: 2px calc(8px * var(--dsp-scale, 1));
-  font-size: var(--dsp-font-size-lg);
+  font-size: var(--dsp-font-size-2xl);
 }
 
 :is(#tooltip, .locked-tooltip).dsp-tooltip .embed-body .draw-steel dt {
   font-weight: unset;
   color: var(--dsp-accent);
   text-transform: uppercase;
-  font-size: var(--dsp-font-size-4xl);
+  font-size: var(--dsp-font-size-6xl);
   line-height: 100%;
 }
 
@@ -347,7 +347,7 @@ body.dsp-ahud-styled #dsahud-tooltip {
 :is(#tooltip, .locked-tooltip).dsp-tooltip .embed-body .draw-steel table {
   width: 100%;
   border-collapse: collapse;
-  font-size: var(--dsp-font-size-lg);
+  font-size: var(--dsp-font-size-2xl);
 }
 
 :is(#tooltip, .locked-tooltip).dsp-tooltip .embed-body .draw-steel table th {
@@ -355,7 +355,7 @@ body.dsp-ahud-styled #dsahud-tooltip {
   color: var(--dsp-text-light);
   font-weight: 700;
   text-transform: uppercase;
-  font-size: var(--dsp-font-size-sm);
+  font-size: var(--dsp-font-size-xs);
   letter-spacing: 0.06em;
   padding: calc(3px * var(--dsp-scale, 1)) calc(6px * var(--dsp-scale, 1));
   border: 1px solid var(--dsp-border);
@@ -370,9 +370,10 @@ body.dsp-ahud-styled #dsahud-tooltip {
 
 :is(#tooltip, .locked-tooltip).dsp-tooltip .embed-body .draw-steel .flavor,
 :is(#tooltip, .locked-tooltip).dsp-tooltip .embed-body .draw-steel.ability .metadata > p.flavor {
-  margin: 0 0 calc(4px * var(--dsp-scale, 1));
+  margin: 0;
   font-style: italic;
   color: var(--dsp-text-light);
+  border: none;
 }
 
 :is(#tooltip, .locked-tooltip).dsp-tooltip .embed-body .draw-steel.ability .metadata p.resource {
@@ -405,7 +406,7 @@ body.dsp-ahud-styled #dsahud-tooltip {
 }
 
 :is(#tooltip, .locked-tooltip).dsp-tooltip .embed-body .draw-steel .power-roll-display dt {
-  font-weight: 300;
+  font-weight: unset;
   color: var(--dsp-accent);
 }
 
@@ -437,7 +438,7 @@ body.dsp-ahud-styled #dsahud-tooltip {
 :is(#tooltip, .locked-tooltip).dsp-tooltip .embed-body .draw-steel.kit h6,
 :is(#tooltip, .locked-tooltip).dsp-tooltip .embed-body .draw-steel h6 {
   margin: 0 0 calc(2px * var(--dsp-scale, 1));
-  font-size: var(--dsp-font-size-sm);
+  font-size: var(--dsp-font-size-xs);
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.06em;
@@ -470,7 +471,7 @@ body.dsp-ahud-styled #dsahud-tooltip {
 :is(#tooltip, .locked-tooltip).dsp-tooltip .embed-fallback table {
   width: 100%;
   border-collapse: collapse;
-  font-size: var(--dsp-font-size-lg);
+  font-size: var(--dsp-font-size-2xl);
 }
 
 :is(#tooltip, .locked-tooltip).dsp-tooltip .embed-fallback table th {
@@ -478,7 +479,7 @@ body.dsp-ahud-styled #dsahud-tooltip {
   color: var(--dsp-text-light);
   font-weight: 700;
   text-transform: uppercase;
-  font-size: var(--dsp-font-size-sm);
+  font-size: var(--dsp-font-size-xs);
   letter-spacing: 0.06em;
   padding: calc(3px * var(--dsp-scale, 1)) calc(6px * var(--dsp-scale, 1));
   border: 1px solid var(--dsp-border);
@@ -504,7 +505,7 @@ body.dsp-ahud-styled #dsahud-tooltip {
 
 :is(#tooltip, .locked-tooltip).dsp-tooltip .embed-fallback .powerResult > p {
   margin: 0 0 calc(4px * var(--dsp-scale, 1));
-  font-size: var(--dsp-font-size-lg);
+  font-size: var(--dsp-font-size-2xl);
   color: var(--dsp-text);
 }
 
@@ -515,7 +516,7 @@ body.dsp-ahud-styled #dsahud-tooltip {
   gap: 2px calc(8px * var(--dsp-scale, 1));
   margin: 0;
   padding: 0;
-  font-size: var(--dsp-font-size-base);
+  font-size: var(--dsp-font-size-2xl);
 }
 
 :is(#tooltip, .locked-tooltip).dsp-tooltip .embed-fallback .power-roll-display dt {
@@ -527,7 +528,7 @@ body.dsp-ahud-styled #dsahud-tooltip {
   font-weight: 600;
   color: var(--dsp-accent);
   text-transform: uppercase;
-  font-size: var(--dsp-font-size-sm);
+  font-size: var(--dsp-font-size-xs);
   letter-spacing: 0.04em;
 }
 
@@ -542,7 +543,7 @@ body.dsp-ahud-styled #dsahud-tooltip {
   margin-top: calc(6px * var(--dsp-scale, 1));
   padding-top: calc(4px * var(--dsp-scale, 1));
   border-top: 1px solid var(--dsp-text-faint);
-  font-size: var(--dsp-font-size-md);
+  font-size: var(--dsp-font-size-xs);
   color: var(--dsp-text-faint);
   text-align: center;
   display: flex;
