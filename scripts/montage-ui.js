@@ -1,4 +1,10 @@
-import { MODULE_CONFIG, MONTAGE_DIFFICULTIES, MONTAGE_CHARACTERISTICS, MONTAGE_TEST_DIFFICULTIES, DEFAULT_MONTAGE_STATE } from "./config.js";
+import {
+  MODULE_CONFIG,
+  MONTAGE_DIFFICULTIES,
+  MONTAGE_CHARACTERISTICS,
+  MONTAGE_TEST_DIFFICULTIES,
+  DEFAULT_MONTAGE_STATE,
+} from "./config.js";
 import { DspFloatingUI } from "./floating-ui/dsp-floating-ui.js";
 
 const MODULE_ID = MODULE_CONFIG.id;
@@ -10,12 +16,18 @@ let _pendingMontageSkill = null;
 
 function getState() {
   const raw = game.settings.get(MODULE_ID, "montageState");
-  return foundry.utils.mergeObject(foundry.utils.deepClone(DEFAULT_MONTAGE_STATE), raw);
+  return foundry.utils.mergeObject(
+    foundry.utils.deepClone(DEFAULT_MONTAGE_STATE),
+    raw,
+  );
 }
 
 async function setState(updates) {
   const current = getState();
-  const merged = foundry.utils.mergeObject(current, updates, { insertKeys: true, insertValues: true });
+  const merged = foundry.utils.mergeObject(current, updates, {
+    insertKeys: true,
+    insertValues: true,
+  });
   await game.settings.set(MODULE_ID, "montageState", merged);
   game.socket.emit(SOCKET_EVENT, { type: "montageUpdate" });
 }
@@ -36,14 +48,25 @@ function computeAdjustedLimits(difficulty, heroCount) {
 }
 
 function computeOutcome(state) {
-  const { successes, failures, successLimit, failureLimit, currentRound, maxRounds, heroes } = state;
+  const {
+    successes,
+    failures,
+    successLimit,
+    failureLimit,
+    currentRound,
+    maxRounds,
+    heroes,
+  } = state;
   if (successLimit <= 0) return "";
   if (successes >= successLimit) return "totalSuccess";
   const failed = failures >= failureLimit;
   const timedOut = currentRound > maxRounds;
-  const allActed = heroes.length > 0 && currentRound >= maxRounds && heroes.every((h) => h.actedThisRound);
+  const allActed =
+    heroes.length > 0 &&
+    currentRound >= maxRounds &&
+    heroes.every((h) => h.actedThisRound);
   if (failed || timedOut || allActed) {
-    return (successes - failures >= 2) ? "partialSuccess" : "totalFailure";
+    return successes - failures >= 2 ? "partialSuccess" : "totalFailure";
   }
   return "";
 }
@@ -53,7 +76,7 @@ function victoryCount(outcome, difficulty) {
     return difficulty === "hard" ? 2 : 1;
   }
   if (outcome === "partialSuccess") {
-    return (difficulty === "hard" || difficulty === "moderate") ? 1 : 0;
+    return difficulty === "hard" || difficulty === "moderate" ? 1 : 0;
   }
   return 0;
 }
@@ -106,7 +129,12 @@ export class MontageUI extends DspFloatingUI {
 
   static DEFAULT_WIDTH = 400;
   static DEFAULT_HEIGHT = 360;
-  static DEFAULT_POSITION = { anchor: "tl", offsetX: 24, offsetY: 80, snap: "grid" };
+  static DEFAULT_POSITION = {
+    anchor: "tl",
+    offsetX: 24,
+    offsetY: 80,
+    snap: "grid",
+  };
 
   static syncVisibility(visible) {
     if (visible) {
@@ -116,7 +144,8 @@ export class MontageUI extends DspFloatingUI {
       }
     } else {
       if (MontageUI.instance) {
-        if (MontageUI.instance.rendered) MontageUI.instance.close({ animate: false });
+        if (MontageUI.instance.rendered)
+          MontageUI.instance.close({ animate: false });
         MontageUI.instance = null;
       }
     }
@@ -137,8 +166,20 @@ export class MontageUI extends DspFloatingUI {
     const outcome = computeOutcome(state);
 
     const sliders = [
-      { key: "successes", label: game.i18n.localize("DRAW_STEEL_PLUS.MontageTest.successes"), value: state.successes, max: state.successLimit || 0, visible: state.successesVisible },
-      { key: "failures", label: game.i18n.localize("DRAW_STEEL_PLUS.MontageTest.failures"), value: state.failures, max: state.failureLimit || 0, visible: state.failuresVisible },
+      {
+        key: "successes",
+        label: game.i18n.localize("DRAW_STEEL_PLUS.MontageTest.successes"),
+        value: state.successes,
+        max: state.successLimit || 0,
+        visible: state.successesVisible,
+      },
+      {
+        key: "failures",
+        label: game.i18n.localize("DRAW_STEEL_PLUS.MontageTest.failures"),
+        value: state.failures,
+        max: state.failureLimit || 0,
+        visible: state.failuresVisible,
+      },
     ].map((s) => {
       const segments = [];
       for (let i = 1; i <= s.max; i++) {
@@ -155,54 +196,72 @@ export class MontageUI extends DspFloatingUI {
       canGoBack: state.currentRound > 1,
     };
 
-    const ownedActorUuids = new Set(game.actors.filter(a => a.isOwner).map(a => a.uuid));
+    const ownedActorUuids = new Set(
+      game.actors.filter((a) => a.isOwner).map((a) => a.uuid),
+    );
 
-    const heroEntries = await Promise.all(state.heroes.map(async (h) => {
-      let actor = null;
-      try { actor = await fromUuid(h.uuid); } catch (e) {}
-      return {
-        uuid: h.uuid,
-        name: h.name || actor?.name || "Unknown",
-        img: h.img || actor?.img || "icons/svg/mystery-man.svg",
-        actedThisRound: h.actedThisRound,
-        usedSkills: h.usedSkills || [],
-        canRoll: !isGM && ownedActorUuids.has(h.uuid),
-      };
-    }));
+    const heroEntries = await Promise.all(
+      state.heroes.map(async (h) => {
+        let actor = null;
+        try {
+          actor = await fromUuid(h.uuid);
+        } catch (e) {}
+        return {
+          uuid: h.uuid,
+          name: h.name || actor?.name || "Unknown",
+          img: h.img || actor?.img || "icons/svg/mystery-man.svg",
+          actedThisRound: h.actedThisRound,
+          usedSkills: h.usedSkills || [],
+          canRoll: !isGM && ownedActorUuids.has(h.uuid),
+        };
+      }),
+    );
 
-    const difficulties = Object.entries(MONTAGE_DIFFICULTIES).map(([key, vals]) => {
-      const adjusted = computeAdjustedLimits(key, state.heroCount);
-      return {
-        key,
-        label: game.i18n.localize(`DRAW_STEEL_PLUS.MontageTest.difficulties.${key}`),
-        baseSuccess: vals.success,
-        baseFailure: vals.failure,
-        adjSuccess: adjusted.success,
-        adjFailure: adjusted.failure,
-        selected: state.difficulty === key,
-      };
-    });
+    const difficulties = Object.entries(MONTAGE_DIFFICULTIES).map(
+      ([key, vals]) => {
+        const adjusted = computeAdjustedLimits(key, state.heroCount);
+        return {
+          key,
+          label: game.i18n.localize(
+            `DRAW_STEEL_PLUS.MontageTest.difficulties.${key}`,
+          ),
+          baseSuccess: vals.success,
+          baseFailure: vals.failure,
+          adjSuccess: adjusted.success,
+          adjFailure: adjusted.failure,
+          selected: state.difficulty === key,
+        };
+      },
+    );
 
     const difficultyLabel = state.difficulty
-      ? game.i18n.localize(`DRAW_STEEL_PLUS.MontageTest.difficulties.${state.difficulty}`)
+      ? game.i18n.localize(
+          `DRAW_STEEL_PLUS.MontageTest.difficulties.${state.difficulty}`,
+        )
       : game.i18n.localize("DRAW_STEEL_PLUS.MontageTest.difficulty");
 
     const characteristics = MONTAGE_CHARACTERISTICS.map((c) => ({
       key: c,
-      label: game.i18n.localize(`DRAW_STEEL_PLUS.MontageTest.characteristics.${c}`),
+      label: game.i18n.localize(
+        `DRAW_STEEL_PLUS.MontageTest.characteristics.${c}`,
+      ),
       selected: c === this._rollCharacteristic,
     }));
 
     const testDifficulties = MONTAGE_TEST_DIFFICULTIES.map((d) => ({
       key: d,
-      label: game.i18n.localize(`DRAW_STEEL_PLUS.MontageTest.testDifficulties.${d}`),
+      label: game.i18n.localize(
+        `DRAW_STEEL_PLUS.MontageTest.testDifficulties.${d}`,
+      ),
       selected: d === this._rollDifficulty,
     }));
 
     const skillGroups = [];
     const dsSkills = ds?.CONFIG?.skills;
     if (dsSkills?.groups && dsSkills?.list && this._rollHeroUuid) {
-      const rollHeroEntry = state.heroes.find((h) => h.uuid === this._rollHeroUuid);
+      const rollHeroEntry = state.heroes.find(
+        (h) => h.uuid === this._rollHeroUuid,
+      );
       let heroSkills = null;
       if (rollHeroEntry) {
         try {
@@ -212,7 +271,10 @@ export class MontageUI extends DspFloatingUI {
       }
       for (const [groupKey, groupData] of Object.entries(dsSkills.groups)) {
         const skills = Object.entries(dsSkills.list)
-          .filter(([key, s]) => s.group === groupKey && (!heroSkills || heroSkills.has(key)))
+          .filter(
+            ([key, s]) =>
+              s.group === groupKey && (!heroSkills || heroSkills.has(key)),
+          )
           .map(([key, s]) => ({
             key,
             label: game.i18n.localize(s.label),
@@ -269,21 +331,27 @@ export class MontageUI extends DspFloatingUI {
   _onRender(context, options) {
     super._onRender(context, options);
 
-    const charSelect = this.element.querySelector(".dsp-mt-roll-select[data-field='characteristic']");
+    const charSelect = this.element.querySelector(
+      ".dsp-mt-roll-select[data-field='characteristic']",
+    );
     if (charSelect) {
       charSelect.addEventListener("change", (e) => {
         this._rollCharacteristic = e.target.value;
       });
     }
 
-    const diffSelect = this.element.querySelector(".dsp-mt-roll-select[data-field='testDifficulty']");
+    const diffSelect = this.element.querySelector(
+      ".dsp-mt-roll-select[data-field='testDifficulty']",
+    );
     if (diffSelect) {
       diffSelect.addEventListener("change", (e) => {
         this._rollDifficulty = e.target.value;
       });
     }
 
-    const skillSelect = this.element.querySelector(".dsp-mt-roll-select[data-field='skill']");
+    const skillSelect = this.element.querySelector(
+      ".dsp-mt-roll-select[data-field='skill']",
+    );
     if (skillSelect) {
       skillSelect.addEventListener("change", (e) => {
         this._rollSkill = e.target.value;
@@ -295,7 +363,8 @@ export class MontageUI extends DspFloatingUI {
       document.removeEventListener("keydown", this._boundEscapeKey);
     }
     this._boundEscapeKey = (e) => {
-      if (e.key !== "Escape" || (!this._openPopup && !this._rollHeroUuid)) return;
+      if (e.key !== "Escape" || (!this._openPopup && !this._rollHeroUuid))
+        return;
       e.stopPropagation();
       this._openPopup = null;
       this._rollHeroUuid = null;
@@ -312,7 +381,9 @@ export class MontageUI extends DspFloatingUI {
       });
     }
 
-    const heroCountInput = this.element.querySelector(".dsp-mt-hero-count-input");
+    const heroCountInput = this.element.querySelector(
+      ".dsp-mt-hero-count-input",
+    );
     if (heroCountInput) {
       heroCountInput.addEventListener("change", async (e) => {
         const val = Math.max(1, parseInt(e.target.value) || 5);
@@ -340,19 +411,26 @@ export class MontageUI extends DspFloatingUI {
         e.preventDefault();
         dz.classList.remove("dsp-mt-drop-hover");
         let data;
-        try { data = JSON.parse(e.dataTransfer.getData("text/plain")); } catch { return; }
+        try {
+          data = JSON.parse(e.dataTransfer.getData("text/plain"));
+        } catch {
+          return;
+        }
         if (data?.type !== "Actor") return;
         const actor = await fromUuid(data.uuid);
         if (!actor || actor.type !== "hero") return;
         const state = getState();
         if (state.heroes.some((h) => h.uuid === data.uuid)) return;
-        const heroes = [...state.heroes, {
-          uuid: data.uuid,
-          name: actor.name,
-          img: actor.img || "icons/svg/mystery-man.svg",
-          actedThisRound: false,
-          usedSkills: [],
-        }];
+        const heroes = [
+          ...state.heroes,
+          {
+            uuid: data.uuid,
+            name: actor.name,
+            img: actor.img || "icons/svg/mystery-man.svg",
+            actedThisRound: false,
+            usedSkills: [],
+          },
+        ];
         await setStateReplace({ ...state, heroes });
       });
     }
@@ -423,7 +501,7 @@ export class MontageUI extends DspFloatingUI {
     const uuid = target.dataset.heroUuid;
     const state = getState();
     const heroes = state.heroes.map((h) =>
-      h.uuid === uuid ? { ...h, actedThisRound: !h.actedThisRound } : h
+      h.uuid === uuid ? { ...h, actedThisRound: !h.actedThisRound } : h,
     );
     this._openPopup = "heroes";
     await setStateReplace({ ...state, heroes });
@@ -440,14 +518,22 @@ export class MontageUI extends DspFloatingUI {
   static async #onNextRound() {
     const state = getState();
     const heroes = state.heroes.map((h) => ({ ...h, actedThisRound: false }));
-    await setStateReplace({ ...state, currentRound: state.currentRound + 1, heroes });
+    await setStateReplace({
+      ...state,
+      currentRound: state.currentRound + 1,
+      heroes,
+    });
   }
 
   static async #onPrevRound() {
     const state = getState();
     if (state.currentRound <= 1) return;
     const heroes = state.heroes.map((h) => ({ ...h, actedThisRound: false }));
-    await setStateReplace({ ...state, currentRound: state.currentRound - 1, heroes });
+    await setStateReplace({
+      ...state,
+      currentRound: state.currentRound - 1,
+      heroes,
+    });
   }
 
   static async #onOpenRollForm(event, target) {
@@ -503,13 +589,18 @@ export class MontageUI extends DspFloatingUI {
 
     let chatMessage;
     try {
-      chatMessage = await actor.rollCharacteristic(characteristic, { difficulty, edges, banes });
+      chatMessage = await actor.rollCharacteristic(characteristic, {
+        difficulty,
+        edges,
+        banes,
+      });
     } finally {
       _pendingMontageSkill = null;
     }
     if (!chatMessage) return;
 
-    const actualSkill = chatMessage.rolls?.[0]?.options?.skill || this._rollSkill || "";
+    const actualSkill =
+      chatMessage.rolls?.[0]?.options?.skill || this._rollSkill || "";
 
     const parts = chatMessage.system?.parts?.sortedContents ?? [];
     const testPart = parts.find((p) => p.type === "test");
@@ -527,7 +618,8 @@ export class MontageUI extends DspFloatingUI {
       const heroes = state.heroes.map((h) => {
         if (h.uuid !== uuid) return h;
         const usedSkills = [...(h.usedSkills || [])];
-        if (actualSkill && !usedSkills.includes(actualSkill)) usedSkills.push(actualSkill);
+        if (actualSkill && !usedSkills.includes(actualSkill))
+          usedSkills.push(actualSkill);
         return { ...h, actedThisRound: true, usedSkills };
       });
 
@@ -557,13 +649,19 @@ export class MontageUI extends DspFloatingUI {
     const count = victoryCount(outcome, state.difficulty);
     if (count <= 0) return;
 
-    const victoryLabel = count === 1
-      ? game.i18n.localize("DRAW_STEEL_PLUS.MontageTest.victory")
-      : game.i18n.localize("DRAW_STEEL_PLUS.MontageTest.victories");
+    const victoryLabel =
+      count === 1
+        ? game.i18n.localize("DRAW_STEEL_PLUS.MontageTest.victory")
+        : game.i18n.localize("DRAW_STEEL_PLUS.MontageTest.victories");
 
-    const confirmMsg = game.i18n.format("DRAW_STEEL_PLUS.MontageTest.victoryAwardConfirm", { count, victoryLabel });
+    const confirmMsg = game.i18n.format(
+      "DRAW_STEEL_PLUS.MontageTest.victoryAwardConfirm",
+      { count, victoryLabel },
+    );
     const confirmed = await foundry.applications.api.DialogV2.confirm({
-      window: { title: game.i18n.localize("DRAW_STEEL_PLUS.MontageTest.victoryAward") },
+      window: {
+        title: game.i18n.localize("DRAW_STEEL_PLUS.MontageTest.victoryAward"),
+      },
       content: `<p>${confirmMsg}</p>`,
       yes: { default: true },
     });
@@ -579,16 +677,25 @@ export class MontageUI extends DspFloatingUI {
 
   static async #onEndMontage() {
     const confirmed = await foundry.applications.api.DialogV2.confirm({
-      window: { title: game.i18n.localize("DRAW_STEEL_PLUS.MontageTest.endMontage") },
+      window: {
+        title: game.i18n.localize("DRAW_STEEL_PLUS.MontageTest.endMontage"),
+      },
       content: `<p>${game.i18n.localize("DRAW_STEEL_PLUS.MontageTest.endMontageConfirm")}</p>`,
       yes: { default: true },
     });
     if (!confirmed) return;
 
-    await game.settings.set(MODULE_ID, "montageState", foundry.utils.deepClone(DEFAULT_MONTAGE_STATE));
+    await game.settings.set(
+      MODULE_ID,
+      "montageState",
+      foundry.utils.deepClone(DEFAULT_MONTAGE_STATE),
+    );
     await game.settings.set(MODULE_ID, "montageUIVisible", false);
     MontageUI.syncVisibility(false);
-    game.socket.emit(SOCKET_EVENT, { type: "montageVisibility", visible: false });
+    game.socket.emit(SOCKET_EVENT, {
+      type: "montageVisibility",
+      visible: false,
+    });
   }
 }
 
@@ -620,12 +727,16 @@ function setupMontageSocket() {
 function setupMontageSkillInjection() {
   const PRDialog = ds?.applications?.apps?.PowerRollDialog;
   if (!PRDialog) {
-    console.warn(`${MODULE_ID} | ds.applications.apps.PowerRollDialog not found — montage skill injection disabled. The Draw Steel API may have moved; please file an issue.`);
+    console.warn(
+      `${MODULE_ID} | ds.applications.apps.PowerRollDialog not found — montage skill injection disabled. The Draw Steel API may have moved; please file an issue.`,
+    );
     return;
   }
   const origCreate = PRDialog.create;
   if (typeof origCreate !== "function") {
-    console.warn(`${MODULE_ID} | PowerRollDialog.create is not a function — montage skill injection disabled.`);
+    console.warn(
+      `${MODULE_ID} | PowerRollDialog.create is not a function — montage skill injection disabled.`,
+    );
     return;
   }
   PRDialog.create = function (options) {

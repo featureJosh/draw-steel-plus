@@ -6,240 +6,254 @@
 
 /* ── Place Members action button in the header ─────────────── */
 .dsp-party.sheet .sheet-header .party-header-actions {
-  display: flex;
-  gap: calc(8px * var(--dsp-scale, 1));
-  flex-wrap: wrap;
-  margin-top: calc(4px * var(--dsp-scale, 1));
+    display: flex;
+    gap: calc(8px * var(--dsp-scale, 1));
+    flex-wrap: wrap;
+    margin-top: calc(4px * var(--dsp-scale, 1));
 }
 
 .dsp-party.sheet .sheet-header .dsp-party-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: calc(6px * var(--dsp-scale, 1));
-  padding: calc(6px * var(--dsp-scale, 1)) calc(14px * var(--dsp-scale, 1));
-  background: var(--dsp-primary-dark);
-  border: 1px solid var(--dsp-accent);
-  border-radius: var(--dsp-radius-sm);
-  font-size: var(--dsp-font-size-md);
-  font-weight: 600;
-  color: var(--dsp-text);
-  text-decoration: none;
-  transition: background var(--dsp-transition), border-color var(--dsp-transition), transform var(--dsp-transition-fast);
-  cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: calc(6px * var(--dsp-scale, 1));
+    padding: calc(6px * var(--dsp-scale, 1)) calc(14px * var(--dsp-scale, 1));
+    background: var(--dsp-primary-dark);
+    border: 1px solid var(--dsp-accent);
+    border-radius: var(--dsp-radius-sm);
+    font-size: var(--dsp-font-size-md);
+    font-weight: 600;
+    color: var(--dsp-text);
+    text-decoration: none;
+    transition:
+        background var(--dsp-transition),
+        border-color var(--dsp-transition),
+        transform var(--dsp-transition-fast);
+    cursor: pointer;
 }
 
 .dsp-party.sheet .sheet-header .dsp-party-btn:hover:not([disabled]) {
-  background: var(--dsp-primary);
-  border-color: var(--dsp-accent-bright);
-  transform: translateY(-1px);
+    background: var(--dsp-primary);
+    border-color: var(--dsp-accent-bright);
+    transform: translateY(-1px);
 }
 
 .dsp-party.sheet .sheet-header .dsp-party-btn[disabled] {
-  opacity: 0.4;
-  cursor: not-allowed;
+    opacity: 0.4;
+    cursor: not-allowed;
 }
 
 .dsp-party.sheet .sheet-header .dsp-party-btn i {
-  font-size: var(--dsp-font-size-md);
-  color: var(--dsp-accent);
+    font-size: var(--dsp-font-size-md);
+    color: var(--dsp-accent);
 }
 
 /* ── Members tab ─────────────────────────────────────────────── */
 .dsp-party.sheet .dsp-party-members {
-  display: flex;
-  flex-direction: column;
-  gap: calc(8px * var(--dsp-scale, 1));
-  padding: calc(12px * var(--dsp-scale, 1));
+    display: flex;
+    flex-direction: column;
+    gap: calc(8px * var(--dsp-scale, 1));
+    padding: calc(12px * var(--dsp-scale, 1));
 }
 
 /* Individual member card */
 .dsp-party.sheet .dsp-party-member {
-  display: grid;
-  grid-template-columns: calc(56px * var(--dsp-scale, 1)) 1fr auto;
-  align-items: center;
-  gap: calc(12px * var(--dsp-scale, 1));
-  padding: calc(10px * var(--dsp-scale, 1)) calc(12px * var(--dsp-scale, 1));
-  background: var(--dsp-surface);
-  border: 1px solid var(--dsp-border);
-  border-radius: var(--dsp-radius-md);
-  transition: border-color var(--dsp-transition), box-shadow var(--dsp-transition);
+    display: grid;
+    grid-template-columns: calc(56px * var(--dsp-scale, 1)) 1fr auto;
+    align-items: center;
+    gap: calc(12px * var(--dsp-scale, 1));
+    padding: calc(10px * var(--dsp-scale, 1)) calc(12px * var(--dsp-scale, 1));
+    background: var(--dsp-surface);
+    border: 1px solid var(--dsp-border);
+    border-radius: var(--dsp-radius-md);
+    transition:
+        border-color var(--dsp-transition),
+        box-shadow var(--dsp-transition);
 }
 
 .dsp-party.sheet .dsp-party-member:hover {
-  border-color: var(--dsp-border-light);
-  box-shadow: 0 2px 12px var(--dsp-shadow);
+    border-color: var(--dsp-border-light);
+    box-shadow: 0 2px 12px var(--dsp-shadow);
 }
 
 /* Portrait */
 .dsp-party.sheet .dsp-member-portrait {
-  width: calc(56px * var(--dsp-scale, 1));
-  height: calc(56px * var(--dsp-scale, 1));
-  flex-shrink: 0;
+    width: calc(56px * var(--dsp-scale, 1));
+    height: calc(56px * var(--dsp-scale, 1));
+    flex-shrink: 0;
 }
 
 .dsp-party.sheet .dsp-member-avatar {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border: 2px solid var(--dsp-accent);
-  border-radius: var(--dsp-radius-sm);
-  display: block;
-  margin: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border: 2px solid var(--dsp-accent);
+    border-radius: var(--dsp-radius-sm);
+    display: block;
+    margin: 0;
 }
 
 /* Member name + resources */
 .dsp-party.sheet .dsp-member-info {
-  display: flex;
-  flex-direction: column;
-  gap: calc(6px * var(--dsp-scale, 1));
-  min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: calc(6px * var(--dsp-scale, 1));
+    min-width: 0;
 }
 
 .dsp-party.sheet .dsp-member-name {
-  font-size: var(--dsp-font-size-3xl);
-  font-weight: 700;
-  color: var(--dsp-text);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  line-height: 1.2;
+    font-size: var(--dsp-font-size-3xl);
+    font-weight: 700;
+    color: var(--dsp-text);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.2;
 }
 
 .dsp-party.sheet .dsp-member-resources {
-  display: flex;
-  flex-direction: column;
-  gap: calc(4px * var(--dsp-scale, 1));
+    display: flex;
+    flex-direction: column;
+    gap: calc(4px * var(--dsp-scale, 1));
 }
 
 /* Stamina bar */
 .dsp-party.sheet .dsp-member-stamina-wrap {
-  width: 100%;
+    width: 100%;
 }
 
 .dsp-party.sheet .dsp-member-stamina-bar {
-  position: relative;
-  width: 100%;
-  height: calc(20px * var(--dsp-scale, 1));
-  background: rgba(0, 0, 0, 0.45);
-  border: 1px solid var(--dsp-border);
-  border-radius: var(--dsp-radius-sm);
-  overflow: visible;
+    position: relative;
+    width: 100%;
+    height: calc(20px * var(--dsp-scale, 1));
+    background: rgba(0, 0, 0, 0.45);
+    border: 1px solid var(--dsp-border);
+    border-radius: var(--dsp-radius-sm);
+    overflow: visible;
 }
 
 .dsp-party.sheet .dsp-member-stamina-fill {
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  width: calc(100% * var(--stam-current) / var(--stam-max));
-  background: linear-gradient(180deg, var(--dsp-primary-light) 0%, var(--dsp-primary) 100%);
-  border-radius: var(--dsp-radius-sm) 0 0 var(--dsp-radius-sm);
-  transition: width 0.4s ease;
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: calc(100% * var(--stam-current) / var(--stam-max));
+    background: linear-gradient(
+        180deg,
+        var(--dsp-primary-light) 0%,
+        var(--dsp-primary) 100%
+    );
+    border-radius: var(--dsp-radius-sm) 0 0 var(--dsp-radius-sm);
+    transition: width 0.4s ease;
 }
 
 .dsp-party.sheet .dsp-member-stamina-temp {
-  position: absolute;
-  left: calc(100% * var(--stam-current) / var(--stam-max));
-  top: 0;
-  bottom: 0;
-  width: calc(100% * var(--stam-temp) / var(--stam-max));
-  background: linear-gradient(180deg, #d4a017 0%, #b8860b 100%);
-  opacity: 0.85;
-  transition: width 0.4s ease, left 0.4s ease;
+    position: absolute;
+    left: calc(100% * var(--stam-current) / var(--stam-max));
+    top: 0;
+    bottom: 0;
+    width: calc(100% * var(--stam-temp) / var(--stam-max));
+    background: linear-gradient(180deg, #d4a017 0%, #b8860b 100%);
+    opacity: 0.85;
+    transition:
+        width 0.4s ease,
+        left 0.4s ease;
 }
 
 .dsp-party.sheet .dsp-member-stamina-text {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: var(--dsp-font-size-md);
-  font-weight: 700;
-  color: var(--dsp-text);
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
-  pointer-events: none;
-  z-index: 2;
-  line-height: 1;
-  gap: 2px;
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--dsp-font-size-md);
+    font-weight: 700;
+    color: var(--dsp-text);
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
+    pointer-events: none;
+    z-index: 2;
+    line-height: 1;
+    gap: 2px;
 }
 
 .dsp-party.sheet .dsp-member-stam-temp {
-  color: var(--dsp-accent);
-  font-size: var(--dsp-font-size-sm);
+    color: var(--dsp-accent);
+    font-size: var(--dsp-font-size-sm);
 }
 
 /* Recoveries row */
 .dsp-party.sheet .dsp-member-recoveries {
-  display: flex;
-  align-items: center;
-  gap: calc(5px * var(--dsp-scale, 1));
-  font-size: var(--dsp-font-size-md);
-  color: var(--dsp-text-faint);
-  line-height: 1;
+    display: flex;
+    align-items: center;
+    gap: calc(5px * var(--dsp-scale, 1));
+    font-size: var(--dsp-font-size-md);
+    color: var(--dsp-text-faint);
+    line-height: 1;
 }
 
 .dsp-party.sheet .dsp-member-recoveries i {
-  color: var(--dsp-accent);
-  font-size: var(--dsp-font-size-md);
+    color: var(--dsp-accent);
+    font-size: var(--dsp-font-size-md);
 }
 
 /* Member action buttons */
 .dsp-party.sheet .dsp-member-controls {
-  display: flex;
-  flex-direction: column;
-  gap: calc(4px * var(--dsp-scale, 1));
-  align-items: center;
+    display: flex;
+    flex-direction: column;
+    gap: calc(4px * var(--dsp-scale, 1));
+    align-items: center;
 }
 
 .dsp-party.sheet .dsp-member-control {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: calc(30px * var(--dsp-scale, 1));
-  height: calc(30px * var(--dsp-scale, 1));
-  background: rgba(0, 0, 0, 0.25);
-  border: 1px solid var(--dsp-border);
-  border-radius: var(--dsp-radius-sm);
-  color: var(--dsp-text-faint);
-  text-decoration: none;
-  cursor: pointer;
-  transition: background var(--dsp-transition), border-color var(--dsp-transition), color var(--dsp-transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: calc(30px * var(--dsp-scale, 1));
+    height: calc(30px * var(--dsp-scale, 1));
+    background: rgba(0, 0, 0, 0.25);
+    border: 1px solid var(--dsp-border);
+    border-radius: var(--dsp-radius-sm);
+    color: var(--dsp-text-faint);
+    text-decoration: none;
+    cursor: pointer;
+    transition:
+        background var(--dsp-transition),
+        border-color var(--dsp-transition),
+        color var(--dsp-transition);
 }
 
 .dsp-party.sheet .dsp-member-control:hover {
-  background: var(--dsp-primary-dark);
-  border-color: var(--dsp-accent);
-  color: var(--dsp-text);
+    background: var(--dsp-primary-dark);
+    border-color: var(--dsp-accent);
+    color: var(--dsp-text);
 }
 
 .dsp-party.sheet .dsp-member-control i {
-  font-size: var(--dsp-font-size-md);
-  pointer-events: none;
+    font-size: var(--dsp-font-size-md);
+    pointer-events: none;
 }
 
 /* ── Details tab ─────────────────────────────────────────────── */
 .dsp-party.sheet .dsp-party-details {
-  padding: calc(12px * var(--dsp-scale, 1));
-  display: flex;
-  flex-direction: column;
-  gap: calc(12px * var(--dsp-scale, 1));
+    padding: calc(12px * var(--dsp-scale, 1));
+    display: flex;
+    flex-direction: column;
+    gap: calc(12px * var(--dsp-scale, 1));
 }
 
 .dsp-party.sheet .dsp-party-edit-fields {
-  padding: calc(12px * var(--dsp-scale, 1));
-  background: var(--dsp-surface);
-  border: 1px solid var(--dsp-border);
-  border-radius: var(--dsp-radius-md);
+    padding: calc(12px * var(--dsp-scale, 1));
+    background: var(--dsp-surface);
+    border: 1px solid var(--dsp-border);
+    border-radius: var(--dsp-radius-md);
 }
 
 .dsp-party.sheet .dsp-party-description {
-  flex: 1;
+    flex: 1;
 }
 
 .dsp-party.sheet .dsp-party-description-view {
-  padding: calc(8px * var(--dsp-scale, 1));
-  color: var(--dsp-text-faint);
-  font-size: var(--dsp-font-size-md);
-  line-height: 1.6;
+    padding: calc(8px * var(--dsp-scale, 1));
+    color: var(--dsp-text-faint);
+    font-size: var(--dsp-font-size-md);
+    line-height: 1.6;
 }

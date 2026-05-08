@@ -1,4 +1,9 @@
-import { MODULE_CONFIG, COLOR_LIGHT_DARK_DEFAULTS, COLOR_CSS_MAP, colorSettingKey } from "./config.js";
+import {
+  MODULE_CONFIG,
+  COLOR_LIGHT_DARK_DEFAULTS,
+  COLOR_CSS_MAP,
+  colorSettingKey,
+} from "./config.js";
 
 const MODULE_ID = MODULE_CONFIG.id;
 

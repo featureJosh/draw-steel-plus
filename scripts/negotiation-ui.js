@@ -1,4 +1,9 @@
-import { MODULE_CONFIG, NEGOTIATION_ATTITUDES, NEGOTIATION_MOTIVATIONS, DEFAULT_NEGOTIATION_STATE } from "./config.js";
+import {
+  MODULE_CONFIG,
+  NEGOTIATION_ATTITUDES,
+  NEGOTIATION_MOTIVATIONS,
+  DEFAULT_NEGOTIATION_STATE,
+} from "./config.js";
 import { DspFloatingUI } from "./floating-ui/dsp-floating-ui.js";
 
 const MODULE_ID = MODULE_CONFIG.id;
@@ -8,12 +13,18 @@ const SOCKET_EVENT = "module.draw-steel-plus";
 
 function getState() {
   const raw = game.settings.get(MODULE_ID, "negotiationState");
-  return foundry.utils.mergeObject(foundry.utils.deepClone(DEFAULT_NEGOTIATION_STATE), raw);
+  return foundry.utils.mergeObject(
+    foundry.utils.deepClone(DEFAULT_NEGOTIATION_STATE),
+    raw,
+  );
 }
 
 async function setState(updates) {
   const current = getState();
-  const merged = foundry.utils.mergeObject(current, updates, { insertKeys: true, insertValues: true });
+  const merged = foundry.utils.mergeObject(current, updates, {
+    insertKeys: true,
+    insertValues: true,
+  });
   await game.settings.set(MODULE_ID, "negotiationState", merged);
   game.socket.emit(SOCKET_EVENT, { type: "negotiationUpdate" });
 }
@@ -45,9 +56,22 @@ async function addCustomEntry(listType, label) {
   const state = getState();
   const list = [...state[listType]];
   const customId = `custom_${Date.now()}`;
-  const entry = listType === "pitfalls"
-    ? { id: customId, custom: true, label, discovered: false, triggered: false }
-    : { id: customId, custom: true, label, discovered: false, appealed: false };
+  const entry =
+    listType === "pitfalls"
+      ? {
+          id: customId,
+          custom: true,
+          label,
+          discovered: false,
+          triggered: false,
+        }
+      : {
+          id: customId,
+          custom: true,
+          label,
+          discovered: false,
+          appealed: false,
+        };
   list.push(entry);
   await setStateReplace({ ...state, [listType]: list });
 }
@@ -90,7 +114,12 @@ export class NegotiationUI extends DspFloatingUI {
 
   static DEFAULT_WIDTH = 360;
   static DEFAULT_HEIGHT = 320;
-  static DEFAULT_POSITION = { anchor: "tr", offsetX: -24, offsetY: 80, snap: "grid" };
+  static DEFAULT_POSITION = {
+    anchor: "tr",
+    offsetX: -24,
+    offsetY: 80,
+    snap: "grid",
+  };
 
   static syncVisibility(visible) {
     if (visible) {
@@ -100,7 +129,8 @@ export class NegotiationUI extends DspFloatingUI {
       }
     } else {
       if (NegotiationUI.instance) {
-        if (NegotiationUI.instance.rendered) NegotiationUI.instance.close({ animate: false });
+        if (NegotiationUI.instance.rendered)
+          NegotiationUI.instance.close({ animate: false });
         NegotiationUI.instance = null;
       }
     }
@@ -153,20 +183,27 @@ export class NegotiationUI extends DspFloatingUI {
 
     const discoveredMotivations = motivations.filter((m) => m.discovered);
     const discoveredPitfalls = pitfalls.filter((p) => p.discovered);
-    const hasDiscovered = discoveredMotivations.length > 0 || discoveredPitfalls.length > 0;
+    const hasDiscovered =
+      discoveredMotivations.length > 0 || discoveredPitfalls.length > 0;
     const hasVisibleSliders = sliders.some((s) => s.show);
 
     const attitudeLabel = state.attitude
-      ? game.i18n.localize(`DRAW_STEEL_PLUS.Negotiation.attitudes.${state.attitude}`)
+      ? game.i18n.localize(
+          `DRAW_STEEL_PLUS.Negotiation.attitudes.${state.attitude}`,
+        )
       : game.i18n.localize("DRAW_STEEL_PLUS.Negotiation.attitude");
 
-    const attitudes = Object.entries(NEGOTIATION_ATTITUDES).map(([key, vals]) => ({
-      key,
-      label: game.i18n.localize(`DRAW_STEEL_PLUS.Negotiation.attitudes.${key}`),
-      interest: vals.interest,
-      patience: vals.patience,
-      selected: state.attitude === key,
-    }));
+    const attitudes = Object.entries(NEGOTIATION_ATTITUDES).map(
+      ([key, vals]) => ({
+        key,
+        label: game.i18n.localize(
+          `DRAW_STEEL_PLUS.Negotiation.attitudes.${key}`,
+        ),
+        interest: vals.interest,
+        patience: vals.patience,
+        selected: state.attitude === key,
+      }),
+    );
 
     const availableCanonical = isGM ? getAvailableCanonical() : [];
 
@@ -257,7 +294,9 @@ export class NegotiationUI extends DspFloatingUI {
   static async #onResetSlider(event, target) {
     const key = target.dataset.slider;
     const state = getState();
-    const attitude = state.attitude ? NEGOTIATION_ATTITUDES[state.attitude] : null;
+    const attitude = state.attitude
+      ? NEGOTIATION_ATTITUDES[state.attitude]
+      : null;
     if (key === "impression") {
       state.impression.value = 0;
     } else if (attitude) {
@@ -351,9 +390,22 @@ export class NegotiationUI extends DspFloatingUI {
     const listType = target.dataset.listType;
     const state = getState();
     const list = [...state[listType]];
-    const entry = listType === "pitfalls"
-      ? { id, custom: false, label: null, discovered: false, triggered: false }
-      : { id, custom: false, label: null, discovered: false, appealed: false };
+    const entry =
+      listType === "pitfalls"
+        ? {
+            id,
+            custom: false,
+            label: null,
+            discovered: false,
+            triggered: false,
+          }
+        : {
+            id,
+            custom: false,
+            label: null,
+            discovered: false,
+            appealed: false,
+          };
     list.push(entry);
     this._openPopup = listType;
     await setStateReplace({ ...state, [listType]: list });
@@ -367,16 +419,25 @@ export class NegotiationUI extends DspFloatingUI {
 
   static async #onEndNegotiation() {
     const confirmed = await foundry.applications.api.DialogV2.confirm({
-      window: { title: game.i18n.localize("DRAW_STEEL_PLUS.Negotiation.endNegotiation") },
+      window: {
+        title: game.i18n.localize("DRAW_STEEL_PLUS.Negotiation.endNegotiation"),
+      },
       content: `<p>${game.i18n.localize("DRAW_STEEL_PLUS.Negotiation.endNegotiationConfirm")}</p>`,
       yes: { default: true },
     });
     if (!confirmed) return;
 
-    await game.settings.set(MODULE_ID, "negotiationState", foundry.utils.deepClone(DEFAULT_NEGOTIATION_STATE));
+    await game.settings.set(
+      MODULE_ID,
+      "negotiationState",
+      foundry.utils.deepClone(DEFAULT_NEGOTIATION_STATE),
+    );
     await game.settings.set(MODULE_ID, "negotiationUIVisible", false);
     NegotiationUI.syncVisibility(false);
-    game.socket.emit(SOCKET_EVENT, { type: "negotiationVisibility", visible: false });
+    game.socket.emit(SOCKET_EVENT, {
+      type: "negotiationVisibility",
+      visible: false,
+    });
   }
 }
 

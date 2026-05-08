@@ -26,7 +26,12 @@ export class CombatTrackerUI extends DspFloatingUI {
 
   static DEFAULT_WIDTH = 600;
   static DEFAULT_HEIGHT = 180;
-  static DEFAULT_POSITION = { anchor: "tc", offsetX: 0, offsetY: 80, snap: "grid" };
+  static DEFAULT_POSITION = {
+    anchor: "tc",
+    offsetX: 0,
+    offsetY: 80,
+    snap: "grid",
+  };
 
   static isModuleActive() {
     return !!game.modules.get(COMBAT_TRACKER_MODULE_ID)?.active;
@@ -79,7 +84,10 @@ export class CombatTrackerUI extends DspFloatingUI {
   _onRender(context, options) {
     super._onRender(context, options);
     this._tryAdoptDock();
-    document.body.classList.toggle("dsp-ct-styled", game.settings.get(MODULE_ID, "combatTrackerDspStyle"));
+    document.body.classList.toggle(
+      "dsp-ct-styled",
+      game.settings.get(MODULE_ID, "combatTrackerDspStyle"),
+    );
     this._syncCollapseButton();
     this._updateMini();
     this._bindCombatHooks();
@@ -113,26 +121,41 @@ export class CombatTrackerUI extends DspFloatingUI {
     }
 
     const currentTurn = combat.combatant;
-    const isInitialPhase = combat.combatants.contents.every(c =>
-      c.isDefeated || c.initiative >= (c.actor?.system?.combat?.turns ?? 1)
+    const isInitialPhase = combat.combatants.contents.every(
+      (c) =>
+        c.isDefeated || c.initiative >= (c.actor?.system?.combat?.turns ?? 1),
     );
-    const hasTurn = currentTurn != null && Number.isNumeric(combat.turn) && !isInitialPhase;
+    const hasTurn =
+      currentTurn != null && Number.isNumeric(combat.turn) && !isInitialPhase;
 
     const all = combat.combatants.contents;
     const isPartyMember = (c) => c.hasPlayerOwner || c.disposition === 2;
-    const esc = (s) => String(s ?? "").replace(/[&<>"']/g, m => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[m]));
+    const esc = (s) =>
+      String(s ?? "").replace(
+        /[&<>"']/g,
+        (m) =>
+          ({
+            "&": "&amp;",
+            "<": "&lt;",
+            ">": "&gt;",
+            '"': "&quot;",
+            "'": "&#39;",
+          })[m],
+      );
 
     const party = all.filter(isPartyMember);
-    const enemies = all.filter(c => !isPartyMember(c));
+    const enemies = all.filter((c) => !isPartyMember(c));
 
     const countBadge = (list, icon, sideClass) => {
-      const alive = list.filter(c => !c.isDefeated);
-      const canAct = alive.filter(c => c.initiative > 0).length;
+      const alive = list.filter((c) => !c.isDefeated);
+      const canAct = alive.filter((c) => c.initiative > 0).length;
       const total = alive.length;
-      const names = alive.map(c => {
-        const state = c.initiative > 0 ? "●" : "○";
-        return `${state} ${c.name}`;
-      }).join("\n");
+      const names = alive
+        .map((c) => {
+          const state = c.initiative > 0 ? "●" : "○";
+          return `${state} ${c.name}`;
+        })
+        .join("\n");
       const tooltip = names || "—";
       return `<div class="dsp-ct-mini-badge ${sideClass}" data-tooltip="${esc(tooltip)}">
         <i class="fa-solid ${icon}"></i>
@@ -143,7 +166,10 @@ export class CombatTrackerUI extends DspFloatingUI {
     let centerHTML = "";
     if (hasTurn && currentTurn) {
       const side = isPartyMember(currentTurn) ? "party" : "enemy";
-      const img = currentTurn.token?.texture?.src ?? currentTurn.actor?.img ?? "icons/svg/mystery-man.svg";
+      const img =
+        currentTurn.token?.texture?.src ??
+        currentTurn.actor?.img ??
+        "icons/svg/mystery-man.svg";
       centerHTML = `
         <div class="dsp-ct-mini-active dsp-ct-mini-active-${side}">
           <div class="dsp-ct-mini-portrait"><img src="${esc(img)}" alt="" loading="lazy"></div>
@@ -151,7 +177,9 @@ export class CombatTrackerUI extends DspFloatingUI {
         </div>
       `;
     } else {
-      const allActed = all.filter(c => !c.isDefeated).every(c => c.initiative <= 0);
+      const allActed = all
+        .filter((c) => !c.isDefeated)
+        .every((c) => c.initiative <= 0);
       const label = allActed
         ? game.i18n.localize("draw-steel-combat-tracker.RoundComplete")
         : game.i18n.localize("COMBAT.NotStarted") || "—";
@@ -184,7 +212,12 @@ export class CombatTrackerUI extends DspFloatingUI {
 
   _unbindCombatHooks() {
     if (!this._miniHookIds) return;
-    const names = ["updateCombat", "updateCombatant", "createCombatant", "deleteCombatant"];
+    const names = [
+      "updateCombat",
+      "updateCombatant",
+      "createCombatant",
+      "deleteCombatant",
+    ];
     names.forEach((name, i) => Hooks.off(name, this._miniHookIds[i]));
     this._miniHookIds = null;
     this._miniHookFn = null;

@@ -1,4 +1,3 @@
-
 export const SHEET_SIZE_DEFAULTS = {
   hero: {
     width: 880,
@@ -143,12 +142,12 @@ export const NEGOTIATION_DEFAULTS = {
 };
 
 export const NEGOTIATION_ATTITUDES = {
-  hostile:     { interest: 1, patience: 2 },
-  suspicious:  { interest: 2, patience: 2 },
-  neutral:     { interest: 2, patience: 3 },
-  open:        { interest: 3, patience: 3 },
-  friendly:    { interest: 3, patience: 4 },
-  trusting:    { interest: 3, patience: 5 },
+  hostile: { interest: 1, patience: 2 },
+  suspicious: { interest: 2, patience: 2 },
+  neutral: { interest: 2, patience: 3 },
+  open: { interest: 3, patience: 3 },
+  friendly: { interest: 3, patience: 4 },
+  trusting: { interest: 3, patience: 5 },
 };
 
 export const NEGOTIATION_MOTIVATIONS = [
@@ -167,12 +166,18 @@ export const NEGOTIATION_MOTIVATIONS = [
 ];
 
 export const MONTAGE_DIFFICULTIES = {
-  easy:     { success: 5, failure: 5 },
+  easy: { success: 5, failure: 5 },
   moderate: { success: 6, failure: 4 },
-  hard:     { success: 7, failure: 3 },
+  hard: { success: 7, failure: 3 },
 };
 
-export const MONTAGE_CHARACTERISTICS = ["might", "agility", "reason", "intuition", "presence"];
+export const MONTAGE_CHARACTERISTICS = [
+  "might",
+  "agility",
+  "reason",
+  "intuition",
+  "presence",
+];
 
 export const MONTAGE_TEST_DIFFICULTIES = ["easy", "medium", "hard"];
 

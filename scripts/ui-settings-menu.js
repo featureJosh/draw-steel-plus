@@ -13,7 +13,9 @@ const UI_MENU_DEFAULTS = {
   floatingUIShowOverlay: true,
 };
 
-export default class UISettingsMenu extends HandlebarsApplicationMixin(ApplicationV2) {
+export default class UISettingsMenu extends HandlebarsApplicationMixin(
+  ApplicationV2,
+) {
   static DEFAULT_OPTIONS = {
     id: "dsp-ui-settings",
     tag: "form",
@@ -45,7 +47,11 @@ export default class UISettingsMenu extends HandlebarsApplicationMixin(Applicati
     const boolField = new foundry.data.fields.BooleanField();
     return {
       fontScale: {
-        field: new foundry.data.fields.NumberField({ min: 0.75, max: 1.5, step: 0.05 }),
+        field: new foundry.data.fields.NumberField({
+          min: 0.75,
+          max: 1.5,
+          step: 0.05,
+        }),
         value: game.settings.get(MODULE_ID, "fontScale"),
         label: game.i18n.localize("DRAW_STEEL_PLUS.Settings.fontScale.name"),
         hint: game.i18n.localize("DRAW_STEEL_PLUS.Settings.fontScale.hint"),
@@ -53,8 +59,12 @@ export default class UISettingsMenu extends HandlebarsApplicationMixin(Applicati
       floatingNavTabs: {
         field: boolField,
         value: game.settings.get(MODULE_ID, "floatingNavTabs"),
-        label: game.i18n.localize("DRAW_STEEL_PLUS.Settings.floatingNavTabs.name"),
-        hint: game.i18n.localize("DRAW_STEEL_PLUS.Settings.floatingNavTabs.hint"),
+        label: game.i18n.localize(
+          "DRAW_STEEL_PLUS.Settings.floatingNavTabs.name",
+        ),
+        hint: game.i18n.localize(
+          "DRAW_STEEL_PLUS.Settings.floatingNavTabs.hint",
+        ),
       },
       improvedChat: {
         field: boolField,
@@ -65,24 +75,50 @@ export default class UISettingsMenu extends HandlebarsApplicationMixin(Applicati
       useCustomMetaCurrency: {
         field: boolField,
         value: game.settings.get(MODULE_ID, "useCustomMetaCurrency"),
-        label: game.i18n.localize("DRAW_STEEL_PLUS.Settings.useCustomMetaCurrency.name"),
-        hint: game.i18n.localize("DRAW_STEEL_PLUS.Settings.useCustomMetaCurrency.hint"),
+        label: game.i18n.localize(
+          "DRAW_STEEL_PLUS.Settings.useCustomMetaCurrency.name",
+        ),
+        hint: game.i18n.localize(
+          "DRAW_STEEL_PLUS.Settings.useCustomMetaCurrency.hint",
+        ),
       },
       floatingUIGridSize: {
-        field: new foundry.data.fields.NumberField({ min: 4, max: 80, step: 2, integer: true }),
+        field: new foundry.data.fields.NumberField({
+          min: 4,
+          max: 80,
+          step: 2,
+          integer: true,
+        }),
         value: game.settings.get(MODULE_ID, "floatingUIGridSize"),
-        label: game.i18n.localize("DRAW_STEEL_PLUS.Settings.floatingUIGridSize.name"),
-        hint: game.i18n.localize("DRAW_STEEL_PLUS.Settings.floatingUIGridSize.hint"),
+        label: game.i18n.localize(
+          "DRAW_STEEL_PLUS.Settings.floatingUIGridSize.name",
+        ),
+        hint: game.i18n.localize(
+          "DRAW_STEEL_PLUS.Settings.floatingUIGridSize.hint",
+        ),
       },
       floatingUIShowOverlay: {
         field: boolField,
         value: game.settings.get(MODULE_ID, "floatingUIShowOverlay"),
-        label: game.i18n.localize("DRAW_STEEL_PLUS.Settings.floatingUIShowOverlay.name"),
-        hint: game.i18n.localize("DRAW_STEEL_PLUS.Settings.floatingUIShowOverlay.hint"),
+        label: game.i18n.localize(
+          "DRAW_STEEL_PLUS.Settings.floatingUIShowOverlay.name",
+        ),
+        hint: game.i18n.localize(
+          "DRAW_STEEL_PLUS.Settings.floatingUIShowOverlay.hint",
+        ),
       },
       buttons: [
-        { type: "button", action: "resetDefaults", icon: "fas fa-arrow-rotate-left", label: "DRAW_STEEL_PLUS.Settings.resetDefaults" },
-        { type: "submit", icon: "fas fa-save", label: "DRAW_STEEL_PLUS.Settings.saveChanges" },
+        {
+          type: "button",
+          action: "resetDefaults",
+          icon: "fas fa-arrow-rotate-left",
+          label: "DRAW_STEEL_PLUS.Settings.resetDefaults",
+        },
+        {
+          type: "submit",
+          icon: "fas fa-save",
+          label: "DRAW_STEEL_PLUS.Settings.saveChanges",
+        },
       ],
     };
   }
@@ -90,18 +126,44 @@ export default class UISettingsMenu extends HandlebarsApplicationMixin(Applicati
   static async onSubmit(event, form, formData) {
     const data = foundry.utils.expandObject(formData.object);
     await Promise.all([
-      game.settings.set(MODULE_ID, "fontScale", Number(data.fontScale ?? UI_MENU_DEFAULTS.fontScale)),
-      game.settings.set(MODULE_ID, "floatingNavTabs", data.floatingNavTabs ?? UI_MENU_DEFAULTS.floatingNavTabs),
-      game.settings.set(MODULE_ID, "improvedChat", data.improvedChat ?? UI_MENU_DEFAULTS.improvedChat),
-      game.settings.set(MODULE_ID, "useCustomMetaCurrency", data.useCustomMetaCurrency ?? UI_MENU_DEFAULTS.useCustomMetaCurrency),
-      game.settings.set(MODULE_ID, "floatingUIGridSize", Number(data.floatingUIGridSize ?? UI_MENU_DEFAULTS.floatingUIGridSize)),
-      game.settings.set(MODULE_ID, "floatingUIShowOverlay", data.floatingUIShowOverlay ?? UI_MENU_DEFAULTS.floatingUIShowOverlay),
+      game.settings.set(
+        MODULE_ID,
+        "fontScale",
+        Number(data.fontScale ?? UI_MENU_DEFAULTS.fontScale),
+      ),
+      game.settings.set(
+        MODULE_ID,
+        "floatingNavTabs",
+        data.floatingNavTabs ?? UI_MENU_DEFAULTS.floatingNavTabs,
+      ),
+      game.settings.set(
+        MODULE_ID,
+        "improvedChat",
+        data.improvedChat ?? UI_MENU_DEFAULTS.improvedChat,
+      ),
+      game.settings.set(
+        MODULE_ID,
+        "useCustomMetaCurrency",
+        data.useCustomMetaCurrency ?? UI_MENU_DEFAULTS.useCustomMetaCurrency,
+      ),
+      game.settings.set(
+        MODULE_ID,
+        "floatingUIGridSize",
+        Number(data.floatingUIGridSize ?? UI_MENU_DEFAULTS.floatingUIGridSize),
+      ),
+      game.settings.set(
+        MODULE_ID,
+        "floatingUIShowOverlay",
+        data.floatingUIShowOverlay ?? UI_MENU_DEFAULTS.floatingUIShowOverlay,
+      ),
     ]);
   }
 
   static async resetDefaults() {
     await Promise.all(
-      Object.entries(UI_MENU_DEFAULTS).map(([key, value]) => game.settings.set(MODULE_ID, key, value))
+      Object.entries(UI_MENU_DEFAULTS).map(([key, value]) =>
+        game.settings.set(MODULE_ID, key, value),
+      ),
     );
     this.render();
   }

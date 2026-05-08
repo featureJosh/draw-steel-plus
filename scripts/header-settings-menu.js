@@ -4,7 +4,9 @@ const MODULE_ID = MODULE_CONFIG.id;
 
 const { HandlebarsApplicationMixin, ApplicationV2 } = foundry.applications.api;
 
-export default class HeaderSettingsMenu extends HandlebarsApplicationMixin(ApplicationV2) {
+export default class HeaderSettingsMenu extends HandlebarsApplicationMixin(
+  ApplicationV2,
+) {
   static DEFAULT_OPTIONS = {
     id: "dsp-header-settings",
     tag: "form",
@@ -38,66 +40,125 @@ export default class HeaderSettingsMenu extends HandlebarsApplicationMixin(Appli
       heroEnabled: {
         field: new foundry.data.fields.BooleanField(),
         value: game.settings.get(MODULE_ID, "heroHeaderEnabled"),
-        label: game.i18n.localize("DRAW_STEEL_PLUS.Settings.heroHeaderEnabled.name"),
-        hint: game.i18n.localize("DRAW_STEEL_PLUS.Settings.heroHeaderEnabled.hint"),
+        label: game.i18n.localize(
+          "DRAW_STEEL_PLUS.Settings.heroHeaderEnabled.name",
+        ),
+        hint: game.i18n.localize(
+          "DRAW_STEEL_PLUS.Settings.heroHeaderEnabled.hint",
+        ),
       },
       heroImage: {
         value: game.settings.get(MODULE_ID, "heroHeaderImage"),
-        label: game.i18n.localize("DRAW_STEEL_PLUS.Settings.heroHeaderImage.name"),
-        hint: game.i18n.localize("DRAW_STEEL_PLUS.Settings.heroHeaderImage.hint"),
+        label: game.i18n.localize(
+          "DRAW_STEEL_PLUS.Settings.heroHeaderImage.name",
+        ),
+        hint: game.i18n.localize(
+          "DRAW_STEEL_PLUS.Settings.heroHeaderImage.hint",
+        ),
       },
       npcEnabled: {
         field: new foundry.data.fields.BooleanField(),
         value: game.settings.get(MODULE_ID, "npcHeaderEnabled"),
-        label: game.i18n.localize("DRAW_STEEL_PLUS.Settings.npcHeaderEnabled.name"),
-        hint: game.i18n.localize("DRAW_STEEL_PLUS.Settings.npcHeaderEnabled.hint"),
+        label: game.i18n.localize(
+          "DRAW_STEEL_PLUS.Settings.npcHeaderEnabled.name",
+        ),
+        hint: game.i18n.localize(
+          "DRAW_STEEL_PLUS.Settings.npcHeaderEnabled.hint",
+        ),
       },
       npcImage: {
         value: game.settings.get(MODULE_ID, "npcHeaderImage"),
-        label: game.i18n.localize("DRAW_STEEL_PLUS.Settings.npcHeaderImage.name"),
-        hint: game.i18n.localize("DRAW_STEEL_PLUS.Settings.npcHeaderImage.hint"),
+        label: game.i18n.localize(
+          "DRAW_STEEL_PLUS.Settings.npcHeaderImage.name",
+        ),
+        hint: game.i18n.localize(
+          "DRAW_STEEL_PLUS.Settings.npcHeaderImage.hint",
+        ),
       },
       objectEnabled: {
         field: new foundry.data.fields.BooleanField(),
         value: game.settings.get(MODULE_ID, "objectHeaderEnabled"),
-        label: game.i18n.localize("DRAW_STEEL_PLUS.Settings.objectHeaderEnabled.name"),
-        hint: game.i18n.localize("DRAW_STEEL_PLUS.Settings.objectHeaderEnabled.hint"),
+        label: game.i18n.localize(
+          "DRAW_STEEL_PLUS.Settings.objectHeaderEnabled.name",
+        ),
+        hint: game.i18n.localize(
+          "DRAW_STEEL_PLUS.Settings.objectHeaderEnabled.hint",
+        ),
       },
       objectImage: {
         value: game.settings.get(MODULE_ID, "objectHeaderImage"),
-        label: game.i18n.localize("DRAW_STEEL_PLUS.Settings.objectHeaderImage.name"),
-        hint: game.i18n.localize("DRAW_STEEL_PLUS.Settings.objectHeaderImage.hint"),
+        label: game.i18n.localize(
+          "DRAW_STEEL_PLUS.Settings.objectHeaderImage.name",
+        ),
+        hint: game.i18n.localize(
+          "DRAW_STEEL_PLUS.Settings.objectHeaderImage.hint",
+        ),
       },
       retainerEnabled: {
         field: new foundry.data.fields.BooleanField(),
         value: game.settings.get(MODULE_ID, "retainerHeaderEnabled"),
-        label: game.i18n.localize("DRAW_STEEL_PLUS.Settings.retainerHeaderEnabled.name"),
-        hint: game.i18n.localize("DRAW_STEEL_PLUS.Settings.retainerHeaderEnabled.hint"),
+        label: game.i18n.localize(
+          "DRAW_STEEL_PLUS.Settings.retainerHeaderEnabled.name",
+        ),
+        hint: game.i18n.localize(
+          "DRAW_STEEL_PLUS.Settings.retainerHeaderEnabled.hint",
+        ),
       },
       retainerImage: {
         value: game.settings.get(MODULE_ID, "retainerHeaderImage"),
-        label: game.i18n.localize("DRAW_STEEL_PLUS.Settings.retainerHeaderImage.name"),
-        hint: game.i18n.localize("DRAW_STEEL_PLUS.Settings.retainerHeaderImage.hint"),
+        label: game.i18n.localize(
+          "DRAW_STEEL_PLUS.Settings.retainerHeaderImage.name",
+        ),
+        hint: game.i18n.localize(
+          "DRAW_STEEL_PLUS.Settings.retainerHeaderImage.hint",
+        ),
       },
-      heroSection: game.i18n.localize("DRAW_STEEL_PLUS.Settings.menus.headers.heroSection"),
-      npcSection: game.i18n.localize("DRAW_STEEL_PLUS.Settings.menus.headers.npcSection"),
-      objectSection: game.i18n.localize("DRAW_STEEL_PLUS.Settings.menus.headers.objectSection"),
-      retainerSection: game.i18n.localize("DRAW_STEEL_PLUS.Settings.menus.headers.retainerSection"),
+      heroSection: game.i18n.localize(
+        "DRAW_STEEL_PLUS.Settings.menus.headers.heroSection",
+      ),
+      npcSection: game.i18n.localize(
+        "DRAW_STEEL_PLUS.Settings.menus.headers.npcSection",
+      ),
+      objectSection: game.i18n.localize(
+        "DRAW_STEEL_PLUS.Settings.menus.headers.objectSection",
+      ),
+      retainerSection: game.i18n.localize(
+        "DRAW_STEEL_PLUS.Settings.menus.headers.retainerSection",
+      ),
       partyEnabled: {
         field: new foundry.data.fields.BooleanField(),
         value: game.settings.get(MODULE_ID, "partyHeaderEnabled"),
-        label: game.i18n.localize("DRAW_STEEL_PLUS.Settings.partyHeaderEnabled.name"),
-        hint: game.i18n.localize("DRAW_STEEL_PLUS.Settings.partyHeaderEnabled.hint"),
+        label: game.i18n.localize(
+          "DRAW_STEEL_PLUS.Settings.partyHeaderEnabled.name",
+        ),
+        hint: game.i18n.localize(
+          "DRAW_STEEL_PLUS.Settings.partyHeaderEnabled.hint",
+        ),
       },
       partyImage: {
         value: game.settings.get(MODULE_ID, "partyHeaderImage"),
-        label: game.i18n.localize("DRAW_STEEL_PLUS.Settings.partyHeaderImage.name"),
-        hint: game.i18n.localize("DRAW_STEEL_PLUS.Settings.partyHeaderImage.hint"),
+        label: game.i18n.localize(
+          "DRAW_STEEL_PLUS.Settings.partyHeaderImage.name",
+        ),
+        hint: game.i18n.localize(
+          "DRAW_STEEL_PLUS.Settings.partyHeaderImage.hint",
+        ),
       },
-      partySection: game.i18n.localize("DRAW_STEEL_PLUS.Settings.menus.headers.partySection"),
+      partySection: game.i18n.localize(
+        "DRAW_STEEL_PLUS.Settings.menus.headers.partySection",
+      ),
       buttons: [
-        { type: "button", action: "resetDefaults", icon: "fas fa-arrow-rotate-left", label: "DRAW_STEEL_PLUS.Settings.resetDefaults" },
-        { type: "submit", icon: "fas fa-save", label: "DRAW_STEEL_PLUS.Settings.saveChanges" },
+        {
+          type: "button",
+          action: "resetDefaults",
+          icon: "fas fa-arrow-rotate-left",
+          label: "DRAW_STEEL_PLUS.Settings.resetDefaults",
+        },
+        {
+          type: "submit",
+          icon: "fas fa-save",
+          label: "DRAW_STEEL_PLUS.Settings.saveChanges",
+        },
       ],
     };
   }
@@ -118,31 +179,111 @@ export default class HeaderSettingsMenu extends HandlebarsApplicationMixin(Appli
   static async onSubmit(event, form, formData) {
     const data = foundry.utils.expandObject(formData.object);
     await Promise.all([
-      game.settings.set(MODULE_ID, "heroHeaderEnabled", data.heroHeaderEnabled ?? HEADER_DEFAULTS.heroHeaderEnabled),
-      game.settings.set(MODULE_ID, "heroHeaderImage", data.heroHeaderImage ?? HEADER_DEFAULTS.heroHeaderImage),
-      game.settings.set(MODULE_ID, "npcHeaderEnabled", data.npcHeaderEnabled ?? HEADER_DEFAULTS.npcHeaderEnabled),
-      game.settings.set(MODULE_ID, "npcHeaderImage", data.npcHeaderImage ?? HEADER_DEFAULTS.npcHeaderImage),
-      game.settings.set(MODULE_ID, "objectHeaderEnabled", data.objectHeaderEnabled ?? HEADER_DEFAULTS.objectHeaderEnabled),
-      game.settings.set(MODULE_ID, "objectHeaderImage", data.objectHeaderImage ?? HEADER_DEFAULTS.objectHeaderImage),
-      game.settings.set(MODULE_ID, "retainerHeaderEnabled", data.retainerHeaderEnabled ?? HEADER_DEFAULTS.retainerHeaderEnabled),
-      game.settings.set(MODULE_ID, "retainerHeaderImage", data.retainerHeaderImage ?? HEADER_DEFAULTS.retainerHeaderImage),
-      game.settings.set(MODULE_ID, "partyHeaderEnabled", data.partyHeaderEnabled ?? HEADER_DEFAULTS.partyHeaderEnabled),
-      game.settings.set(MODULE_ID, "partyHeaderImage", data.partyHeaderImage ?? HEADER_DEFAULTS.partyHeaderImage),
+      game.settings.set(
+        MODULE_ID,
+        "heroHeaderEnabled",
+        data.heroHeaderEnabled ?? HEADER_DEFAULTS.heroHeaderEnabled,
+      ),
+      game.settings.set(
+        MODULE_ID,
+        "heroHeaderImage",
+        data.heroHeaderImage ?? HEADER_DEFAULTS.heroHeaderImage,
+      ),
+      game.settings.set(
+        MODULE_ID,
+        "npcHeaderEnabled",
+        data.npcHeaderEnabled ?? HEADER_DEFAULTS.npcHeaderEnabled,
+      ),
+      game.settings.set(
+        MODULE_ID,
+        "npcHeaderImage",
+        data.npcHeaderImage ?? HEADER_DEFAULTS.npcHeaderImage,
+      ),
+      game.settings.set(
+        MODULE_ID,
+        "objectHeaderEnabled",
+        data.objectHeaderEnabled ?? HEADER_DEFAULTS.objectHeaderEnabled,
+      ),
+      game.settings.set(
+        MODULE_ID,
+        "objectHeaderImage",
+        data.objectHeaderImage ?? HEADER_DEFAULTS.objectHeaderImage,
+      ),
+      game.settings.set(
+        MODULE_ID,
+        "retainerHeaderEnabled",
+        data.retainerHeaderEnabled ?? HEADER_DEFAULTS.retainerHeaderEnabled,
+      ),
+      game.settings.set(
+        MODULE_ID,
+        "retainerHeaderImage",
+        data.retainerHeaderImage ?? HEADER_DEFAULTS.retainerHeaderImage,
+      ),
+      game.settings.set(
+        MODULE_ID,
+        "partyHeaderEnabled",
+        data.partyHeaderEnabled ?? HEADER_DEFAULTS.partyHeaderEnabled,
+      ),
+      game.settings.set(
+        MODULE_ID,
+        "partyHeaderImage",
+        data.partyHeaderImage ?? HEADER_DEFAULTS.partyHeaderImage,
+      ),
     ]);
   }
 
   static async resetDefaults() {
     await Promise.all([
-      game.settings.set(MODULE_ID, "heroHeaderEnabled", HEADER_DEFAULTS.heroHeaderEnabled),
-      game.settings.set(MODULE_ID, "heroHeaderImage", HEADER_DEFAULTS.heroHeaderImage),
-      game.settings.set(MODULE_ID, "npcHeaderEnabled", HEADER_DEFAULTS.npcHeaderEnabled),
-      game.settings.set(MODULE_ID, "npcHeaderImage", HEADER_DEFAULTS.npcHeaderImage),
-      game.settings.set(MODULE_ID, "objectHeaderEnabled", HEADER_DEFAULTS.objectHeaderEnabled),
-      game.settings.set(MODULE_ID, "objectHeaderImage", HEADER_DEFAULTS.objectHeaderImage),
-      game.settings.set(MODULE_ID, "retainerHeaderEnabled", HEADER_DEFAULTS.retainerHeaderEnabled),
-      game.settings.set(MODULE_ID, "retainerHeaderImage", HEADER_DEFAULTS.retainerHeaderImage),
-      game.settings.set(MODULE_ID, "partyHeaderEnabled", HEADER_DEFAULTS.partyHeaderEnabled),
-      game.settings.set(MODULE_ID, "partyHeaderImage", HEADER_DEFAULTS.partyHeaderImage),
+      game.settings.set(
+        MODULE_ID,
+        "heroHeaderEnabled",
+        HEADER_DEFAULTS.heroHeaderEnabled,
+      ),
+      game.settings.set(
+        MODULE_ID,
+        "heroHeaderImage",
+        HEADER_DEFAULTS.heroHeaderImage,
+      ),
+      game.settings.set(
+        MODULE_ID,
+        "npcHeaderEnabled",
+        HEADER_DEFAULTS.npcHeaderEnabled,
+      ),
+      game.settings.set(
+        MODULE_ID,
+        "npcHeaderImage",
+        HEADER_DEFAULTS.npcHeaderImage,
+      ),
+      game.settings.set(
+        MODULE_ID,
+        "objectHeaderEnabled",
+        HEADER_DEFAULTS.objectHeaderEnabled,
+      ),
+      game.settings.set(
+        MODULE_ID,
+        "objectHeaderImage",
+        HEADER_DEFAULTS.objectHeaderImage,
+      ),
+      game.settings.set(
+        MODULE_ID,
+        "retainerHeaderEnabled",
+        HEADER_DEFAULTS.retainerHeaderEnabled,
+      ),
+      game.settings.set(
+        MODULE_ID,
+        "retainerHeaderImage",
+        HEADER_DEFAULTS.retainerHeaderImage,
+      ),
+      game.settings.set(
+        MODULE_ID,
+        "partyHeaderEnabled",
+        HEADER_DEFAULTS.partyHeaderEnabled,
+      ),
+      game.settings.set(
+        MODULE_ID,
+        "partyHeaderImage",
+        HEADER_DEFAULTS.partyHeaderImage,
+      ),
     ]);
     this.render();
   }

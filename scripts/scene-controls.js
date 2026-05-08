@@ -19,8 +19,11 @@ Hooks.on("getSceneControlButtons", (controls) => {
       const toggled = !game.settings.get(MODULE_ID, "negotiationUIVisible");
       game.settings.set(MODULE_ID, "negotiationUIVisible", toggled);
       NegotiationUI.syncVisibility(toggled);
-      game.socket.emit(SOCKET_EVENT, { type: "negotiationVisibility", visible: toggled });
-    }
+      game.socket.emit(SOCKET_EVENT, {
+        type: "negotiationVisibility",
+        visible: toggled,
+      });
+    },
   };
 
   controls.tokens.tools.drawSteelPlusMontage = {
@@ -36,7 +39,10 @@ Hooks.on("getSceneControlButtons", (controls) => {
       const toggled = !game.settings.get(MODULE_ID, "montageUIVisible");
       game.settings.set(MODULE_ID, "montageUIVisible", toggled);
       MontageUI.syncVisibility(toggled);
-      game.socket.emit(SOCKET_EVENT, { type: "montageVisibility", visible: toggled });
-    }
+      game.socket.emit(SOCKET_EVENT, {
+        type: "montageVisibility",
+        visible: toggled,
+      });
+    },
   };
 });

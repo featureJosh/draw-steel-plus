@@ -1,7 +1,12 @@
 import { MODULE_CONFIG } from "../config.js";
 import { DspFloatingUI } from "./dsp-floating-ui.js";
 import { FloatingUIManager } from "./manager.js";
-import { ANCHORS, resolveAnchor, pickClosestAnchor, getGridSize } from "./position.js";
+import {
+  ANCHORS,
+  resolveAnchor,
+  pickClosestAnchor,
+  getGridSize,
+} from "./position.js";
 
 const MODULE_ID = MODULE_CONFIG.id;
 
@@ -11,7 +16,11 @@ function resolveElementTarget(spec) {
   if (!spec) return null;
   if (typeof spec === "string") return document.querySelector(spec);
   if (typeof spec === "function") {
-    try { return spec(); } catch { return null; }
+    try {
+      return spec();
+    } catch {
+      return null;
+    }
   }
   if (spec instanceof Element) return spec;
   return null;
@@ -70,7 +79,12 @@ export function buildAdoptingClass(config) {
 
     static PARTS = {};
 
-    static DEFAULT_POSITION = defaultPosition ?? { anchor: "cc", offsetX: 0, offsetY: 0, snap: "grid" };
+    static DEFAULT_POSITION = defaultPosition ?? {
+      anchor: "cc",
+      offsetX: 0,
+      offsetY: 0,
+      snap: "grid",
+    };
     static DEFAULT_WIDTH = defaultWidth ?? 320;
     static DEFAULT_HEIGHT = defaultHeight ?? 120;
 
@@ -113,9 +127,12 @@ export function buildAdoptingClass(config) {
       if (reparentOnClose) {
         const target = resolveElementTarget(this._targetSpec);
         if (target) {
-          const parent = typeof reparentOnClose === "string"
-            ? document.querySelector(reparentOnClose)
-            : reparentOnClose instanceof Element ? reparentOnClose : null;
+          const parent =
+            typeof reparentOnClose === "string"
+              ? document.querySelector(reparentOnClose)
+              : reparentOnClose instanceof Element
+                ? reparentOnClose
+                : null;
           if (parent) parent.appendChild(target);
         }
       }
@@ -125,7 +142,9 @@ export function buildAdoptingClass(config) {
 
     #adoptTarget() {
       const target = resolveElementTarget(this._targetSpec);
-      const container = this.element?.querySelector(`.${contentClass ?? "dsp-fui-adopted-content"}`);
+      const container = this.element?.querySelector(
+        `.${contentClass ?? "dsp-fui-adopted-content"}`,
+      );
       if (!target || !container) {
         if (!target) this.#watchForTarget();
         return;
@@ -143,7 +162,10 @@ export function buildAdoptingClass(config) {
           this.#adoptTarget();
         }
       });
-      this._adoptObserver.observe(document.body, { childList: true, subtree: true });
+      this._adoptObserver.observe(document.body, {
+        childList: true,
+        subtree: true,
+      });
     }
   }
 
@@ -159,7 +181,8 @@ export const FloatingUIApi = {
   getGridSize,
 
   register(config) {
-    if (!config?.id) throw new Error(`${MODULE_ID} | floatingUI.register requires an id`);
+    if (!config?.id)
+      throw new Error(`${MODULE_ID} | floatingUI.register requires an id`);
     if (_registry.has(config.id)) return _registry.get(config.id);
 
     const Cls = buildAdoptingClass(config);

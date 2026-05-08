@@ -5,7 +5,7 @@ const MODULE_ID = MODULE_CONFIG.id;
 export function getFontScale() {
   try {
     const raw = game.settings.get(MODULE_ID, "fontScale");
-    return (typeof raw === "number" && raw > 0) ? raw : SCALE_DEFAULTS.fontScale;
+    return typeof raw === "number" && raw > 0 ? raw : SCALE_DEFAULTS.fontScale;
   } catch {
     return SCALE_DEFAULTS.fontScale;
   }
@@ -33,6 +33,9 @@ export function applyScaleOverrides() {
     const baseWidth = app.options?.position?.width;
     const baseHeight = app.options?.position?.height;
     if (!baseWidth || !baseHeight) continue;
-    app.setPosition({ width: Math.round(baseWidth * scale), height: Math.round(baseHeight * scale) });
+    app.setPosition({
+      width: Math.round(baseWidth * scale),
+      height: Math.round(baseHeight * scale),
+    });
   }
 }

@@ -1,4 +1,16 @@
-import { MODULE_CONFIG, COLOR_LIGHT_DARK_DEFAULTS, SCALE_DEFAULTS, HEADER_DEFAULTS, NPC_DEFAULTS, NEGOTIATION_DEFAULTS, DEFAULT_NEGOTIATION_STATE, MONTAGE_DEFAULTS, DEFAULT_MONTAGE_STATE, UI_DEFAULTS, colorSettingKey } from "./config.js";
+import {
+  MODULE_CONFIG,
+  COLOR_LIGHT_DARK_DEFAULTS,
+  SCALE_DEFAULTS,
+  HEADER_DEFAULTS,
+  NPC_DEFAULTS,
+  NEGOTIATION_DEFAULTS,
+  DEFAULT_NEGOTIATION_STATE,
+  MONTAGE_DEFAULTS,
+  DEFAULT_MONTAGE_STATE,
+  UI_DEFAULTS,
+  colorSettingKey,
+} from "./config.js";
 import { applyColorOverrides } from "./color-settings.js";
 import { applyScaleOverrides } from "./scale-settings.js";
 import { MetaCurrencyTracker } from "./meta-currency.js";
@@ -79,7 +91,10 @@ export function registerSettings() {
     requiresReload: false,
   });
 
-  const debouncedColors = foundry.utils.debounce(() => applyColorOverrides(), 150);
+  const debouncedColors = foundry.utils.debounce(
+    () => applyColorOverrides(),
+    150,
+  );
   for (const [key, defaults] of Object.entries(COLOR_LIGHT_DARK_DEFAULTS)) {
     game.settings.register(MODULE_ID, colorSettingKey(key, "light"), {
       name: `DRAW_STEEL_PLUS.Settings.colors.${key}Lt`,
@@ -319,7 +334,10 @@ export function registerSettings() {
     requiresReload: false,
     onChange: (value) => {
       const improvedChat = game.settings.get(MODULE_ID, "improvedChat");
-      document.body.classList.toggle("dsp-target-damage-styled", value && improvedChat);
+      document.body.classList.toggle(
+        "dsp-target-damage-styled",
+        value && improvedChat,
+      );
     },
   });
 
@@ -379,5 +397,4 @@ export function registerSettings() {
     default: true,
     requiresReload: false,
   });
-
 }

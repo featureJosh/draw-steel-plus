@@ -1,229 +1,244 @@
 body.dsp-custom-meta-currency #meta-currency {
-  display: none !important;
+    display: none !important;
 }
 
 body:not(.dsp-custom-meta-currency) #dsp-meta-currency {
-  display: none !important;
+    display: none !important;
 }
 
 .dsp-mc-body {
-  display: flex;
-  align-items: stretch;
-  gap: 0.25em;
-  padding: 1em 1em;
+    display: flex;
+    align-items: stretch;
+    gap: 0.25em;
+    padding: 1em 1em;
 }
 
 .dsp-mc-section {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: calc(6px * var(--dsp-scale, 1));
-  padding: 0;
-  flex: 1;
-  transition: gap var(--dsp-fui-transition-fast);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: calc(6px * var(--dsp-scale, 1));
+    padding: 0;
+    flex: 1;
+    transition: gap var(--dsp-fui-transition-fast);
 }
 
 .dsp-mc-value-group {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 2px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
 }
 
 .dsp-mc-value {
-  font-size: var(--dsp-font-size-7xl);
-  font-weight: 800;
-  line-height: 1;
-  letter-spacing: 0.02em;
+    font-size: var(--dsp-font-size-7xl);
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: 0.02em;
 }
 
 .dsp-mc-hero-value {
-  color: var(--dsp-accent-strong);
+    color: var(--dsp-accent-strong);
 }
 
 .dsp-mc-malice-value {
-  color: var(--dsp-primary-strong);
+    color: var(--dsp-primary-strong);
 }
 
 .dsp-mc-label {
-  font-size: var(--dsp-font-size-2xs);
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: var(--dsp-text-muted);
-  text-align: center;
+    font-size: var(--dsp-font-size-2xs);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--dsp-text-muted);
+    text-align: center;
 }
 
 .dsp-mc-divider {
-  width: 1px;
-  background: linear-gradient(
-    180deg,
-    transparent 0%,
-    var(--dsp-border-light) 20%,
-    var(--dsp-border-light) 80%,
-    transparent 100%
-  );
-  align-self: stretch;
-  margin: calc(4px * var(--dsp-scale, 1)) 0;
+    width: 1px;
+    background: linear-gradient(
+        180deg,
+        transparent 0%,
+        var(--dsp-border-light) 20%,
+        var(--dsp-border-light) 80%,
+        transparent 100%
+    );
+    align-self: stretch;
+    margin: calc(4px * var(--dsp-scale, 1)) 0;
 }
 
 .dsp-mc-controls {
-  display: flex;
-  gap: calc(4px * var(--dsp-scale, 1));
-  align-items: center;
-  max-height: calc(30px * var(--dsp-scale, 1));
-  overflow: hidden;
-  transition: var(--dsp-fui-transition-fast);
-  transition-property: opacity, max-height;
+    display: flex;
+    gap: calc(4px * var(--dsp-scale, 1));
+    align-items: center;
+    max-height: calc(30px * var(--dsp-scale, 1));
+    overflow: hidden;
+    transition: var(--dsp-fui-transition-fast);
+    transition-property: opacity, max-height;
 }
 
 .dsp-mc-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: calc(24px * var(--dsp-scale, 1));
-  height: calc(24px * var(--dsp-scale, 1));
-  border-radius: var(--dsp-radius-sm);
-  border: 1px solid var(--dsp-border);
-  background: light-dark(rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0.3));
-  color: var(--dsp-text-faint);
-  cursor: pointer;
-  font-size: var(--dsp-font-size-md);
-  transition: var(--dsp-fui-transition-fast);
-  transition-property: color, background, border-color, transform, box-shadow;
-  padding: 0;
-  line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: calc(24px * var(--dsp-scale, 1));
+    height: calc(24px * var(--dsp-scale, 1));
+    border-radius: var(--dsp-radius-sm);
+    border: 1px solid var(--dsp-border);
+    background: light-dark(rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0.3));
+    color: var(--dsp-text-faint);
+    cursor: pointer;
+    font-size: var(--dsp-font-size-md);
+    transition: var(--dsp-fui-transition-fast);
+    transition-property: color, background, border-color, transform, box-shadow;
+    padding: 0;
+    line-height: 1;
 }
 
 .dsp-mc-btn:hover {
-  color: var(--dsp-accent);
-  background: light-dark(rgba(168, 139, 74, 0.06), rgba(200, 170, 110, 0.08));
-  border-color: var(--dsp-border-light);
-  transform: translateY(-1px);
+    color: var(--dsp-accent);
+    background: light-dark(rgba(168, 139, 74, 0.06), rgba(200, 170, 110, 0.08));
+    border-color: var(--dsp-border-light);
+    transform: translateY(-1px);
 }
 
 .dsp-mc-btn-reset:hover {
-  color: var(--dsp-danger);
-  background: light-dark(rgba(192, 64, 64, 0.08), rgba(224, 85, 85, 0.08));
-  border-color: light-dark(rgba(192, 64, 64, 0.2), rgba(224, 85, 85, 0.2));
+    color: var(--dsp-danger);
+    background: light-dark(rgba(192, 64, 64, 0.08), rgba(224, 85, 85, 0.08));
+    border-color: light-dark(rgba(192, 64, 64, 0.2), rgba(224, 85, 85, 0.2));
 }
 
 .dsp-mc-btn-give:hover {
-  color: var(--dsp-accent-bright);
-  box-shadow: 0 0 6px light-dark(rgba(168, 139, 74, 0.12), rgba(200, 170, 110, 0.15));
+    color: var(--dsp-accent-bright);
+    box-shadow: 0 0 6px
+        light-dark(rgba(168, 139, 74, 0.12), rgba(200, 170, 110, 0.15));
 }
 
 .dsp-mc-btn-adjust:hover {
-  color: var(--dsp-primary-light);
-  background: light-dark(rgba(163, 44, 44, 0.08), rgba(168, 40, 40, 0.08));
-  border-color: light-dark(rgba(163, 44, 44, 0.2), rgba(168, 40, 40, 0.2));
+    color: var(--dsp-primary-light);
+    background: light-dark(rgba(163, 44, 44, 0.08), rgba(168, 40, 40, 0.08));
+    border-color: light-dark(rgba(163, 44, 44, 0.2), rgba(168, 40, 40, 0.2));
 }
 
 .dsp-meta-currency:not(:hover) .dsp-mc-controls {
-  opacity: 0;
-  max-height: 0;
+    opacity: 0;
+    max-height: 0;
 }
 
 .dsp-meta-currency:not(:hover) .dsp-mc-section {
-  gap: 0;
+    gap: 0;
 }
 
 .dsp-fui-panel:not(:has(.dsp-mc-malice)) {
-  min-width: calc(100px * var(--dsp-scale, 1));
+    min-width: calc(100px * var(--dsp-scale, 1));
 }
 
 .dsp-fui-panel:not(:has(.dsp-mc-malice)) .dsp-mc-body {
-  justify-content: center;
+    justify-content: center;
 }
 
 .dsp-fui-panel:not(:has(.dsp-mc-malice)) .dsp-mc-section {
-  flex: none;
+    flex: none;
 }
 
 .dsp-fui-panel.dsp-mc-compact {
-  min-width: unset;
-  border-radius: var(--dsp-radius-full);
+    min-width: unset;
+    border-radius: var(--dsp-radius-full);
 }
 
 .dsp-mc-body-compact {
-  display: flex;
-  align-items: center;
-  gap: 0;
-  padding: calc(6px * var(--dsp-scale, 1)) calc(14px * var(--dsp-scale, 1));
+    display: flex;
+    align-items: center;
+    gap: 0;
+    padding: calc(6px * var(--dsp-scale, 1)) calc(14px * var(--dsp-scale, 1));
 }
 
 .dsp-mc-compact-item {
-  display: flex;
-  align-items: center;
-  gap: calc(6px * var(--dsp-scale, 1));
-  padding: 0 calc(6px * var(--dsp-scale, 1));
+    display: flex;
+    align-items: center;
+    gap: calc(6px * var(--dsp-scale, 1));
+    padding: 0 calc(6px * var(--dsp-scale, 1));
 }
 
 .dsp-mc-compact-icon {
-  font-size: var(--dsp-font-size-lg);
+    font-size: var(--dsp-font-size-lg);
 }
 
 .dsp-mc-hero-icon {
-  color: var(--dsp-accent-strong);
+    color: var(--dsp-accent-strong);
 }
 
 .dsp-mc-malice-icon {
-  color: var(--dsp-primary-strong);
+    color: var(--dsp-primary-strong);
 }
 
 .dsp-mc-compact-divider {
-  width: 1px;
-  height: calc(18px * var(--dsp-scale, 1));
-  background: var(--dsp-border-light);
-  margin: 0 calc(4px * var(--dsp-scale, 1));
+    width: 1px;
+    height: calc(18px * var(--dsp-scale, 1));
+    background: var(--dsp-border-light);
+    margin: 0 calc(4px * var(--dsp-scale, 1));
 }
 
 .dsp-fui-minimized .dsp-mc-value {
-  font-size: var(--dsp-font-size-5xl);
-  font-weight: 800;
+    font-size: var(--dsp-font-size-5xl);
+    font-weight: 800;
 }
 
 .dsp-mc-toolbar-compact {
-  position: absolute;
-  top: -1px;
-  left: -1px;
-  right: -1px;
-  transform: translateY(-100%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 2px;
-  padding: calc(4px * var(--dsp-scale, 1)) calc(8px * var(--dsp-scale, 1));
-  border: 1px solid var(--dsp-border-light);
-  border-bottom: none;
-  background: light-dark(rgba(245, 240, 232, 0.92), rgba(13, 13, 13, 0.92));
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border-radius: var(--dsp-radius-md) var(--dsp-radius-md) 0 0;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity var(--dsp-fui-transition-fast);
+    position: absolute;
+    top: -1px;
+    left: -1px;
+    right: -1px;
+    transform: translateY(-100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    padding: calc(4px * var(--dsp-scale, 1)) calc(8px * var(--dsp-scale, 1));
+    border: 1px solid var(--dsp-border-light);
+    border-bottom: none;
+    background: light-dark(rgba(245, 240, 232, 0.92), rgba(13, 13, 13, 0.92));
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-radius: var(--dsp-radius-md) var(--dsp-radius-md) 0 0;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity var(--dsp-fui-transition-fast);
 }
 
 .dsp-floating-ui:hover .dsp-mc-toolbar-compact {
-  opacity: 1;
-  pointer-events: auto;
+    opacity: 1;
+    pointer-events: auto;
 }
 
 @keyframes dsp-mc-pulse-gold {
-  0%, 100% { text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5); }
-  50% { text-shadow: 0 0 12px rgba(200, 170, 110, 0.4), 0 2px 8px rgba(0, 0, 0, 0.5); }
+    0%,
+    100% {
+        text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+    }
+    50% {
+        text-shadow:
+            0 0 12px rgba(200, 170, 110, 0.4),
+            0 2px 8px rgba(0, 0, 0, 0.5);
+    }
 }
 
 @keyframes dsp-mc-pulse-crimson {
-  0%, 100% { text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5); }
-  50% { text-shadow: 0 0 12px rgba(168, 40, 40, 0.4), 0 2px 8px rgba(0, 0, 0, 0.5); }
+    0%,
+    100% {
+        text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+    }
+    50% {
+        text-shadow:
+            0 0 12px rgba(168, 40, 40, 0.4),
+            0 2px 8px rgba(0, 0, 0, 0.5);
+    }
 }
 
 .dsp-meta-currency:hover .dsp-mc-hero-value {
-  animation: dsp-mc-pulse-gold 3s ease-in-out infinite;
+    animation: dsp-mc-pulse-gold 3s ease-in-out infinite;
 }
 
 .dsp-meta-currency:hover .dsp-mc-malice-value {
-  animation: dsp-mc-pulse-crimson 3s ease-in-out infinite;
+    animation: dsp-mc-pulse-crimson 3s ease-in-out infinite;
 }

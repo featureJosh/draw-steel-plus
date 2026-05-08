@@ -3,10 +3,12 @@ import { MODULE_CONFIG } from "./config.js";
 const MODULE_ID = MODULE_CONFIG.id;
 const MODULE_PATH = MODULE_CONFIG.path;
 const TOOLTIP_MARGIN_PX = 8;
-const TOOLTIP_LAYER_SELECTOR = "#tooltip, .locked-tooltip, .ds-floating-tooltip";
+const TOOLTIP_LAYER_SELECTOR =
+  "#tooltip, .locked-tooltip, .ds-floating-tooltip";
 const ABILITY_HUD_ACTION_SELECTOR = ".dsahud-action[data-tooltip-uuid]";
 
-const Dir = foundry?.helpers?.interaction?.TooltipManager?.TOOLTIP_DIRECTIONS ?? {
+const Dir = foundry?.helpers?.interaction?.TooltipManager
+  ?.TOOLTIP_DIRECTIONS ?? {
   UP: "UP",
   DOWN: "DOWN",
   LEFT: "LEFT",
@@ -38,14 +40,19 @@ export class TooltipsDSP {
 
     this.#layerObserver?.disconnect();
     this.#layerObserver = new MutationObserver(() => this._liftTooltipLayer());
-    this.#layerObserver.observe(document.body, { childList: true, subtree: true });
+    this.#layerObserver.observe(document.body, {
+      childList: true,
+      subtree: true,
+    });
   }
 
   _onMutation(mutationList) {
     this._liftTooltipLayer();
     for (const mutation of mutationList) {
       if (mutation.attributeName !== "class") continue;
-      const oldClasses = new Set((mutation.oldValue ?? "").split(/\s+/).filter(Boolean));
+      const oldClasses = new Set(
+        (mutation.oldValue ?? "").split(/\s+/).filter(Boolean),
+      );
       const newClasses = new Set(this.#tooltip.classList);
       if (!oldClasses.has("active") && newClasses.has("active")) {
         this._onTooltipActivate();
@@ -63,7 +70,10 @@ export class TooltipsDSP {
     try {
       doc = await fromUuid(uuid);
     } catch (err) {
-      console.warn(`${MODULE_ID} | Failed to resolve UUID for tooltip: ${uuid}`, err);
+      console.warn(
+        `${MODULE_ID} | Failed to resolve UUID for tooltip: ${uuid}`,
+        err,
+      );
       return;
     }
 
@@ -101,7 +111,7 @@ export class TooltipsDSP {
     if (!ctx) return null;
     return foundry.applications.handlebars.renderTemplate(
       `${MODULE_PATH}/templates/tooltip/item-tooltip.hbs`,
-      ctx
+      ctx,
     );
   }
 
@@ -110,7 +120,7 @@ export class TooltipsDSP {
     if (!ctx) return null;
     return foundry.applications.handlebars.renderTemplate(
       `${MODULE_PATH}/templates/tooltip/effect-tooltip.hbs`,
-      ctx
+      ctx,
     );
   }
 
@@ -136,7 +146,9 @@ export class TooltipsDSP {
   async _buildItemHeader(doc) {
     const sys = doc.system ?? {};
     const type = doc.type;
-    const typeLabel = game.i18n.localize(CONFIG.Item.typeLabels?.[type] ?? type);
+    const typeLabel = game.i18n.localize(
+      CONFIG.Item.typeLabels?.[type] ?? type,
+    );
 
     const cardContext = {};
     try {
@@ -144,7 +156,10 @@ export class TooltipsDSP {
         await sys.getSheetContext(cardContext);
       }
     } catch (err) {
-      console.warn(`${MODULE_ID} | getSheetContext threw, continuing with partial header`, err);
+      console.warn(
+        `${MODULE_ID} | getSheetContext threw, continuing with partial header`,
+        err,
+      );
     }
 
     const ds = globalThis.ds;
@@ -160,9 +175,10 @@ export class TooltipsDSP {
 
     if (type === "ability") {
       if (sys.resource != null && sys.resource > 0) {
-        const resourceName = doc.parent?.system?.coreResource?.name
-          ?? cardContext.resourceName
-          ?? game.i18n.localize("DRAW_STEEL_PLUS.Tooltip.resource");
+        const resourceName =
+          doc.parent?.system?.coreResource?.name ??
+          cardContext.resourceName ??
+          game.i18n.localize("DRAW_STEEL_PLUS.Tooltip.resource");
         ctx.costBadge = {
           label: game.i18n.localize("DRAW_STEEL_PLUS.Tooltip.resource"),
           value: `${sys.resource} ${resourceName}`,
@@ -199,16 +215,17 @@ export class TooltipsDSP {
 
       if (cfg?.keywords && sys.keywords?.size) {
         ctx.pills = Array.from(sys.keywords).map(
-          (k) => cfg.keywords[k]?.label ?? k
+          (k) => cfg.keywords[k]?.label ?? k,
         );
       }
     } else if (type === "kit") {
       const eq = sys.equipment;
       if (eq) {
         if (eq.armor) {
-          const armorLabel = ds?.CONFIG?.equipment?.armorCategories?.[eq.armor]?.label
-            ?? ds?.CONFIG?.equipment?.armor?.[eq.armor]?.label
-            ?? this._capitalize(eq.armor);
+          const armorLabel =
+            ds?.CONFIG?.equipment?.armorCategories?.[eq.armor]?.label ??
+            ds?.CONFIG?.equipment?.armor?.[eq.armor]?.label ??
+            this._capitalize(eq.armor);
           ctx.quickFacts.push({
             label: game.i18n.localize("DRAW_STEEL_PLUS.Tooltip.armorCategory"),
             value: armorLabel,
@@ -216,10 +233,11 @@ export class TooltipsDSP {
         }
         const weapons = this._coerceArray(eq.weapon);
         if (weapons.length) {
-          const weaponLabels = weapons.map((w) =>
-            ds?.CONFIG?.equipment?.weaponCategories?.[w]?.label
-            ?? ds?.CONFIG?.equipment?.weapon?.[w]?.label
-            ?? this._capitalize(w)
+          const weaponLabels = weapons.map(
+            (w) =>
+              ds?.CONFIG?.equipment?.weaponCategories?.[w]?.label ??
+              ds?.CONFIG?.equipment?.weapon?.[w]?.label ??
+              this._capitalize(w),
           );
           ctx.quickFacts.push({
             label: game.i18n.localize("DRAW_STEEL_PLUS.Tooltip.weaponCategory"),
@@ -229,7 +247,8 @@ export class TooltipsDSP {
       }
     } else if (type === "treasure") {
       if (sys.kind) {
-        const kindLabel = ds?.CONFIG?.equipment?.kinds?.[sys.kind]?.label ?? sys.kind;
+        const kindLabel =
+          ds?.CONFIG?.equipment?.kinds?.[sys.kind]?.label ?? sys.kind;
         ctx.quickFacts.push({
           label: game.i18n.localize("DRAW_STEEL_PLUS.Tooltip.kind"),
           value: kindLabel,
@@ -246,7 +265,8 @@ export class TooltipsDSP {
         ctx.pills = fmt ? fmt.split(/,\s*/).filter(Boolean) : [];
       }
     } else if (type === "project") {
-      const typeLabelProj = ds?.CONFIG?.projects?.types?.[sys.type]?.label ?? sys.type;
+      const typeLabelProj =
+        ds?.CONFIG?.projects?.types?.[sys.type]?.label ?? sys.type;
       if (typeLabelProj) {
         ctx.quickFacts.push({
           label: game.i18n.localize("DRAW_STEEL_PLUS.Tooltip.type"),
@@ -267,7 +287,8 @@ export class TooltipsDSP {
         };
       }
     } else if (type === "perk") {
-      const ptLabel = ds?.CONFIG?.perks?.types?.[sys.perkType]?.label ?? sys.perkType;
+      const ptLabel =
+        ds?.CONFIG?.perks?.types?.[sys.perkType]?.label ?? sys.perkType;
       if (ptLabel) {
         ctx.quickFacts.push({
           label: game.i18n.localize("DRAW_STEEL_PLUS.Tooltip.type"),
@@ -312,17 +333,23 @@ export class TooltipsDSP {
     const descRaw = sys.description?.value?.trim?.();
     if (descRaw) {
       try {
-        supplemental.description = await foundry.applications.ux.TextEditor.implementation.enrichHTML(
-          descRaw,
-          { async: true, relativeTo: doc }
-        );
+        supplemental.description =
+          await foundry.applications.ux.TextEditor.implementation.enrichHTML(
+            descRaw,
+            { async: true, relativeTo: doc },
+          );
       } catch (err) {
-        console.warn(`${MODULE_ID} | Failed to enrich ability description`, err);
+        console.warn(
+          `${MODULE_ID} | Failed to enrich ability description`,
+          err,
+        );
         supplemental.description = descRaw;
       }
     }
 
-    supplemental.descriptionLabel = game.i18n.localize("DRAW_STEEL_PLUS.Tooltip.description");
+    supplemental.descriptionLabel = game.i18n.localize(
+      "DRAW_STEEL_PLUS.Tooltip.description",
+    );
     return supplemental;
   }
 
@@ -332,14 +359,17 @@ export class TooltipsDSP {
       try {
         const el = await sys.toEmbed(
           { includeName: false, includeProjectInfo: true },
-          { relativeTo: doc }
+          { relativeTo: doc },
         );
         if (el) {
           this._prepareEmbedElement(doc, el);
           return { html: el.outerHTML, kind: "embed" };
         }
       } catch (err) {
-        console.warn(`${MODULE_ID} | toEmbed failed for ${doc.uuid}, using fallback`, err);
+        console.warn(
+          `${MODULE_ID} | toEmbed failed for ${doc.uuid}, using fallback`,
+          err,
+        );
       }
     }
 
@@ -351,7 +381,9 @@ export class TooltipsDSP {
     if (doc.type !== "ability") return;
     const sys = doc.system ?? {};
 
-    const metadata = el.querySelector?.(":scope > .metadata") ?? el.querySelector?.(".metadata");
+    const metadata =
+      el.querySelector?.(":scope > .metadata") ??
+      el.querySelector?.(".metadata");
     if (metadata) {
       metadata.querySelector(":scope > dl")?.remove();
       metadata.querySelector(":scope > p.resource")?.remove();
@@ -365,9 +397,10 @@ export class TooltipsDSP {
         label.classList.add("dsp-reactive-power-roll");
         const strong = document.createElement("strong");
         const localized = game.i18n.localize("DRAW_STEEL.ROLL.Power.Label");
-        strong.textContent = (localized && !localized.startsWith("DRAW_STEEL."))
-          ? localized
-          : game.i18n.localize("DRAW_STEEL_PLUS.Tooltip.powerRoll");
+        strong.textContent =
+          localized && !localized.startsWith("DRAW_STEEL.")
+            ? localized
+            : game.i18n.localize("DRAW_STEEL_PLUS.Tooltip.powerRoll");
         label.append(strong);
         powerResult.prepend(label);
       }
@@ -388,15 +421,19 @@ export class TooltipsDSP {
     if (sys.effect?.after) parts.push(sys.effect.after);
     if (sys.spend?.text) {
       const spendLabel = await this._getAbilitySpendLabel(doc);
-      parts.push(`<section class="spend"><dl><dt>${spendLabel}</dt><dd>${sys.spend.text}</dd></dl></section>`);
+      parts.push(
+        `<section class="spend"><dl><dt>${spendLabel}</dt><dd>${sys.spend.text}</dd></dl></section>`,
+      );
     }
 
-    const raw = parts.filter((s) => typeof s === "string" && s.trim()).join("<hr>");
+    const raw = parts
+      .filter((s) => typeof s === "string" && s.trim())
+      .join("<hr>");
     if (!raw) return "";
     try {
       return await foundry.applications.ux.TextEditor.implementation.enrichHTML(
         raw,
-        { async: true, relativeTo: doc }
+        { async: true, relativeTo: doc },
       );
     } catch (err) {
       console.warn(`${MODULE_ID} | Failed to enrich fallback body`, err);
@@ -406,7 +443,11 @@ export class TooltipsDSP {
 
   async _buildFallbackPowerRoll(doc) {
     const sys = doc.system ?? {};
-    if (doc.type !== "ability" || !sys.power?.effects?.size || typeof sys.powerRollText !== "function") {
+    if (
+      doc.type !== "ability" ||
+      !sys.power?.effects?.size ||
+      typeof sys.powerRollText !== "function"
+    ) {
       return "";
     }
 
@@ -414,21 +455,33 @@ export class TooltipsDSP {
     for (const tier of [1, 2, 3]) {
       try {
         const effect = await sys.powerRollText.call(sys, tier);
-        if (effect) tiers.push({ label: ["!", "@", "#"][tier - 1], effect, tier });
+        if (effect)
+          tiers.push({ label: ["!", "@", "#"][tier - 1], effect, tier });
       } catch (err) {
-        console.warn(`${MODULE_ID} | Failed to build fallback power roll tier ${tier}`, err);
+        console.warn(
+          `${MODULE_ID} | Failed to build fallback power roll tier ${tier}`,
+          err,
+        );
       }
     }
     if (!tiers.length) return "";
 
     const localized = game.i18n.localize("DRAW_STEEL.ROLL.Power.Label");
-    const rollLabel = (localized && !localized.startsWith("DRAW_STEEL."))
-      ? localized
-      : game.i18n.localize("DRAW_STEEL_PLUS.Tooltip.powerRoll");
+    const rollLabel =
+      localized && !localized.startsWith("DRAW_STEEL.")
+        ? localized
+        : game.i18n.localize("DRAW_STEEL_PLUS.Tooltip.powerRoll");
     const heading = sys.power?.roll?.reactive
       ? rollLabel
-      : game.i18n.format("DRAW_STEEL.ROLL.Power.RollPlusBonus", { bonus: sys.power.roll.formula });
-    const rows = tiers.map(({ label, effect, tier }) => `<dt class="tier${tier}">${label}</dt><dd class="tier${tier}">${effect}</dd>`).join("");
+      : game.i18n.format("DRAW_STEEL.ROLL.Power.RollPlusBonus", {
+          bonus: sys.power.roll.formula,
+        });
+    const rows = tiers
+      .map(
+        ({ label, effect, tier }) =>
+          `<dt class="tier${tier}">${label}</dt><dd class="tier${tier}">${effect}</dd>`,
+      )
+      .join("");
     return `<section class="powerResult"><p><strong>${heading}</strong></p><dl class="power-roll-display">${rows}</dl></section>`;
   }
 
@@ -436,15 +489,17 @@ export class TooltipsDSP {
     const sys = doc.system ?? {};
     const cardContext = {};
     try {
-      if (typeof sys.getSheetContext === "function") await sys.getSheetContext(cardContext);
+      if (typeof sys.getSheetContext === "function")
+        await sys.getSheetContext(cardContext);
     } catch (err) {
       console.warn(`${MODULE_ID} | Failed to build fallback spend label`, err);
     }
 
     if (cardContext.spendLabel) return cardContext.spendLabel;
-    const resourceName = doc.parent?.system?.coreResource?.name
-      ?? cardContext.resourceName
-      ?? game.i18n.localize("DRAW_STEEL_PLUS.Tooltip.resource");
+    const resourceName =
+      doc.parent?.system?.coreResource?.name ??
+      cardContext.resourceName ??
+      game.i18n.localize("DRAW_STEEL_PLUS.Tooltip.resource");
     return game.i18n.format("DRAW_STEEL.Item.ability.SpendLabel", {
       value: sys.spend?.value ?? "",
       name: resourceName,
@@ -482,16 +537,23 @@ export class TooltipsDSP {
     }
 
     if (!bodyHtml) {
-      const desc = (typeof doc.description === "string" ? doc.description : doc.description?.value) ?? "";
+      const desc =
+        (typeof doc.description === "string"
+          ? doc.description
+          : doc.description?.value) ?? "";
       if (desc) {
         try {
-          bodyHtml = await foundry.applications.ux.TextEditor.implementation.enrichHTML(
-            desc,
-            { async: true, relativeTo: doc }
-          );
+          bodyHtml =
+            await foundry.applications.ux.TextEditor.implementation.enrichHTML(
+              desc,
+              { async: true, relativeTo: doc },
+            );
           bodyKind = "fallback";
         } catch (err) {
-          console.warn(`${MODULE_ID} | Failed to enrich effect tooltip description`, err);
+          console.warn(
+            `${MODULE_ID} | Failed to enrich effect tooltip description`,
+            err,
+          );
           bodyHtml = desc;
           bodyKind = "fallback";
         }
@@ -499,12 +561,14 @@ export class TooltipsDSP {
     }
 
     const properties = [];
-    for (const status of (doc.statuses ?? [])) {
+    for (const status of doc.statuses ?? []) {
       const conditionCfg = globalThis.ds?.CONFIG?.conditions?.[status];
-      if (conditionCfg?.name) properties.push(game.i18n.localize(conditionCfg.name));
+      if (conditionCfg?.name)
+        properties.push(game.i18n.localize(conditionCfg.name));
     }
 
-    const durationLabel = doc.system?.durationLabel ?? doc.duration?.label ?? "";
+    const durationLabel =
+      doc.system?.durationLabel ?? doc.duration?.label ?? "";
 
     let originName = "";
     if (doc.origin) {
@@ -541,30 +605,35 @@ export class TooltipsDSP {
 
     const pos = this.#tooltip.getBoundingClientRect();
     const dirs = Dir;
-    const { innerHeight, innerWidth } = this.#tooltip.ownerDocument?.defaultView ?? window;
+    const { innerHeight, innerWidth } =
+      this.#tooltip.ownerDocument?.defaultView ?? window;
 
     switch (direction) {
       case dirs.UP:
         if (pos.y - TOOLTIP_MARGIN_PX <= 0) direction = dirs.DOWN;
         break;
       case dirs.DOWN:
-        if (pos.y + this.#tooltip.offsetHeight > innerHeight) direction = dirs.UP;
+        if (pos.y + this.#tooltip.offsetHeight > innerHeight)
+          direction = dirs.UP;
         break;
       case dirs.LEFT:
         if (pos.x - TOOLTIP_MARGIN_PX <= 0) direction = dirs.RIGHT;
         break;
       case dirs.RIGHT:
-        if (pos.x + this.#tooltip.offsetWidth > innerWidth) direction = dirs.LEFT;
+        if (pos.x + this.#tooltip.offsetWidth > innerWidth)
+          direction = dirs.LEFT;
         break;
     }
 
     game.tooltip?._setAnchor?.(direction);
 
-    const scrollable = this.#tooltip.querySelector(".embed-body, .embed-fallback");
+    const scrollable = this.#tooltip.querySelector(
+      ".embed-body, .embed-fallback",
+    );
     if (scrollable) {
       scrollable.classList.toggle(
         "overflowing",
-        scrollable.clientHeight < scrollable.scrollHeight
+        scrollable.clientHeight < scrollable.scrollHeight,
       );
     }
   }
@@ -592,14 +661,11 @@ export class TooltipsDSP {
     document.addEventListener(
       "pointerdown",
       (event) => {
-        if (
-          event.button === 1 &&
-          event.target.closest(".locked-tooltip")
-        ) {
+        if (event.button === 1 && event.target.closest(".locked-tooltip")) {
           event.preventDefault();
         }
       },
-      { capture: true }
+      { capture: true },
     );
 
     let activeAhudEl = null;
@@ -627,7 +693,10 @@ export class TooltipsDSP {
           direction: Dir.LEFT,
         });
       } catch (err) {
-        console.warn(`${MODULE_ID} | Failed to activate DSP tooltip on Ability HUD action`, err);
+        console.warn(
+          `${MODULE_ID} | Failed to activate DSP tooltip on Ability HUD action`,
+          err,
+        );
       }
     });
 
@@ -638,7 +707,9 @@ export class TooltipsDSP {
       activeAhudEl = null;
       try {
         game.tooltip?.deactivate?.();
-      } catch (_err) { /* noop */ }
+      } catch (_err) {
+        /* noop */
+      }
     });
   }
 }

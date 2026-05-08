@@ -1,4 +1,8 @@
-import { MODULE_CONFIG, FLOATING_TAB_ICONS, SHEET_SIZE_DEFAULTS } from "./config.js";
+import {
+  MODULE_CONFIG,
+  FLOATING_TAB_ICONS,
+  SHEET_SIZE_DEFAULTS,
+} from "./config.js";
 
 const MODULE_ID = MODULE_CONFIG.id;
 
@@ -34,7 +38,10 @@ export function setupItemListCollapse(element) {
 
     const labelEl = header.querySelector(".item-column.item-name");
     const baseKey = labelEl?.textContent?.trim() || "";
-    const key = baseKey in seenKeys ? `${baseKey}-${++seenKeys[baseKey]}` : (seenKeys[baseKey] = 1, baseKey);
+    const key =
+      baseKey in seenKeys
+        ? `${baseKey}-${++seenKeys[baseKey]}`
+        : ((seenKeys[baseKey] = 1), baseKey);
 
     if (stateMap[key]) container.classList.add("dsp-collapsed");
 
@@ -51,9 +58,13 @@ export function setupItemListCollapse(element) {
         void list.offsetHeight;
         list.style.maxHeight = `${h}px`;
         container.classList.remove("dsp-collapsed");
-        list.addEventListener("transitionend", () => {
-          list.style.maxHeight = "";
-        }, { once: true });
+        list.addEventListener(
+          "transitionend",
+          () => {
+            list.style.maxHeight = "";
+          },
+          { once: true },
+        );
       } else {
         container.classList.add("dsp-collapsed");
       }
@@ -156,7 +167,10 @@ export function applyStaminaPortraitTint(element, actor) {
 
   const current = stamina.value ?? 0;
   const max = stamina.max ?? 1;
-  const ratio = Math.max(max, 1) > 0 ? Math.min(Math.max(current / Math.max(max, 1), 0), 1) : 1;
+  const ratio =
+    Math.max(max, 1) > 0
+      ? Math.min(Math.max(current / Math.max(max, 1), 0), 1)
+      : 1;
   const tint = 1 - ratio;
 
   frame.classList.toggle("dsp-dead", current <= 0 && max > 0);
@@ -199,21 +213,26 @@ function _installPositionClamp(sheet) {
   if (_wrappedSheets.has(sheet)) return;
   const original = sheet._updatePosition;
   if (typeof original !== "function") return;
-  sheet._updatePosition = function(position) {
+  sheet._updatePosition = function (position) {
     const pos = original.call(this, position);
     const element = this.element;
     if (!element) return pos;
     const nav = element.querySelector(".dsp-floating-tabs.tabs-right");
     const rightOverhang = nav?.offsetWidth ?? 0;
     if (!rightOverhang) return pos;
-    const clientWidth = element.ownerDocument?.documentElement?.clientWidth ?? 0;
+    const clientWidth =
+      element.ownerDocument?.documentElement?.clientWidth ?? 0;
     if (!clientWidth) return pos;
-    const sheetWidth = typeof pos.width === "number" ? pos.width : (element.offsetWidth ?? 0);
+    const sheetWidth =
+      typeof pos.width === "number" ? pos.width : (element.offsetWidth ?? 0);
     const maxLeft = Math.max(clientWidth - sheetWidth - rightOverhang, 0);
     const currentLeft = typeof pos.left === "number" ? pos.left : 0;
     pos.left = Math.min(Math.max(currentLeft, 0), maxLeft);
     if (typeof pos.width === "number") {
-      pos.width = Math.min(pos.width, Math.max(clientWidth - pos.left - rightOverhang, 0));
+      pos.width = Math.min(
+        pos.width,
+        Math.max(clientWidth - pos.left - rightOverhang, 0),
+      );
     }
     return pos;
   };
@@ -243,8 +262,11 @@ export function applyFloatingTabs(sheet) {
   const existingFloating = element.querySelector(".dsp-floating-tabs");
   if (existingFloating) {
     tabLinks.forEach((link) => {
-      const tab = existingFloating.querySelector(`[data-tab="${link.dataset.tab}"]`);
-      if (tab) tab.classList.toggle("active", link.classList.contains("active"));
+      const tab = existingFloating.querySelector(
+        `[data-tab="${link.dataset.tab}"]`,
+      );
+      if (tab)
+        tab.classList.toggle("active", link.classList.contains("active"));
     });
     _syncDetachedState(element);
     _installPositionClamp(sheet);
@@ -298,30 +320,38 @@ export function setupScrollbarAutoHide(element) {
   if (element.dataset.dspScrollSetup) return;
   element.dataset.dspScrollSetup = "true";
 
-  element.addEventListener("scroll", (e) => {
-    const target = e.target;
-    target.classList.add("dsp-scrolling");
+  element.addEventListener(
+    "scroll",
+    (e) => {
+      const target = e.target;
+      target.classList.add("dsp-scrolling");
 
-    const existing = _scrollTimers.get(target);
-    if (existing) clearTimeout(existing);
+      const existing = _scrollTimers.get(target);
+      if (existing) clearTimeout(existing);
 
-    _scrollTimers.set(target, setTimeout(() => {
-      target.classList.remove("dsp-scrolling");
-      _scrollTimers.delete(target);
-    }, 3000));
-  }, { capture: true, passive: true });
+      _scrollTimers.set(
+        target,
+        setTimeout(() => {
+          target.classList.remove("dsp-scrolling");
+          _scrollTimers.delete(target);
+        }, 3000),
+      );
+    },
+    { capture: true, passive: true },
+  );
 }
 
 export function applyMinSize(element, sizeConfig) {
   if (sizeConfig.minWidth) element.style.minWidth = `${sizeConfig.minWidth}px`;
-  if (sizeConfig.minHeight) element.style.minHeight = `${sizeConfig.minHeight}px`;
+  if (sizeConfig.minHeight)
+    element.style.minHeight = `${sizeConfig.minHeight}px`;
 }
 
 const _searchState = new WeakMap();
 
 export function setupItemSearch(element) {
   const inputs = element.querySelectorAll("[data-dsp-search]");
-  inputs.forEach(input => {
+  inputs.forEach((input) => {
     const tab = input.closest("[data-tab]");
     if (!tab) return;
 
@@ -343,11 +373,13 @@ export function setupItemSearch(element) {
     });
   });
 
-  element.querySelectorAll('[data-action="clearSearch"]').forEach(btn => {
+  element.querySelectorAll('[data-action="clearSearch"]').forEach((btn) => {
     if (btn.dataset.dspClearBound) return;
     btn.dataset.dspClearBound = "1";
     btn.addEventListener("click", () => {
-      const input = btn.closest(".dsp-search-filter")?.querySelector("[data-dsp-search]");
+      const input = btn
+        .closest(".dsp-search-filter")
+        ?.querySelector("[data-dsp-search]");
       if (input) {
         input.value = "";
         input.dispatchEvent(new Event("input"));
@@ -357,10 +389,15 @@ export function setupItemSearch(element) {
 }
 
 function _applySearchFilter(tab, query) {
-  tab.querySelectorAll(".item-list .item").forEach(item => {
-    const name = item.querySelector(".item-name .label")?.textContent?.toLowerCase() || "";
-    const keywords = item.querySelector(".keywords")?.textContent?.toLowerCase() || "";
-    item.classList.toggle("dsp-filtered-out", query && !name.includes(query) && !keywords.includes(query));
+  tab.querySelectorAll(".item-list .item").forEach((item) => {
+    const name =
+      item.querySelector(".item-name .label")?.textContent?.toLowerCase() || "";
+    const keywords =
+      item.querySelector(".keywords")?.textContent?.toLowerCase() || "";
+    item.classList.toggle(
+      "dsp-filtered-out",
+      query && !name.includes(query) && !keywords.includes(query),
+    );
   });
 }
 
@@ -376,39 +413,53 @@ export function debouncedRenderAllSheets(delay = 150) {
 }
 
 export function processSidebarTags(element) {
-  element.querySelectorAll('.sidebar-tags[data-tag-type]').forEach((container) => {
-    if (container.querySelector('.sidebar-tag, .sidebar-tag-none')) return;
+  element
+    .querySelectorAll(".sidebar-tags[data-tag-type]")
+    .forEach((container) => {
+      if (container.querySelector(".sidebar-tag, .sidebar-tag-none")) return;
 
-    const text = container.textContent.trim();
-    if (!text) return;
+      const text = container.textContent.trim();
+      if (!text) return;
 
-    const items = text.split(/,\s*(?:and\s+)?/).map(s => s.trim()).filter(Boolean);
-    const tags = [];
+      const items = text
+        .split(/,\s*(?:and\s+)?/)
+        .map((s) => s.trim())
+        .filter(Boolean);
+      const tags = [];
 
-    if (items.length === 0 || (items.length === 1 && items[0].toLowerCase() === 'none')) {
-      const tag = document.createElement('span');
-      tag.className = 'sidebar-tag sidebar-tag-none';
-      tag.textContent = 'None';
-      tags.push(tag);
-    } else {
-      items.forEach(item => {
-        const tag = document.createElement('span');
-        tag.className = 'sidebar-tag';
-        tag.textContent = item;
+      if (
+        items.length === 0 ||
+        (items.length === 1 && items[0].toLowerCase() === "none")
+      ) {
+        const tag = document.createElement("span");
+        tag.className = "sidebar-tag sidebar-tag-none";
+        tag.textContent = "None";
         tags.push(tag);
-      });
-    }
-    container.replaceChildren(...tags);
-  });
+      } else {
+        items.forEach((item) => {
+          const tag = document.createElement("span");
+          tag.className = "sidebar-tag";
+          tag.textContent = item;
+          tags.push(tag);
+        });
+      }
+      container.replaceChildren(...tags);
+    });
 
-  const skillsContainer = element.querySelector('.sidebar-skills');
-  if (skillsContainer && !skillsContainer.querySelector('.ds-tag, .sidebar-tag')) {
+  const skillsContainer = element.querySelector(".sidebar-skills");
+  if (
+    skillsContainer &&
+    !skillsContainer.querySelector(".ds-tag, .sidebar-tag")
+  ) {
     const text = skillsContainer.textContent.trim();
     if (text) {
-      const items = text.split(/,\s*(?:and\s+)?/).map(s => s.trim()).filter(Boolean);
-      const tags = items.map(item => {
-        const tag = document.createElement('span');
-        tag.className = 'sidebar-tag';
+      const items = text
+        .split(/,\s*(?:and\s+)?/)
+        .map((s) => s.trim())
+        .filter(Boolean);
+      const tags = items.map((item) => {
+        const tag = document.createElement("span");
+        tag.className = "sidebar-tag";
         tag.textContent = item;
         return tag;
       });

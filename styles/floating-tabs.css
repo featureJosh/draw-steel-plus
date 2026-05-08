@@ -1,98 +1,100 @@
 .draw-steel-plus.sheet.dsp-has-floating-tabs {
-  overflow: visible !important;
+    overflow: visible !important;
 }
 
 .draw-steel-plus.sheet.dsp-has-floating-tabs nav.sheet-tabs {
-  display: none !important;
+    display: none !important;
 }
 
 .draw-steel-plus.sheet.dsp-has-floating-tabs .window-content {
-  grid-template-rows: auto 1fr;
+    grid-template-rows: auto 1fr;
 }
 
 .dsp-floating-tabs {
-  position: absolute;
-  display: flex;
-  flex-direction: column;
-  gap: .5rem;
-  z-index: -1;
-  border: none;
-  padding: 0;
-  margin: 0;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    z-index: -1;
+    border: none;
+    padding: 0;
+    margin: 0;
 }
 
 .dsp-floating-tabs.tabs-right {
-  left: 100%;
-  align-items: flex-start;
+    left: 100%;
+    align-items: flex-start;
 }
 
 .dsp-floating-tabs > .dsp-float-tab {
-	--dsp-tab-full: calc(44px * var(--dsp-scale, 1));
-	--dsp-tab-inactive: calc(38px * var(--dsp-scale, 1));
-	width: var(--dsp-tab-full);
-	height: calc(40px * var(--dsp-scale, 1));
-	display: flex;
-	align-items: center;
-	justify-content: flex-end;
-	padding-right: calc(12px * var(--dsp-scale, 1));
-	background: var(--dsp-background);
-	color: var(--dsp-accent);
-	border: 1px solid var(--color-border);
-	border-radius: 0 calc(8px * var(--dsp-scale, 1)) calc(8px * var(--dsp-scale, 1)) 0;
-	margin-left: calc((var(--dsp-tab-full) - var(--dsp-tab-inactive)) * -1);
-	transition: all 250ms ease;
-	cursor: pointer;
-	text-decoration: none;
-	position: relative;
-	flex: none;
+    --dsp-tab-full: calc(44px * var(--dsp-scale, 1));
+    --dsp-tab-inactive: calc(38px * var(--dsp-scale, 1));
+    width: var(--dsp-tab-full);
+    height: calc(40px * var(--dsp-scale, 1));
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: calc(12px * var(--dsp-scale, 1));
+    background: var(--dsp-background);
+    color: var(--dsp-accent);
+    border: 1px solid var(--color-border);
+    border-radius: 0 calc(8px * var(--dsp-scale, 1))
+        calc(8px * var(--dsp-scale, 1)) 0;
+    margin-left: calc((var(--dsp-tab-full) - var(--dsp-tab-inactive)) * -1);
+    transition: all 250ms ease;
+    cursor: pointer;
+    text-decoration: none;
+    position: relative;
+    flex: none;
 }
 
 .dsp-floating-tabs > .dsp-float-tab i {
-  font-size: calc(14px * var(--dsp-scale, 1));
-  margin: 0;
+    font-size: calc(14px * var(--dsp-scale, 1));
+    margin: 0;
 }
 
-.draw-steel-plus.sheet .dsp-floating-tabs > 
-.dsp-float-tab.active, .draw-steel-plus.sheet .dsp-floating-tabs > 
-.dsp-float-tab:hover {
-	border-color: var(--dsp-accent);
-	box-shadow: unset;
-	margin-left: 0;
-	text-shadow: none;
-	color: var(--dsp-accent);
-	border: 1px solid var(--color-border);
-	border-left: none;
+.draw-steel-plus.sheet .dsp-floating-tabs > .dsp-float-tab.active,
+.draw-steel-plus.sheet .dsp-floating-tabs > .dsp-float-tab:hover {
+    border-color: var(--dsp-accent);
+    box-shadow: unset;
+    margin-left: 0;
+    text-shadow: none;
+    color: var(--dsp-accent);
+    border: 1px solid var(--color-border);
+    border-left: none;
 }
 
 .dsp-floating-tabs > .dsp-float-tab.active {
-  background: var(--dsp-background);
+    background: var(--dsp-background);
 }
 
 .dsp-floating-tabs > .dsp-float-tab::after {
-  content: "";
-  position: absolute;
-  inset: calc(4px * var(--dsp-scale, 1)) calc(4px * var(--dsp-scale, 1)) calc(4px * var(--dsp-scale, 1)) 0;
-  border: 1px solid var(--dsp-accent);
-  border-radius: 0 calc(6px * var(--dsp-scale, 1)) calc(6px * var(--dsp-scale, 1)) 0;
-  border-left: none;
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity 250ms ease;
+    content: "";
+    position: absolute;
+    inset: calc(4px * var(--dsp-scale, 1)) calc(4px * var(--dsp-scale, 1))
+        calc(4px * var(--dsp-scale, 1)) 0;
+    border: 1px solid var(--dsp-accent);
+    border-radius: 0 calc(6px * var(--dsp-scale, 1))
+        calc(6px * var(--dsp-scale, 1)) 0;
+    border-left: none;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 250ms ease;
 }
 
 .dsp-floating-tabs > .dsp-float-tab.active::after {
-  opacity: 0.3;
+    opacity: 0.3;
 }
 
 .dsp-floating-tabs > .dsp-float-tab:hover::after {
-  opacity: 0.5;
+    opacity: 0.5;
 }
 
 .draw-steel-plus.sheet.dsp-has-floating-tabs.minimized .dsp-floating-tabs,
 .draw-steel-plus.sheet.dsp-has-floating-tabs.minimizing .dsp-floating-tabs {
-  display: none;
+    display: none;
 }
 
 .draw-steel-plus.sheet.dsp-detached .dsp-floating-tabs {
-  z-index: 1;
+    z-index: 1;
 }

@@ -26,7 +26,12 @@ export class MetaCurrencyTracker extends DspFloatingUI {
     },
   };
 
-  static DEFAULT_POSITION = { anchor: "bc", offsetX: 0, offsetY: -80, snap: "grid" };
+  static DEFAULT_POSITION = {
+    anchor: "bc",
+    offsetX: 0,
+    offsetY: -80,
+    snap: "grid",
+  };
   static DEFAULT_WIDTH = 280;
   static DEFAULT_HEIGHT = 80;
 
@@ -40,12 +45,15 @@ export class MetaCurrencyTracker extends DspFloatingUI {
     const heroTokens = game.actors?.heroTokens;
     const malice = game.actors?.malice;
     const isGM = game.user.isGM;
-    const showMalice = (game.settings.get(SYSTEM_ID, "showPlayerMalice") || isGM) && game.combat;
+    const showMalice =
+      (game.settings.get(SYSTEM_ID, "showPlayerMalice") || isGM) && game.combat;
 
     return {
       ...this.getFloatingState(),
       heroTokens: heroTokens?.value ?? 0,
-      heroTokensLabel: game.i18n.localize("DRAW_STEEL_PLUS.MetaCurrency.heroTokens"),
+      heroTokensLabel: game.i18n.localize(
+        "DRAW_STEEL_PLUS.MetaCurrency.heroTokens",
+      ),
       malice: malice?.value ?? 0,
       maliceLabel: game.i18n.localize("DRAW_STEEL_PLUS.MetaCurrency.malice"),
       showMalice,

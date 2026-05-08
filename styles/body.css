@@ -1,409 +1,439 @@
 .draw-steel-plus.sheet .tab {
-  background: var(--dsp-background);
-  color: var(--dsp-text);
-  padding: calc(12px * var(--dsp-scale, 1)) calc(16px * var(--dsp-scale, 1));
-  gap: calc(12px * var(--dsp-scale, 1));
+    background: var(--dsp-background);
+    color: var(--dsp-text);
+    padding: calc(12px * var(--dsp-scale, 1)) calc(16px * var(--dsp-scale, 1));
+    gap: calc(12px * var(--dsp-scale, 1));
 }
 
 .draw-steel-plus.sheet .tab.active {
-  display: flex;
-  flex-direction: column;
-  overflow-y: auto;
-  flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    flex: 1;
 }
 
 .draw-steel-plus.sheet .dsp-tab-title {
-	font-family: var(--dsp-heading-font);
-	font-size: var(--dsp-font-size-4xl);
-	font-weight: 700;
-	text-transform: uppercase;
-	letter-spacing: 0.08em;
-	color: var(--dsp-text-light);
-	margin: 0;
-	padding: .25em 0 .5em 0;
-	border-bottom: 1px solid var(--dsp-border);
-	display: flex;
-	align-items: center;
-	gap: calc(6px * var(--dsp-scale, 1));
+    font-family: var(--dsp-heading-font);
+    font-size: var(--dsp-font-size-4xl);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--dsp-text-light);
+    margin: 0;
+    padding: 0.25em 0 0.5em 0;
+    border-bottom: 1px solid var(--dsp-border);
+    display: flex;
+    align-items: center;
+    gap: calc(6px * var(--dsp-scale, 1));
 }
 
 .draw-steel-plus.sheet .dsp-tab-title i {
-  font-size: var(--dsp-font-size-lg);
-  color: var(--dsp-accent);
+    font-size: var(--dsp-font-size-lg);
+    color: var(--dsp-accent);
 }
 
 .draw-steel-plus.sheet fieldset {
-  border: 1px solid var(--dsp-border);
-  border-radius: var(--dsp-radius-md);
-  background: var(--dsp-surface);
-  padding: calc(10px * var(--dsp-scale, 1)) calc(12px * var(--dsp-scale, 1));
-  margin: 0;
+    border: 1px solid var(--dsp-border);
+    border-radius: var(--dsp-radius-md);
+    background: var(--dsp-surface);
+    padding: calc(10px * var(--dsp-scale, 1)) calc(12px * var(--dsp-scale, 1));
+    margin: 0;
 }
 
 .draw-steel-plus.sheet fieldset legend {
-  font-size: var(--dsp-font-size-base);
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--dsp-text-light);
-  padding: 0 calc(8px * var(--dsp-scale, 1));
-  margin: 0;
-  display: flex;
-  align-items: center;
-  gap: calc(6px * var(--dsp-scale, 1));
+    font-size: var(--dsp-font-size-base);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--dsp-text-light);
+    padding: 0 calc(8px * var(--dsp-scale, 1));
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: calc(6px * var(--dsp-scale, 1));
 }
 
 .draw-steel-plus.sheet fieldset legend button {
-  background: none;
-  border: none;
-  color: var(--dsp-text-light);
-  cursor: pointer;
-  font-size: inherit;
-  font-weight: inherit;
-  text-transform: inherit;
-  letter-spacing: inherit;
-  padding: 2px 4px;
-  border-radius: var(--dsp-radius-sm);
-  transition: color var(--dsp-transition), background var(--dsp-transition);
-  display: inline-flex;
-  align-items: center;
-  gap: calc(4px * var(--dsp-scale, 1));
+    background: none;
+    border: none;
+    color: var(--dsp-text-light);
+    cursor: pointer;
+    font-size: inherit;
+    font-weight: inherit;
+    text-transform: inherit;
+    letter-spacing: inherit;
+    padding: 2px 4px;
+    border-radius: var(--dsp-radius-sm);
+    transition:
+        color var(--dsp-transition),
+        background var(--dsp-transition);
+    display: inline-flex;
+    align-items: center;
+    gap: calc(4px * var(--dsp-scale, 1));
 }
 
 .draw-steel-plus.sheet fieldset legend button:hover {
-  color: var(--dsp-accent);
-  background: rgba(200, 170, 110, 0.08);
+    color: var(--dsp-accent);
+    background: rgba(200, 170, 110, 0.08);
 }
 
 .draw-steel-plus.sheet fieldset legend button i {
-  font-size: var(--dsp-font-size-md);
+    font-size: var(--dsp-font-size-md);
 }
 
 .draw-steel-plus.sheet .item-list-container {
-  background: var(--dsp-surface);
-  border: 1px solid var(--dsp-border);
-  border-radius: var(--dsp-radius-md);
+    background: var(--dsp-surface);
+    border: 1px solid var(--dsp-border);
+    border-radius: var(--dsp-radius-md);
 }
 
 .draw-steel-plus.sheet .item-list-container .item-header {
-  position: static;
-  display: flex;
-  align-items: center;
-  padding: calc(6px * var(--dsp-scale, 1)) calc(10px * var(--dsp-scale, 1));
-  background: rgba(0, 0, 0, 0.3);
-  border-bottom: 1px solid var(--dsp-border);
-  gap: calc(8px * var(--dsp-scale, 1));
-  transition: border-color 0.35s ease-out;
+    position: static;
+    display: flex;
+    align-items: center;
+    padding: calc(6px * var(--dsp-scale, 1)) calc(10px * var(--dsp-scale, 1));
+    background: rgba(0, 0, 0, 0.3);
+    border-bottom: 1px solid var(--dsp-border);
+    gap: calc(8px * var(--dsp-scale, 1));
+    transition: border-color 0.35s ease-out;
 }
 
 .draw-steel-plus.sheet .item-list-container.dsp-collapsed .item-header {
-  border-bottom-color: transparent;
-  transition: border-color 0.35s ease-out 0.35s;
+    border-bottom-color: transparent;
+    transition: border-color 0.35s ease-out 0.35s;
 }
 
 .draw-steel-plus.sheet .item-list-container .item-header::after {
-  content: "\f078";
-  font-family: var(--font-awesome);
-  font-weight: 900;
-  font-size: var(--dsp-font-size-2xs);
-  color: var(--dsp-text-faint);
-  margin-left: auto;
-  transition: transform var(--dsp-transition), color var(--dsp-transition);
-  flex-shrink: 0;
+    content: "\f078";
+    font-family: var(--font-awesome);
+    font-weight: 900;
+    font-size: var(--dsp-font-size-2xs);
+    color: var(--dsp-text-faint);
+    margin-left: auto;
+    transition:
+        transform var(--dsp-transition),
+        color var(--dsp-transition);
+    flex-shrink: 0;
 }
 
 .draw-steel-plus.sheet .item-list-container .item-header:hover::after {
-  color: var(--dsp-accent);
+    color: var(--dsp-accent);
 }
 
 .draw-steel-plus.sheet .item-list-container.dsp-collapsed .item-header::after {
-  transform: rotate(-90deg);
+    transform: rotate(-90deg);
 }
 
 .draw-steel-plus.sheet .item-list-container .item-list {
-  overflow: hidden;
-  transition: max-height 0.35s ease-out;
+    overflow: hidden;
+    transition: max-height 0.35s ease-out;
 }
 
 .draw-steel-plus.sheet .item-list-container:not(.dsp-collapsed) .item-list {
-  max-height: 3000px;
+    max-height: 3000px;
 }
 
 .draw-steel-plus.sheet .item-list-container.dsp-collapsed .item-list {
-  max-height: 0;
+    max-height: 0;
 }
 
 .draw-steel-plus.sheet .item-list-container .item-header .item-column {
-  font-size: var(--dsp-font-size-sm);
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--dsp-text-faint);
+    font-size: var(--dsp-font-size-sm);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--dsp-text-faint);
 }
 
 .draw-steel-plus.sheet .item-list-container .item-header .item-name {
-  flex: 1;
+    flex: 1;
 }
 
 .draw-steel-plus.sheet .item-list-container .item-header .item-controls {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: calc(4px * var(--dsp-scale, 1));
-  flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: calc(4px * var(--dsp-scale, 1));
+    flex-shrink: 0;
 }
 
 .draw-steel-plus.sheet .item-list-container .item-header .item-controls a {
-  color: var(--dsp-text-faint);
-  text-decoration: none;
-  font-size: var(--dsp-font-size-base);
-  padding: 2px 4px;
-  border-radius: var(--dsp-radius-sm);
-  transition: color var(--dsp-transition), background var(--dsp-transition);
+    color: var(--dsp-text-faint);
+    text-decoration: none;
+    font-size: var(--dsp-font-size-base);
+    padding: 2px 4px;
+    border-radius: var(--dsp-radius-sm);
+    transition:
+        color var(--dsp-transition),
+        background var(--dsp-transition);
 }
 
-.draw-steel-plus.sheet .item-list-container .item-header .item-controls a:hover {
-  color: var(--dsp-accent);
-  background: rgba(200, 170, 110, 0.08);
+.draw-steel-plus.sheet
+    .item-list-container
+    .item-header
+    .item-controls
+    a:hover {
+    color: var(--dsp-accent);
+    background: rgba(200, 170, 110, 0.08);
 }
 
 .draw-steel-plus.sheet .item-list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
+    list-style: none;
+    margin: 0;
+    padding: 0;
 }
 
 .draw-steel-plus.sheet .item-list .item {
-  border-bottom: 1px solid rgba(42, 32, 32, 0.5);
-  transition: background var(--dsp-transition-fast);
-  margin: 0;
+    border-bottom: 1px solid rgba(42, 32, 32, 0.5);
+    transition: background var(--dsp-transition-fast);
+    margin: 0;
 }
 
 .draw-steel-plus.sheet .item-list .item:last-child {
-  border-bottom: none;
+    border-bottom: none;
 }
 
 .draw-steel-plus.sheet .item-list .item:hover {
-  background: rgba(122, 27, 27, 0.06);
+    background: rgba(122, 27, 27, 0.06);
 }
 
 .draw-steel-plus.sheet .item-list .item-row {
-  display: flex;
-  align-items: center;
-  padding: calc(6px * var(--dsp-scale, 1)) calc(10px * var(--dsp-scale, 1));
-  gap: calc(8px * var(--dsp-scale, 1));
-  min-height: calc(32px * var(--dsp-scale, 1));
+    display: flex;
+    align-items: center;
+    padding: calc(6px * var(--dsp-scale, 1)) calc(10px * var(--dsp-scale, 1));
+    gap: calc(8px * var(--dsp-scale, 1));
+    min-height: calc(32px * var(--dsp-scale, 1));
 }
 
 .draw-steel-plus.sheet .item-list .item-column {
-  font-size: var(--dsp-font-size-lg);
-  color: var(--dsp-text-light);
+    font-size: var(--dsp-font-size-lg);
+    color: var(--dsp-text-light);
 }
 
 .draw-steel-plus.sheet .item-list .item-column.item-name {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  gap: calc(8px * var(--dsp-scale, 1));
-  min-width: 0;
-  color: var(--dsp-text);
-  font-weight: 600;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: calc(8px * var(--dsp-scale, 1));
+    min-width: 0;
+    color: var(--dsp-text);
+    font-weight: 600;
 }
 
 .draw-steel-plus.sheet .item-list .item-column.item-name .name {
-  min-width: 0;
-  flex: 1;
+    min-width: 0;
+    flex: 1;
 }
 
 .draw-steel-plus.sheet .item-list .item-column.item-name .label {
-  font-size: var(--dsp-font-size-lg);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+    font-size: var(--dsp-font-size-lg);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .draw-steel-plus.sheet .item-list .item-column.item-name .keywords {
-  font-size: var(--dsp-font-size-sm);
-  color: var(--dsp-text-faint);
-  font-weight: 400;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+    font-size: var(--dsp-font-size-sm);
+    color: var(--dsp-text-faint);
+    font-weight: 400;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .draw-steel-plus.sheet .item-list .item-column.item-name .resource-cost {
-  font-size: var(--dsp-font-size-sm);
-  color: var(--dsp-accent);
-  font-weight: 400;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+    font-size: var(--dsp-font-size-sm);
+    color: var(--dsp-accent);
+    font-weight: 400;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .draw-steel-plus.sheet .item-list .item-column.rollable {
-  cursor: pointer;
+    cursor: pointer;
 }
 
 .draw-steel-plus.sheet .item-list .item-column.rollable:hover .label {
-  color: var(--dsp-accent);
+    color: var(--dsp-accent);
 }
 
 .draw-steel-plus.sheet .item-image {
-  width: calc(26px * var(--dsp-scale, 1));
-  height: calc(26px * var(--dsp-scale, 1));
-  object-fit: cover;
-  border-radius: var(--dsp-radius-sm);
-  border: 1px solid var(--dsp-border);
-  flex-shrink: 0;
-  background: rgba(0, 0, 0, 0.2);
-  cursor: pointer;
-  transition: filter var(--dsp-transition), border-color var(--dsp-transition);
+    width: calc(26px * var(--dsp-scale, 1));
+    height: calc(26px * var(--dsp-scale, 1));
+    object-fit: cover;
+    border-radius: var(--dsp-radius-sm);
+    border: 1px solid var(--dsp-border);
+    flex-shrink: 0;
+    background: rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    transition:
+        filter var(--dsp-transition),
+        border-color var(--dsp-transition);
 }
 
 .draw-steel-plus.sheet .item-image:hover {
-  filter: brightness(1.08);
-  border-color: var(--dsp-accent);
+    filter: brightness(1.08);
+    border-color: var(--dsp-accent);
 }
 
 .draw-steel-plus.sheet .item-image-wrapper {
-  position: relative;
-  flex-shrink: 0;
-  cursor: pointer;
-  line-height: 0;
+    position: relative;
+    flex-shrink: 0;
+    cursor: pointer;
+    line-height: 0;
 }
 
 .draw-steel-plus.sheet .item-image-wrapper .item-image {
-  display: block;
+    display: block;
 }
 
 .draw-steel-plus.sheet .item-image-wrapper::after {
-	content: "\f04b";
-	font-family: var(--font-awesome);
-	font-weight: 900;
-	position: absolute;
-	inset: 0;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	font-size: var(--dsp-font-size-2xl);
-	color: #fff;
-	background: rgba(0, 0, 0, 0.45);
-	border-radius: var(--dsp-radius-sm);
-	opacity: 0;
-	transition: opacity var(--dsp-transition);
-	pointer-events: none;
+    content: "\f04b";
+    font-family: var(--font-awesome);
+    font-weight: 900;
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--dsp-font-size-2xl);
+    color: #fff;
+    background: rgba(0, 0, 0, 0.45);
+    border-radius: var(--dsp-radius-sm);
+    opacity: 0;
+    transition: opacity var(--dsp-transition);
+    pointer-events: none;
 }
 
 .draw-steel-plus.sheet .item-image-wrapper:hover::after {
-  opacity: 1;
+    opacity: 1;
 }
 
 .draw-steel-plus.sheet .item-image-wrapper:hover .item-image,
 .draw-steel-plus.sheet .item-image-wrapper:hover .effect-image {
-  border-color: var(--dsp-accent);
+    border-color: var(--dsp-accent);
 }
 
 .draw-steel-plus.sheet .item-image-wrapper.chat-overlay::after {
-  content: "\f075";
+    content: "\f075";
 }
 
 .draw-steel-plus.sheet .item-list .item-column.item-name .name[data-action],
 .draw-steel-plus.sheet .effect-row .effect-name .name[data-action] {
-  cursor: pointer;
-  transition: color var(--dsp-transition);
+    cursor: pointer;
+    transition: color var(--dsp-transition);
 }
 
-.draw-steel-plus.sheet .item-list .item-column.item-name .name[data-action]:hover .label,
-.draw-steel-plus.sheet .effect-row .effect-name .name[data-action]:hover .label {
-  color: var(--dsp-accent);
+.draw-steel-plus.sheet
+    .item-list
+    .item-column.item-name
+    .name[data-action]:hover
+    .label,
+.draw-steel-plus.sheet
+    .effect-row
+    .effect-name
+    .name[data-action]:hover
+    .label {
+    color: var(--dsp-accent);
 }
 
 .draw-steel-plus.sheet .item-list .item-column.item-controls {
-	display: flex;
-	align-items: center;
-	justify-content: flex-end;
-	gap: 2px;
-	flex-shrink: 0;
-	width: fit-content;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 2px;
+    flex-shrink: 0;
+    width: fit-content;
 }
 
 .draw-steel-plus.sheet .item-list .item-column.item-controls a {
-  color: var(--dsp-text-faint);
-  text-decoration: none;
-  font-size: var(--dsp-font-size-base);
-  padding: 0;
-  border-radius: var(--dsp-radius-sm);
-  transition: color var(--dsp-transition), background var(--dsp-transition);
-  opacity: 0.5;
+    color: var(--dsp-text-faint);
+    text-decoration: none;
+    font-size: var(--dsp-font-size-base);
+    padding: 0;
+    border-radius: var(--dsp-radius-sm);
+    transition:
+        color var(--dsp-transition),
+        background var(--dsp-transition);
+    opacity: 0.5;
 }
 
 .draw-steel-plus.sheet .item-list .item:hover .item-column.item-controls a {
-  opacity: 1;
+    opacity: 1;
 }
 
 .draw-steel-plus.sheet .item-list .item-column.item-controls a:hover {
-  color: var(--dsp-accent);
-  background: rgba(200, 170, 110, 0.08);
+    color: var(--dsp-accent);
+    background: rgba(200, 170, 110, 0.08);
 }
 
 /* .draw-steel-plus.sheet a[data-action="documentListContext"], */
 .draw-steel-plus.sheet a[data-action="toggleDocumentDescription"] {
-  display: none;
+    display: none;
 }
 
 .draw-steel-plus.sheet .dsp-favorite-btn {
-  cursor: pointer;
-  transition: opacity var(--dsp-transition), color var(--dsp-transition);
-  opacity: 0.6;
+    cursor: pointer;
+    transition:
+        opacity var(--dsp-transition),
+        color var(--dsp-transition);
+    opacity: 0.6;
 }
 
 .draw-steel-plus.sheet .dsp-favorite-btn:hover {
-  opacity: 1;
+    opacity: 1;
 }
 
 .draw-steel-plus.sheet .dsp-favorite-btn.dsp-favorited {
-  color: var(--dsp-accent);
-  opacity: 1;
+    color: var(--dsp-accent);
+    opacity: 1;
 }
 
 .draw-steel-plus.sheet .dsp-favorites-empty {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 2rem;
-  color: var(--dsp-text-faint);
-  text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    color: var(--dsp-text-faint);
+    text-align: center;
 }
 
 .draw-steel-plus.sheet .dsp-favorites-empty p {
-  margin: 0;
-  font-size: var(--dsp-font-size-3xl);
+    margin: 0;
+    font-size: var(--dsp-font-size-3xl);
 }
 
 .draw-steel-plus.sheet .document-description {
-  transition: grid-template-rows 0.35s ease-out, padding 0.35s ease-out, background-color 0.35s ease-out, border-color 0.35s ease-out, color 0.35s ease-out;
-  border-top: 1px solid transparent;
-  font-size: var(--dsp-font-size-xl);
-  line-height: 1.5;
+    transition:
+        grid-template-rows 0.35s ease-out,
+        padding 0.35s ease-out,
+        background-color 0.35s ease-out,
+        border-color 0.35s ease-out,
+        color 0.35s ease-out;
+    border-top: 1px solid transparent;
+    font-size: var(--dsp-font-size-xl);
+    line-height: 1.5;
 }
 
 .draw-steel-plus.sheet .document-description > * {
-  overflow: hidden;
-  min-height: 0;
+    overflow: hidden;
+    min-height: 0;
 }
 
 .draw-steel-plus.sheet .document-description:not(.expanded) {
-  padding: 0 calc(10px * var(--dsp-scale, 1));
-  background-color: transparent;
-  border-top-color: transparent;
-  color: transparent;
+    padding: 0 calc(10px * var(--dsp-scale, 1));
+    background-color: transparent;
+    border-top-color: transparent;
+    color: transparent;
 }
 
 .draw-steel-plus.sheet .document-description.expanded {
-  padding: calc(8px * var(--dsp-scale, 1)) calc(10px * var(--dsp-scale, 1)) calc(10px * var(--dsp-scale, 1));
-  background-color: rgba(0, 0, 0, 0.2);
-  border-top-color: var(--dsp-border);
-  color: var(--dsp-text-light);
+    padding: calc(8px * var(--dsp-scale, 1)) calc(10px * var(--dsp-scale, 1))
+        calc(10px * var(--dsp-scale, 1));
+    background-color: rgba(0, 0, 0, 0.2);
+    border-top-color: var(--dsp-border);
+    color: var(--dsp-text-light);
 }
 
 .draw-steel-plus.sheet .item-column.item-melee-bonus,
@@ -416,576 +446,635 @@
 .draw-steel-plus.sheet .item-column.item-quantity,
 .draw-steel-plus.sheet .item-column.item-points,
 .draw-steel-plus.sheet .item-column.item-type {
-  text-align: center;
-  min-width: calc(60px * var(--dsp-scale, 1));
-  flex-shrink: 0;
+    text-align: center;
+    min-width: calc(60px * var(--dsp-scale, 1));
+    flex-shrink: 0;
 }
 
-.draw-steel-plus.sheet [data-application-part="favorites"] .item-list-container .item-cost,
-.draw-steel-plus.sheet [data-application-part="favorites"] .item-list-container .item-distance,
-.draw-steel-plus.sheet [data-application-part="favorites"] .item-list-container .item-target {
-  width: calc(100px * var(--dsp-scale, 1));
+.draw-steel-plus.sheet
+    [data-application-part="favorites"]
+    .item-list-container
+    .item-cost,
+.draw-steel-plus.sheet
+    [data-application-part="favorites"]
+    .item-list-container
+    .item-distance,
+.draw-steel-plus.sheet
+    [data-application-part="favorites"]
+    .item-list-container
+    .item-target {
+    width: calc(100px * var(--dsp-scale, 1));
 }
 
-.draw-steel-plus.sheet [data-application-part="favorites"] .item-list-container .item-order {
-  width: calc(50px * var(--dsp-scale, 1));
+.draw-steel-plus.sheet
+    [data-application-part="favorites"]
+    .item-list-container
+    .item-order {
+    width: calc(50px * var(--dsp-scale, 1));
 }
 
-.draw-steel-plus.sheet [data-application-part="favorites"] .feature-list-container .item-type,
-.draw-steel-plus.sheet [data-application-part="favorites"] .feature-list-container .item-subtype {
-  width: calc(100px * var(--dsp-scale, 1));
+.draw-steel-plus.sheet
+    [data-application-part="favorites"]
+    .feature-list-container
+    .item-type,
+.draw-steel-plus.sheet
+    [data-application-part="favorites"]
+    .feature-list-container
+    .item-subtype {
+    width: calc(100px * var(--dsp-scale, 1));
 }
 
-.draw-steel-plus.sheet [data-application-part="favorites"] .kit-list-container .item-melee-bonus,
-.draw-steel-plus.sheet [data-application-part="favorites"] .kit-list-container .item-ranged-bonus {
-  width: calc(150px * var(--dsp-scale, 1));
+.draw-steel-plus.sheet
+    [data-application-part="favorites"]
+    .kit-list-container
+    .item-melee-bonus,
+.draw-steel-plus.sheet
+    [data-application-part="favorites"]
+    .kit-list-container
+    .item-ranged-bonus {
+    width: calc(150px * var(--dsp-scale, 1));
 }
 
-.draw-steel-plus.sheet [data-application-part="favorites"] .treasure-list-container .item-echelon {
-  width: calc(100px * var(--dsp-scale, 1));
+.draw-steel-plus.sheet
+    [data-application-part="favorites"]
+    .treasure-list-container
+    .item-echelon {
+    width: calc(100px * var(--dsp-scale, 1));
 }
 
-.draw-steel-plus.sheet [data-application-part="favorites"] .treasure-list-container .item-quantity {
-  width: calc(75px * var(--dsp-scale, 1));
+.draw-steel-plus.sheet
+    [data-application-part="favorites"]
+    .treasure-list-container
+    .item-quantity {
+    width: calc(75px * var(--dsp-scale, 1));
 }
 
-.draw-steel-plus.sheet [data-application-part="favorites"] .project-list-container .item-type {
-  width: calc(75px * var(--dsp-scale, 1));
+.draw-steel-plus.sheet
+    [data-application-part="favorites"]
+    .project-list-container
+    .item-type {
+    width: calc(75px * var(--dsp-scale, 1));
 }
 
-.draw-steel-plus.sheet [data-application-part="favorites"] .project-list-container .item-points {
-  width: calc(100px * var(--dsp-scale, 1));
+.draw-steel-plus.sheet
+    [data-application-part="favorites"]
+    .project-list-container
+    .item-points {
+    width: calc(100px * var(--dsp-scale, 1));
 }
 
 .draw-steel-plus.sheet .quantity-controls {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: calc(6px * var(--dsp-scale, 1));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: calc(6px * var(--dsp-scale, 1));
 }
 
 .draw-steel-plus.sheet .quantity-controls a {
-  color: var(--dsp-text-faint);
-  text-decoration: none;
-  font-size: var(--dsp-font-size-md);
-  width: calc(20px * var(--dsp-scale, 1));
-  height: calc(20px * var(--dsp-scale, 1));
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  border: 1px solid var(--dsp-border);
-  transition: color var(--dsp-transition), border-color var(--dsp-transition), background var(--dsp-transition);
+    color: var(--dsp-text-faint);
+    text-decoration: none;
+    font-size: var(--dsp-font-size-md);
+    width: calc(20px * var(--dsp-scale, 1));
+    height: calc(20px * var(--dsp-scale, 1));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    border: 1px solid var(--dsp-border);
+    transition:
+        color var(--dsp-transition),
+        border-color var(--dsp-transition),
+        background var(--dsp-transition);
 }
 
 .draw-steel-plus.sheet .quantity-controls a:hover {
-  color: var(--dsp-accent);
-  border-color: var(--dsp-accent);
-  background: rgba(200, 170, 110, 0.08);
+    color: var(--dsp-accent);
+    border-color: var(--dsp-accent);
+    background: rgba(200, 170, 110, 0.08);
 }
 
 .draw-steel-plus.sheet .quantity-controls .quantity {
-  font-weight: 700;
-  min-width: calc(20px * var(--dsp-scale, 1));
-  text-align: center;
+    font-weight: 700;
+    min-width: calc(20px * var(--dsp-scale, 1));
+    text-align: center;
 }
 
 .draw-steel-plus.sheet .tab.stats fieldset.resources {
-  display: flex;
-  gap: calc(10px * var(--dsp-scale, 1));
-  align-items: stretch;
-  flex-wrap: wrap;
+    display: flex;
+    gap: calc(10px * var(--dsp-scale, 1));
+    align-items: stretch;
+    flex-wrap: wrap;
 }
 
 .draw-steel-plus.sheet .tab.stats .resource {
-  flex: 1;
-  min-width: calc(140px * var(--dsp-scale, 1));
-  display: flex;
-  flex-direction: column;
-  gap: calc(6px * var(--dsp-scale, 1));
-  padding: calc(8px * var(--dsp-scale, 1)) calc(10px * var(--dsp-scale, 1));
-  background: rgba(0, 0, 0, 0.15);
-  border: 1px solid var(--dsp-border);
-  border-radius: var(--dsp-radius-md);
+    flex: 1;
+    min-width: calc(140px * var(--dsp-scale, 1));
+    display: flex;
+    flex-direction: column;
+    gap: calc(6px * var(--dsp-scale, 1));
+    padding: calc(8px * var(--dsp-scale, 1)) calc(10px * var(--dsp-scale, 1));
+    background: rgba(0, 0, 0, 0.15);
+    border: 1px solid var(--dsp-border);
+    border-radius: var(--dsp-radius-md);
 }
 
 .draw-steel-plus.sheet .tab.stats .resource-label {
-  font-size: var(--dsp-font-size-md);
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  color: var(--dsp-text-light);
-  text-align: center;
+    font-size: var(--dsp-font-size-md);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--dsp-text-light);
+    text-align: center;
 }
 
 .draw-steel-plus.sheet .tab.stats .resource-label button {
-  background: none;
-  border: none;
-  color: var(--dsp-text-light);
-  cursor: pointer;
-  font-size: inherit;
-  font-weight: inherit;
-  text-transform: inherit;
-  letter-spacing: inherit;
-  padding: 2px 6px;
-  border-radius: var(--dsp-radius-sm);
-  transition: color var(--dsp-transition), background var(--dsp-transition);
-  display: inline-flex;
-  align-items: center;
-  gap: calc(4px * var(--dsp-scale, 1));
+    background: none;
+    border: none;
+    color: var(--dsp-text-light);
+    cursor: pointer;
+    font-size: inherit;
+    font-weight: inherit;
+    text-transform: inherit;
+    letter-spacing: inherit;
+    padding: 2px 6px;
+    border-radius: var(--dsp-radius-sm);
+    transition:
+        color var(--dsp-transition),
+        background var(--dsp-transition);
+    display: inline-flex;
+    align-items: center;
+    gap: calc(4px * var(--dsp-scale, 1));
 }
 
 .draw-steel-plus.sheet .tab.stats .resource-label button:hover {
-  color: var(--dsp-accent);
-  background: rgba(200, 170, 110, 0.08);
+    color: var(--dsp-accent);
+    background: rgba(200, 170, 110, 0.08);
 }
 
 .draw-steel-plus.sheet .tab.stats .resource-content {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: calc(4px * var(--dsp-scale, 1));
-  flex-wrap: wrap;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: calc(4px * var(--dsp-scale, 1));
+    flex-wrap: wrap;
 }
 
 .draw-steel-plus.sheet .tab.stats .resource-content .form-group.stacked {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 2px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
 }
 
 .draw-steel-plus.sheet .tab.stats .resource-content .form-group.stacked label,
 .draw-steel-plus.sheet .tab.stats .input-placeholder-label {
-  font-size: var(--dsp-font-size-xs);
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  color: var(--dsp-text-faint);
-  text-align: center;
+    font-size: var(--dsp-font-size-xs);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--dsp-text-faint);
+    text-align: center;
 }
 
 .draw-steel-plus.sheet .tab.stats .input-placeholder {
-  font-size: var(--dsp-font-size-5xl);
-  font-weight: 800;
-  color: var(--dsp-text);
-  text-align: center;
-  min-width: calc(30px * var(--dsp-scale, 1));
+    font-size: var(--dsp-font-size-5xl);
+    font-weight: 800;
+    color: var(--dsp-text);
+    text-align: center;
+    min-width: calc(30px * var(--dsp-scale, 1));
 }
 
 .draw-steel-plus.sheet .tab.stats .resource-max {
-  color: var(--dsp-text-light);
+    color: var(--dsp-text-light);
 }
 
 .draw-steel-plus.sheet .tab.stats .resource .form-group.slim {
-  display: flex;
-  align-items: center;
-  gap: calc(6px * var(--dsp-scale, 1));
-  margin: 0;
+    display: flex;
+    align-items: center;
+    gap: calc(6px * var(--dsp-scale, 1));
+    margin: 0;
 }
 
 .draw-steel-plus.sheet .tab.stats .resource .form-group.slim label {
-  font-size: var(--dsp-font-size-md);
-  font-weight: 600;
-  color: var(--dsp-text-light);
-  flex-shrink: 0;
+    font-size: var(--dsp-font-size-md);
+    font-weight: 600;
+    color: var(--dsp-text-light);
+    flex-shrink: 0;
 }
 
 .draw-steel-plus.sheet .tab.stats .resource .surges button {
-  background: none;
-  border: none;
-  color: var(--dsp-text-light);
-  cursor: pointer;
-  font-size: var(--dsp-font-size-md);
-  font-weight: 600;
-  padding: 2px 4px;
-  border-radius: var(--dsp-radius-sm);
-  display: inline-flex;
-  align-items: center;
-  gap: calc(3px * var(--dsp-scale, 1));
-  transition: color var(--dsp-transition), background var(--dsp-transition);
+    background: none;
+    border: none;
+    color: var(--dsp-text-light);
+    cursor: pointer;
+    font-size: var(--dsp-font-size-md);
+    font-weight: 600;
+    padding: 2px 4px;
+    border-radius: var(--dsp-radius-sm);
+    display: inline-flex;
+    align-items: center;
+    gap: calc(3px * var(--dsp-scale, 1));
+    transition:
+        color var(--dsp-transition),
+        background var(--dsp-transition);
 }
 
 .draw-steel-plus.sheet .tab.stats .resource .surges button:hover {
-  color: var(--dsp-accent);
-  background: rgba(200, 170, 110, 0.08);
+    color: var(--dsp-accent);
+    background: rgba(200, 170, 110, 0.08);
 }
 
 .draw-steel-plus.sheet .tab.stats fieldset.skills {
-  display: flex;
-  flex-direction: column;
-  gap: calc(6px * var(--dsp-scale, 1));
+    display: flex;
+    flex-direction: column;
+    gap: calc(6px * var(--dsp-scale, 1));
 }
 
 .draw-steel-plus.sheet .tab.stats fieldset.skills .ds-tag-group {
-  display: flex;
-  flex-wrap: wrap;
-  gap: calc(4px * var(--dsp-scale, 1));
+    display: flex;
+    flex-wrap: wrap;
+    gap: calc(4px * var(--dsp-scale, 1));
 }
 
 .draw-steel-plus.sheet .restricted-warning {
-  color: var(--dsp-accent);
-  font-size: var(--dsp-font-size-base);
-  flex-shrink: 0;
+    color: var(--dsp-accent);
+    font-size: var(--dsp-font-size-base);
+    flex-shrink: 0;
 }
 
 .draw-steel-plus.sheet .tab.effects fieldset.status-effects {
-  margin-bottom: calc(8px * var(--dsp-scale, 1));
+    margin-bottom: calc(8px * var(--dsp-scale, 1));
 }
 
 .draw-steel-plus.sheet .tab.effects .status-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: calc(4px * var(--dsp-scale, 1));
-  padding-top: calc(6px * var(--dsp-scale, 1));
+    display: flex;
+    flex-wrap: wrap;
+    gap: calc(4px * var(--dsp-scale, 1));
+    padding-top: calc(6px * var(--dsp-scale, 1));
 }
 
 .draw-steel-plus.sheet .tab.effects .status-control {
-  display: inline-flex;
-  align-items: center;
-  gap: calc(4px * var(--dsp-scale, 1));
-  padding: calc(4px * var(--dsp-scale, 1)) calc(8px * var(--dsp-scale, 1));
-  background: rgba(0, 0, 0, 0.2);
-  border: 1px solid var(--dsp-border);
-  border-radius: var(--dsp-radius-sm);
-  color: var(--dsp-text-faint);
-  font-size: var(--dsp-font-size-md);
-  cursor: pointer;
-  transition: all var(--dsp-transition-fast);
+    display: inline-flex;
+    align-items: center;
+    gap: calc(4px * var(--dsp-scale, 1));
+    padding: calc(4px * var(--dsp-scale, 1)) calc(8px * var(--dsp-scale, 1));
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid var(--dsp-border);
+    border-radius: var(--dsp-radius-sm);
+    color: var(--dsp-text-faint);
+    font-size: var(--dsp-font-size-md);
+    cursor: pointer;
+    transition: all var(--dsp-transition-fast);
 }
 
 .draw-steel-plus.sheet .tab.effects .status-control img {
-  width: calc(16px * var(--dsp-scale, 1));
-  height: calc(16px * var(--dsp-scale, 1));
-  opacity: 0.6;
-  transition: opacity var(--dsp-transition-fast);
+    width: calc(16px * var(--dsp-scale, 1));
+    height: calc(16px * var(--dsp-scale, 1));
+    opacity: 0.6;
+    transition: opacity var(--dsp-transition-fast);
 }
 
 .draw-steel-plus.sheet .tab.effects .status-control:hover {
-  border-color: var(--dsp-border-light);
-  color: var(--dsp-text-light);
-  background: rgba(122, 27, 27, 0.1);
+    border-color: var(--dsp-border-light);
+    color: var(--dsp-text-light);
+    background: rgba(122, 27, 27, 0.1);
 }
 
 .draw-steel-plus.sheet .tab.effects .status-control:hover img {
-  opacity: 1;
+    opacity: 1;
 }
 
 .draw-steel-plus.sheet .tab.effects .status-control.active {
-  background: rgba(122, 27, 27, 0.3);
-  border-color: var(--dsp-primary);
-  color: var(--dsp-text);
+    background: rgba(122, 27, 27, 0.3);
+    border-color: var(--dsp-primary);
+    color: var(--dsp-text);
 }
 
 .draw-steel-plus.sheet .tab.effects .status-control.active img {
-  opacity: 1;
+    opacity: 1;
 }
 
 .draw-steel-plus.sheet .tab.effects .status-control:disabled {
-  opacity: 0.3;
-  cursor: not-allowed;
+    opacity: 0.3;
+    cursor: not-allowed;
 }
 
 .draw-steel-plus.sheet .effect-list-container {
-  background: var(--dsp-surface);
-  border: 1px solid var(--dsp-border);
-  border-radius: var(--dsp-radius-md);
+    background: var(--dsp-surface);
+    border: 1px solid var(--dsp-border);
+    border-radius: var(--dsp-radius-md);
 }
 
 .draw-steel-plus.sheet .effect-list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
+    list-style: none;
+    margin: 0;
+    padding: 0;
 }
 
 .draw-steel-plus.sheet .effect-header {
-  display: flex;
-  align-items: center;
-  padding: calc(6px * var(--dsp-scale, 1)) calc(10px * var(--dsp-scale, 1));
-  background: rgba(0, 0, 0, 0.3);
-  border-bottom: 1px solid var(--dsp-border);
-  gap: calc(8px * var(--dsp-scale, 1));
+    display: flex;
+    align-items: center;
+    padding: calc(6px * var(--dsp-scale, 1)) calc(10px * var(--dsp-scale, 1));
+    background: rgba(0, 0, 0, 0.3);
+    border-bottom: 1px solid var(--dsp-border);
+    gap: calc(8px * var(--dsp-scale, 1));
 }
 
 .draw-steel-plus.sheet .effect-header .effect-name,
 .draw-steel-plus.sheet .effect-header .effect-source,
 .draw-steel-plus.sheet .effect-header .effect-duration {
-  font-size: var(--dsp-font-size-sm);
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--dsp-text-faint);
+    font-size: var(--dsp-font-size-sm);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--dsp-text-faint);
 }
 
 .draw-steel-plus.sheet .effect-header .effect-name {
-  flex: 1;
+    flex: 1;
 }
 
 .draw-steel-plus.sheet .effect-header .effect-controls {
-  display: flex;
-  align-items: center;
-  gap: calc(4px * var(--dsp-scale, 1));
+    display: flex;
+    align-items: center;
+    gap: calc(4px * var(--dsp-scale, 1));
 }
 
 .draw-steel-plus.sheet .effect-header .effect-controls a {
-  color: var(--dsp-text-faint);
-  text-decoration: none;
-  font-size: var(--dsp-font-size-base);
-  padding: 2px 4px;
-  border-radius: var(--dsp-radius-sm);
-  transition: color var(--dsp-transition), background var(--dsp-transition);
+    color: var(--dsp-text-faint);
+    text-decoration: none;
+    font-size: var(--dsp-font-size-base);
+    padding: 2px 4px;
+    border-radius: var(--dsp-radius-sm);
+    transition:
+        color var(--dsp-transition),
+        background var(--dsp-transition);
 }
 
 .draw-steel-plus.sheet .effect-header .effect-controls a:hover {
-  color: var(--dsp-accent);
-  background: rgba(200, 170, 110, 0.08);
+    color: var(--dsp-accent);
+    background: rgba(200, 170, 110, 0.08);
 }
 
 .draw-steel-plus.sheet .effect-list .effect {
-  border-bottom: 1px solid rgba(42, 32, 32, 0.5);
-  transition: background var(--dsp-transition-fast);
+    border-bottom: 1px solid rgba(42, 32, 32, 0.5);
+    transition: background var(--dsp-transition-fast);
 }
 
 .draw-steel-plus.sheet .effect-list .effect:last-child {
-  border-bottom: none;
+    border-bottom: none;
 }
 
 .draw-steel-plus.sheet .effect-list .effect:hover {
-  background: rgba(122, 27, 27, 0.06);
+    background: rgba(122, 27, 27, 0.06);
 }
 
 .draw-steel-plus.sheet .effect-row {
-  display: flex;
-  align-items: center;
-  padding: calc(6px * var(--dsp-scale, 1)) calc(10px * var(--dsp-scale, 1));
-  gap: calc(8px * var(--dsp-scale, 1));
-  min-height: calc(32px * var(--dsp-scale, 1));
+    display: flex;
+    align-items: center;
+    padding: calc(6px * var(--dsp-scale, 1)) calc(10px * var(--dsp-scale, 1));
+    gap: calc(8px * var(--dsp-scale, 1));
+    min-height: calc(32px * var(--dsp-scale, 1));
 }
 
 .draw-steel-plus.sheet .effect-row .effect-name {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  gap: calc(8px * var(--dsp-scale, 1));
-  min-width: 0;
-  font-weight: 600;
-  font-size: var(--dsp-font-size-xl);
-  color: var(--dsp-text);
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: calc(8px * var(--dsp-scale, 1));
+    min-width: 0;
+    font-weight: 600;
+    font-size: var(--dsp-font-size-xl);
+    color: var(--dsp-text);
 }
 
 .draw-steel-plus.sheet .effect-row .effect-name .name {
-  min-width: 0;
+    min-width: 0;
 }
 
 .draw-steel-plus.sheet .effect-row .effect-name .label {
-  font-size: var(--dsp-font-size-xl);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+    font-size: var(--dsp-font-size-xl);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .draw-steel-plus.sheet .effect-image {
-  width: calc(24px * var(--dsp-scale, 1));
-  height: calc(24px * var(--dsp-scale, 1));
-  object-fit: cover;
-  border-radius: var(--dsp-radius-sm);
-  border: 1px solid var(--dsp-border);
-  flex-shrink: 0;
-  cursor: pointer;
-  transition: filter var(--dsp-transition), border-color var(--dsp-transition);
+    width: calc(24px * var(--dsp-scale, 1));
+    height: calc(24px * var(--dsp-scale, 1));
+    object-fit: cover;
+    border-radius: var(--dsp-radius-sm);
+    border: 1px solid var(--dsp-border);
+    flex-shrink: 0;
+    cursor: pointer;
+    transition:
+        filter var(--dsp-transition),
+        border-color var(--dsp-transition);
 }
 
 .draw-steel-plus.sheet .effect-image:hover {
-  filter: brightness(1.08);
-  border-color: var(--dsp-accent);
+    filter: brightness(1.08);
+    border-color: var(--dsp-accent);
 }
 
 .draw-steel-plus.sheet .effect-row .effect-source,
 .draw-steel-plus.sheet .effect-row .effect-duration {
-  font-size: var(--dsp-font-size-base);
-  color: var(--dsp-text-faint);
-  min-width: calc(60px * var(--dsp-scale, 1));
-  text-align: center;
+    font-size: var(--dsp-font-size-base);
+    color: var(--dsp-text-faint);
+    min-width: calc(60px * var(--dsp-scale, 1));
+    text-align: center;
 }
 
 .draw-steel-plus.sheet .effect-row .effect-controls {
-	display: flex;
-	align-items: center;
-	gap: 2px;
-	width: fit-content;
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    width: fit-content;
 }
 
 .draw-steel-plus.sheet .effect-row .effect-controls a {
-	color: var(--dsp-text-faint);
-	text-decoration: none;
-	font-size: var(--dsp-font-size-base);
-	padding: calc(3px * var(--dsp-scale, 1)) calc(4px * var(--dsp-scale, 1));
-	border-radius: var(--dsp-radius-sm);
-	transition: color var(--dsp-transition), background var(--dsp-transition);
-	opacity: 0.5;
-	line-height: calc(15px * var(--dsp-scale, 1));
-	width: fit-content;
+    color: var(--dsp-text-faint);
+    text-decoration: none;
+    font-size: var(--dsp-font-size-base);
+    padding: calc(3px * var(--dsp-scale, 1)) calc(4px * var(--dsp-scale, 1));
+    border-radius: var(--dsp-radius-sm);
+    transition:
+        color var(--dsp-transition),
+        background var(--dsp-transition);
+    opacity: 0.5;
+    line-height: calc(15px * var(--dsp-scale, 1));
+    width: fit-content;
 }
 
 .draw-steel-plus.sheet .effect-list .effect:hover .effect-controls a {
-  opacity: 1;
+    opacity: 1;
 }
 
 .draw-steel-plus.sheet .effect-row .effect-controls a:hover {
-  color: var(--dsp-accent);
-  background: rgba(200, 170, 110, 0.08);
+    color: var(--dsp-accent);
+    background: rgba(200, 170, 110, 0.08);
 }
 
 .draw-steel-plus.sheet .effect-description {
-  transition: grid-template-rows 0.35s ease-out, padding 0.35s ease-out, background-color 0.35s ease-out, border-color 0.35s ease-out, color 0.35s ease-out;
-  border-top: 1px solid transparent;
-  font-size: var(--dsp-font-size-xl);
-  line-height: 1.5;
+    transition:
+        grid-template-rows 0.35s ease-out,
+        padding 0.35s ease-out,
+        background-color 0.35s ease-out,
+        border-color 0.35s ease-out,
+        color 0.35s ease-out;
+    border-top: 1px solid transparent;
+    font-size: var(--dsp-font-size-xl);
+    line-height: 1.5;
 }
 
 .draw-steel-plus.sheet .effect-description:not(.expanded) {
-  padding: 0 calc(10px * var(--dsp-scale, 1));
-  background-color: transparent;
-  border-top-color: transparent;
-  color: transparent;
+    padding: 0 calc(10px * var(--dsp-scale, 1));
+    background-color: transparent;
+    border-top-color: transparent;
+    color: transparent;
 }
 
 .draw-steel-plus.sheet .effect-description.expanded {
-  padding: calc(8px * var(--dsp-scale, 1)) calc(10px * var(--dsp-scale, 1)) calc(10px * var(--dsp-scale, 1));
-  background-color: rgba(0, 0, 0, 0.2);
-  border-top-color: var(--dsp-border);
-  color: var(--dsp-text-light);
+    padding: calc(8px * var(--dsp-scale, 1)) calc(10px * var(--dsp-scale, 1))
+        calc(10px * var(--dsp-scale, 1));
+    background-color: rgba(0, 0, 0, 0.2);
+    border-top-color: var(--dsp-border);
+    color: var(--dsp-text-light);
 }
 
 .draw-steel-plus.sheet .tab.biography .demographics {
-  display: grid;
-  grid-template-columns: auto 1fr auto 1fr auto 1fr;
-  gap: calc(4px * var(--dsp-scale, 1)) calc(10px * var(--dsp-scale, 1));
-  padding: calc(10px * var(--dsp-scale, 1)) calc(12px * var(--dsp-scale, 1));
-  background: var(--dsp-surface);
-  border: 1px solid var(--dsp-border);
-  border-radius: var(--dsp-radius-md);
-  margin: 0;
+    display: grid;
+    grid-template-columns: auto 1fr auto 1fr auto 1fr;
+    gap: calc(4px * var(--dsp-scale, 1)) calc(10px * var(--dsp-scale, 1));
+    padding: calc(10px * var(--dsp-scale, 1)) calc(12px * var(--dsp-scale, 1));
+    background: var(--dsp-surface);
+    border: 1px solid var(--dsp-border);
+    border-radius: var(--dsp-radius-md);
+    margin: 0;
 }
 
 .draw-steel-plus.sheet .tab.biography .demographics dt {
-  font-size: var(--dsp-font-size-sm);
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  color: var(--dsp-text-faint);
-  display: flex;
-  align-items: center;
+    font-size: var(--dsp-font-size-sm);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--dsp-text-faint);
+    display: flex;
+    align-items: center;
 }
 
 .draw-steel-plus.sheet .tab.biography .demographics dd {
-  font-size: var(--dsp-font-size-2xl);
-  font-weight: 600;
-  color: var(--dsp-text);
-  margin: 0;
-  display: flex;
-  align-items: center;
+    font-size: var(--dsp-font-size-2xl);
+    font-weight: 600;
+    color: var(--dsp-text);
+    margin: 0;
+    display: flex;
+    align-items: center;
 }
 
 .draw-steel-plus.sheet .tab.biography .demographics dt.blank,
 .draw-steel-plus.sheet .tab.biography .demographics dd.blank {
-  visibility: hidden;
+    visibility: hidden;
 }
 
 .draw-steel-plus.sheet .tab.biography .rewards,
 .draw-steel-plus.sheet .tab.biography .appearance {
-  display: flex;
-  gap: calc(10px * var(--dsp-scale, 1));
-  flex-wrap: wrap;
+    display: flex;
+    gap: calc(10px * var(--dsp-scale, 1));
+    flex-wrap: wrap;
 }
 
 .draw-steel-plus.sheet .tab.biography .rewards .form-group,
 .draw-steel-plus.sheet .tab.biography .appearance .form-group {
-  flex: 1;
-  min-width: calc(120px * var(--dsp-scale, 1));
+    flex: 1;
+    min-width: calc(120px * var(--dsp-scale, 1));
 }
 
 .draw-steel-plus.sheet .form-group {
-  display: flex;
-  align-items: center;
-  gap: calc(6px * var(--dsp-scale, 1));
-  margin: 0;
+    display: flex;
+    align-items: center;
+    gap: calc(6px * var(--dsp-scale, 1));
+    margin: 0;
 }
 
 .draw-steel-plus.sheet .form-group label {
-  font-size: var(--dsp-font-size-base);
-  font-weight: 600;
-  color: var(--dsp-text-light);
-  white-space: nowrap;
-  flex-shrink: 0;
+    font-size: var(--dsp-font-size-base);
+    font-weight: 600;
+    color: var(--dsp-text-light);
+    white-space: nowrap;
+    flex-shrink: 0;
 }
 
 .draw-steel-plus.sheet .form-group .form-fields {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  gap: calc(4px * var(--dsp-scale, 1));
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: calc(4px * var(--dsp-scale, 1));
 }
 
 .draw-steel-plus.sheet input[type="text"],
 .draw-steel-plus.sheet input[type="number"],
 .draw-steel-plus.sheet input[type="search"] {
-  background: rgba(0, 0, 0, 0.2);
-  border: 1px solid var(--dsp-border);
-  border-radius: var(--dsp-radius-sm);
-  color: var(--dsp-text);
-  font-size: var(--dsp-font-size-xl);
-  padding: calc(4px * var(--dsp-scale, 1)) calc(8px * var(--dsp-scale, 1));
-  transition: border-color var(--dsp-transition), box-shadow var(--dsp-transition);
-  outline: none;
-  width: 100%;
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid var(--dsp-border);
+    border-radius: var(--dsp-radius-sm);
+    color: var(--dsp-text);
+    font-size: var(--dsp-font-size-xl);
+    padding: calc(4px * var(--dsp-scale, 1)) calc(8px * var(--dsp-scale, 1));
+    transition:
+        border-color var(--dsp-transition),
+        box-shadow var(--dsp-transition);
+    outline: none;
+    width: 100%;
 }
 
 .draw-steel-plus.sheet input[type="text"]:focus,
 .draw-steel-plus.sheet input[type="number"]:focus,
 .draw-steel-plus.sheet input[type="search"]:focus {
-  border-color: var(--dsp-accent);
-  box-shadow: 0 0 8px var(--dsp-accent-dim);
+    border-color: var(--dsp-accent);
+    box-shadow: 0 0 8px var(--dsp-accent-dim);
 }
 
 .draw-steel-plus.sheet select {
-  background: rgba(0, 0, 0, 0.2);
-  border: 1px solid var(--dsp-border);
-  border-radius: var(--dsp-radius-sm);
-  color: var(--dsp-text);
-  font-size: var(--dsp-font-size-xl);
-  padding: calc(4px * var(--dsp-scale, 1)) calc(8px * var(--dsp-scale, 1));
-  cursor: pointer;
-  transition: border-color var(--dsp-transition);
-  outline: none;
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid var(--dsp-border);
+    border-radius: var(--dsp-radius-sm);
+    color: var(--dsp-text);
+    font-size: var(--dsp-font-size-xl);
+    padding: calc(4px * var(--dsp-scale, 1)) calc(8px * var(--dsp-scale, 1));
+    cursor: pointer;
+    transition: border-color var(--dsp-transition);
+    outline: none;
 }
 
 .draw-steel-plus.sheet select:focus {
-  border-color: var(--dsp-accent);
+    border-color: var(--dsp-accent);
 }
 
 .draw-steel-plus.sheet select option {
-  background: var(--dsp-surface);
-  color: var(--dsp-text);
+    background: var(--dsp-surface);
+    color: var(--dsp-text);
 }
 
 .draw-steel-plus.sheet textarea {
-  background: rgba(0, 0, 0, 0.2);
-  border: 1px solid var(--dsp-border);
-  border-radius: var(--dsp-radius-sm);
-  color: var(--dsp-text);
-  font-size: var(--dsp-font-size-xl);
-  padding: calc(8px * var(--dsp-scale, 1));
-  line-height: 1.5;
-  resize: vertical;
-  transition: border-color var(--dsp-transition), box-shadow var(--dsp-transition);
-  outline: none;
-  width: 100%;
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid var(--dsp-border);
+    border-radius: var(--dsp-radius-sm);
+    color: var(--dsp-text);
+    font-size: var(--dsp-font-size-xl);
+    padding: calc(8px * var(--dsp-scale, 1));
+    line-height: 1.5;
+    resize: vertical;
+    transition:
+        border-color var(--dsp-transition),
+        box-shadow var(--dsp-transition);
+    outline: none;
+    width: 100%;
 }
 
 .draw-steel-plus.sheet textarea:focus {
-  border-color: var(--dsp-accent);
-  box-shadow: 0 0 8px var(--dsp-accent-dim);
+    border-color: var(--dsp-accent);
+    box-shadow: 0 0 8px var(--dsp-accent-dim);
 }
 
 /*.draw-steel-plus.sheet button {
@@ -993,263 +1082,268 @@
 }*/
 
 .draw-steel-plus.sheet .tab .flexrow {
-  gap: calc(8px * var(--dsp-scale, 1));
-  flex-wrap: wrap;
+    gap: calc(8px * var(--dsp-scale, 1));
+    flex-wrap: wrap;
 }
 
 .draw-steel-plus.sheet .tab .flexcol {
-  gap: calc(4px * var(--dsp-scale, 1));
+    gap: calc(4px * var(--dsp-scale, 1));
 }
 
 .draw-steel-plus.sheet .characteristics {
-  display: flex;
-  flex-wrap: wrap;
-  gap: calc(6px * var(--dsp-scale, 1));
-  justify-content: center;
-  padding: calc(8px * var(--dsp-scale, 1)) 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: calc(6px * var(--dsp-scale, 1));
+    justify-content: center;
+    padding: calc(8px * var(--dsp-scale, 1)) 0;
 }
 
 .draw-steel-plus.sheet .characteristic {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 2px;
-  padding: calc(6px * var(--dsp-scale, 1)) calc(10px * var(--dsp-scale, 1));
-  background: rgba(0, 0, 0, 0.15);
-  border: 1px solid var(--dsp-border);
-  border-radius: var(--dsp-radius-md);
-  min-width: calc(55px * var(--dsp-scale, 1));
-  transition: border-color var(--dsp-transition), box-shadow var(--dsp-transition);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    padding: calc(6px * var(--dsp-scale, 1)) calc(10px * var(--dsp-scale, 1));
+    background: rgba(0, 0, 0, 0.15);
+    border: 1px solid var(--dsp-border);
+    border-radius: var(--dsp-radius-md);
+    min-width: calc(55px * var(--dsp-scale, 1));
+    transition:
+        border-color var(--dsp-transition),
+        box-shadow var(--dsp-transition);
 }
 
 .draw-steel-plus.sheet .characteristic:hover {
-  border-color: var(--dsp-border-light);
-  box-shadow: 0 0 10px rgba(122, 27, 27, 0.12);
+    border-color: var(--dsp-border-light);
+    box-shadow: 0 0 10px rgba(122, 27, 27, 0.12);
 }
 
 .draw-steel-plus.sheet .characteristic .label,
 .draw-steel-plus.sheet .characteristic label {
-  font-size: var(--dsp-font-size-xs);
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  color: var(--dsp-text-faint);
-  text-align: center;
+    font-size: var(--dsp-font-size-xs);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--dsp-text-faint);
+    text-align: center;
 }
 
 .draw-steel-plus.sheet .characteristic .value,
 .draw-steel-plus.sheet .characteristic .score {
-  font-size: calc(1.2rem * var(--dsp-scale, 1));
-  font-weight: 800;
-  color: var(--dsp-text);
-  text-align: center;
-  line-height: 1;
+    font-size: calc(1.2rem * var(--dsp-scale, 1));
+    font-weight: 800;
+    color: var(--dsp-text);
+    text-align: center;
+    line-height: 1;
 }
 
 .draw-steel-plus.sheet .characteristic .modifier {
-  font-size: var(--dsp-font-size-md);
-  color: var(--dsp-text-light);
-  text-align: center;
+    font-size: var(--dsp-font-size-md);
+    color: var(--dsp-text-light);
+    text-align: center;
 }
 
 .draw-steel-plus.sheet .characteristics .characteristic.rollable {
-  cursor: pointer;
+    cursor: pointer;
 }
 
 .draw-steel-plus.sheet .characteristics .characteristic.rollable:hover {
-  border-color: var(--dsp-primary-light);
-  box-shadow: 0 0 14px var(--dsp-primary-glow);
+    border-color: var(--dsp-primary-light);
+    box-shadow: 0 0 14px var(--dsp-primary-glow);
 }
 
 .draw-steel-plus.sheet .characteristics .characteristic.rollable:hover .value,
 .draw-steel-plus.sheet .characteristics .characteristic.rollable:hover .score {
-  color: var(--dsp-accent);
+    color: var(--dsp-accent);
 }
 
 .draw-steel-plus.sheet .combat-stats,
 .draw-steel-plus.sheet .movement-stats {
-  display: flex;
-  flex-wrap: wrap;
-  gap: calc(6px * var(--dsp-scale, 1));
-  padding: calc(6px * var(--dsp-scale, 1)) 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: calc(6px * var(--dsp-scale, 1));
+    padding: calc(6px * var(--dsp-scale, 1)) 0;
 }
 
 .draw-steel-plus.sheet .combat-stat,
 .draw-steel-plus.sheet .movement-stat {
-  display: flex;
-  align-items: center;
-  gap: calc(6px * var(--dsp-scale, 1));
-  padding: calc(4px * var(--dsp-scale, 1)) calc(10px * var(--dsp-scale, 1));
-  background: rgba(0, 0, 0, 0.1);
-  border: 1px solid var(--dsp-border);
-  border-radius: var(--dsp-radius-sm);
-  font-size: var(--dsp-font-size-lg);
+    display: flex;
+    align-items: center;
+    gap: calc(6px * var(--dsp-scale, 1));
+    padding: calc(4px * var(--dsp-scale, 1)) calc(10px * var(--dsp-scale, 1));
+    background: rgba(0, 0, 0, 0.1);
+    border: 1px solid var(--dsp-border);
+    border-radius: var(--dsp-radius-sm);
+    font-size: var(--dsp-font-size-lg);
 }
 
 .draw-steel-plus.sheet .combat-stat .label,
 .draw-steel-plus.sheet .movement-stat .label {
-  color: var(--dsp-text-faint);
-  font-weight: 600;
-  font-size: var(--dsp-font-size-sm);
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
+    color: var(--dsp-text-faint);
+    font-weight: 600;
+    font-size: var(--dsp-font-size-sm);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
 }
 
 .draw-steel-plus.sheet .combat-stat .value,
 .draw-steel-plus.sheet .movement-stat .value {
-  color: var(--dsp-text);
-  font-weight: 700;
+    color: var(--dsp-text);
+    font-weight: 700;
 }
 
 .draw-steel-plus.sheet .immunities-weaknesses {
-  display: flex;
-  flex-wrap: wrap;
-  gap: calc(4px * var(--dsp-scale, 1));
-  padding: calc(4px * var(--dsp-scale, 1)) 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: calc(4px * var(--dsp-scale, 1));
+    padding: calc(4px * var(--dsp-scale, 1)) 0;
 }
 
 .draw-steel-plus.sheet .editor,
 .draw-steel-plus.sheet .prosemirror {
-	background: rgba(0, 0, 0, 0.15);
-	border: 1px solid var(--dsp-border);
-	border-radius: var(--dsp-radius-md);
-	color: var(--dsp-text-light);
-	min-height: calc(100px * var(--dsp-scale, 1));
-	padding: .5em 1em;
+    background: rgba(0, 0, 0, 0.15);
+    border: 1px solid var(--dsp-border);
+    border-radius: var(--dsp-radius-md);
+    color: var(--dsp-text-light);
+    min-height: calc(100px * var(--dsp-scale, 1));
+    padding: 0.5em 1em;
 }
 
 .draw-steel-plus.sheet .editor .editor-content,
 .draw-steel-plus.sheet .prosemirror .editor-content,
 .draw-steel-plus.sheet .editor .ProseMirror,
 .draw-steel-plus.sheet .prosemirror .ProseMirror {
-  padding: calc(10px * var(--dsp-scale, 1));
-  color: var(--dsp-text-light);
-  font-size: var(--dsp-font-size-2xl);
-  line-height: 1.6;
+    padding: calc(10px * var(--dsp-scale, 1));
+    color: var(--dsp-text-light);
+    font-size: var(--dsp-font-size-2xl);
+    line-height: 1.6;
 }
 
 .draw-steel-plus.sheet .editor-menu {
-  background: var(--dsp-surface);
-  border-bottom: 1px solid var(--dsp-border);
+    background: var(--dsp-surface);
+    border-bottom: 1px solid var(--dsp-border);
 }
 
 .draw-steel-plus.sheet .editor-menu button {
-  color: var(--dsp-text-faint);
-  background: none;
-  border: none;
-  padding: calc(4px * var(--dsp-scale, 1)) calc(6px * var(--dsp-scale, 1));
-  cursor: pointer;
-  transition: color var(--dsp-transition);
+    color: var(--dsp-text-faint);
+    background: none;
+    border: none;
+    padding: calc(4px * var(--dsp-scale, 1)) calc(6px * var(--dsp-scale, 1));
+    cursor: pointer;
+    transition: color var(--dsp-transition);
 }
 
 .draw-steel-plus.sheet .editor-menu button:hover {
-  color: var(--dsp-accent);
+    color: var(--dsp-accent);
 }
 
 .draw-steel-plus.sheet .ds-tag-group {
-  display: flex;
-  flex-wrap: wrap;
-  gap: calc(4px * var(--dsp-scale, 1));
+    display: flex;
+    flex-wrap: wrap;
+    gap: calc(4px * var(--dsp-scale, 1));
 }
 
 .draw-steel-plus.sheet .ds-tag-group .ds-tag,
 .draw-steel-plus.sheet .ds-tag {
-  display: inline-flex;
-  align-items: center;
-  padding: 2px 8px;
-  background: rgba(74, 14, 14, 0.4);
-  border: 1px solid var(--dsp-border);
-  border-radius: var(--dsp-radius-full);
-  font-size: var(--dsp-font-size-md);
-  font-weight: 600;
-  color: var(--dsp-text-light);
-  transition: background var(--dsp-transition), border-color var(--dsp-transition), color var(--dsp-transition);
+    display: inline-flex;
+    align-items: center;
+    padding: 2px 8px;
+    background: rgba(74, 14, 14, 0.4);
+    border: 1px solid var(--dsp-border);
+    border-radius: var(--dsp-radius-full);
+    font-size: var(--dsp-font-size-md);
+    font-weight: 600;
+    color: var(--dsp-text-light);
+    transition:
+        background var(--dsp-transition),
+        border-color var(--dsp-transition),
+        color var(--dsp-transition);
 }
 
 .draw-steel-plus.sheet .ds-tag:hover {
-  background: rgba(122, 27, 27, 0.5);
-  border-color: var(--dsp-primary-light);
-  color: var(--dsp-text);
+    background: rgba(122, 27, 27, 0.5);
+    border-color: var(--dsp-primary-light);
+    color: var(--dsp-text);
 }
 
 .draw-steel-plus.sheet .i-fa-star {
-  color: var(--dsp-accent);
-  font-size: var(--dsp-font-size-base);
+    color: var(--dsp-accent);
+    font-size: var(--dsp-font-size-base);
 }
 
 .draw-steel-plus.sheet a {
-  color: var(--dsp-text-light);
-  transition: color var(--dsp-transition);
+    color: var(--dsp-text-light);
+    transition: color var(--dsp-transition);
 }
 
 .draw-steel-plus.sheet a:hover {
-  color: var(--dsp-accent);
+    color: var(--dsp-accent);
 }
 
 .draw-steel-plus.sheet .content-embed {
-  font-size: var(--dsp-font-size-xl);
-  line-height: 1.5;
-  color: var(--dsp-text-light);
+    font-size: var(--dsp-font-size-xl);
+    line-height: 1.5;
+    color: var(--dsp-text-light);
 }
 
 .draw-steel-plus.sheet .content-embed h1,
 .draw-steel-plus.sheet .content-embed h2,
 .draw-steel-plus.sheet .content-embed h3 {
-  color: var(--dsp-text);
-  border-bottom: 1px solid var(--dsp-border);
-  padding-bottom: calc(4px * var(--dsp-scale, 1));
-  margin: calc(8px * var(--dsp-scale, 1)) 0 calc(4px * var(--dsp-scale, 1));
-  font-size: var(--dsp-font-size-3xl);
-  font-weight: 700;
+    color: var(--dsp-text);
+    border-bottom: 1px solid var(--dsp-border);
+    padding-bottom: calc(4px * var(--dsp-scale, 1));
+    margin: calc(8px * var(--dsp-scale, 1)) 0 calc(4px * var(--dsp-scale, 1));
+    font-size: var(--dsp-font-size-3xl);
+    font-weight: 700;
 }
 
 .draw-steel-plus.sheet .content-embed p {
-  margin: calc(4px * var(--dsp-scale, 1)) 0;
+    margin: calc(4px * var(--dsp-scale, 1)) 0;
 }
 
 .draw-steel-plus.sheet .content-embed table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: var(--dsp-font-size-lg);
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--dsp-font-size-lg);
 }
 
 .draw-steel-plus.sheet .content-embed table th {
-  background: rgba(0, 0, 0, 0.2);
-  color: var(--dsp-text-light);
-  font-weight: 700;
-  text-transform: uppercase;
-  font-size: var(--dsp-font-size-sm);
-  letter-spacing: 0.06em;
-  padding: calc(4px * var(--dsp-scale, 1)) calc(8px * var(--dsp-scale, 1));
-  border: 1px solid var(--dsp-border);
-  text-align: left;
+    background: rgba(0, 0, 0, 0.2);
+    color: var(--dsp-text-light);
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: var(--dsp-font-size-sm);
+    letter-spacing: 0.06em;
+    padding: calc(4px * var(--dsp-scale, 1)) calc(8px * var(--dsp-scale, 1));
+    border: 1px solid var(--dsp-border);
+    text-align: left;
 }
 
 .draw-steel-plus.sheet .content-embed table td {
-  padding: calc(4px * var(--dsp-scale, 1)) calc(8px * var(--dsp-scale, 1));
-  border: 1px solid var(--dsp-border);
-  color: var(--dsp-text-light);
+    padding: calc(4px * var(--dsp-scale, 1)) calc(8px * var(--dsp-scale, 1));
+    border: 1px solid var(--dsp-border);
+    color: var(--dsp-text-light);
 }
 
 .draw-steel-plus.sheet .content-embed table tr:hover td {
-  background: rgba(122, 27, 27, 0.06);
+    background: rgba(122, 27, 27, 0.06);
 }
 
 .draw-steel-plus.sheet .content-embed ul,
 .draw-steel-plus.sheet .content-embed ol {
-  padding-left: calc(20px * var(--dsp-scale, 1));
-  margin: calc(4px * var(--dsp-scale, 1)) 0;
+    padding-left: calc(20px * var(--dsp-scale, 1));
+    margin: calc(4px * var(--dsp-scale, 1)) 0;
 }
 
 .draw-steel-plus.sheet .content-embed li {
-  margin: 2px 0;
+    margin: 2px 0;
 }
 
 .draw-steel-plus.sheet .content-embed strong {
-  color: var(--dsp-text);
+    color: var(--dsp-text);
 }
 
 .draw-steel-plus.sheet .content-embed em {
-  color: var(--dsp-text-light);
-  font-style: italic;
+    color: var(--dsp-text-light);
+    font-style: italic;
 }

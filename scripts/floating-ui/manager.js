@@ -45,7 +45,11 @@ export class FloatingUIManager {
     if (this._resizeBound) return;
     this._resizeBound = foundry.utils.debounce(() => {
       for (const ui of this._instances) {
-        try { ui.reflow(); } catch (e) { console.error(`${MODULE_ID} | reflow failed`, e); }
+        try {
+          ui.reflow();
+        } catch (e) {
+          console.error(`${MODULE_ID} | reflow failed`, e);
+        }
       }
     }, 100);
     window.addEventListener("resize", this._resizeBound);
@@ -77,7 +81,9 @@ export class FloatingUIManager {
     const groupId = ui.getGroupId?.();
     if (!groupId) return [ui];
     const ids = this._readGroup(groupId);
-    const members = Array.from(this._instances).filter(u => ids.includes(u.id));
+    const members = Array.from(this._instances).filter((u) =>
+      ids.includes(u.id),
+    );
     if (!members.includes(ui)) members.push(ui);
     return members;
   }
@@ -127,7 +133,7 @@ export class FloatingUIManager {
   static async unlinkUI(ui) {
     const groupId = ui.getGroupId();
     if (!groupId) return;
-    const ids = this._readGroup(groupId).filter(id => id !== ui.id);
+    const ids = this._readGroup(groupId).filter((id) => id !== ui.id);
     await ui.setGroupId(null);
     this._syncGroupClass(ui);
 
@@ -189,7 +195,9 @@ export class FloatingUIManager {
         this.exitLinkMode();
         return;
       }
-      const target = Array.from(this._instances).find(u => u.element === targetEl);
+      const target = Array.from(this._instances).find(
+        (u) => u.element === targetEl,
+      );
       if (!target) {
         this.exitLinkMode();
         return;
@@ -215,8 +223,10 @@ export class FloatingUIManager {
     if (!this._linkSource) return;
     document.body.classList.remove("dsp-fui-link-mode");
     this._linkSource.element?.classList.remove("dsp-fui-link-source");
-    if (this._linkClickHandler) document.removeEventListener("click", this._linkClickHandler, true);
-    if (this._linkEscHandler) document.removeEventListener("keydown", this._linkEscHandler, true);
+    if (this._linkClickHandler)
+      document.removeEventListener("click", this._linkClickHandler, true);
+    if (this._linkEscHandler)
+      document.removeEventListener("keydown", this._linkEscHandler, true);
     this._linkSource = null;
     this._linkClickHandler = null;
     this._linkEscHandler = null;
@@ -231,7 +241,7 @@ export class FloatingUIManager {
     event.preventDefault();
 
     const members = this.getGroupMembers(ui);
-    const membersData = members.map(m => {
+    const membersData = members.map((m) => {
       const rect = m.element.getBoundingClientRect();
       return {
         ui: m,
@@ -252,7 +262,8 @@ export class FloatingUIManager {
     };
 
     document.body.classList.add("dsp-fui-dragging");
-    for (const m of membersData) m.ui.element.classList.add("dsp-fui-drag-active");
+    for (const m of membersData)
+      m.ui.element.classList.add("dsp-fui-drag-active");
     GridOverlay.mount();
 
     this._moveHandler = (e) => this._onDrag(e);
@@ -273,13 +284,18 @@ export class FloatingUIManager {
       m.ui.element.style.top = `${m.startTop + dy}px`;
     }
 
-    const primary = this._drag.members.find(m => m.ui === this._drag.primary);
+    const primary = this._drag.members.find((m) => m.ui === this._drag.primary);
     const left = primary.startLeft + dx;
     const top = primary.startTop + dy;
 
     let pos;
     if (forceCenter) {
-      pos = { anchor: "cc", offsetX: 0, offsetY: 0, snap: freeSnap ? "free" : "grid" };
+      pos = {
+        anchor: "cc",
+        offsetX: 0,
+        offsetY: 0,
+        snap: freeSnap ? "free" : "grid",
+      };
     } else {
       pos = pickClosestAnchor({ left, top }, primary.width, primary.height);
       if (freeSnap) {
@@ -292,12 +308,15 @@ export class FloatingUIManager {
       }
     }
 
-    const snapped = resolveAnchor(pos, null, { width: primary.width, height: primary.height });
+    const snapped = resolveAnchor(pos, null, {
+      width: primary.width,
+      height: primary.height,
+    });
     GridOverlay.updateZone(pos.anchor);
 
     const deltaX = snapped.left - primary.startLeft;
     const deltaY = snapped.top - primary.startTop;
-    const previewRects = this._drag.members.map(m => ({
+    const previewRects = this._drag.members.map((m) => ({
       left: m.ui === this._drag.primary ? snapped.left : m.startLeft + deltaX,
       top: m.ui === this._drag.primary ? snapped.top : m.startTop + deltaY,
       width: m.width,
@@ -323,13 +342,15 @@ export class FloatingUIManager {
     const drag = this._drag;
     this._drag = null;
 
-    if (this._moveHandler) window.removeEventListener("mousemove", this._moveHandler);
+    if (this._moveHandler)
+      window.removeEventListener("mousemove", this._moveHandler);
     if (this._upHandler) window.removeEventListener("mouseup", this._upHandler);
     this._moveHandler = null;
     this._upHandler = null;
 
     document.body.classList.remove("dsp-fui-dragging");
-    for (const m of drag.members) m.ui.element.classList.remove("dsp-fui-drag-active");
+    for (const m of drag.members)
+      m.ui.element.classList.remove("dsp-fui-drag-active");
     GridOverlay.unmount();
 
     if (!drag.pendingPos || !drag.pendingSnapped) {
@@ -337,7 +358,7 @@ export class FloatingUIManager {
       return;
     }
 
-    const primaryData = drag.members.find(m => m.ui === drag.primary);
+    const primaryData = drag.members.find((m) => m.ui === drag.primary);
     const deltaX = drag.pendingSnapped.left - primaryData.startLeft;
     const deltaY = drag.pendingSnapped.top - primaryData.startTop;
 
@@ -349,7 +370,11 @@ export class FloatingUIManager {
       } else {
         const finalLeft = m.startLeft + deltaX;
         const finalTop = m.startTop + deltaY;
-        let pos = pickClosestAnchor({ left: finalLeft, top: finalTop }, m.width, m.height);
+        let pos = pickClosestAnchor(
+          { left: finalLeft, top: finalTop },
+          m.width,
+          m.height,
+        );
         pos.snap = snapMode;
         if (snapMode === "grid") {
           const grid = getGridSize();

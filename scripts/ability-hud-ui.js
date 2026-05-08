@@ -4,7 +4,23 @@ import { MODULE_CONFIG } from "./config.js";
 const MODULE_PATH = MODULE_CONFIG.path;
 const MODULE_ID = MODULE_CONFIG.id;
 const ABILITY_HUD_MODULE_ID = "draw-steel-ability-hud";
-const HUD_PLACEMENT_STYLES = ["left", "right", "top", "bottom", "width", "height", "min-width", "max-width", "position", "z-index", "transform", "translate", "scale", "inset", "margin"];
+const HUD_PLACEMENT_STYLES = [
+  "left",
+  "right",
+  "top",
+  "bottom",
+  "width",
+  "height",
+  "min-width",
+  "max-width",
+  "position",
+  "z-index",
+  "transform",
+  "translate",
+  "scale",
+  "inset",
+  "margin",
+];
 const HUD_BAR_PLACEMENT_STYLES = ["flex-wrap"];
 
 export class AbilityHudUI extends DspFloatingUI {
@@ -28,7 +44,13 @@ export class AbilityHudUI extends DspFloatingUI {
 
   static DEFAULT_WIDTH = 520;
   static DEFAULT_HEIGHT = 56;
-  static DEFAULT_POSITION = { anchor: "element:#hotbar", edge: "top", offsetX: 0, offsetY: -12, snap: "grid" };
+  static DEFAULT_POSITION = {
+    anchor: "element:#hotbar",
+    edge: "top",
+    offsetX: 0,
+    offsetY: -12,
+    snap: "grid",
+  };
 
   static isModuleActive() {
     return !!game.modules.get(ABILITY_HUD_MODULE_ID)?.active;
@@ -36,15 +58,21 @@ export class AbilityHudUI extends DspFloatingUI {
 
   static applyBodyStyle() {
     const active = this.isModuleActive();
-    const usePanel = active && !!game.settings.get(MODULE_ID, "useAbilityHudPanel");
+    const usePanel =
+      active && !!game.settings.get(MODULE_ID, "useAbilityHudPanel");
     document.body.classList.toggle("dsp-ahud-panel-active", usePanel);
-    document.body.classList.toggle("dsp-ahud-styled", active && !!game.settings.get(MODULE_ID, "abilityHudDspStyle"));
+    document.body.classList.toggle(
+      "dsp-ahud-styled",
+      active && !!game.settings.get(MODULE_ID, "abilityHudDspStyle"),
+    );
   }
 
   static usesToolbarActorLabel() {
-    return this.isModuleActive()
-      && !!game.settings.get(MODULE_ID, "abilityHudDspStyle")
-      && !!game.settings.get(MODULE_ID, "useAbilityHudPanel");
+    return (
+      this.isModuleActive() &&
+      !!game.settings.get(MODULE_ID, "abilityHudDspStyle") &&
+      !!game.settings.get(MODULE_ID, "useAbilityHudPanel")
+    );
   }
 
   static initialize() {
@@ -87,7 +115,10 @@ export class AbilityHudUI extends DspFloatingUI {
 
   static shouldOwnExternalHud() {
     try {
-      return this.isModuleActive() && !!game.settings.get(MODULE_ID, "useAbilityHudPanel");
+      return (
+        this.isModuleActive() &&
+        !!game.settings.get(MODULE_ID, "useAbilityHudPanel")
+      );
     } catch {
       return false;
     }
@@ -189,8 +220,13 @@ export class AbilityHudUI extends DspFloatingUI {
     if (this._guardedHudEl !== hudEl) {
       this._styleGuardObserver?.disconnect();
       this._guardedHudEl = hudEl;
-      this._styleGuardObserver = new MutationObserver(() => this._stripHudAutoPosition(hudEl));
-      this._styleGuardObserver.observe(hudEl, { attributes: true, attributeFilter: ["style"] });
+      this._styleGuardObserver = new MutationObserver(() =>
+        this._stripHudAutoPosition(hudEl),
+      );
+      this._styleGuardObserver.observe(hudEl, {
+        attributes: true,
+        attributeFilter: ["style"],
+      });
     }
 
     const bar = hudEl.querySelector(".dsahud-bar");
@@ -199,8 +235,13 @@ export class AbilityHudUI extends DspFloatingUI {
       this._barStyleGuardObserver?.disconnect();
       this._guardedBarEl = bar;
       if (bar) {
-        this._barStyleGuardObserver = new MutationObserver(() => this._stripHudBarAutoPosition(bar));
-        this._barStyleGuardObserver.observe(bar, { attributes: true, attributeFilter: ["style"] });
+        this._barStyleGuardObserver = new MutationObserver(() =>
+          this._stripHudBarAutoPosition(bar),
+        );
+        this._barStyleGuardObserver.observe(bar, {
+          attributes: true,
+          attributeFilter: ["style"],
+        });
       }
     }
 
@@ -211,7 +252,10 @@ export class AbilityHudUI extends DspFloatingUI {
     if (!hudEl) return;
     let dirty = false;
     for (const prop of HUD_PLACEMENT_STYLES) {
-      if (hudEl.style.getPropertyValue(prop)) { dirty = true; break; }
+      if (hudEl.style.getPropertyValue(prop)) {
+        dirty = true;
+        break;
+      }
     }
     if (!dirty) return;
     for (const prop of HUD_PLACEMENT_STYLES) hudEl.style.removeProperty(prop);
@@ -221,7 +265,10 @@ export class AbilityHudUI extends DspFloatingUI {
     if (!bar) return;
     let dirty = false;
     for (const prop of HUD_BAR_PLACEMENT_STYLES) {
-      if (bar.style.getPropertyValue(prop)) { dirty = true; break; }
+      if (bar.style.getPropertyValue(prop)) {
+        dirty = true;
+        break;
+      }
     }
     if (!dirty) return;
     for (const prop of HUD_BAR_PLACEMENT_STYLES) bar.style.removeProperty(prop);
@@ -240,7 +287,9 @@ export class AbilityHudUI extends DspFloatingUI {
       reclaim();
       requestAnimationFrame(reclaim);
     });
-    this._hudOverrideTimers = [0, 50, 250].map((delay) => setTimeout(reclaim, delay));
+    this._hudOverrideTimers = [0, 50, 250].map((delay) =>
+      setTimeout(reclaim, delay),
+    );
   }
 
   _clearHudOverrideTimers() {
@@ -251,7 +300,9 @@ export class AbilityHudUI extends DspFloatingUI {
   _syncActorLabelToolbar(hudEl = document.getElementById("ds-ability-hud")) {
     const toolbar = this.element?.querySelector(".dsp-fui-toolbar");
     const label = hudEl?.querySelector(".dsahud-actor-label");
-    const existing = toolbar?.querySelector('[data-action="openAbilityHudActor"]');
+    const existing = toolbar?.querySelector(
+      '[data-action="openAbilityHudActor"]',
+    );
     const enabled = this.constructor.usesToolbarActorLabel();
 
     if (!toolbar || !label || !enabled) {
@@ -274,13 +325,16 @@ export class AbilityHudUI extends DspFloatingUI {
 
     if (!existing) {
       const dragHandle = toolbar.querySelector(".dsp-fui-drag-handle");
-      if (dragHandle?.nextSibling) toolbar.insertBefore(btn, dragHandle.nextSibling);
+      if (dragHandle?.nextSibling)
+        toolbar.insertBefore(btn, dragHandle.nextSibling);
       else toolbar.prepend(btn);
     }
   }
 
   static openAbilityHudActor() {
-    const label = this.element?.querySelector(".dsp-ahud-content .dsahud-actor-label");
+    const label = this.element?.querySelector(
+      ".dsp-ahud-content .dsahud-actor-label",
+    );
     label?.click();
   }
 

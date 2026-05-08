@@ -22,7 +22,7 @@ body.dsp-ahud-styled #dsahud-tooltip {
   --dsp-tier1: light-dark(#a13a2a, #d97565);
   --dsp-tier3: light-dark(#7a5d2a, #d6b86a);
   --dsp-shadow: light-dark(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.6));
-  font-size: var(--dsp-font-size-xl);
+  font-size: var(--dsp-font-size-2xl);
   text-align: start;
   color: var(--dsp-text-light);
   border-radius: var(--dsp-radius-md);
@@ -190,7 +190,7 @@ body.dsp-ahud-styled #dsahud-tooltip {
   flex-shrink: 0;
   padding: calc(4px * var(--dsp-scale, 1)) 0;
   border-top: 1px solid var(--dsp-border-light);
-  font-size: var(--dsp-font-size-xl);
+  font-size: var(--dsp-font-size-2xl);
   line-height: 1.5;
   color: var(--dsp-text-light);
 }
@@ -221,7 +221,7 @@ body.dsp-ahud-styled #dsahud-tooltip {
   word-break: break-word;
   scrollbar-width: thin;
   scrollbar-color: var(--dsp-accent) transparent;
-  font-size: var(--dsp-font-size-xl);
+  font-size: var(--dsp-font-size-2xl);
   line-height: 1.5;
   color: var(--dsp-text-light);
   padding-top: calc(4px * var(--dsp-scale, 1));
@@ -255,7 +255,7 @@ body.dsp-ahud-styled #dsahud-tooltip {
 
 :is(#tooltip, .locked-tooltip).dsp-tooltip enriched-content[data-dsp-sealed-enricher="ds.potency"] span.potency {
   font-family: "Draw Steel Glyphs";
-  font-size: var(--font-size-16);
+  font-size: var(--dsp-font-size-2xl);
   text-transform: lowercase;
   line-height: 0.9;
 }
@@ -398,19 +398,15 @@ body.dsp-ahud-styled #dsahud-tooltip {
 :is(#tooltip, .locked-tooltip).dsp-tooltip .embed-body .draw-steel .power-roll-display {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr);
-  gap: calc(5px * var(--dsp-scale, 1)) calc(10px * var(--dsp-scale, 1));
+  gap: 2px calc(8px * var(--dsp-scale, 1));
   margin: 0;
   padding: 0;
-  font-size: var(--dsp-font-size-lg);
+  font-size: var(--dsp-font-size-base);
 }
 
 :is(#tooltip, .locked-tooltip).dsp-tooltip .embed-body .draw-steel .power-roll-display dt {
-  font-family: "Draw Steel Glyphs";
-  font-weight: 700;
-  font-size: var(--dsp-font-size-2xl);
-  text-transform: none;
-  letter-spacing: 0;
-  line-height: 1;
+  font-weight: 300;
+  color: var(--dsp-accent);
 }
 
 :is(#tooltip, .locked-tooltip).dsp-tooltip .embed-body .draw-steel .power-roll-display dt.tier1,
@@ -430,9 +426,7 @@ body.dsp-ahud-styled #dsahud-tooltip {
 
 :is(#tooltip, .locked-tooltip).dsp-tooltip .embed-body .draw-steel .power-roll-display dd,
 :is(#tooltip, .locked-tooltip).dsp-tooltip .embed-fallback .power-roll-display dd {
-  color: var(--dsp-text);
-  font-size: var(--dsp-font-size-lg);
-  font-weight: 600;
+  color: var(--dsp-text-light);
   line-height: 1.35;
 }
 
@@ -518,19 +512,15 @@ body.dsp-ahud-styled #dsahud-tooltip {
 :is(#tooltip, .locked-tooltip).dsp-tooltip .embed-fallback .spend dl {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr);
-  gap: calc(5px * var(--dsp-scale, 1)) calc(10px * var(--dsp-scale, 1));
+  gap: 2px calc(8px * var(--dsp-scale, 1));
   margin: 0;
   padding: 0;
-  font-size: var(--dsp-font-size-lg);
+  font-size: var(--dsp-font-size-base);
 }
 
 :is(#tooltip, .locked-tooltip).dsp-tooltip .embed-fallback .power-roll-display dt {
-  font-family: "Draw Steel Glyphs";
-  font-weight: 700;
-  font-size: var(--dsp-font-size-2xl);
-  text-transform: none;
-  letter-spacing: 0;
-  line-height: 1;
+  font-weight: 300;
+  color: var(--dsp-accent);
 }
 
 :is(#tooltip, .locked-tooltip).dsp-tooltip .embed-fallback .spend dt {

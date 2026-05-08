@@ -1,586 +1,634 @@
 .draw-steel-plus.sheet .dsp-sidebar {
-  position: relative;
-  overflow: visible;
+    position: relative;
+    overflow: visible;
 }
 
 .draw-steel-plus.sheet .sidebar-toggle {
-  position: absolute;
-  top: calc(10px * var(--dsp-scale, 1));
-  right: 0;
-  transform: translateX(100%);
-  z-index: 25;
-  width: calc(20px * var(--dsp-scale, 1));
-  height: calc(34px * var(--dsp-scale, 1));
-  background: var(--dsp-surface);
-  border: 1px solid var(--dsp-border);
-  border-left: none;
-  border-radius: 0 var(--dsp-radius-sm) var(--dsp-radius-sm) 0;
-  color: var(--dsp-text-faint);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: var(--dsp-font-size-2xs);
-  transition: color var(--dsp-transition), background var(--dsp-transition), border-color var(--dsp-transition);
+    position: absolute;
+    top: calc(10px * var(--dsp-scale, 1));
+    right: 0;
+    transform: translateX(100%);
+    z-index: 25;
+    width: calc(20px * var(--dsp-scale, 1));
+    height: calc(34px * var(--dsp-scale, 1));
+    background: var(--dsp-surface);
+    border: 1px solid var(--dsp-border);
+    border-left: none;
+    border-radius: 0 var(--dsp-radius-sm) var(--dsp-radius-sm) 0;
+    color: var(--dsp-text-faint);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--dsp-font-size-2xs);
+    transition:
+        color var(--dsp-transition),
+        background var(--dsp-transition),
+        border-color var(--dsp-transition);
 }
 
 .draw-steel-plus.sheet .sidebar-toggle:hover {
-  color: var(--dsp-accent);
-  border-color: var(--dsp-accent);
-  background: var(--dsp-surface-raised);
+    color: var(--dsp-accent);
+    border-color: var(--dsp-accent);
+    background: var(--dsp-surface-raised);
 }
 
 .draw-steel-plus.sheet .sidebar-toggle i {
-  transition: transform var(--dsp-transition-slow);
+    transition: transform var(--dsp-transition-slow);
 }
 
 .draw-steel-plus.sheet.sidebar-collapsed .sidebar-toggle i {
-  transform: rotate(180deg);
+    transform: rotate(180deg);
 }
 
 .draw-steel-plus.sheet .sidebar-content {
-  width: calc(240px * var(--dsp-scale, 1));
-  height: 100%;
-  background: var(--dsp-surface);
-  border-right: 1px solid var(--dsp-border);
-  overflow-y: auto;
-  overflow-x: hidden;
-  display: flex;
-  flex-direction: column;
-  transition: width var(--dsp-transition-slow), border-color var(--dsp-transition-slow);
+    width: calc(240px * var(--dsp-scale, 1));
+    height: 100%;
+    background: var(--dsp-surface);
+    border-right: 1px solid var(--dsp-border);
+    overflow-y: auto;
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+    transition:
+        width var(--dsp-transition-slow),
+        border-color var(--dsp-transition-slow);
 }
 
 .draw-steel-plus.sheet.sidebar-collapsed .sidebar-content {
-  width: 0;
-  border-right-color: transparent;
+    width: 0;
+    border-right-color: transparent;
 }
 
 .draw-steel-plus.sheet .sidebar-content::-webkit-scrollbar {
-  width: 4px;
+    width: 4px;
 }
 
 .draw-steel-plus.sheet .sidebar-section {
-  padding: calc(12px * var(--dsp-scale, 1)) calc(14px * var(--dsp-scale, 1));
-  border-bottom: 1px solid var(--dsp-border);
-  min-width: calc(240px * var(--dsp-scale, 1));
-  position: relative;
+    padding: calc(12px * var(--dsp-scale, 1)) calc(14px * var(--dsp-scale, 1));
+    border-bottom: 1px solid var(--dsp-border);
+    min-width: calc(240px * var(--dsp-scale, 1));
+    position: relative;
 }
 
 .draw-steel-plus.sheet .sidebar-section:last-child {
-  border-bottom: none;
+    border-bottom: none;
 }
 
 .draw-steel-plus.sheet .sidebar-section::after {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  left: 10%;
-  right: 10%;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, var(--dsp-border-light) 30%, var(--dsp-border-light) 70%, transparent);
-  pointer-events: none;
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 10%;
+    right: 10%;
+    height: 1px;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        var(--dsp-border-light) 30%,
+        var(--dsp-border-light) 70%,
+        transparent
+    );
+    pointer-events: none;
 }
 
 .draw-steel-plus.sheet .sidebar-section:last-child::after {
-  display: none;
+    display: none;
 }
 
 .draw-steel-plus.sheet .sidebar-section-title {
-  font-size: var(--dsp-font-size-xs);
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-  color: var(--dsp-text-faint);
-  margin-bottom: calc(10px * var(--dsp-scale, 1));
+    font-size: var(--dsp-font-size-xs);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--dsp-text-faint);
+    margin-bottom: calc(10px * var(--dsp-scale, 1));
 }
 
 .draw-steel-plus.sheet .sidebar-resource {
-  margin-bottom: calc(12px * var(--dsp-scale, 1));
+    margin-bottom: calc(12px * var(--dsp-scale, 1));
 }
 
 .draw-steel-plus.sheet .sidebar-resource:last-child {
-  margin-bottom: 0;
+    margin-bottom: 0;
 }
 
 .draw-steel-plus.sheet .sidebar-resource-header {
-  margin-bottom: calc(6px * var(--dsp-scale, 1));
+    margin-bottom: calc(6px * var(--dsp-scale, 1));
 }
 
 .draw-steel-plus.sheet .sidebar-resource-header button {
-  background: none;
-  border: none;
-  color: var(--dsp-text-light);
-  font-size: var(--dsp-font-size-md);
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  cursor: pointer;
-  padding: 2px 4px;
-  border-radius: var(--dsp-radius-sm);
-  display: inline-flex;
-  align-items: center;
-  gap: calc(5px * var(--dsp-scale, 1));
-  transition: color var(--dsp-transition), background var(--dsp-transition);
+    background: none;
+    border: none;
+    color: var(--dsp-text-light);
+    font-size: var(--dsp-font-size-md);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    cursor: pointer;
+    padding: 2px 4px;
+    border-radius: var(--dsp-radius-sm);
+    display: inline-flex;
+    align-items: center;
+    gap: calc(5px * var(--dsp-scale, 1));
+    transition:
+        color var(--dsp-transition),
+        background var(--dsp-transition);
 }
 
 .draw-steel-plus.sheet .sidebar-resource-header button:hover {
-  color: var(--dsp-accent);
-  background: rgba(200, 170, 110, 0.08);
+    color: var(--dsp-accent);
+    background: rgba(200, 170, 110, 0.08);
 }
 
 .draw-steel-plus.sheet .sidebar-resource-header span {
-  font-size: var(--dsp-font-size-md);
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  color: var(--dsp-text-light);
-  padding: 2px 4px;
-  display: inline-flex;
-  align-items: center;
-  gap: calc(5px * var(--dsp-scale, 1));
+    font-size: var(--dsp-font-size-md);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--dsp-text-light);
+    padding: 2px 4px;
+    display: inline-flex;
+    align-items: center;
+    gap: calc(5px * var(--dsp-scale, 1));
 }
 
 .draw-steel-plus.sheet .sidebar-resource-header i {
-  font-size: var(--dsp-font-size-sm);
-  color: var(--dsp-primary-light);
+    font-size: var(--dsp-font-size-sm);
+    color: var(--dsp-primary-light);
 }
 
 .draw-steel-plus.sheet .stam-bar-wrap {
-  position: relative;
-  margin-bottom: calc(8px * var(--dsp-scale, 1));
+    position: relative;
+    margin-bottom: calc(8px * var(--dsp-scale, 1));
 }
 
 .draw-steel-plus.sheet .stam-bar-track {
-  position: relative;
-  width: 100%;
-  height: calc(24px * var(--dsp-scale, 1));
-  background: rgba(0, 0, 0, 0.6);
-  border: 1px solid var(--dsp-border-light);
-  border-radius: var(--dsp-radius-sm);
-  overflow: hidden;
-  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.7), 0 1px 0 rgba(255, 255, 255, 0.03);
+    position: relative;
+    width: 100%;
+    height: calc(24px * var(--dsp-scale, 1));
+    background: rgba(0, 0, 0, 0.6);
+    border: 1px solid var(--dsp-border-light);
+    border-radius: var(--dsp-radius-sm);
+    overflow: hidden;
+    box-shadow:
+        inset 0 2px 6px rgba(0, 0, 0, 0.7),
+        0 1px 0 rgba(255, 255, 255, 0.03);
 }
 
 .draw-steel-plus.sheet .stam-bar-fill {
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  width: calc(100% * var(--stam-current, 0) / max(var(--stam-max, 1), 1));
-  background: linear-gradient(180deg, #c03030 0%, #a82828 40%, #7a1b1b 100%);
-  border-radius: var(--dsp-radius-sm) 0 0 var(--dsp-radius-sm);
-  transition: width 0.5s ease;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15), inset 0 -1px 0 rgba(0, 0, 0, 0.3);
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: calc(100% * var(--stam-current, 0) / max(var(--stam-max, 1), 1));
+    background: linear-gradient(180deg, #c03030 0%, #a82828 40%, #7a1b1b 100%);
+    border-radius: var(--dsp-radius-sm) 0 0 var(--dsp-radius-sm);
+    transition: width 0.5s ease;
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.15),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.3);
 }
 
 .draw-steel-plus.sheet .stam-bar-temp {
-  position: absolute;
-  left: calc(100% * var(--stam-current, 0) / max(var(--stam-max, 1), 1));
-  top: 0;
-  bottom: 0;
-  width: calc(100% * var(--stam-temp, 0) / max(var(--stam-max, 1), 1));
-  background: linear-gradient(180deg, #e8b82a 0%, #d4a017 40%, #b8860b 100%);
-  transition: width 0.5s ease, left 0.5s ease;
-  opacity: 0.9;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    position: absolute;
+    left: calc(100% * var(--stam-current, 0) / max(var(--stam-max, 1), 1));
+    top: 0;
+    bottom: 0;
+    width: calc(100% * var(--stam-temp, 0) / max(var(--stam-max, 1), 1));
+    background: linear-gradient(180deg, #e8b82a 0%, #d4a017 40%, #b8860b 100%);
+    transition:
+        width 0.5s ease,
+        left 0.5s ease;
+    opacity: 0.9;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
 .draw-steel-plus.sheet .stam-bar-text {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 2px;
-  z-index: 2;
-  pointer-events: none;
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    z-index: 2;
+    pointer-events: none;
 }
 
 .draw-steel-plus.sheet .stam-bar-text .stam-val {
-  font-size: var(--dsp-font-size-xl);
-  font-weight: 800;
-  color: #fff;
-  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.9), 0 0 8px rgba(0, 0, 0, 0.5);
+    font-size: var(--dsp-font-size-xl);
+    font-weight: 800;
+    color: #fff;
+    text-shadow:
+        0 1px 4px rgba(0, 0, 0, 0.9),
+        0 0 8px rgba(0, 0, 0, 0.5);
 }
 
 .draw-steel-plus.sheet .stam-bar-text .stam-sep {
-  font-size: var(--dsp-font-size-base);
-  color: rgba(255, 255, 255, 0.5);
-  font-weight: 400;
-  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.9);
+    font-size: var(--dsp-font-size-base);
+    color: rgba(255, 255, 255, 0.5);
+    font-weight: 400;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.9);
 }
 
 .draw-steel-plus.sheet .stam-bar-text .stam-max-text {
-  font-size: var(--dsp-font-size-lg);
-  font-weight: 700;
-  color: rgba(255, 255, 255, 0.7);
-  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.9);
+    font-size: var(--dsp-font-size-lg);
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.7);
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.9);
 }
 
 .draw-steel-plus.sheet .stam-bar-text .stam-temp-text {
-  font-size: var(--dsp-font-size-md);
-  font-weight: 700;
-  color: var(--dsp-accent);
-  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.9);
-  margin-left: 2px;
+    font-size: var(--dsp-font-size-md);
+    font-weight: 700;
+    color: var(--dsp-accent);
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.9);
+    margin-left: 2px;
 }
 
 .draw-steel-plus.sheet .sidebar-resource-fields {
-  display: flex;
-  gap: calc(6px * var(--dsp-scale, 1));
-  align-items: flex-end;
-  flex-wrap: wrap;
+    display: flex;
+    gap: calc(6px * var(--dsp-scale, 1));
+    align-items: flex-end;
+    flex-wrap: wrap;
 }
 
 .draw-steel-plus.sheet .sidebar-field {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  flex: 1;
-  min-width: calc(45px * var(--dsp-scale, 1));
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    flex: 1;
+    min-width: calc(45px * var(--dsp-scale, 1));
 }
 
 .draw-steel-plus.sheet .sidebar-field label {
-  font-size: var(--dsp-font-size-2xs);
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  color: var(--dsp-text-faint);
+    font-size: var(--dsp-font-size-2xs);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--dsp-text-faint);
 }
 
 .draw-steel-plus.sheet .sidebar-field input {
-  background: rgba(0, 0, 0, 0.3);
-  border: 1px solid var(--dsp-border);
-  border-radius: var(--dsp-radius-sm);
-  color: var(--dsp-text);
-  font-size: var(--dsp-font-size-2xl);
-  font-weight: 700;
-  padding: calc(4px * var(--dsp-scale, 1)) calc(6px * var(--dsp-scale, 1));
-  text-align: center;
-  outline: none;
-  width: 100%;
-  transition: border-color var(--dsp-transition), box-shadow var(--dsp-transition);
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid var(--dsp-border);
+    border-radius: var(--dsp-radius-sm);
+    color: var(--dsp-text);
+    font-size: var(--dsp-font-size-2xl);
+    font-weight: 700;
+    padding: calc(4px * var(--dsp-scale, 1)) calc(6px * var(--dsp-scale, 1));
+    text-align: center;
+    outline: none;
+    width: 100%;
+    transition:
+        border-color var(--dsp-transition),
+        box-shadow var(--dsp-transition);
 }
 
 .draw-steel-plus.sheet .sidebar-field input:focus {
-  border-color: var(--dsp-accent);
-  box-shadow: 0 0 6px var(--dsp-accent-dim);
+    border-color: var(--dsp-accent);
+    box-shadow: 0 0 6px var(--dsp-accent-dim);
 }
 
 .draw-steel-plus.sheet .sidebar-static {
-  font-size: var(--dsp-font-size-2xl);
-  font-weight: 700;
-  color: var(--dsp-text-faint);
-  text-align: center;
-  padding: calc(4px * var(--dsp-scale, 1)) calc(6px * var(--dsp-scale, 1));
-  background: rgba(0, 0, 0, 0.15);
-  border: 1px solid transparent;
-  border-radius: var(--dsp-radius-sm);
+    font-size: var(--dsp-font-size-2xl);
+    font-weight: 700;
+    color: var(--dsp-text-faint);
+    text-align: center;
+    padding: calc(4px * var(--dsp-scale, 1)) calc(6px * var(--dsp-scale, 1));
+    background: rgba(0, 0, 0, 0.15);
+    border: 1px solid transparent;
+    border-radius: var(--dsp-radius-sm);
 }
 
 .draw-steel-plus.sheet .sidebar-dual-row {
-  display: flex;
-  align-items: stretch;
-  background: rgba(0, 0, 0, 0.15);
-  border: 1px solid var(--dsp-border);
-  border-radius: var(--dsp-radius-md);
-  overflow: hidden;
-  margin-top: calc(12px * var(--dsp-scale, 1));
+    display: flex;
+    align-items: stretch;
+    background: rgba(0, 0, 0, 0.15);
+    border: 1px solid var(--dsp-border);
+    border-radius: var(--dsp-radius-md);
+    overflow: hidden;
+    margin-top: calc(12px * var(--dsp-scale, 1));
 }
 
 .draw-steel-plus.sheet .sidebar-dual-col {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: calc(8px * var(--dsp-scale, 1)) calc(6px * var(--dsp-scale, 1));
-  gap: calc(6px * var(--dsp-scale, 1));
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: calc(8px * var(--dsp-scale, 1)) calc(6px * var(--dsp-scale, 1));
+    gap: calc(6px * var(--dsp-scale, 1));
 }
 
 .draw-steel-plus.sheet .sidebar-dual-col .sidebar-resource-header {
-  margin-bottom: 0;
+    margin-bottom: 0;
 }
 
 .draw-steel-plus.sheet .sidebar-dual-col .sidebar-resource-header button,
 .draw-steel-plus.sheet .sidebar-dual-col .sidebar-resource-header span {
-  font-size: var(--dsp-font-size-xs);
-  padding: 0;
+    font-size: var(--dsp-font-size-xs);
+    padding: 0;
 }
 
 .draw-steel-plus.sheet .sidebar-dual-divider {
-  width: 1px;
-  background: var(--dsp-border);
-  align-self: stretch;
+    width: 1px;
+    background: var(--dsp-border);
+    align-self: stretch;
 }
 
 .draw-steel-plus.sheet .sidebar-dual-input {
-  background: rgba(0, 0, 0, 0.3);
-  border: 1px solid var(--dsp-border);
-  border-radius: var(--dsp-radius-sm);
-  color: var(--dsp-text);
-  font-size: var(--dsp-font-size-5xl);
-  font-weight: 800;
-  padding: calc(4px * var(--dsp-scale, 1));
-  text-align: center;
-  outline: none;
-  width: 100%;
-  transition: border-color var(--dsp-transition), box-shadow var(--dsp-transition);
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid var(--dsp-border);
+    border-radius: var(--dsp-radius-sm);
+    color: var(--dsp-text);
+    font-size: var(--dsp-font-size-5xl);
+    font-weight: 800;
+    padding: calc(4px * var(--dsp-scale, 1));
+    text-align: center;
+    outline: none;
+    width: 100%;
+    transition:
+        border-color var(--dsp-transition),
+        box-shadow var(--dsp-transition);
 }
 
 .draw-steel-plus.sheet .sidebar-dual-input:focus {
-  border-color: var(--dsp-accent);
-  box-shadow: 0 0 6px var(--dsp-accent-dim);
+    border-color: var(--dsp-accent);
+    box-shadow: 0 0 6px var(--dsp-accent-dim);
 }
 
 .draw-steel-plus.sheet .sidebar-stat-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: calc(6px * var(--dsp-scale, 1));
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: calc(6px * var(--dsp-scale, 1));
 }
 
 .draw-steel-plus.sheet .dsp-floating-tabs > .dsp-float-tab.active,
 .draw-steel-plus.sheet .dsp-floating-tabs > .dsp-float-tab:hover {
-  border-color: var(--dsp-accent);
-  box-shadow: 0 0 6px var(--dsp-accent-dim);
-  margin-left: 0;
-  text-shadow: none;
-  color: var(--dsp-accent);
-  border: none;
+    border-color: var(--dsp-accent);
+    box-shadow: 0 0 6px var(--dsp-accent-dim);
+    margin-left: 0;
+    text-shadow: none;
+    color: var(--dsp-accent);
+    border: none;
 }
 
 .draw-steel-plus.sheet .sidebar-stat-badge {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: calc(4px * var(--dsp-scale, 1)) calc(7px * var(--dsp-scale, 1));
-  background: rgba(0, 0, 0, 0.25);
-  border: 1px solid var(--dsp-border);
-  border-radius: var(--dsp-radius-md);
-  transition: border-color var(--dsp-transition), box-shadow var(--dsp-transition), transform var(--dsp-transition-fast);
-  gap: calc(4px * var(--dsp-scale, 1));
-  cursor: default;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: calc(4px * var(--dsp-scale, 1)) calc(7px * var(--dsp-scale, 1));
+    background: rgba(0, 0, 0, 0.25);
+    border: 1px solid var(--dsp-border);
+    border-radius: var(--dsp-radius-md);
+    transition:
+        border-color var(--dsp-transition),
+        box-shadow var(--dsp-transition),
+        transform var(--dsp-transition-fast);
+    gap: calc(4px * var(--dsp-scale, 1));
+    cursor: default;
 }
 
 .draw-steel-plus.sheet .sidebar-stat-badge:hover {
-  border-color: var(--dsp-border-light);
-  transform: translateY(-1px);
+    border-color: var(--dsp-border-light);
+    transform: translateY(-1px);
 }
 
 .draw-steel-plus.sheet .sidebar-stat-badge .stat-val {
-  font-size: calc(1.25rem * var(--dsp-scale, 1));
-  font-weight: 900;
-  color: var(--dsp-text);
-  line-height: 1;
+    font-size: calc(1.25rem * var(--dsp-scale, 1));
+    font-weight: 900;
+    color: var(--dsp-text);
+    line-height: 1;
 }
 
 .draw-steel-plus.sheet .sidebar-stat-badge:hover .stat-val {
-  color: var(--dsp-accent);
+    color: var(--dsp-accent);
 }
 
 .draw-steel-plus.sheet .sidebar-stat-badge .stat-lbl {
-  font-size: var(--dsp-font-size-2xs);
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--dsp-text-faint);
-  text-align: center;
-  line-height: 1.2;
+    font-size: var(--dsp-font-size-2xs);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--dsp-text-faint);
+    text-align: center;
+    line-height: 1.2;
 }
 
 .draw-steel-plus.sheet .sidebar-edit-section {
-  display: flex;
-  flex-direction: column;
-  gap: calc(8px * var(--dsp-scale, 1));
+    display: flex;
+    flex-direction: column;
+    gap: calc(8px * var(--dsp-scale, 1));
 }
 
 .draw-steel-plus.sheet .sidebar-edit-section fieldset {
-  padding: calc(8px * var(--dsp-scale, 1)) calc(10px * var(--dsp-scale, 1));
-  background: rgba(0, 0, 0, 0.1);
+    padding: calc(8px * var(--dsp-scale, 1)) calc(10px * var(--dsp-scale, 1));
+    background: rgba(0, 0, 0, 0.1);
 }
 
 .draw-steel-plus.sheet .sidebar-edit-section fieldset.flexrow {
-  flex-direction: column;
-  flex-wrap: nowrap;
-  gap: calc(6px * var(--dsp-scale, 1));
+    flex-direction: column;
+    flex-wrap: nowrap;
+    gap: calc(6px * var(--dsp-scale, 1));
 }
 
 .draw-steel-plus.sheet .sidebar-edit-section .flexrow {
-  gap: calc(6px * var(--dsp-scale, 1));
+    gap: calc(6px * var(--dsp-scale, 1));
 }
 
 .draw-steel-plus.sheet .sidebar-edit-section .form-group {
-  flex: 0 0 auto;
-  min-width: 0;
-  width: 100%;
-  flex-direction: column;
+    flex: 0 0 auto;
+    min-width: 0;
+    width: 100%;
+    flex-direction: column;
 }
 
 .draw-steel-plus.sheet .sidebar-edit-section .form-group .form-fields {
-  width: 100%;
+    width: 100%;
 }
 
 .draw-steel-plus.sheet .sidebar-edit-section .form-group .form-fields input,
 .draw-steel-plus.sheet .sidebar-edit-section .form-group .form-fields select,
-.draw-steel-plus.sheet .sidebar-edit-section .form-group .form-fields multi-select {
-  width: 100%;
+.draw-steel-plus.sheet
+    .sidebar-edit-section
+    .form-group
+    .form-fields
+    multi-select {
+    width: 100%;
 }
 
 .draw-steel-plus.sheet .sidebar-edit-section .immunities-weaknesses {
-  display: flex;
-  flex-direction: column;
-  gap: calc(8px * var(--dsp-scale, 1));
+    display: flex;
+    flex-direction: column;
+    gap: calc(8px * var(--dsp-scale, 1));
 }
 
 .draw-steel-plus.sheet .sidebar-edit-section .immunities.flexrow,
 .draw-steel-plus.sheet .sidebar-edit-section .weaknesses.flexrow {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: calc(6px * var(--dsp-scale, 1));
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: calc(6px * var(--dsp-scale, 1));
 }
 
 .draw-steel-plus.sheet .sidebar-tag-section {
-  margin-bottom: calc(10px * var(--dsp-scale, 1));
+    margin-bottom: calc(10px * var(--dsp-scale, 1));
 }
 
 .draw-steel-plus.sheet .sidebar-tag-section:last-child {
-  margin-bottom: 0;
+    margin-bottom: 0;
 }
 
 .draw-steel-plus.sheet .sidebar-tag-header {
-  font-size: var(--dsp-font-size-sm);
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: var(--dsp-text-faint);
-  margin-bottom: calc(8px * var(--dsp-scale, 1));
-  display: flex;
-  align-items: center;
-  gap: calc(6px * var(--dsp-scale, 1));
+    font-size: var(--dsp-font-size-sm);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--dsp-text-faint);
+    margin-bottom: calc(8px * var(--dsp-scale, 1));
+    display: flex;
+    align-items: center;
+    gap: calc(6px * var(--dsp-scale, 1));
 }
 
 .draw-steel-plus.sheet .sidebar-tag-header i {
-  font-size: var(--dsp-font-size-xs);
-  color: var(--dsp-primary-light);
+    font-size: var(--dsp-font-size-xs);
+    color: var(--dsp-primary-light);
 }
 
 .draw-steel-plus.sheet .sidebar-tag-header button {
-  background: none;
-  border: none;
-  color: var(--dsp-text-faint);
-  cursor: pointer;
-  font-size: var(--dsp-font-size-sm);
-  padding: 1px 3px;
-  border-radius: var(--dsp-radius-sm);
-  transition: color var(--dsp-transition);
-  margin-left: auto;
+    background: none;
+    border: none;
+    color: var(--dsp-text-faint);
+    cursor: pointer;
+    font-size: var(--dsp-font-size-sm);
+    padding: 1px 3px;
+    border-radius: var(--dsp-radius-sm);
+    transition: color var(--dsp-transition);
+    margin-left: auto;
 }
 
 .draw-steel-plus.sheet .sidebar-tag-header button:hover {
-  color: var(--dsp-accent);
+    color: var(--dsp-accent);
 }
 
 .draw-steel-plus.sheet .sidebar-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: calc(4px * var(--dsp-scale, 1));
+    display: flex;
+    flex-wrap: wrap;
+    gap: calc(4px * var(--dsp-scale, 1));
 }
 
 .draw-steel-plus.sheet .sidebar-tag {
-  display: inline-flex;
-  align-items: center;
-  padding: calc(3px * var(--dsp-scale, 1)) calc(10px * var(--dsp-scale, 1));
-  background: rgba(0, 0, 0, 0.25);
-  border: 1px solid var(--dsp-border);
-  border-radius: var(--dsp-radius-full);
-  font-size: var(--dsp-font-size-md);
-  font-weight: 600;
-  color: var(--dsp-text-light);
-  white-space: nowrap;
-  transition: background var(--dsp-transition), border-color var(--dsp-transition), color var(--dsp-transition);
+    display: inline-flex;
+    align-items: center;
+    padding: calc(3px * var(--dsp-scale, 1)) calc(10px * var(--dsp-scale, 1));
+    background: rgba(0, 0, 0, 0.25);
+    border: 1px solid var(--dsp-border);
+    border-radius: var(--dsp-radius-full);
+    font-size: var(--dsp-font-size-md);
+    font-weight: 600;
+    color: var(--dsp-text-light);
+    white-space: nowrap;
+    transition:
+        background var(--dsp-transition),
+        border-color var(--dsp-transition),
+        color var(--dsp-transition);
 }
 
 .draw-steel-plus.sheet .sidebar-tag:hover {
-  background: rgba(122, 27, 27, 0.4);
-  border-color: var(--dsp-primary-light);
-  color: var(--dsp-text);
+    background: rgba(122, 27, 27, 0.4);
+    border-color: var(--dsp-primary-light);
+    color: var(--dsp-text);
 }
 
 .draw-steel-plus.sheet .sidebar-tag-none {
-  color: var(--dsp-text-faint);
-  font-style: italic;
-  border-color: transparent;
-  background: rgba(0, 0, 0, 0.1);
+    color: var(--dsp-text-faint);
+    font-style: italic;
+    border-color: transparent;
+    background: rgba(0, 0, 0, 0.1);
 }
 
 .draw-steel-plus.sheet .sidebar-skills-edit {
-  width: 100%;
+    width: 100%;
 }
 
 .draw-steel-plus.sheet .sidebar-skills-edit multi-select {
-  width: 100%;
+    width: 100%;
 }
 
 .draw-steel-plus.sheet .sidebar-skills-edit .form-fields {
-  width: 100%;
+    width: 100%;
 }
 
 .draw-steel-plus.sheet .sidebar-skills .ds-tag-group {
-  display: flex;
-  flex-wrap: wrap;
-  gap: calc(4px * var(--dsp-scale, 1));
+    display: flex;
+    flex-wrap: wrap;
+    gap: calc(4px * var(--dsp-scale, 1));
 }
 
 .draw-steel-plus.sheet .sidebar-skills .ds-tag-group .ds-tag {
-  padding: calc(3px * var(--dsp-scale, 1)) calc(10px * var(--dsp-scale, 1));
-  background: rgba(0, 0, 0, 0.25);
-  border: 1px solid var(--dsp-border);
-  border-radius: var(--dsp-radius-full);
-  font-size: var(--dsp-font-size-md);
-  font-weight: 600;
-  color: var(--dsp-text-light);
-  transition: background var(--dsp-transition), border-color var(--dsp-transition), color var(--dsp-transition);
+    padding: calc(3px * var(--dsp-scale, 1)) calc(10px * var(--dsp-scale, 1));
+    background: rgba(0, 0, 0, 0.25);
+    border: 1px solid var(--dsp-border);
+    border-radius: var(--dsp-radius-full);
+    font-size: var(--dsp-font-size-md);
+    font-weight: 600;
+    color: var(--dsp-text-light);
+    transition:
+        background var(--dsp-transition),
+        border-color var(--dsp-transition),
+        color var(--dsp-transition);
 }
 
 .draw-steel-plus.sheet .sidebar-skills .ds-tag-group .ds-tag:hover {
-  background: rgba(122, 27, 27, 0.4);
-  border-color: var(--dsp-primary-light);
-  color: var(--dsp-text);
+    background: rgba(122, 27, 27, 0.4);
+    border-color: var(--dsp-primary-light);
+    color: var(--dsp-text);
 }
 
 .draw-steel-plus.sheet .sidebar-section > .sidebar-section-title,
 .draw-steel-plus.sheet .sidebar-tag-section > .sidebar-tag-header {
-  display: flex;
-  align-items: center;
-  user-select: none;
+    display: flex;
+    align-items: center;
+    user-select: none;
 }
 
 .draw-steel-plus.sheet .sidebar-section > .sidebar-section-title::after,
 .draw-steel-plus.sheet .sidebar-tag-section > .sidebar-tag-header::after {
-  content: "\f078";
-  font-family: var(--font-awesome);
-  font-weight: 900;
-  font-size: var(--dsp-font-size-3xs);
-  color: var(--dsp-text-faint);
-  margin-left: auto;
-  transition: transform var(--dsp-transition), color var(--dsp-transition);
-  flex-shrink: 0;
+    content: "\f078";
+    font-family: var(--font-awesome);
+    font-weight: 900;
+    font-size: var(--dsp-font-size-3xs);
+    color: var(--dsp-text-faint);
+    margin-left: auto;
+    transition:
+        transform var(--dsp-transition),
+        color var(--dsp-transition);
+    flex-shrink: 0;
 }
 
 .draw-steel-plus.sheet .sidebar-section > .sidebar-section-title:hover::after,
 .draw-steel-plus.sheet .sidebar-tag-section > .sidebar-tag-header:hover::after {
-  color: var(--dsp-accent);
+    color: var(--dsp-accent);
 }
 
-.draw-steel-plus.sheet .sidebar-section.dsp-collapsed > .sidebar-section-title::after,
-.draw-steel-plus.sheet .sidebar-tag-section.dsp-collapsed > .sidebar-tag-header::after {
-  transform: rotate(-90deg);
+.draw-steel-plus.sheet
+    .sidebar-section.dsp-collapsed
+    > .sidebar-section-title::after,
+.draw-steel-plus.sheet
+    .sidebar-tag-section.dsp-collapsed
+    > .sidebar-tag-header::after {
+    transform: rotate(-90deg);
 }
 
-.draw-steel-plus.sheet .sidebar-section.dsp-collapsed > *:not(.sidebar-section-title) {
-  display: none;
+.draw-steel-plus.sheet
+    .sidebar-section.dsp-collapsed
+    > *:not(.sidebar-section-title) {
+    display: none;
 }
 
-.draw-steel-plus.sheet .sidebar-tag-section.dsp-collapsed > *:not(.sidebar-tag-header) {
-  display: none;
+.draw-steel-plus.sheet
+    .sidebar-tag-section.dsp-collapsed
+    > *:not(.sidebar-tag-header) {
+    display: none;
 }

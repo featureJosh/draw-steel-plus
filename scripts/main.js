@@ -1,7 +1,12 @@
 import { MODULE_CONFIG, SHEET_SIZE_DEFAULTS } from "./config.js";
 import { applyColorOverrides } from "./color-settings.js";
 import { applyScaleOverrides } from "./scale-settings.js";
-import { applyImprovedChat, applyTargetDamageStyling, enhanceChatMessage, registerChatTemplates } from "./chat.js";
+import {
+  applyImprovedChat,
+  applyTargetDamageStyling,
+  enhanceChatMessage,
+  registerChatTemplates,
+} from "./chat.js";
 import { registerSettings } from "./settings.js";
 import { registerSheets } from "./sheets.js";
 import { MetaCurrencyTracker } from "./meta-currency.js";
@@ -61,13 +66,19 @@ Hooks.once("ready", async () => {
 
 Hooks.on("combatStart", () => CombatTrackerUI.show());
 Hooks.on("deleteCombat", () => {
-  if (!game.combats?.some(c => c.started)) CombatTrackerUI.hide();
+  if (!game.combats?.some((c) => c.started)) CombatTrackerUI.hide();
 });
 
 const rerenderTracker = () => {
-  if (MetaCurrencyTracker.instance?.rendered) MetaCurrencyTracker.instance.render();
+  if (MetaCurrencyTracker.instance?.rendered)
+    MetaCurrencyTracker.instance.render();
 };
-for (const hook of ["renderPlayers", "createCombat", "deleteCombat", "updateCombat"]) {
+for (const hook of [
+  "renderPlayers",
+  "createCombat",
+  "deleteCombat",
+  "updateCombat",
+]) {
   Hooks.on(hook, rerenderTracker);
 }
 

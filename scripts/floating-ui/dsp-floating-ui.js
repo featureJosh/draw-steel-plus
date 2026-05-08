@@ -23,7 +23,12 @@ export class DspFloatingUI extends HandlebarsApplicationMixin(ApplicationV2) {
     },
   };
 
-  static DEFAULT_POSITION = { anchor: "cc", offsetX: 0, offsetY: 0, snap: "grid" };
+  static DEFAULT_POSITION = {
+    anchor: "cc",
+    offsetX: 0,
+    offsetY: 0,
+    snap: "grid",
+  };
   static DEFAULT_WIDTH = 280;
   static DEFAULT_HEIGHT = 120;
 
@@ -47,11 +52,15 @@ export class DspFloatingUI extends HandlebarsApplicationMixin(ApplicationV2) {
 
   async _updateFlag(patch) {
     const current = this._readFlag();
-    const merged = foundry.utils.mergeObject(foundry.utils.deepClone(current), patch, {
-      inplace: false,
-      insertKeys: true,
-      insertValues: true,
-    });
+    const merged = foundry.utils.mergeObject(
+      foundry.utils.deepClone(current),
+      patch,
+      {
+        inplace: false,
+        insertKeys: true,
+        insertValues: true,
+      },
+    );
     await game.user.setFlag(MODULE_ID, this.#flagKey(), merged);
   }
 
@@ -93,8 +102,7 @@ export class DspFloatingUI extends HandlebarsApplicationMixin(ApplicationV2) {
     });
   }
 
-  _onPosition(_position) {
-  }
+  _onPosition(_position) {}
 
   _onRender(context, options) {
     super._onRender(context, options);
@@ -116,7 +124,11 @@ export class DspFloatingUI extends HandlebarsApplicationMixin(ApplicationV2) {
 
     FloatingUIManager.register(this);
 
-    this.element.removeEventListener("click", this._boundLinkPointerClick, true);
+    this.element.removeEventListener(
+      "click",
+      this._boundLinkPointerClick,
+      true,
+    );
     this.element.addEventListener("click", this._boundLinkPointerClick, true);
 
     this.element.removeEventListener("mouseenter", this._boundGroupEnter);
@@ -147,8 +159,11 @@ export class DspFloatingUI extends HandlebarsApplicationMixin(ApplicationV2) {
     this.setPosition(resolved);
 
     const toolbar = this.element.querySelector(".dsp-fui-toolbar");
-    const toolbarH = toolbar ? (toolbar.offsetHeight || 32) : 32;
-    this.element.classList.toggle("dsp-fui-flip-toolbar", resolved.top < toolbarH);
+    const toolbarH = toolbar ? toolbar.offsetHeight || 32 : 32;
+    this.element.classList.toggle(
+      "dsp-fui-flip-toolbar",
+      resolved.top < toolbarH,
+    );
   }
 
   #ensureLinkButton() {
@@ -188,12 +203,15 @@ export class DspFloatingUI extends HandlebarsApplicationMixin(ApplicationV2) {
       ? "DRAW_STEEL_PLUS.FloatingUI.unlink"
       : "DRAW_STEEL_PLUS.FloatingUI.link";
     const localized = game.i18n?.localize(key);
-    btn.setAttribute("data-tooltip", localized && localized !== key ? localized : linked ? "Unlink" : "Link");
+    btn.setAttribute(
+      "data-tooltip",
+      localized && localized !== key ? localized : linked ? "Unlink" : "Link",
+    );
   }
 
   #onLinkPointerClick(event) {
     if (!document.body.classList.contains("dsp-fui-link-mode")) return;
-    const targetBtn = event.target.closest('[data-action]');
+    const targetBtn = event.target.closest("[data-action]");
     if (targetBtn) return;
   }
 
@@ -215,7 +233,10 @@ export class DspFloatingUI extends HandlebarsApplicationMixin(ApplicationV2) {
           this.#watchElementAnchor();
         }
       });
-      this._elementAnchorObserver.observe(document.body, { childList: true, subtree: true });
+      this._elementAnchorObserver.observe(document.body, {
+        childList: true,
+        subtree: true,
+      });
       return;
     }
 
@@ -225,7 +246,12 @@ export class DspFloatingUI extends HandlebarsApplicationMixin(ApplicationV2) {
   }
 
   #onDragStart(event) {
-    if (event.target.closest("button, a, input, select, textarea, [data-action], [contenteditable=\"true\"]")) return;
+    if (
+      event.target.closest(
+        'button, a, input, select, textarea, [data-action], [contenteditable="true"]',
+      )
+    )
+      return;
     FloatingUIManager.startDrag(this, event);
   }
 
@@ -240,7 +266,10 @@ export class DspFloatingUI extends HandlebarsApplicationMixin(ApplicationV2) {
     if (this.element) {
       this.element.classList.add("dsp-fui-resetting");
       this.reflow();
-      setTimeout(() => this.element?.classList.remove("dsp-fui-resetting"), 400);
+      setTimeout(
+        () => this.element?.classList.remove("dsp-fui-resetting"),
+        400,
+      );
     }
     this.render();
   }

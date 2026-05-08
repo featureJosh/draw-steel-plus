@@ -19,7 +19,9 @@ const CHAT_TEMPLATES = {
 const _compiled = {};
 
 export async function registerChatTemplates() {
-  await foundry.applications.handlebars.loadTemplates(Object.values(CHAT_TEMPLATES));
+  await foundry.applications.handlebars.loadTemplates(
+    Object.values(CHAT_TEMPLATES),
+  );
 
   for (const [key, path] of Object.entries(CHAT_TEMPLATES)) {
     const id = path.replace(".hbs", "");
@@ -28,7 +30,9 @@ export async function registerChatTemplates() {
 
   const parts = globalThis.ds?.data?.pseudoDocuments?.messageParts;
   if (!parts) {
-    console.warn(`${MODULE_ID} | Could not find Draw Steel message parts — template overrides skipped`);
+    console.warn(
+      `${MODULE_ID} | Could not find Draw Steel message parts — template overrides skipped`,
+    );
     return;
   }
 
@@ -61,7 +65,10 @@ export function applyTargetDamageStyling() {
   if (typeof game === "undefined") return;
   const improvedChat = game.settings.get(MODULE_ID, "improvedChat");
   const enabled = game.settings.get(MODULE_ID, "targetDamageStyling");
-  document.body.classList.toggle("dsp-target-damage-styled", enabled && improvedChat);
+  document.body.classList.toggle(
+    "dsp-target-damage-styled",
+    enabled && improvedChat,
+  );
 }
 
 export function enhanceChatMessage(message, html) {
@@ -81,7 +88,10 @@ function _enhanceHeader(message, html) {
       canDelete: !!header.querySelector("[data-action='deleteMessage']"),
       canClose: !!header.querySelector("[data-action='dismissMessage']"),
       isWhisper: message.whisper.length > 0,
-      whisperTo: message.whisper.map(id => game.users.get(id)?.name).filter(Boolean).join(", "),
+      whisperTo: message.whisper
+        .map((id) => game.users.get(id)?.name)
+        .filter(Boolean)
+        .join(", "),
     };
     header.outerHTML = _compiled.header(ctx);
     return;
@@ -116,19 +126,34 @@ function _initCollapsibleTrays(html) {
     const sections = [];
 
     const powerResult = embed.querySelector("section.powerResult");
-    if (powerResult) sections.push({ el: powerResult, label: "Power Roll Tiers", collapsed: true });
+    if (powerResult)
+      sections.push({
+        el: powerResult,
+        label: "Power Roll Tiers",
+        collapsed: true,
+      });
 
     const spend = embed.querySelector("section.spend");
     if (spend) {
       const dt = spend.querySelector("dt");
-      sections.push({ el: spend, label: dt ? dt.textContent.trim() : "Spend", collapsed: true });
+      sections.push({
+        el: spend,
+        label: dt ? dt.textContent.trim() : "Spend",
+        collapsed: true,
+      });
     }
 
     const effectBefore = embed.querySelector("section.effect.before");
-    if (effectBefore) sections.push({ el: effectBefore, label: "Effect", collapsed: false });
+    if (effectBefore)
+      sections.push({ el: effectBefore, label: "Effect", collapsed: false });
 
     const effectAfter = embed.querySelector("section.effect.after");
-    if (effectAfter) sections.push({ el: effectAfter, label: "Effect (After)", collapsed: false });
+    if (effectAfter)
+      sections.push({
+        el: effectAfter,
+        label: "Effect (After)",
+        collapsed: false,
+      });
 
     for (const { el, label, collapsed } of sections) {
       _wrapTray(el, label, collapsed);

@@ -4,7 +4,7 @@ const MODULE_ID = MODULE_CONFIG.id;
 const MODULE_PATH = MODULE_CONFIG.path;
 
 export class TabConfigDialog extends foundry.applications.api.HandlebarsApplicationMixin(
-  foundry.applications.api.ApplicationV2
+  foundry.applications.api.ApplicationV2,
 ) {
   #document;
   #sheetTabs;
@@ -44,7 +44,10 @@ export class TabConfigDialog extends foundry.applications.api.HandlebarsApplicat
 
     for (const [tabId, tab] of Object.entries(this.#sheetTabs)) {
       tabs[tabId] = {
-        label: tab.label || game.i18n.localize(`DRAW_STEEL.SHEET.TAB.${tabId}`) || tabId,
+        label:
+          tab.label ||
+          game.i18n.localize(`DRAW_STEEL.SHEET.TAB.${tabId}`) ||
+          tabId,
         visible: saved[tabId] !== false,
         locked: tabId === "favorites" || tabId === "features",
       };

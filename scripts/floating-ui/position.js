@@ -73,7 +73,10 @@ export function resolveAnchor(pos, element, sizeHint) {
         left = rect.left + rect.width / 2 - width / 2;
         top = rect.top + rect.height / 2 - height / 2;
       }
-      return { left: Math.round(left + offsetX), top: Math.round(top + offsetY) };
+      return {
+        left: Math.round(left + offsetX),
+        top: Math.round(top + offsetY),
+      };
     }
     return resolveAnchor({ ...safe, anchor: "cc" }, element, sizeHint);
   }
@@ -105,7 +108,12 @@ export function pickClosestAnchor(pxPos, elementWidth = 0, elementHeight = 0) {
   const offsetX = (pxPos.left ?? 0) - ref.x + elementWidth * hFactor;
   const offsetY = (pxPos.top ?? 0) - ref.y + elementHeight * vFactor;
 
-  return { anchor, offsetX: Math.round(offsetX), offsetY: Math.round(offsetY), snap: "grid" };
+  return {
+    anchor,
+    offsetX: Math.round(offsetX),
+    offsetY: Math.round(offsetY),
+    snap: "grid",
+  };
 }
 
 export function snapPosition(pos, grid = getGridSize()) {

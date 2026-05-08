@@ -133,6 +133,9 @@ export class GridOverlay {
     if (!this._el) return;
     this._el.classList.toggle("dsp-grid-center-v-active", !!vertical);
     this._el.classList.toggle("dsp-grid-center-h-active", !!horizontal);
-    this._el.classList.toggle("dsp-grid-center-active", !!vertical && !!horizontal);
+    this._el.classList.toggle(
+      "dsp-grid-center-active",
+      !!vertical && !!horizontal,
+    );
   }
 }

@@ -1,4 +1,3 @@
-
 import { MODULE_CONFIG } from "./config.js";
 import { getFontScale } from "./scale-settings.js";
 import { TabConfigDialog } from "./tab-config.js";
@@ -24,7 +23,9 @@ async function toggleDocumentDescription(event, target) {
   const parentElement = target.closest(".expandable-document");
   if (!parentElement) return;
   const embedContainer = parentElement.querySelector(".document-description");
-  const toggleIcon = parentElement.querySelector("a[data-action=\"toggleDocumentDescription\"]");
+  const toggleIcon = parentElement.querySelector(
+    'a[data-action="toggleDocumentDescription"]',
+  );
   if (!embedContainer || !toggleIcon) return;
   const { documentUuid } = parentElement.dataset;
   const isExpanded = embedContainer.classList.contains("expanded");
@@ -49,12 +50,16 @@ async function toggleFavorite(event, target) {
   if (!li) return;
   const item = await fromUuid(li.dataset.documentUuid);
   if (!item) return;
-  await item.setFlag("draw-steel-plus", "favorite", !item.getFlag("draw-steel-plus", "favorite"));
+  await item.setFlag(
+    "draw-steel-plus",
+    "favorite",
+    !item.getFlag("draw-steel-plus", "favorite"),
+  );
 }
 
 function openTabConfig() {
   const allTabs = {};
-  for (const tab of (this.constructor.TABS?.primary?.tabs || [])) {
+  for (const tab of this.constructor.TABS?.primary?.tabs || []) {
     allTabs[tab.id] = tab;
   }
   new TabConfigDialog({
@@ -67,7 +72,7 @@ async function documentListShare(event, target) {
   const row = target.closest("[data-document-uuid]");
   if (!row) return;
   const entries = this._getDocumentListContextOptions?.() ?? [];
-  const shareEntry = entries.find(e => e.label === "DRAW_STEEL.SHEET.Share");
+  const shareEntry = entries.find((e) => e.label === "DRAW_STEEL.SHEET.Share");
   if (shareEntry?.condition?.(target) !== false && shareEntry?.callback) {
     await shareEntry.callback(target);
   }
@@ -79,13 +84,17 @@ function markFavorited(ctx) {
 }
 
 function filterFav(arr) {
-  return Array.isArray(arr) ? arr.filter((c) => c?.item?.getFlag?.("draw-steel-plus", "favorite")) : [];
+  return Array.isArray(arr)
+    ? arr.filter((c) => c?.item?.getFlag?.("draw-steel-plus", "favorite"))
+    : [];
 }
 
 function filterAbilities(obj) {
   const out = {};
   for (const [k, v] of Object.entries(obj || {})) {
-    const kept = (v?.abilities || []).filter((a) => a?.item?.getFlag?.("draw-steel-plus", "favorite"));
+    const kept = (v?.abilities || []).filter((a) =>
+      a?.item?.getFlag?.("draw-steel-plus", "favorite"),
+    );
     if (kept.length) out[k] = { ...v, abilities: kept };
   }
   return out;
@@ -94,16 +103,20 @@ function filterAbilities(obj) {
 function filterTreasure(obj) {
   const out = {};
   for (const [k, v] of Object.entries(obj || {})) {
-    const kept = (v?.treasure || []).filter((t) => t?.item?.getFlag?.("draw-steel-plus", "favorite"));
+    const kept = (v?.treasure || []).filter((t) =>
+      t?.item?.getFlag?.("draw-steel-plus", "favorite"),
+    );
     if (kept.length) out[k] = { ...v, treasure: kept };
   }
   return out;
 }
 
 function ensureActiveTab(tabs, actor) {
-  if (Object.values(tabs).some(t => t.active)) return;
-  const hasFavorites = actor.items.some((i) => i.getFlag("draw-steel-plus", "favorite"));
-  const defaultTab = (hasFavorites && tabs.favorites) ? "favorites" : "features";
+  if (Object.values(tabs).some((t) => t.active)) return;
+  const hasFavorites = actor.items.some((i) =>
+    i.getFlag("draw-steel-plus", "favorite"),
+  );
+  const defaultTab = hasFavorites && tabs.favorites ? "favorites" : "features";
   const fallback = tabs[defaultTab] ? defaultTab : Object.keys(tabs)[0];
   if (fallback && tabs[fallback]) {
     tabs[fallback].active = true;
@@ -121,13 +134,14 @@ function filterHiddenTabs(tabs, actor) {
 function filterHiddenParts(parts, actor) {
   const visibility = actor.getFlag(MODULE_ID, "tabVisibility") || {};
   for (const [partId, visible] of Object.entries(visibility)) {
-    if (visible === false && partId !== "header" && partId !== "sidebar") delete parts[partId];
+    if (visible === false && partId !== "header" && partId !== "sidebar")
+      delete parts[partId];
   }
 }
 
 function deduplicateHeaderControls(controls) {
   const seen = new Set();
-  return controls.filter(c => {
+  return controls.filter((c) => {
     if (seen.has(c.action)) return false;
     seen.add(c.action);
     return true;
@@ -159,35 +173,59 @@ function applyTooltipPrevent(element) {
   if (!element.dataset.dspTooltipPrevent) {
     element.dataset.dspTooltipPrevent = "1";
     element.addEventListener("pointerdown", (e) => {
-      if (e.button === 1 && document.getElementById("tooltip")?.classList.contains("active")) e.preventDefault();
+      if (
+        e.button === 1 &&
+        document.getElementById("tooltip")?.classList.contains("active")
+      )
+        e.preventDefault();
     });
   }
 }
 
 function getAbilityFields(actor) {
-  return actor.itemTypes.ability[0]?.system?.constructor?.schema?.fields ?? {
-    resource: { label: game.i18n.localize("DRAW_STEEL.Item.ability.FIELDS.resource.label") },
-    distance: { label: game.i18n.localize("DRAW_STEEL.Item.ability.FIELDS.distance.label") },
-    target: { label: game.i18n.localize("DRAW_STEEL.Item.ability.FIELDS.target.label") },
-  };
+  return (
+    actor.itemTypes.ability[0]?.system?.constructor?.schema?.fields ?? {
+      resource: {
+        label: game.i18n.localize(
+          "DRAW_STEEL.Item.ability.FIELDS.resource.label",
+        ),
+      },
+      distance: {
+        label: game.i18n.localize(
+          "DRAW_STEEL.Item.ability.FIELDS.distance.label",
+        ),
+      },
+      target: {
+        label: game.i18n.localize(
+          "DRAW_STEEL.Item.ability.FIELDS.target.label",
+        ),
+      },
+    }
+  );
 }
 
 function getFeatureFields(actor) {
-  return actor.itemTypes.feature[0]?.system?.constructor?.schema?.fields ?? {
-    type: { label: game.i18n.localize("DOCUMENT.FIELDS.type.label") },
-  };
+  return (
+    actor.itemTypes.feature[0]?.system?.constructor?.schema?.fields ?? {
+      type: { label: game.i18n.localize("DOCUMENT.FIELDS.type.label") },
+    }
+  );
 }
 
 export function registerSheets(SHEET_SIZES) {
   if (game.system.id !== SYSTEM_ID) {
-    console.warn(`${MODULE_ID} | Not running on Draw Steel system, skipping sheet registration`);
+    console.warn(
+      `${MODULE_ID} | Not running on Draw Steel system, skipping sheet registration`,
+    );
     return;
   }
 
   const sheets = globalThis.ds?.applications?.sheets;
 
   if (!sheets) {
-    console.error(`${MODULE_ID} | Draw Steel sheets not found at ds.applications.sheets`);
+    console.error(
+      `${MODULE_ID} | Draw Steel sheets not found at ds.applications.sheets`,
+    );
     console.log(`${MODULE_ID} | Available on ds:`, globalThis.ds);
     return;
   }
@@ -263,7 +301,9 @@ function _registerHeroSheet(sheets, SHEET_SIZES) {
       equipment: {
         ...(super.PARTS?.equipment || {}),
         template: `${MODULE_PATH}/templates/sheets/actor/hero-sheet/equipment.hbs`,
-        templates: [`${MODULE_PATH}/templates/sheets/actor/shared/partials/search-filter.hbs`],
+        templates: [
+          `${MODULE_PATH}/templates/sheets/actor/shared/partials/search-filter.hbs`,
+        ],
         scrollable: [""],
       },
       projects: {
@@ -283,7 +323,9 @@ function _registerHeroSheet(sheets, SHEET_SIZES) {
       abilities: {
         ...(super.PARTS?.abilities || {}),
         template: `${MODULE_PATH}/templates/sheets/actor/shared/abilities.hbs`,
-        templates: [`${MODULE_PATH}/templates/sheets/actor/shared/partials/search-filter.hbs`],
+        templates: [
+          `${MODULE_PATH}/templates/sheets/actor/shared/partials/search-filter.hbs`,
+        ],
         scrollable: [""],
       },
       effects: {
@@ -297,14 +339,19 @@ function _registerHeroSheet(sheets, SHEET_SIZES) {
       ...super.TABS,
       primary: {
         ...super.TABS?.primary,
-        tabs: [{ id: "favorites" }, ...(super.TABS?.primary?.tabs?.filter(t => t.id !== "stats") || [])],
+        tabs: [
+          { id: "favorites" },
+          ...(super.TABS?.primary?.tabs?.filter((t) => t.id !== "stats") || []),
+        ],
         initial: "features",
       },
     };
 
     render(options = {}, _options = {}) {
       if (options?.parts?.includes("stats")) {
-        options.parts = options.parts.map(p => p === "stats" ? "sidebar" : p);
+        options.parts = options.parts.map((p) =>
+          p === "stats" ? "sidebar" : p,
+        );
       }
       return super.render(options, _options);
     }
@@ -319,7 +366,9 @@ function _registerHeroSheet(sheets, SHEET_SIZES) {
     _prepareTabs(group) {
       if (group === "primary" && !this._dspInitialTabSet) {
         this._dspInitialTabSet = true;
-        const hasFavorites = this.actor.items.some((i) => i.getFlag("draw-steel-plus", "favorite"));
+        const hasFavorites = this.actor.items.some((i) =>
+          i.getFlag("draw-steel-plus", "favorite"),
+        );
         if (hasFavorites) this.tabGroups["primary"] = "favorites";
       }
       const tabs = super._prepareTabs(group);
@@ -349,11 +398,13 @@ function _registerHeroSheet(sheets, SHEET_SIZES) {
         this._partContextCache.features = context.features;
         this._partContextCache.complications = context.complications;
       } else if (partId === "abilities") {
-        for (const at of Object.values(context.abilities || {})) at.abilities?.forEach(markFavorited);
+        for (const at of Object.values(context.abilities || {}))
+          at.abilities?.forEach(markFavorited);
         this._partContextCache.abilities = context.abilities;
       } else if (partId === "equipment") {
         context.kits?.forEach(markFavorited);
-        for (const tt of Object.values(context.treasure || {})) tt.treasure?.forEach(markFavorited);
+        for (const tt of Object.values(context.treasure || {}))
+          tt.treasure?.forEach(markFavorited);
         this._partContextCache.kits = context.kits;
         this._partContextCache.treasure = context.treasure;
       } else if (partId === "projects") {
@@ -363,23 +414,46 @@ function _registerHeroSheet(sheets, SHEET_SIZES) {
         this._partContextCache.projects = context.projects;
       } else if (partId === "sidebar") {
         await super._preparePartContext("stats", context, options);
-        context.unfilledSkill = !!this.actor.system._unfilledTraits?.skill?.size;
+        context.unfilledSkill =
+          !!this.actor.system._unfilledTraits?.skill?.size;
         context.skills = this._getSkills();
       } else if (partId === "favorites") {
         const cache = this._partContextCache;
-        const [abilities, features, complications, kits, treasure, projects, followers] = await Promise.all([
-          cache.abilities != null ? cache.abilities : this._prepareAbilitiesContext(),
-          cache.features != null ? cache.features : this._prepareFeaturesContext(),
-          cache.complications != null ? cache.complications : this._prepareComplicationsContext(),
+        const [
+          abilities,
+          features,
+          complications,
+          kits,
+          treasure,
+          projects,
+          followers,
+        ] = await Promise.all([
+          cache.abilities != null
+            ? cache.abilities
+            : this._prepareAbilitiesContext(),
+          cache.features != null
+            ? cache.features
+            : this._prepareFeaturesContext(),
+          cache.complications != null
+            ? cache.complications
+            : this._prepareComplicationsContext(),
           cache.kits != null ? cache.kits : this._prepareKitsContext(),
-          cache.treasure != null ? cache.treasure : this._prepareTreasureContext(),
-          cache.projects != null ? cache.projects : this._prepareProjectsContext(),
-          cache.followers != null ? cache.followers : this._prepareFollowersContext(),
+          cache.treasure != null
+            ? cache.treasure
+            : this._prepareTreasureContext(),
+          cache.projects != null
+            ? cache.projects
+            : this._prepareProjectsContext(),
+          cache.followers != null
+            ? cache.followers
+            : this._prepareFollowersContext(),
         ]);
 
         context.favAbilities = filterAbilities(abilities);
         context.favFeatures = filterFav(features);
-        context.favComplications = (complications?.complications || []).filter((c) => c?.item?.getFlag?.("draw-steel-plus", "favorite"));
+        context.favComplications = (complications?.complications || []).filter(
+          (c) => c?.item?.getFlag?.("draw-steel-plus", "favorite"),
+        );
         context.favComplicationsLabel = complications?.label;
         context.favKits = filterFav(kits);
         context.favTreasure = filterTreasure(treasure);
@@ -390,28 +464,69 @@ function _registerHeroSheet(sheets, SHEET_SIZES) {
         context.kitFields = kit0?.system?.constructor?.schema?.fields ?? {
           bonuses: {
             fields: {
-              melee: { fields: { damage: { label: game.i18n.localize("DRAW_STEEL.Item.kit.FIELDS.bonuses.melee.damage.label") } } },
-              ranged: { fields: { damage: { label: game.i18n.localize("DRAW_STEEL.Item.kit.FIELDS.bonuses.ranged.damage.label") } } },
+              melee: {
+                fields: {
+                  damage: {
+                    label: game.i18n.localize(
+                      "DRAW_STEEL.Item.kit.FIELDS.bonuses.melee.damage.label",
+                    ),
+                  },
+                },
+              },
+              ranged: {
+                fields: {
+                  damage: {
+                    label: game.i18n.localize(
+                      "DRAW_STEEL.Item.kit.FIELDS.bonuses.ranged.damage.label",
+                    ),
+                  },
+                },
+              },
             },
           },
         };
         const treas0 = this.actor.itemTypes.treasure[0];
-        context.treasureFields = treas0?.system?.constructor?.schema?.fields ?? {
-          echelon: { label: game.i18n.localize("DRAW_STEEL.Item.treasure.FIELDS.echelon.label") },
-          quantity: { label: game.i18n.localize("DRAW_STEEL.Item.treasure.FIELDS.quantity.label") },
+        context.treasureFields = treas0?.system?.constructor?.schema
+          ?.fields ?? {
+          echelon: {
+            label: game.i18n.localize(
+              "DRAW_STEEL.Item.treasure.FIELDS.echelon.label",
+            ),
+          },
+          quantity: {
+            label: game.i18n.localize(
+              "DRAW_STEEL.Item.treasure.FIELDS.quantity.label",
+            ),
+          },
         };
         const proj0 = this.actor.itemTypes.project[0];
         context.projectFields = proj0?.system?.constructor?.schema?.fields ?? {
-          points: { label: game.i18n.localize("DRAW_STEEL.Item.project.FIELDS.points.label") },
-          type: { label: game.i18n.localize("DRAW_STEEL.Item.project.FIELDS.type.label") },
+          points: {
+            label: game.i18n.localize(
+              "DRAW_STEEL.Item.project.FIELDS.points.label",
+            ),
+          },
+          type: {
+            label: game.i18n.localize(
+              "DRAW_STEEL.Item.project.FIELDS.type.label",
+            ),
+          },
         };
         const fol0 = this.actor.itemTypes.follower?.[0];
         context.followerFields = fol0?.system?.constructor?.schema?.fields ?? {
-          type: { label: game.i18n.localize("DRAW_STEEL.Item.follower.FIELDS.type.label") },
+          type: {
+            label: game.i18n.localize(
+              "DRAW_STEEL.Item.follower.FIELDS.type.label",
+            ),
+          },
         };
         context.featureFields = getFeatureFields(this.actor);
-        const anyAbilities = Object.values(context.favAbilities || {}).some((at) => (at?.abilities?.length || 0) > 0);
-        const anyTreasure = Object.values(context.favTreasure || {}).some((tt) => (tt?.treasure?.length || 0) > 0);
+        const anyAbilities = Object.values(context.favAbilities || {}).some(
+          (at) => (at?.abilities?.length || 0) > 0,
+        );
+        const anyTreasure = Object.values(context.favTreasure || {}).some(
+          (tt) => (tt?.treasure?.length || 0) > 0,
+        );
         context.hasFavorites =
           anyAbilities ||
           (context.favFeatures?.length || 0) > 0 ||
@@ -431,7 +546,11 @@ function _registerHeroSheet(sheets, SHEET_SIZES) {
     _onFirstRender(context, options) {
       super._onFirstRender(context, options);
       const scale = getFontScale();
-      if (scale !== 1) this.setPosition({ width: Math.round(SHEET_SIZES.hero.width * scale), height: Math.round(SHEET_SIZES.hero.height * scale) });
+      if (scale !== 1)
+        this.setPosition({
+          width: Math.round(SHEET_SIZES.hero.width * scale),
+          height: Math.round(SHEET_SIZES.hero.height * scale),
+        });
     }
 
     _onRender(context, options) {
@@ -446,11 +565,15 @@ function _registerHeroSheet(sheets, SHEET_SIZES) {
     }
   };
 
-  foundry.documents.collections.Actors.registerSheet(MODULE_ID, DrawSteelPlusHeroSheet, {
-    types: ["hero"],
-    makeDefault: true,
-    label: "DS+ Hero Sheet",
-  });
+  foundry.documents.collections.Actors.registerSheet(
+    MODULE_ID,
+    DrawSteelPlusHeroSheet,
+    {
+      types: ["hero"],
+      makeDefault: true,
+      label: "DS+ Hero Sheet",
+    },
+  );
 
   console.log(`${MODULE_ID} | Registered DS+ Hero Sheet`);
 }
@@ -514,7 +637,9 @@ function _registerNPCSheet(sheets, SHEET_SIZES) {
       abilities: {
         ...(super.PARTS?.abilities || {}),
         template: `${MODULE_PATH}/templates/sheets/actor/shared/abilities.hbs`,
-        templates: [`${MODULE_PATH}/templates/sheets/actor/shared/partials/search-filter.hbs`],
+        templates: [
+          `${MODULE_PATH}/templates/sheets/actor/shared/partials/search-filter.hbs`,
+        ],
         scrollable: [""],
       },
       favorites: {
@@ -537,7 +662,10 @@ function _registerNPCSheet(sheets, SHEET_SIZES) {
       ...super.TABS,
       primary: {
         ...super.TABS?.primary,
-        tabs: [{ id: "favorites" }, ...(super.TABS?.primary?.tabs?.filter(t => t.id !== "stats") || [])],
+        tabs: [
+          { id: "favorites" },
+          ...(super.TABS?.primary?.tabs?.filter((t) => t.id !== "stats") || []),
+        ],
         initial: "features",
       },
     };
@@ -548,7 +676,9 @@ function _registerNPCSheet(sheets, SHEET_SIZES) {
 
     render(options = {}, _options = {}) {
       if (options?.parts?.includes("stats")) {
-        options.parts = options.parts.map(p => p === "stats" ? "sidebar" : p);
+        options.parts = options.parts.map((p) =>
+          p === "stats" ? "sidebar" : p,
+        );
       }
       return super.render(options, _options);
     }
@@ -567,7 +697,9 @@ function _registerNPCSheet(sheets, SHEET_SIZES) {
       if (group === "primary" && !this._dspInitialTabSet) {
         this._dspInitialTabSet = true;
         if (game.settings.get(MODULE_ID, "npcFavoritesEnabled")) {
-          const hasFavorites = this.actor.items.some((i) => i.getFlag("draw-steel-plus", "favorite"));
+          const hasFavorites = this.actor.items.some((i) =>
+            i.getFlag("draw-steel-plus", "favorite"),
+          );
           if (hasFavorites) this.tabGroups["primary"] = "favorites";
         }
       }
@@ -584,7 +716,10 @@ function _registerNPCSheet(sheets, SHEET_SIZES) {
 
     async _prepareContext(options) {
       const context = await super._prepareContext(options);
-      context.favoritesEnabled = game.settings.get(MODULE_ID, "npcFavoritesEnabled");
+      context.favoritesEnabled = game.settings.get(
+        MODULE_ID,
+        "npcFavoritesEnabled",
+      );
       this._partContextCache = {};
       return context;
     }
@@ -596,23 +731,34 @@ function _registerNPCSheet(sheets, SHEET_SIZES) {
         context.features?.forEach(markFavorited);
         this._partContextCache.features = context.features;
       } else if (partId === "abilities") {
-        for (const at of Object.values(context.abilities || {})) at.abilities?.forEach(markFavorited);
+        for (const at of Object.values(context.abilities || {}))
+          at.abilities?.forEach(markFavorited);
         this._partContextCache.abilities = context.abilities;
       } else if (partId === "sidebar") {
         await super._preparePartContext("stats", context, options);
-      } else if (partId === "favorites" && game.settings.get(MODULE_ID, "npcFavoritesEnabled")) {
+      } else if (
+        partId === "favorites" &&
+        game.settings.get(MODULE_ID, "npcFavoritesEnabled")
+      ) {
         const cache = this._partContextCache;
         const [abilities, features] = await Promise.all([
-          cache.abilities != null ? cache.abilities : this._prepareAbilitiesContext(),
-          cache.features != null ? cache.features : this._prepareFeaturesContext(),
+          cache.abilities != null
+            ? cache.abilities
+            : this._prepareAbilitiesContext(),
+          cache.features != null
+            ? cache.features
+            : this._prepareFeaturesContext(),
         ]);
 
         context.favAbilities = filterAbilities(abilities);
         context.favFeatures = filterFav(features);
         context.abilityFields = getAbilityFields(this.actor);
         context.featureFields = getFeatureFields(this.actor);
-        const anyAbilities = Object.values(context.favAbilities || {}).some((at) => (at?.abilities?.length || 0) > 0);
-        context.hasFavorites = anyAbilities || (context.favFeatures?.length || 0) > 0;
+        const anyAbilities = Object.values(context.favAbilities || {}).some(
+          (at) => (at?.abilities?.length || 0) > 0,
+        );
+        context.hasFavorites =
+          anyAbilities || (context.favFeatures?.length || 0) > 0;
       }
       return context;
     }
@@ -624,7 +770,11 @@ function _registerNPCSheet(sheets, SHEET_SIZES) {
     _onFirstRender(context, options) {
       super._onFirstRender(context, options);
       const scale = getFontScale();
-      if (scale !== 1) this.setPosition({ width: Math.round(SHEET_SIZES.npc.width * scale), height: Math.round(SHEET_SIZES.npc.height * scale) });
+      if (scale !== 1)
+        this.setPosition({
+          width: Math.round(SHEET_SIZES.npc.width * scale),
+          height: Math.round(SHEET_SIZES.npc.height * scale),
+        });
     }
 
     _onRender(context, options) {
@@ -639,11 +789,15 @@ function _registerNPCSheet(sheets, SHEET_SIZES) {
     }
   };
 
-  foundry.documents.collections.Actors.registerSheet(MODULE_ID, DrawSteelPlusNPCSheet, {
-    types: ["npc"],
-    makeDefault: true,
-    label: "DS+ NPC Sheet",
-  });
+  foundry.documents.collections.Actors.registerSheet(
+    MODULE_ID,
+    DrawSteelPlusNPCSheet,
+    {
+      types: ["npc"],
+      makeDefault: true,
+      label: "DS+ NPC Sheet",
+    },
+  );
 
   console.log(`${MODULE_ID} | Registered DS+ NPC Sheet`);
 }
@@ -654,7 +808,11 @@ function _registerObjectSheet(sheets, SHEET_SIZES) {
   const DrawSteelPlusObjectSheet = class extends sheets.DrawSteelObjectSheet {
     static DEFAULT_OPTIONS = {
       ...super.DEFAULT_OPTIONS,
-      classes: [...super.DEFAULT_OPTIONS.classes, "draw-steel-plus", "dsp-object"],
+      classes: [
+        ...super.DEFAULT_OPTIONS.classes,
+        "draw-steel-plus",
+        "dsp-object",
+      ],
       position: {
         ...super.DEFAULT_OPTIONS.position,
         width: SHEET_SIZES.object.width,
@@ -689,7 +847,9 @@ function _registerObjectSheet(sheets, SHEET_SIZES) {
       abilities: {
         ...(super.PARTS?.abilities || {}),
         template: `${MODULE_PATH}/templates/sheets/actor/shared/abilities.hbs`,
-        templates: [`${MODULE_PATH}/templates/sheets/actor/shared/partials/search-filter.hbs`],
+        templates: [
+          `${MODULE_PATH}/templates/sheets/actor/shared/partials/search-filter.hbs`,
+        ],
         scrollable: [""],
       },
     };
@@ -705,7 +865,11 @@ function _registerObjectSheet(sheets, SHEET_SIZES) {
     _onFirstRender(context, options) {
       super._onFirstRender(context, options);
       const scale = getFontScale();
-      if (scale !== 1) this.setPosition({ width: Math.round(SHEET_SIZES.object.width * scale), height: Math.round(SHEET_SIZES.object.height * scale) });
+      if (scale !== 1)
+        this.setPosition({
+          width: Math.round(SHEET_SIZES.object.width * scale),
+          height: Math.round(SHEET_SIZES.object.height * scale),
+        });
     }
 
     _onRender(context, options) {
@@ -721,11 +885,15 @@ function _registerObjectSheet(sheets, SHEET_SIZES) {
     }
   };
 
-  foundry.documents.collections.Actors.registerSheet(MODULE_ID, DrawSteelPlusObjectSheet, {
-    types: ["object"],
-    makeDefault: true,
-    label: game.i18n.localize("DRAW_STEEL_PLUS.Sheet.Object"),
-  });
+  foundry.documents.collections.Actors.registerSheet(
+    MODULE_ID,
+    DrawSteelPlusObjectSheet,
+    {
+      types: ["object"],
+      makeDefault: true,
+      label: game.i18n.localize("DRAW_STEEL_PLUS.Sheet.Object"),
+    },
+  );
 
   console.log(`${MODULE_ID} | Registered DS+ Object Sheet`);
 }
@@ -733,10 +901,16 @@ function _registerObjectSheet(sheets, SHEET_SIZES) {
 function _registerRetainerSheet(sheets, SHEET_SIZES) {
   if (!sheets.DrawSteelRetainerSheet) return;
 
-  const DrawSteelPlusRetainerSheet = class extends sheets.DrawSteelRetainerSheet {
+  const DrawSteelPlusRetainerSheet = class
+    extends sheets.DrawSteelRetainerSheet
+  {
     static DEFAULT_OPTIONS = {
       ...super.DEFAULT_OPTIONS,
-      classes: [...super.DEFAULT_OPTIONS.classes, "draw-steel-plus", "dsp-retainer"],
+      classes: [
+        ...super.DEFAULT_OPTIONS.classes,
+        "draw-steel-plus",
+        "dsp-retainer",
+      ],
       position: {
         ...super.DEFAULT_OPTIONS.position,
         width: SHEET_SIZES.retainer.width,
@@ -793,7 +967,9 @@ function _registerRetainerSheet(sheets, SHEET_SIZES) {
       abilities: {
         ...(super.PARTS?.abilities || {}),
         template: `${MODULE_PATH}/templates/sheets/actor/shared/abilities.hbs`,
-        templates: [`${MODULE_PATH}/templates/sheets/actor/shared/partials/search-filter.hbs`],
+        templates: [
+          `${MODULE_PATH}/templates/sheets/actor/shared/partials/search-filter.hbs`,
+        ],
         scrollable: [""],
       },
       effects: {
@@ -807,14 +983,16 @@ function _registerRetainerSheet(sheets, SHEET_SIZES) {
       ...super.TABS,
       primary: {
         ...super.TABS?.primary,
-        tabs: (super.TABS?.primary?.tabs || []).filter(t => t.id !== "stats"),
+        tabs: (super.TABS?.primary?.tabs || []).filter((t) => t.id !== "stats"),
         initial: "features",
       },
     };
 
     render(options = {}, _options = {}) {
       if (options?.parts?.includes("stats")) {
-        options.parts = options.parts.map(p => p === "stats" ? "sidebar" : p);
+        options.parts = options.parts.map((p) =>
+          p === "stats" ? "sidebar" : p,
+        );
       }
       return super.render(options, _options);
     }
@@ -851,7 +1029,11 @@ function _registerRetainerSheet(sheets, SHEET_SIZES) {
     _onFirstRender(context, options) {
       super._onFirstRender(context, options);
       const scale = getFontScale();
-      if (scale !== 1) this.setPosition({ width: Math.round(SHEET_SIZES.retainer.width * scale), height: Math.round(SHEET_SIZES.retainer.height * scale) });
+      if (scale !== 1)
+        this.setPosition({
+          width: Math.round(SHEET_SIZES.retainer.width * scale),
+          height: Math.round(SHEET_SIZES.retainer.height * scale),
+        });
     }
 
     _onRender(context, options) {
@@ -866,11 +1048,15 @@ function _registerRetainerSheet(sheets, SHEET_SIZES) {
     }
   };
 
-  foundry.documents.collections.Actors.registerSheet(MODULE_ID, DrawSteelPlusRetainerSheet, {
-    types: ["retainer"],
-    makeDefault: true,
-    label: "DS+ Retainer Sheet",
-  });
+  foundry.documents.collections.Actors.registerSheet(
+    MODULE_ID,
+    DrawSteelPlusRetainerSheet,
+    {
+      types: ["retainer"],
+      makeDefault: true,
+      label: "DS+ Retainer Sheet",
+    },
+  );
 
   console.log(`${MODULE_ID} | Registered DS+ Retainer Sheet`);
 }
@@ -881,7 +1067,11 @@ function _registerPartySheet(sheets, SHEET_SIZES) {
   const DrawSteelPlusPartySheet = class extends sheets.DrawSteelPartySheet {
     static DEFAULT_OPTIONS = {
       ...super.DEFAULT_OPTIONS,
-      classes: [...super.DEFAULT_OPTIONS.classes, "draw-steel-plus", "dsp-party"],
+      classes: [
+        ...super.DEFAULT_OPTIONS.classes,
+        "draw-steel-plus",
+        "dsp-party",
+      ],
       position: {
         ...super.DEFAULT_OPTIONS.position,
         width: SHEET_SIZES.party.width,
@@ -918,7 +1108,11 @@ function _registerPartySheet(sheets, SHEET_SIZES) {
     _onFirstRender(context, options) {
       super._onFirstRender(context, options);
       const scale = getFontScale();
-      if (scale !== 1) this.setPosition({ width: Math.round(SHEET_SIZES.party.width * scale), height: Math.round(SHEET_SIZES.party.height * scale) });
+      if (scale !== 1)
+        this.setPosition({
+          width: Math.round(SHEET_SIZES.party.width * scale),
+          height: Math.round(SHEET_SIZES.party.height * scale),
+        });
     }
 
     _onRender(context, options) {
@@ -931,11 +1125,15 @@ function _registerPartySheet(sheets, SHEET_SIZES) {
     }
   };
 
-  foundry.documents.collections.Actors.registerSheet(MODULE_ID, DrawSteelPlusPartySheet, {
-    types: ["party"],
-    makeDefault: true,
-    label: "DS+ Party Sheet",
-  });
+  foundry.documents.collections.Actors.registerSheet(
+    MODULE_ID,
+    DrawSteelPlusPartySheet,
+    {
+      types: ["party"],
+      makeDefault: true,
+      label: "DS+ Party Sheet",
+    },
+  );
 
   console.log(`${MODULE_ID} | Registered DS+ Party Sheet`);
 }
@@ -943,7 +1141,9 @@ function _registerPartySheet(sheets, SHEET_SIZES) {
 function _registerItemSheet(sheets, SHEET_SIZES) {
   if (!sheets.DrawSteelItemSheet) return;
 
-  const itemTypes = Object.keys(game.system.documentTypes?.Item ?? {}).filter(t => t !== "base");
+  const itemTypes = Object.keys(game.system.documentTypes?.Item ?? {}).filter(
+    (t) => t !== "base",
+  );
   if (!itemTypes.length) return;
 
   const DrawSteelPlusItemSheet = class extends sheets.DrawSteelItemSheet {
@@ -976,7 +1176,11 @@ function _registerItemSheet(sheets, SHEET_SIZES) {
     _onFirstRender(context, options) {
       super._onFirstRender(context, options);
       const scale = getFontScale();
-      if (scale !== 1) this.setPosition({ width: Math.round(SHEET_SIZES.item.width * scale), height: Math.round(SHEET_SIZES.item.height * scale) });
+      if (scale !== 1)
+        this.setPosition({
+          width: Math.round(SHEET_SIZES.item.width * scale),
+          height: Math.round(SHEET_SIZES.item.height * scale),
+        });
     }
 
     _onRender(context, options) {
@@ -988,11 +1192,15 @@ function _registerItemSheet(sheets, SHEET_SIZES) {
     }
   };
 
-  foundry.documents.collections.Items.registerSheet(MODULE_ID, DrawSteelPlusItemSheet, {
-    types: itemTypes,
-    makeDefault: true,
-    label: "DS+ Item Sheet",
-  });
+  foundry.documents.collections.Items.registerSheet(
+    MODULE_ID,
+    DrawSteelPlusItemSheet,
+    {
+      types: itemTypes,
+      makeDefault: true,
+      label: "DS+ Item Sheet",
+    },
+  );
 
   console.log(`${MODULE_ID} | Registered DS+ Item Sheet`);
 }
