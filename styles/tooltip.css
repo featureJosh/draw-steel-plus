@@ -288,11 +288,11 @@ body.dsp-ahud-styled #dsahud-tooltip {
 }
 
 :is(#tooltip, .locked-tooltip).dsp-tooltip .embed-body .draw-steel dt {
-  font-weight: 600;
+  font-weight: unset;
   color: var(--dsp-accent);
   text-transform: uppercase;
-  font-size: var(--dsp-font-size-sm);
-  letter-spacing: 0.04em;
+  font-size: var(--dsp-font-size-4xl);
+  line-height: 100%;
 }
 
 :is(#tooltip, .locked-tooltip).dsp-tooltip .embed-body .draw-steel.ability dt.distance,
@@ -387,7 +387,7 @@ body.dsp-ahud-styled #dsahud-tooltip {
 
 :is(#tooltip, .locked-tooltip).dsp-tooltip .embed-body .draw-steel .powerResult > p {
   margin: 0 0 calc(4px * var(--dsp-scale, 1));
-  font-size: var(--dsp-font-size-lg);
+  font-size: var(--dsp-font-size-2xl);
   color: var(--dsp-text);
 }
 
@@ -401,7 +401,7 @@ body.dsp-ahud-styled #dsahud-tooltip {
   gap: 2px calc(8px * var(--dsp-scale, 1));
   margin: 0;
   padding: 0;
-  font-size: var(--dsp-font-size-base);
+  font-size: var(--dsp-font-size-2xl);
 }
 
 :is(#tooltip, .locked-tooltip).dsp-tooltip .embed-body .draw-steel .power-roll-display dt {
