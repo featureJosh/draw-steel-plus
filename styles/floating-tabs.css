@@ -36,24 +36,31 @@
     justify-content: flex-end;
     padding-right: calc(12px * var(--dsp-scale, 1));
     background: var(--dsp-background);
-    color: var(--dsp-accent);
+    color: var(--dsp-text-faint);
     border: 1px solid var(--color-border);
     border-radius: 0 calc(8px * var(--dsp-scale, 1))
         calc(8px * var(--dsp-scale, 1)) 0;
     margin-left: calc((var(--dsp-tab-full) - var(--dsp-tab-inactive)) * -1);
-    transition: all 250ms ease;
+    transition:
+        margin-left 250ms ease,
+        background 250ms ease,
+        color 250ms ease,
+        border-color 250ms ease,
+        box-shadow 250ms ease,
+        opacity 250ms ease;
     cursor: pointer;
     text-decoration: none;
     position: relative;
     flex: none;
+    opacity: 0.6;
 }
 
 .dsp-floating-tabs > .dsp-float-tab i {
     font-size: calc(14px * var(--dsp-scale, 1));
     margin: 0;
+    transition: transform 250ms ease;
 }
 
-.draw-steel-plus.sheet .dsp-floating-tabs > .dsp-float-tab.active,
 .draw-steel-plus.sheet .dsp-floating-tabs > .dsp-float-tab:hover {
     border-color: var(--dsp-accent);
     box-shadow: unset;
@@ -62,10 +69,48 @@
     color: var(--dsp-accent);
     border: 1px solid var(--color-border);
     border-left: none;
+    opacity: 1;
 }
 
-.dsp-floating-tabs > .dsp-float-tab.active {
-    background: var(--dsp-background);
+.draw-steel-plus.sheet .dsp-floating-tabs > .dsp-float-tab:hover i {
+    transform: scale(1.1);
+}
+
+.draw-steel-plus.sheet .dsp-floating-tabs > .dsp-float-tab.active {
+    border-color: var(--dsp-accent);
+    box-shadow:
+        0 0 12px var(--dsp-accent-dim),
+        inset 1px 0 0 rgba(255, 255, 255, 0.06);
+    margin-left: 0;
+    text-shadow: none;
+    color: light-dark(#f5efde, #f5efde);
+    border: 1px solid var(--dsp-accent);
+    border-left: none;
+    opacity: 1;
+    background: linear-gradient(
+        90deg,
+        var(--dsp-primary-strong) 0%,
+        var(--dsp-primary) 100%
+    );
+}
+
+.dsp-floating-tabs > .dsp-float-tab.active::before {
+    content: "";
+    position: absolute;
+    left: calc(-6px * var(--dsp-scale, 1));
+    top: 50%;
+    transform: translateY(-50%) rotate(45deg);
+    width: calc(10px * var(--dsp-scale, 1));
+    height: calc(10px * var(--dsp-scale, 1));
+    background: linear-gradient(
+        135deg,
+        var(--dsp-primary-strong) 0%,
+        var(--dsp-primary) 100%
+    );
+    border-left: 1px solid var(--dsp-accent);
+    border-bottom: 1px solid var(--dsp-accent);
+    pointer-events: none;
+    z-index: -1;
 }
 
 .dsp-floating-tabs > .dsp-float-tab::after {
@@ -83,7 +128,8 @@
 }
 
 .dsp-floating-tabs > .dsp-float-tab.active::after {
-    opacity: 0.3;
+    opacity: 0.4;
+    border-color: rgba(255, 255, 255, 0.25);
 }
 
 .dsp-floating-tabs > .dsp-float-tab:hover::after {
