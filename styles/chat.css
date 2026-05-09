@@ -267,6 +267,12 @@ body.dsp-improved-chat
 
 body.dsp-improved-chat
     :is(.chat-sidebar, #chat-notifications, .chat-popout)
+    h5 {
+    font-family: unset;
+}
+
+body.dsp-improved-chat
+    :is(.chat-sidebar, #chat-notifications, .chat-popout)
     document-embed.ability
     .metadata {
     margin: 0;
