@@ -253,7 +253,7 @@ body {
     font-feature-settings: "tnum" 1;
 }
 
-& span.potency {
+.draw-steel-plus.sheet span.potency {
     font-family: "Draw Steel Glyphs";
     font-size: var(--font-size-13);
     text-transform: lowercase;
@@ -261,7 +261,7 @@ body {
     color: var(--dsp-accent);
 }
 
-.draw-steel-plus.sheet & .item-list-container {
+.draw-steel-plus.sheet .item-list-container {
     margin: 0;
 }
 

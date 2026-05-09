@@ -1,8 +1,14 @@
 import { MODULE_CONFIG, UI_DEFAULTS } from "./config.js";
+import {
+  ApplicationV2,
+  HandlebarsApplicationMixin,
+  SETTINGS_FORM_BUTTONS,
+  booleanSettingContext,
+  settingsMenuOptions,
+  settingsMenuParts,
+} from "./settings-menu-helpers.js";
 
 const MODULE_ID = MODULE_CONFIG.id;
-
-const { HandlebarsApplicationMixin, ApplicationV2 } = foundry.applications.api;
 
 const MODULE_MENU_DEFAULTS = {
   useCombatTrackerPanel: UI_DEFAULTS.useCombatTrackerPanel,
@@ -15,32 +21,21 @@ const MODULE_MENU_DEFAULTS = {
 export default class ModuleSettingsMenu extends HandlebarsApplicationMixin(
   ApplicationV2,
 ) {
-  static DEFAULT_OPTIONS = {
+  static DEFAULT_OPTIONS = settingsMenuOptions({
     id: "dsp-module-settings",
-    tag: "form",
-    classes: ["standard-form"],
-    position: { width: 540 },
-    window: {
-      title: "DRAW_STEEL_PLUS.Settings.menus.modules.name",
-      icon: "fa-solid fa-puzzle-piece",
-    },
+    width: 540,
+    title: "DRAW_STEEL_PLUS.Settings.menus.modules.name",
+    icon: "fa-solid fa-puzzle-piece",
     actions: {
       resetDefaults: this.resetDefaults,
     },
-    form: {
-      closeOnSubmit: true,
-      handler: this.onSubmit,
-    },
-  };
+    handler: this.onSubmit,
+  });
 
-  static PARTS = {
-    body: {
-      template: `modules/${MODULE_ID}/templates/settings/module-settings.hbs`,
-    },
-    footer: {
-      template: "templates/generic/form-footer.hbs",
-    },
-  };
+  static PARTS = settingsMenuParts(
+    "body",
+    `modules/${MODULE_ID}/templates/settings/module-settings.hbs`,
+  );
 
   async _prepareContext(options) {
     const boolField = new foundry.data.fields.BooleanField();
@@ -54,69 +49,32 @@ export default class ModuleSettingsMenu extends HandlebarsApplicationMixin(
       targetDamageSection: game.i18n.localize(
         "DRAW_STEEL_PLUS.Settings.menus.modules.targetDamageSection",
       ),
-      useCombatTrackerPanel: {
-        field: boolField,
-        value: game.settings.get(MODULE_ID, "useCombatTrackerPanel"),
-        label: game.i18n.localize(
-          "DRAW_STEEL_PLUS.Settings.useCombatTrackerPanel.name",
-        ),
-        hint: game.i18n.localize(
-          "DRAW_STEEL_PLUS.Settings.useCombatTrackerPanel.hint",
-        ),
-      },
-      combatTrackerDspStyle: {
-        field: boolField,
-        value: game.settings.get(MODULE_ID, "combatTrackerDspStyle"),
-        label: game.i18n.localize(
-          "DRAW_STEEL_PLUS.Settings.combatTrackerDspStyle.name",
-        ),
-        hint: game.i18n.localize(
-          "DRAW_STEEL_PLUS.Settings.combatTrackerDspStyle.hint",
-        ),
-      },
-      useAbilityHudPanel: {
-        field: boolField,
-        value: game.settings.get(MODULE_ID, "useAbilityHudPanel"),
-        label: game.i18n.localize(
-          "DRAW_STEEL_PLUS.Settings.useAbilityHudPanel.name",
-        ),
-        hint: game.i18n.localize(
-          "DRAW_STEEL_PLUS.Settings.useAbilityHudPanel.hint",
-        ),
-      },
-      abilityHudDspStyle: {
-        field: boolField,
-        value: game.settings.get(MODULE_ID, "abilityHudDspStyle"),
-        label: game.i18n.localize(
-          "DRAW_STEEL_PLUS.Settings.abilityHudDspStyle.name",
-        ),
-        hint: game.i18n.localize(
-          "DRAW_STEEL_PLUS.Settings.abilityHudDspStyle.hint",
-        ),
-      },
-      targetDamageStyling: {
-        field: boolField,
-        value: game.settings.get(MODULE_ID, "targetDamageStyling"),
-        label: game.i18n.localize(
-          "DRAW_STEEL_PLUS.Settings.targetDamageStyling.name",
-        ),
-        hint: game.i18n.localize(
-          "DRAW_STEEL_PLUS.Settings.targetDamageStyling.hint",
-        ),
-      },
-      buttons: [
-        {
-          type: "button",
-          action: "resetDefaults",
-          icon: "fas fa-arrow-rotate-left",
-          label: "DRAW_STEEL_PLUS.Settings.resetDefaults",
-        },
-        {
-          type: "submit",
-          icon: "fas fa-save",
-          label: "DRAW_STEEL_PLUS.Settings.saveChanges",
-        },
-      ],
+      useCombatTrackerPanel: booleanSettingContext(
+        MODULE_ID,
+        "useCombatTrackerPanel",
+        boolField,
+      ),
+      combatTrackerDspStyle: booleanSettingContext(
+        MODULE_ID,
+        "combatTrackerDspStyle",
+        boolField,
+      ),
+      useAbilityHudPanel: booleanSettingContext(
+        MODULE_ID,
+        "useAbilityHudPanel",
+        boolField,
+      ),
+      abilityHudDspStyle: booleanSettingContext(
+        MODULE_ID,
+        "abilityHudDspStyle",
+        boolField,
+      ),
+      targetDamageStyling: booleanSettingContext(
+        MODULE_ID,
+        "targetDamageStyling",
+        boolField,
+      ),
+      buttons: SETTINGS_FORM_BUTTONS,
     };
   }
 

@@ -119,3 +119,15 @@ Anchors are two-character strings describing a zone on the screen:
 You can also anchor to a DOM element: `anchor: "element:#hotbar"`. The panel will follow that element and reposition itself if the element moves or resizes.
 
 `offsetX` / `offsetY` are pixel offsets from the anchor point. `snap: "grid"` snaps to the configured grid size (default 20 px); `snap: "free"` allows sub-grid placement.
+
+## Development Validation
+
+Run the local validation script before packaging or opening a release PR:
+
+```sh
+node scripts/validate-module.mjs
+```
+
+The script checks `module.json`, local script/style/language/template paths, CSS imports, invalid raw nesting selectors, and JavaScript syntax in `scripts/`.
+
+Manual Foundry smoke tests should still cover hero, NPC, object, retainer, party, and item sheets; favorites and tab visibility; expanded document descriptions; item tooltips; improved chat rendering; sheet scaling; setting menus; floating panels; and companion modules both missing and present.

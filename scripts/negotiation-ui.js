@@ -5,34 +5,25 @@ import {
   DEFAULT_NEGOTIATION_STATE,
 } from "./config.js";
 import { DspFloatingUI } from "./floating-ui/dsp-floating-ui.js";
+import {
+  createSyncedSettingState,
+  emitModuleSocket,
+  renderFloatingInstance,
+  setupModuleSocket,
+  syncFloatingVisibility,
+} from "./state-sync.js";
 
 const MODULE_ID = MODULE_CONFIG.id;
 const MODULE_PATH = MODULE_CONFIG.path;
 
-const SOCKET_EVENT = "module.draw-steel-plus";
-
-function getState() {
-  const raw = game.settings.get(MODULE_ID, "negotiationState");
-  return foundry.utils.mergeObject(
-    foundry.utils.deepClone(DEFAULT_NEGOTIATION_STATE),
-    raw,
-  );
-}
-
-async function setState(updates) {
-  const current = getState();
-  const merged = foundry.utils.mergeObject(current, updates, {
-    insertKeys: true,
-    insertValues: true,
-  });
-  await game.settings.set(MODULE_ID, "negotiationState", merged);
-  game.socket.emit(SOCKET_EVENT, { type: "negotiationUpdate" });
-}
-
-async function setStateReplace(state) {
-  await game.settings.set(MODULE_ID, "negotiationState", state);
-  game.socket.emit(SOCKET_EVENT, { type: "negotiationUpdate" });
-}
+const negotiationState = createSyncedSettingState(
+  "negotiationState",
+  DEFAULT_NEGOTIATION_STATE,
+  "negotiationUpdate",
+);
+const getState = negotiationState.get;
+const setState = negotiationState.patch;
+const setStateReplace = negotiationState.replace;
 
 function getMotivationLabel(id) {
   const key = `DRAW_STEEL_PLUS.Negotiation.motivationNames.${id}`;
@@ -122,18 +113,7 @@ export class NegotiationUI extends DspFloatingUI {
   };
 
   static syncVisibility(visible) {
-    if (visible) {
-      if (!NegotiationUI.instance?.rendered) {
-        NegotiationUI.instance = new NegotiationUI();
-        NegotiationUI.instance.render({ force: true });
-      }
-    } else {
-      if (NegotiationUI.instance) {
-        if (NegotiationUI.instance.rendered)
-          NegotiationUI.instance.close({ animate: false });
-        NegotiationUI.instance = null;
-      }
-    }
+    syncFloatingVisibility(NegotiationUI, visible);
   }
 
   _onClose(options) {
@@ -434,20 +414,17 @@ export class NegotiationUI extends DspFloatingUI {
     );
     await game.settings.set(MODULE_ID, "negotiationUIVisible", false);
     NegotiationUI.syncVisibility(false);
-    game.socket.emit(SOCKET_EVENT, {
-      type: "negotiationVisibility",
-      visible: false,
-    });
+    emitModuleSocket("negotiationVisibility", { visible: false });
   }
 }
 
 function setupNegotiationSocket() {
-  game.socket.on(SOCKET_EVENT, (data) => {
+  setupModuleSocket("negotiation", (data) => {
     if (data.type === "negotiationVisibility") {
       NegotiationUI.syncVisibility(data.visible);
     }
     if (data.type === "negotiationUpdate") {
-      if (NegotiationUI.instance?.rendered) NegotiationUI.instance.render();
+      renderFloatingInstance(NegotiationUI);
     }
   });
 }

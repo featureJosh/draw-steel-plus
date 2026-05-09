@@ -6,36 +6,31 @@ import {
   DEFAULT_MONTAGE_STATE,
 } from "./config.js";
 import { DspFloatingUI } from "./floating-ui/dsp-floating-ui.js";
+import {
+  createSyncedSettingState,
+  emitModuleSocket,
+  renderFloatingInstance,
+  setupModuleSocket,
+  syncFloatingVisibility,
+} from "./state-sync.js";
 
 const MODULE_ID = MODULE_CONFIG.id;
 const MODULE_PATH = MODULE_CONFIG.path;
 
-const SOCKET_EVENT = "module.draw-steel-plus";
-
 let _pendingMontageSkill = null;
 
-function getState() {
-  const raw = game.settings.get(MODULE_ID, "montageState");
-  return foundry.utils.mergeObject(
-    foundry.utils.deepClone(DEFAULT_MONTAGE_STATE),
-    raw,
-  );
-}
+const MONTAGE_SKILL_PATCHED = Symbol.for(
+  "draw-steel-plus.montageSkillInjectionPatched",
+);
 
-async function setState(updates) {
-  const current = getState();
-  const merged = foundry.utils.mergeObject(current, updates, {
-    insertKeys: true,
-    insertValues: true,
-  });
-  await game.settings.set(MODULE_ID, "montageState", merged);
-  game.socket.emit(SOCKET_EVENT, { type: "montageUpdate" });
-}
-
-async function setStateReplace(state) {
-  await game.settings.set(MODULE_ID, "montageState", state);
-  game.socket.emit(SOCKET_EVENT, { type: "montageUpdate" });
-}
+const montageState = createSyncedSettingState(
+  "montageState",
+  DEFAULT_MONTAGE_STATE,
+  "montageUpdate",
+);
+const getState = montageState.get;
+const setState = montageState.patch;
+const setStateReplace = montageState.replace;
 
 function computeAdjustedLimits(difficulty, heroCount) {
   const base = MONTAGE_DIFFICULTIES[difficulty];
@@ -137,18 +132,7 @@ export class MontageUI extends DspFloatingUI {
   };
 
   static syncVisibility(visible) {
-    if (visible) {
-      if (!MontageUI.instance?.rendered) {
-        MontageUI.instance = new MontageUI();
-        MontageUI.instance.render({ force: true });
-      }
-    } else {
-      if (MontageUI.instance) {
-        if (MontageUI.instance.rendered)
-          MontageUI.instance.close({ animate: false });
-        MontageUI.instance = null;
-      }
-    }
+    syncFloatingVisibility(MontageUI, visible);
   }
 
   _onClose(options) {
@@ -257,7 +241,7 @@ export class MontageUI extends DspFloatingUI {
     }));
 
     const skillGroups = [];
-    const dsSkills = ds?.CONFIG?.skills;
+    const dsSkills = globalThis.ds?.CONFIG?.skills;
     if (dsSkills?.groups && dsSkills?.list && this._rollHeroUuid) {
       const rollHeroEntry = state.heroes.find(
         (h) => h.uuid === this._rollHeroUuid,
@@ -633,8 +617,7 @@ export class MontageUI extends DspFloatingUI {
       this._openPopup = "heroes";
       await setStateReplace({ ...state, ...updates });
     } else {
-      game.socket.emit(SOCKET_EVENT, {
-        type: "montageRollResult",
+      emitModuleSocket("montageRollResult", {
         uuid,
         isSuccess,
         skill: actualSkill,
@@ -692,20 +675,17 @@ export class MontageUI extends DspFloatingUI {
     );
     await game.settings.set(MODULE_ID, "montageUIVisible", false);
     MontageUI.syncVisibility(false);
-    game.socket.emit(SOCKET_EVENT, {
-      type: "montageVisibility",
-      visible: false,
-    });
+    emitModuleSocket("montageVisibility", { visible: false });
   }
 }
 
 function setupMontageSocket() {
-  game.socket.on(SOCKET_EVENT, async (data) => {
+  setupModuleSocket("montage", async (data) => {
     if (data.type === "montageVisibility") {
       MontageUI.syncVisibility(data.visible);
     }
     if (data.type === "montageUpdate") {
-      if (MontageUI.instance?.rendered) MontageUI.instance.render();
+      renderFloatingInstance(MontageUI);
     }
     if (data.type === "montageRollResult" && game.user.isGM) {
       const { uuid, isSuccess, skill } = data;
@@ -725,7 +705,7 @@ function setupMontageSocket() {
 }
 
 function setupMontageSkillInjection() {
-  const PRDialog = ds?.applications?.apps?.PowerRollDialog;
+  const PRDialog = globalThis.ds?.applications?.apps?.PowerRollDialog;
   if (!PRDialog) {
     console.warn(
       `${MODULE_ID} | ds.applications.apps.PowerRollDialog not found — montage skill injection disabled. The Draw Steel API may have moved; please file an issue.`,
@@ -739,11 +719,13 @@ function setupMontageSkillInjection() {
     );
     return;
   }
+  if (PRDialog[MONTAGE_SKILL_PATCHED]) return;
   PRDialog.create = function (options) {
     if (_pendingMontageSkill && options?.context) {
       const ctx = options.context;
       if (ctx.skills?.has?.(_pendingMontageSkill)) {
         ctx.skill = _pendingMontageSkill;
+        ctx.modifiers ??= {};
         ctx.modifiers.bonuses = (ctx.modifiers.bonuses ?? 0) + 2;
         const sm = ctx.skillModifiers?.[_pendingMontageSkill];
         if (sm) {
@@ -755,6 +737,7 @@ function setupMontageSkillInjection() {
     }
     return origCreate.call(this, options);
   };
+  PRDialog[MONTAGE_SKILL_PATCHED] = true;
 }
 
 export function initializeMontageUI() {

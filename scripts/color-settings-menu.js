@@ -4,10 +4,15 @@ import {
   colorSettingKey,
 } from "./config.js";
 import { applyColorOverrides } from "./color-settings.js";
+import {
+  ApplicationV2,
+  HandlebarsApplicationMixin,
+  SETTINGS_FORM_BUTTONS,
+  settingsMenuOptions,
+  settingsMenuParts,
+} from "./settings-menu-helpers.js";
 
 const MODULE_ID = MODULE_CONFIG.id;
-
-const { HandlebarsApplicationMixin, ApplicationV2 } = foundry.applications.api;
 
 export default class ColorSettingsMenu extends HandlebarsApplicationMixin(
   ApplicationV2,
@@ -26,32 +31,21 @@ export default class ColorSettingsMenu extends HandlebarsApplicationMixin(
     { key: "other", colors: ["border", "borderLight", "danger"] },
   ];
 
-  static DEFAULT_OPTIONS = {
+  static DEFAULT_OPTIONS = settingsMenuOptions({
     id: "dsp-color-settings",
-    tag: "form",
-    classes: ["standard-form"],
-    position: { width: 550 },
-    window: {
-      title: "DRAW_STEEL_PLUS.Settings.menus.colors.name",
-      icon: "fa-solid fa-palette",
-    },
+    width: 550,
+    title: "DRAW_STEEL_PLUS.Settings.menus.colors.name",
+    icon: "fa-solid fa-palette",
     actions: {
       resetDefaults: this.resetDefaults,
     },
-    form: {
-      closeOnSubmit: true,
-      handler: this.onSubmit,
-    },
-  };
+    handler: this.onSubmit,
+  });
 
-  static PARTS = {
-    colors: {
-      template: `modules/${MODULE_ID}/templates/settings/color-settings.hbs`,
-    },
-    footer: {
-      template: "templates/generic/form-footer.hbs",
-    },
-  };
+  static PARTS = settingsMenuParts(
+    "colors",
+    `modules/${MODULE_ID}/templates/settings/color-settings.hbs`,
+  );
 
   async _prepareContext(options) {
     const colorField = new foundry.data.fields.ColorField({
@@ -91,19 +85,7 @@ export default class ColorSettingsMenu extends HandlebarsApplicationMixin(
 
     return {
       groups,
-      buttons: [
-        {
-          type: "button",
-          action: "resetDefaults",
-          icon: "fas fa-arrow-rotate-left",
-          label: "DRAW_STEEL_PLUS.Settings.resetDefaults",
-        },
-        {
-          type: "submit",
-          icon: "fas fa-save",
-          label: "DRAW_STEEL_PLUS.Settings.saveChanges",
-        },
-      ],
+      buttons: SETTINGS_FORM_BUTTONS,
     };
   }
 

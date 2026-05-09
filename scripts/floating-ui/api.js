@@ -12,6 +12,55 @@ const MODULE_ID = MODULE_CONFIG.id;
 
 const _registry = new Map();
 
+const HTML_ESCAPE = {
+  "&": "&amp;",
+  "<": "&lt;",
+  ">": "&gt;",
+  '"': "&quot;",
+  "'": "&#39;",
+};
+
+function escapeHtml(value) {
+  return String(value ?? "").replace(/[&<>"']/g, (char) => HTML_ESCAPE[char]);
+}
+
+function safeActionId(value) {
+  const token = String(value ?? "").trim();
+  return token && !/[\s"'`<>&]/.test(token) ? token : null;
+}
+
+function safeClassToken(value) {
+  const token = String(value ?? "").trim();
+  return token && !/[\s"'`<>&]/.test(token) ? token : null;
+}
+
+function safeClassTokens(values) {
+  const source = Array.isArray(values) ? values : [values];
+  return source
+    .flatMap((value) => String(value ?? "").split(/\s+/))
+    .map(safeClassToken)
+    .filter(Boolean);
+}
+
+function cssEscape(value) {
+  return (
+    globalThis.CSS?.escape?.(value) ?? value.replace(/[^A-Za-z0-9_-]/g, "\\$&")
+  );
+}
+
+function safeIconClasses(icon) {
+  const tokens = String(icon ?? "fa-gear")
+    .split(/\s+/)
+    .filter((token) => /^(?:fa[srldbtlk]?|fa(?:-[a-z0-9]+)+)$/i.test(token));
+  if (!tokens.length) return "fa-solid fa-gear";
+  const hasStyle = tokens.some((token) =>
+    /^(?:fa[srldbtlk]?|fa-solid|fa-regular|fa-light|fa-thin|fa-duotone|fa-brands)$/i.test(
+      token,
+    ),
+  );
+  return [...(hasStyle ? [] : ["fa-solid"]), ...tokens].join(" ");
+}
+
 function resolveElementTarget(spec) {
   if (!spec) return null;
   if (typeof spec === "string") return document.querySelector(spec);
@@ -42,10 +91,33 @@ export function buildAdoptingClass(config) {
     reparentOnClose,
   } = config;
 
+  const rawTitle = String(title ?? "");
+  const buttonConfigs = Array.isArray(toolbarButtons) ? toolbarButtons : [];
+  const safeToolbarButtons = buttonConfigs
+    .map((btn) => {
+      const id = safeActionId(btn?.id);
+      if (!id || typeof btn?.onClick !== "function") return null;
+      return {
+        id,
+        iconClasses: safeIconClasses(btn.icon),
+        tooltip: escapeHtml(btn.tooltip),
+        onClick: btn.onClick,
+      };
+    })
+    .filter(Boolean);
+  const contentClassTokens = safeClassTokens(contentClass);
+  if (!contentClassTokens.length) {
+    contentClassTokens.push("dsp-fui-adopted-content");
+  }
+  const contentRootClass = contentClassTokens[0];
+  const safeClasses = safeClassTokens(classes);
+
   const templateContent = `
     <div class="dsp-fui-panel">
       <div class="dsp-fui-toolbar">
-        <div class="dsp-fui-drag-handle" data-tooltip="${title ? `Drag ${title}` : "Drag to move"}">
+        <div class="dsp-fui-drag-handle" data-tooltip="${escapeHtml(
+          rawTitle ? `Drag ${rawTitle}` : "Drag to move",
+        )}">
           <i class="fa-solid fa-grip-vertical" inert></i>
         </div>
         <button class="dsp-fui-toolbar-btn" type="button" data-action="toggleLock" data-tooltip="Lock">
@@ -55,13 +127,12 @@ export function buildAdoptingClass(config) {
           <i class="fa-solid fa-crosshairs" inert></i>
         </button>
       </div>
-      <div class="${contentClass ?? "dsp-fui-adopted-content"}"></div>
+      <div class="${contentClassTokens.join(" ")}"></div>
     </div>
   `;
 
   const customActions = {};
-  for (const btn of toolbarButtons) {
-    if (!btn.id || typeof btn.onClick !== "function") continue;
+  for (const btn of safeToolbarButtons) {
     customActions[btn.id] = function () {
       btn.onClick(this);
     };
@@ -73,7 +144,7 @@ export function buildAdoptingClass(config) {
     static DEFAULT_OPTIONS = {
       id,
       tag: "div",
-      classes: ["dsp-adopted-ui", ...classes],
+      classes: ["dsp-adopted-ui", ...safeClasses],
       actions: customActions,
     };
 
@@ -105,17 +176,19 @@ export function buildAdoptingClass(config) {
     _onRender(context, options) {
       super._onRender(context, options);
 
-      for (const btn of toolbarButtons) {
-        if (!btn.id) continue;
+      for (const btn of safeToolbarButtons) {
         const toolbar = this.element.querySelector(".dsp-fui-toolbar");
         if (!toolbar) continue;
-        if (toolbar.querySelector(`[data-action="${btn.id}"]`)) continue;
+        const exists = Array.from(toolbar.querySelectorAll("[data-action]")).some(
+          (el) => el.dataset.action === btn.id,
+        );
+        if (exists) continue;
         const b = document.createElement("button");
         b.type = "button";
         b.className = "dsp-fui-toolbar-btn";
         b.dataset.action = btn.id;
         if (btn.tooltip) b.setAttribute("data-tooltip", btn.tooltip);
-        b.innerHTML = `<i class="fa-solid ${btn.icon ?? "fa-gear"}" inert></i>`;
+        b.innerHTML = `<i class="${btn.iconClasses}" inert></i>`;
         toolbar.appendChild(b);
       }
 
@@ -143,7 +216,7 @@ export function buildAdoptingClass(config) {
     #adoptTarget() {
       const target = resolveElementTarget(this._targetSpec);
       const container = this.element?.querySelector(
-        `.${contentClass ?? "dsp-fui-adopted-content"}`,
+        `.${cssEscape(contentRootClass)}`,
       );
       if (!target || !container) {
         if (!target) this.#watchForTarget();

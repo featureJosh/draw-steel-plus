@@ -1,52 +1,38 @@
 import { MODULE_CONFIG, HEADER_DEFAULTS } from "./config.js";
+import {
+  ApplicationV2,
+  HandlebarsApplicationMixin,
+  SETTINGS_FORM_BUTTONS,
+  booleanSettingContext,
+  settingsMenuOptions,
+  settingsMenuParts,
+} from "./settings-menu-helpers.js";
 
 const MODULE_ID = MODULE_CONFIG.id;
-
-const { HandlebarsApplicationMixin, ApplicationV2 } = foundry.applications.api;
 
 export default class HeaderSettingsMenu extends HandlebarsApplicationMixin(
   ApplicationV2,
 ) {
-  static DEFAULT_OPTIONS = {
+  static DEFAULT_OPTIONS = settingsMenuOptions({
     id: "dsp-header-settings",
-    tag: "form",
-    classes: ["standard-form"],
-    position: { width: 500 },
-    window: {
-      title: "DRAW_STEEL_PLUS.Settings.menus.headers.name",
-      icon: "fa-solid fa-image",
-    },
+    width: 500,
+    title: "DRAW_STEEL_PLUS.Settings.menus.headers.name",
+    icon: "fa-solid fa-image",
     actions: {
       resetDefaults: this.resetDefaults,
       filePicker: this.onFilePicker,
     },
-    form: {
-      closeOnSubmit: true,
-      handler: this.onSubmit,
-    },
-  };
+    handler: this.onSubmit,
+  });
 
-  static PARTS = {
-    headers: {
-      template: `modules/${MODULE_ID}/templates/settings/header-settings.hbs`,
-    },
-    footer: {
-      template: "templates/generic/form-footer.hbs",
-    },
-  };
+  static PARTS = settingsMenuParts(
+    "headers",
+    `modules/${MODULE_ID}/templates/settings/header-settings.hbs`,
+  );
 
   async _prepareContext(options) {
     return {
-      heroEnabled: {
-        field: new foundry.data.fields.BooleanField(),
-        value: game.settings.get(MODULE_ID, "heroHeaderEnabled"),
-        label: game.i18n.localize(
-          "DRAW_STEEL_PLUS.Settings.heroHeaderEnabled.name",
-        ),
-        hint: game.i18n.localize(
-          "DRAW_STEEL_PLUS.Settings.heroHeaderEnabled.hint",
-        ),
-      },
+      heroEnabled: booleanSettingContext(MODULE_ID, "heroHeaderEnabled"),
       heroImage: {
         value: game.settings.get(MODULE_ID, "heroHeaderImage"),
         label: game.i18n.localize(
@@ -56,16 +42,7 @@ export default class HeaderSettingsMenu extends HandlebarsApplicationMixin(
           "DRAW_STEEL_PLUS.Settings.heroHeaderImage.hint",
         ),
       },
-      npcEnabled: {
-        field: new foundry.data.fields.BooleanField(),
-        value: game.settings.get(MODULE_ID, "npcHeaderEnabled"),
-        label: game.i18n.localize(
-          "DRAW_STEEL_PLUS.Settings.npcHeaderEnabled.name",
-        ),
-        hint: game.i18n.localize(
-          "DRAW_STEEL_PLUS.Settings.npcHeaderEnabled.hint",
-        ),
-      },
+      npcEnabled: booleanSettingContext(MODULE_ID, "npcHeaderEnabled"),
       npcImage: {
         value: game.settings.get(MODULE_ID, "npcHeaderImage"),
         label: game.i18n.localize(
@@ -75,16 +52,7 @@ export default class HeaderSettingsMenu extends HandlebarsApplicationMixin(
           "DRAW_STEEL_PLUS.Settings.npcHeaderImage.hint",
         ),
       },
-      objectEnabled: {
-        field: new foundry.data.fields.BooleanField(),
-        value: game.settings.get(MODULE_ID, "objectHeaderEnabled"),
-        label: game.i18n.localize(
-          "DRAW_STEEL_PLUS.Settings.objectHeaderEnabled.name",
-        ),
-        hint: game.i18n.localize(
-          "DRAW_STEEL_PLUS.Settings.objectHeaderEnabled.hint",
-        ),
-      },
+      objectEnabled: booleanSettingContext(MODULE_ID, "objectHeaderEnabled"),
       objectImage: {
         value: game.settings.get(MODULE_ID, "objectHeaderImage"),
         label: game.i18n.localize(
@@ -94,16 +62,7 @@ export default class HeaderSettingsMenu extends HandlebarsApplicationMixin(
           "DRAW_STEEL_PLUS.Settings.objectHeaderImage.hint",
         ),
       },
-      retainerEnabled: {
-        field: new foundry.data.fields.BooleanField(),
-        value: game.settings.get(MODULE_ID, "retainerHeaderEnabled"),
-        label: game.i18n.localize(
-          "DRAW_STEEL_PLUS.Settings.retainerHeaderEnabled.name",
-        ),
-        hint: game.i18n.localize(
-          "DRAW_STEEL_PLUS.Settings.retainerHeaderEnabled.hint",
-        ),
-      },
+      retainerEnabled: booleanSettingContext(MODULE_ID, "retainerHeaderEnabled"),
       retainerImage: {
         value: game.settings.get(MODULE_ID, "retainerHeaderImage"),
         label: game.i18n.localize(
@@ -125,16 +84,7 @@ export default class HeaderSettingsMenu extends HandlebarsApplicationMixin(
       retainerSection: game.i18n.localize(
         "DRAW_STEEL_PLUS.Settings.menus.headers.retainerSection",
       ),
-      partyEnabled: {
-        field: new foundry.data.fields.BooleanField(),
-        value: game.settings.get(MODULE_ID, "partyHeaderEnabled"),
-        label: game.i18n.localize(
-          "DRAW_STEEL_PLUS.Settings.partyHeaderEnabled.name",
-        ),
-        hint: game.i18n.localize(
-          "DRAW_STEEL_PLUS.Settings.partyHeaderEnabled.hint",
-        ),
-      },
+      partyEnabled: booleanSettingContext(MODULE_ID, "partyHeaderEnabled"),
       partyImage: {
         value: game.settings.get(MODULE_ID, "partyHeaderImage"),
         label: game.i18n.localize(
@@ -147,19 +97,7 @@ export default class HeaderSettingsMenu extends HandlebarsApplicationMixin(
       partySection: game.i18n.localize(
         "DRAW_STEEL_PLUS.Settings.menus.headers.partySection",
       ),
-      buttons: [
-        {
-          type: "button",
-          action: "resetDefaults",
-          icon: "fas fa-arrow-rotate-left",
-          label: "DRAW_STEEL_PLUS.Settings.resetDefaults",
-        },
-        {
-          type: "submit",
-          icon: "fas fa-save",
-          label: "DRAW_STEEL_PLUS.Settings.saveChanges",
-        },
-      ],
+      buttons: SETTINGS_FORM_BUTTONS,
     };
   }
 

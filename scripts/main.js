@@ -61,7 +61,7 @@ Hooks.once("ready", async () => {
   TooltipsDSP.activateListeners();
   const tooltips = new TooltipsDSP();
   tooltips.observe();
-  mod.tooltips = tooltips;
+  if (mod) mod.tooltips = tooltips;
 });
 
 Hooks.on("combatStart", () => CombatTrackerUI.show());
