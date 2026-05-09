@@ -97,12 +97,52 @@
 }
 
 .draw-steel-plus.sheet .sidebar-section-title {
-    font-size: var(--dsp-font-size-xs);
-    font-weight: 700;
+    position: relative;
+    font-size: var(--dsp-font-size-sm);
+    font-weight: 800;
     text-transform: uppercase;
-    letter-spacing: 0.12em;
-    color: var(--dsp-text-faint);
+    letter-spacing: 0.14em;
+    color: var(--dsp-text-light);
     margin-bottom: calc(10px * var(--dsp-scale, 1));
+    padding-bottom: calc(6px * var(--dsp-scale, 1));
+    display: flex;
+    align-items: center;
+    gap: calc(6px * var(--dsp-scale, 1));
+}
+
+.draw-steel-plus.sheet .sidebar-section-title::before {
+    font-family: var(--font-awesome);
+    font-weight: 900;
+    font-size: var(--dsp-font-size-sm);
+    color: var(--dsp-accent);
+    flex-shrink: 0;
+}
+
+.draw-steel-plus.sheet
+    .sidebar-section:nth-of-type(1)
+    > .sidebar-section-title::before {
+    content: "\f0e7";
+}
+
+.draw-steel-plus.sheet
+    .sidebar-section:nth-of-type(2)
+    > .sidebar-section-title::before {
+    content: "\f71d";
+}
+
+.draw-steel-plus.sheet .sidebar-section-title + * {
+    margin-top: 0;
+}
+
+.draw-steel-plus.sheet .sidebar-section > .sidebar-section-title {
+    background: linear-gradient(
+        90deg,
+        var(--dsp-accent-dim) 0%,
+        transparent 80%
+    );
+    background-size: 100% 1px;
+    background-repeat: no-repeat;
+    background-position: 0 100%;
 }
 
 .draw-steel-plus.sheet .sidebar-resource {
@@ -166,14 +206,19 @@
 .draw-steel-plus.sheet .stam-bar-track {
     position: relative;
     width: 100%;
-    height: calc(24px * var(--dsp-scale, 1));
-    background: rgba(0, 0, 0, 0.6);
+    height: calc(28px * var(--dsp-scale, 1));
+    background: linear-gradient(
+        180deg,
+        rgba(0, 0, 0, 0.75) 0%,
+        rgba(0, 0, 0, 0.55) 100%
+    );
     border: 1px solid var(--dsp-border-light);
     border-radius: var(--dsp-radius-sm);
     overflow: hidden;
     box-shadow:
-        inset 0 2px 6px rgba(0, 0, 0, 0.7),
-        0 1px 0 rgba(255, 255, 255, 0.03);
+        inset 0 2px 8px rgba(0, 0, 0, 0.8),
+        inset 0 -1px 0 rgba(255, 255, 255, 0.04),
+        0 1px 0 rgba(255, 255, 255, 0.04);
 }
 
 .draw-steel-plus.sheet .stam-bar-fill {
@@ -182,12 +227,19 @@
     top: 0;
     bottom: 0;
     width: calc(100% * var(--stam-current, 0) / max(var(--stam-max, 1), 1));
-    background: linear-gradient(180deg, #c03030 0%, #a82828 40%, #7a1b1b 100%);
+    background:
+        linear-gradient(
+            180deg,
+            rgba(255, 255, 255, 0.18) 0%,
+            transparent 40%
+        ),
+        linear-gradient(180deg, #d04040 0%, #a82828 50%, #6a1414 100%);
     border-radius: var(--dsp-radius-sm) 0 0 var(--dsp-radius-sm);
     transition: width 0.5s ease;
     box-shadow:
-        inset 0 1px 0 rgba(255, 255, 255, 0.15),
-        inset 0 -1px 0 rgba(0, 0, 0, 0.3);
+        inset 0 1px 0 rgba(255, 255, 255, 0.22),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.35),
+        0 0 12px rgba(168, 40, 40, 0.35);
 }
 
 .draw-steel-plus.sheet .stam-bar-temp {
@@ -251,6 +303,11 @@
     gap: calc(6px * var(--dsp-scale, 1));
     align-items: flex-end;
     flex-wrap: wrap;
+    padding: calc(6px * var(--dsp-scale, 1)) calc(8px * var(--dsp-scale, 1));
+    background: light-dark(rgba(0, 0, 0, 0.04), rgba(0, 0, 0, 0.25));
+    border: 1px solid var(--dsp-border);
+    border-radius: var(--dsp-radius-md);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
 }
 
 .draw-steel-plus.sheet .sidebar-field {
@@ -481,19 +538,28 @@
 
 .draw-steel-plus.sheet .sidebar-tag-header {
     font-size: var(--dsp-font-size-sm);
-    font-weight: 700;
+    font-weight: 800;
     text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--dsp-text-faint);
+    letter-spacing: 0.14em;
+    color: var(--dsp-text-light);
     margin-bottom: calc(8px * var(--dsp-scale, 1));
+    padding-bottom: calc(6px * var(--dsp-scale, 1));
     display: flex;
     align-items: center;
     gap: calc(6px * var(--dsp-scale, 1));
+    background: linear-gradient(
+        90deg,
+        var(--dsp-accent-dim) 0%,
+        transparent 80%
+    );
+    background-size: 100% 1px;
+    background-repeat: no-repeat;
+    background-position: 0 100%;
 }
 
 .draw-steel-plus.sheet .sidebar-tag-header i {
-    font-size: var(--dsp-font-size-xs);
-    color: var(--dsp-primary-light);
+    font-size: var(--dsp-font-size-sm);
+    color: var(--dsp-accent);
 }
 
 .draw-steel-plus.sheet .sidebar-tag-header button {
@@ -567,23 +633,29 @@
 }
 
 .draw-steel-plus.sheet .sidebar-skills .ds-tag-group .ds-tag {
-    padding: calc(3px * var(--dsp-scale, 1)) calc(10px * var(--dsp-scale, 1));
-    background: rgba(0, 0, 0, 0.25);
-    border: 1px solid var(--dsp-border);
+    padding: calc(2px * var(--dsp-scale, 1)) calc(9px * var(--dsp-scale, 1));
+    background: light-dark(rgba(168, 139, 74, 0.08), rgba(0, 0, 0, 0.3));
+    border: 1px solid var(--dsp-border-light);
     border-radius: var(--dsp-radius-full);
-    font-size: var(--dsp-font-size-md);
-    font-weight: 600;
+    font-size: var(--dsp-font-size-sm);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
     color: var(--dsp-text-light);
     transition:
         background var(--dsp-transition),
         border-color var(--dsp-transition),
-        color var(--dsp-transition);
+        color var(--dsp-transition),
+        transform var(--dsp-transition-fast),
+        box-shadow var(--dsp-transition);
 }
 
 .draw-steel-plus.sheet .sidebar-skills .ds-tag-group .ds-tag:hover {
-    background: rgba(122, 27, 27, 0.4);
-    border-color: var(--dsp-primary-light);
+    background: light-dark(rgba(168, 139, 74, 0.18), rgba(122, 27, 27, 0.35));
+    border-color: var(--dsp-accent);
     color: var(--dsp-text);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px var(--dsp-accent-dim);
 }
 
 .draw-steel-plus.sheet .sidebar-section > .sidebar-section-title,
