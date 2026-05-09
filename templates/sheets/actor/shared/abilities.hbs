@@ -4,7 +4,7 @@
   {{> "modules/draw-steel-plus/templates/sheets/actor/shared/partials/search-filter.hbs"}}
   {{#each abilities as |abilityType|}}
   {{#if abilityType.showHeader}}
-  <section class="item-list-container">
+  <section class="item-list-container ability-list-container" data-ability-type="{{@key}}">
     <div class="item-header">
       <div class="item-column item-name">{{abilityType.label}}</div>
       {{#if (eq @key "villain")}}

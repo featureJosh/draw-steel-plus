@@ -241,15 +241,6 @@
     text-overflow: ellipsis;
 }
 
-.draw-steel-plus.sheet .item-list .item-column.item-name .resource-cost {
-    font-size: var(--dsp-font-size-sm);
-    color: var(--dsp-accent);
-    font-weight: 400;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
 .draw-steel-plus.sheet .item-list .item-column.rollable {
     cursor: pointer;
 }
@@ -1346,4 +1337,124 @@
 .draw-steel-plus.sheet .content-embed em {
     color: var(--dsp-text-light);
     font-style: italic;
+}
+
+.draw-steel-plus.sheet .item-list .item {
+    position: relative;
+}
+
+.draw-steel-plus.sheet .item-list .item:nth-child(odd) {
+    background: light-dark(rgba(0, 0, 0, 0.025), rgba(255, 255, 255, 0.018));
+}
+
+.draw-steel-plus.sheet .item-list .item:hover {
+    background: light-dark(rgba(122, 27, 27, 0.08), rgba(122, 27, 27, 0.1));
+}
+
+.draw-steel-plus.sheet .ability-list-container .item-list .item.ability {
+    --dsp-ability-accent: var(--dsp-text-faint);
+    box-shadow: inset 3px 0 0 0 transparent;
+    transition:
+        background var(--dsp-transition-fast),
+        box-shadow var(--dsp-transition-fast);
+}
+
+.draw-steel-plus.sheet
+    .ability-list-container[data-ability-type="action"]
+    .item-list
+    .item.ability {
+    --dsp-ability-accent: light-dark(#a12c2c, #c84444);
+}
+
+.draw-steel-plus.sheet
+    .ability-list-container[data-ability-type="maneuver"]
+    .item-list
+    .item.ability {
+    --dsp-ability-accent: light-dark(#a88b4a, #c8aa6e);
+}
+
+.draw-steel-plus.sheet
+    .ability-list-container[data-ability-type="triggered"]
+    .item-list
+    .item.ability,
+.draw-steel-plus.sheet
+    .ability-list-container[data-ability-type="freeTriggered"]
+    .item-list
+    .item.ability {
+    --dsp-ability-accent: light-dark(#3e6ea8, #6fa4dd);
+}
+
+.draw-steel-plus.sheet
+    .ability-list-container[data-ability-type="freeManeuver"]
+    .item-list
+    .item.ability,
+.draw-steel-plus.sheet
+    .ability-list-container[data-ability-type="freeAction"]
+    .item-list
+    .item.ability,
+.draw-steel-plus.sheet
+    .ability-list-container[data-ability-type="freeStrike"]
+    .item-list
+    .item.ability,
+.draw-steel-plus.sheet
+    .ability-list-container[data-ability-type="move"]
+    .item-list
+    .item.ability {
+    --dsp-ability-accent: light-dark(#5a8a5a, #88c088);
+}
+
+.draw-steel-plus.sheet
+    .ability-list-container[data-ability-type="villain"]
+    .item-list
+    .item.ability {
+    --dsp-ability-accent: light-dark(#6a3a8a, #a878d4);
+}
+
+.draw-steel-plus.sheet .ability-list-container .item-list .item.ability:hover {
+    box-shadow: inset 3px 0 0 0 var(--dsp-ability-accent);
+}
+
+.draw-steel-plus.sheet .item-list .item-column.item-name .resource-cost {
+    display: inline-flex;
+    align-items: center;
+    gap: calc(4px * var(--dsp-scale, 1));
+    padding: calc(1px * var(--dsp-scale, 1)) calc(7px * var(--dsp-scale, 1));
+    margin-top: calc(2px * var(--dsp-scale, 1));
+    background: light-dark(
+        rgba(168, 139, 74, 0.12),
+        rgba(200, 170, 110, 0.14)
+    );
+    border: 1px solid var(--dsp-accent-dim);
+    border-radius: var(--dsp-radius-full);
+    color: var(--dsp-accent);
+    font-size: var(--dsp-font-size-sm);
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    font-variant-numeric: tabular-nums;
+    line-height: 1.4;
+    width: fit-content;
+    max-width: 100%;
+}
+
+.draw-steel-plus.sheet .item-list .item-column.item-controls {
+    padding: calc(2px * var(--dsp-scale, 1)) calc(4px * var(--dsp-scale, 1));
+    border-radius: var(--dsp-radius-full);
+    background: transparent;
+    border: 1px solid transparent;
+    transition:
+        background var(--dsp-transition),
+        border-color var(--dsp-transition);
+}
+
+.draw-steel-plus.sheet .item-list .item:hover .item-column.item-controls {
+    background: light-dark(rgba(0, 0, 0, 0.04), rgba(255, 255, 255, 0.04));
+    border-color: var(--dsp-border);
+}
+
+.draw-steel-plus.sheet .item-list .item-column.item-points,
+.draw-steel-plus.sheet .item-list .item-column.item-quantity,
+.draw-steel-plus.sheet .item-list .item-column.item-order,
+.draw-steel-plus.sheet .item-list .item-column.item-melee-bonus,
+.draw-steel-plus.sheet .item-list .item-column.item-ranged-bonus {
+    font-variant-numeric: tabular-nums;
 }

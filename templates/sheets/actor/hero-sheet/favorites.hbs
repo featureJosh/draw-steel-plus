@@ -14,7 +14,7 @@
   {{else}}
   {{#each favAbilities as |abilityType|}}
   {{#if abilityType.showHeader}}
-  <section class="item-list-container">
+  <section class="item-list-container ability-list-container" data-ability-type="{{@key}}">
     <div class="item-header">
       <div class="item-column item-name">{{abilityType.label}}</div>
       {{#if (eq @key "villain")}}
