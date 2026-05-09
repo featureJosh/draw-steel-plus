@@ -1221,6 +1221,7 @@ body.dsp-improved-chat
     border: unset;
     border-radius: unset;
     padding: unset;
+    text-wrap: balance;
 }
 
 body.dsp-improved-chat

@@ -106,11 +106,7 @@
     display: flex;
     align-items: center;
     padding: calc(6px * var(--dsp-scale, 1)) calc(10px * var(--dsp-scale, 1));
-    background: linear-gradient(
-        90deg,
-        var(--dsp-primary-strong) 0%,
-        var(--dsp-secondary) 100%
-    );
+    background: linear-gradient(        90deg,        var(--dsp-primary-dark) -150%,        var(--dsp-background) 100%    );
     border-bottom: 1px solid var(--dsp-border);
     gap: calc(8px * var(--dsp-scale, 1));
     transition: border-color 0.35s ease-out;

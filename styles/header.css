@@ -16,6 +16,19 @@
     contain: layout style paint;
 }
 
+.draw-steel-plus.sheet
+    .sheet-header
+    .header-center
+    .document-name
+    input,
+.draw-steel-plus.sheet
+    .sheet-header
+    .header-center
+    .document-name
+    h2 {
+    font-family: unset;
+}
+
 .draw-steel-plus.sheet .sheet-header::after {
     content: "";
     position: absolute;
