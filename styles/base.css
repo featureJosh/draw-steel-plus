@@ -242,6 +242,40 @@ body {
     mix-blend-mode: soft-light;
 }
 
+@keyframes dsp-sheet-fade-in {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.draw-steel-plus.sheet.application .window-content {
+    animation: dsp-sheet-fade-in 160ms ease-out both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .draw-steel-plus.sheet.application .window-content {
+        animation: none;
+    }
+}
+
+.draw-steel-plus.sheet .char-value,
+.draw-steel-plus.sheet .stam-display,
+.draw-steel-plus.sheet .stam-bar-text,
+.draw-steel-plus.sheet .vital-nums,
+.draw-steel-plus.sheet .stat-val,
+.draw-steel-plus.sheet .sidebar-static,
+.draw-steel-plus.sheet .sidebar-field input,
+.draw-steel-plus.sheet .sidebar-dual-input,
+.draw-steel-plus.sheet .item-list .quantity,
+.draw-steel-plus.sheet .progression-subtitle .prog-value,
+.draw-steel-plus.sheet .stats-block .stat-value {
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: "tnum" 1;
+}
+
 & span.potency {
     font-family: "Draw Steel Glyphs";
     font-size: var(--font-size-13);
