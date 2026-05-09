@@ -73,9 +73,13 @@ async function documentListShare(event, target) {
   if (!row) return;
   const entries = this._getDocumentListContextOptions?.() ?? [];
   const shareEntry = entries.find((e) => e.label === "DRAW_STEEL.SHEET.Share");
-  if (shareEntry?.condition?.(target) !== false && shareEntry?.callback) {
-    await shareEntry.callback(target);
+  if (!shareEntry) return;
+  const visible = shareEntry.visible ?? shareEntry.condition;
+  if (typeof visible === "function" && visible.call(this, target) === false) {
+    return;
   }
+  const handler = shareEntry.onClick ?? shareEntry.callback;
+  if (handler) await handler.call(this, event, target);
 }
 
 function markFavorited(ctx) {
