@@ -35,6 +35,9 @@ body.dsp-ahud-styled #dsahud-tooltip {
 
 :is(#tooltip, .locked-tooltip).dsp-tooltip:is(.item-tooltip, .effect-tooltip) {
   width: calc(340px * var(--dsp-scale, 1));
+}
+
+:is(#tooltip, .locked-tooltip).dsp-tooltip:is(.item-tooltip, .effect-tooltip) .content {
   max-height: 80vh;
 }
 
@@ -55,7 +58,6 @@ body.dsp-ahud-styled #dsahud-tooltip {
   flex-direction: column;
   gap: calc(6px * var(--dsp-scale, 1));
   min-width: 0;
-  max-height: inherit;
   overflow: hidden;
 }
 
