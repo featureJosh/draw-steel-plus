@@ -106,7 +106,11 @@
     display: flex;
     align-items: center;
     padding: calc(6px * var(--dsp-scale, 1)) calc(10px * var(--dsp-scale, 1));
-    background: rgba(0, 0, 0, 0.3);
+    background: linear-gradient(
+        90deg,
+        var(--dsp-primary-strong) 0%,
+        var(--dsp-secondary) 100%
+    );
     border-bottom: 1px solid var(--dsp-border);
     gap: calc(8px * var(--dsp-scale, 1));
     transition: border-color 0.35s ease-out;
@@ -456,74 +460,54 @@
     flex-shrink: 0;
 }
 
-.draw-steel-plus.sheet
-    [data-application-part="favorites"]
-    .item-list-container
-    .item-cost,
-.draw-steel-plus.sheet
-    [data-application-part="favorites"]
-    .item-list-container
-    .item-distance,
-.draw-steel-plus.sheet
-    [data-application-part="favorites"]
-    .item-list-container
-    .item-target {
+.draw-steel-plus.sheet .item-list-container .item-cost,
+.draw-steel-plus.sheet .item-list-container .item-distance,
+.draw-steel-plus.sheet .item-list-container .item-target {
     width: calc(100px * var(--dsp-scale, 1));
 }
 
-.draw-steel-plus.sheet
-    [data-application-part="favorites"]
-    .item-list-container
-    .item-order {
+.draw-steel-plus.sheet .item-list-container .item-order {
     width: calc(50px * var(--dsp-scale, 1));
 }
 
 .draw-steel-plus.sheet
-    [data-application-part="favorites"]
-    .feature-list-container
+    .item-list-container.feature-list-container
     .item-type,
 .draw-steel-plus.sheet
-    [data-application-part="favorites"]
-    .feature-list-container
+    .item-list-container.feature-list-container
     .item-subtype {
     width: calc(100px * var(--dsp-scale, 1));
 }
 
 .draw-steel-plus.sheet
-    [data-application-part="favorites"]
-    .kit-list-container
+    .item-list-container.kit-list-container
     .item-melee-bonus,
 .draw-steel-plus.sheet
-    [data-application-part="favorites"]
-    .kit-list-container
+    .item-list-container.kit-list-container
     .item-ranged-bonus {
     width: calc(150px * var(--dsp-scale, 1));
 }
 
 .draw-steel-plus.sheet
-    [data-application-part="favorites"]
-    .treasure-list-container
+    .item-list-container.treasure-list-container
     .item-echelon {
     width: calc(100px * var(--dsp-scale, 1));
 }
 
 .draw-steel-plus.sheet
-    [data-application-part="favorites"]
-    .treasure-list-container
+    .item-list-container.treasure-list-container
     .item-quantity {
     width: calc(75px * var(--dsp-scale, 1));
 }
 
 .draw-steel-plus.sheet
-    [data-application-part="favorites"]
-    .project-list-container
+    .item-list-container.project-list-container
     .item-type {
     width: calc(75px * var(--dsp-scale, 1));
 }
 
 .draw-steel-plus.sheet
-    [data-application-part="favorites"]
-    .project-list-container
+    .item-list-container.project-list-container
     .item-points {
     width: calc(100px * var(--dsp-scale, 1));
 }
