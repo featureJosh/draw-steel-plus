@@ -242,25 +242,6 @@ body {
     mix-blend-mode: soft-light;
 }
 
-@keyframes dsp-sheet-fade-in {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
-}
-
-.draw-steel-plus.sheet.application .window-content {
-    animation: dsp-sheet-fade-in 160ms ease-out both;
-}
-
-@media (prefers-reduced-motion: reduce) {
-    .draw-steel-plus.sheet.application .window-content {
-        animation: none;
-    }
-}
-
 .draw-steel-plus.sheet .char-value,
 .draw-steel-plus.sheet .stam-display,
 .draw-steel-plus.sheet .stam-bar-text,
