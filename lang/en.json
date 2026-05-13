@@ -359,7 +359,11 @@
       "minimize": "Minimize",
       "lock": "Lock Position",
       "unlock": "Unlock Position",
-      "resetPosition": "Reset Position"
+      "resetPosition": "Reset Position",
+      "groupRoll": "Group Roll",
+      "groupRollTooltip": "Roll a group test via Draw Steel Rolls",
+      "groupRollDisabledTooltip": "Enable the Draw Steel Rolls module to use Group Roll",
+      "groupRollPending": "Group Roll is not yet implemented in Draw Steel Rolls."
     },
     "CombatTracker": {
       "lock": "Lock Position",

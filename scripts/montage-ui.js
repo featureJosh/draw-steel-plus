@@ -113,6 +113,7 @@ export class MontageUI extends DspFloatingUI {
       executeRoll: MontageUI.#onExecuteRoll,
       awardVictories: MontageUI.#onAwardVictories,
       endMontage: MontageUI.#onEndMontage,
+      groupRoll: MontageUI.#onGroupRoll,
     },
   };
 
@@ -309,6 +310,7 @@ export class MontageUI extends DspFloatingUI {
       successes: state.successes,
       failures: state.failures,
       openPopup: this._openPopup,
+      rollsModuleActive: !!game.modules.get("draw-steel-rolls")?.active,
     };
   }
 
@@ -656,6 +658,13 @@ export class MontageUI extends DspFloatingUI {
       const current = actor.system?.hero?.victories ?? 0;
       await actor.update({ "system.hero.victories": current + count });
     }
+  }
+
+  static async #onGroupRoll() {
+    if (!game.modules.get("draw-steel-rolls")?.active) return;
+    ui.notifications?.info(
+      game.i18n.localize("DRAW_STEEL_PLUS.MontageTest.groupRollPending"),
+    );
   }
 
   static async #onEndMontage() {

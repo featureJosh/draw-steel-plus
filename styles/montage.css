@@ -239,10 +239,15 @@
     white-space: nowrap;
 }
 
-.dsp-mt-popup-btn:hover {
+.dsp-mt-popup-btn:hover:not(:disabled) {
     color: var(--dsp-accent);
     background: light-dark(rgba(168, 139, 74, 0.06), rgba(200, 170, 110, 0.08));
     border-color: var(--dsp-border-light);
+}
+
+.dsp-mt-popup-btn:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
 }
 
 .dsp-mt-popup-btn i {
