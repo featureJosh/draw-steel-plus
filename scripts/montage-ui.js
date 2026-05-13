@@ -695,6 +695,11 @@ export class MontageUI extends DspFloatingUI {
         feature: "montage",
         difficulty: state.difficulty,
         currentRound: state.currentRound,
+        maxRounds: state.maxRounds,
+        successes: state.successes,
+        failures: state.failures,
+        successLimit: state.successLimit,
+        failureLimit: state.failureLimit,
       },
     });
 
