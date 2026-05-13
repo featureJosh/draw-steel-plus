@@ -363,7 +363,10 @@
       "groupRoll": "Group Roll",
       "groupRollTooltip": "Roll a group test via Draw Steel Rolls",
       "groupRollDisabledTooltip": "Enable the Draw Steel Rolls module to use Group Roll",
-      "groupRollPending": "Group Roll is not yet implemented in Draw Steel Rolls."
+      "groupRollPending": "Group Roll is not yet implemented in Draw Steel Rolls.",
+      "groupRollUnavailable": "Draw Steel Rolls is not ready for group rolls.",
+      "groupRollNoHeroes": "Add at least one hero before starting a group roll.",
+      "groupRollNoResults": "No heroes completed the group roll."
     },
     "CombatTracker": {
       "lock": "Lock Position",

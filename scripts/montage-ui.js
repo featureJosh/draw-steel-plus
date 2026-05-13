@@ -76,6 +76,11 @@ function victoryCount(outcome, difficulty) {
   return 0;
 }
 
+function isMontageSuccess(result) {
+  const successThreshold = { easy: 1, medium: 2, hard: 3 }[result.difficulty] ?? 2;
+  return (result.product ?? 0) >= successThreshold;
+}
+
 export class MontageUI extends DspFloatingUI {
   static instance = null;
 
@@ -661,10 +666,71 @@ export class MontageUI extends DspFloatingUI {
   }
 
   static async #onGroupRoll() {
-    if (!game.modules.get("draw-steel-rolls")?.active) return;
-    ui.notifications?.info(
-      game.i18n.localize("DRAW_STEEL_PLUS.MontageTest.groupRollPending"),
-    );
+    const rollsApi = game.modules.get("draw-steel-rolls")?.api;
+    const groupRoll = rollsApi?.groupRoll ?? globalThis.drawSteelRolls?.groupRoll;
+    if (typeof groupRoll !== "function") {
+      ui.notifications?.warn(
+        game.i18n.localize("DRAW_STEEL_PLUS.MontageTest.groupRollUnavailable"),
+      );
+      return;
+    }
+
+    const state = getState();
+    if (!state.heroes.length) {
+      ui.notifications?.warn(
+        game.i18n.localize("DRAW_STEEL_PLUS.MontageTest.groupRollNoHeroes"),
+      );
+      return;
+    }
+
+    const results = await groupRoll({
+      title: state.title || game.i18n.localize("DRAW_STEEL_PLUS.MontageTest.title"),
+      heroes: state.heroes.map((hero) => ({
+        uuid: hero.uuid,
+        name: hero.name,
+        img: hero.img,
+      })),
+      source: MODULE_ID,
+      metadata: {
+        feature: "montage",
+        difficulty: state.difficulty,
+        currentRound: state.currentRound,
+      },
+    });
+
+    if (!Array.isArray(results) || !results.length) {
+      ui.notifications?.warn(
+        game.i18n.localize("DRAW_STEEL_PLUS.MontageTest.groupRollNoResults"),
+      );
+      return;
+    }
+
+    const latestState = getState();
+    const resultsByActor = new Map(results.map((result) => [result.actorUuid, result]));
+    let successes = latestState.successes;
+    let failures = latestState.failures;
+
+    const heroes = latestState.heroes.map((hero) => {
+      const result = resultsByActor.get(hero.uuid);
+      if (!result) return hero;
+
+      const usedSkills = [...(hero.usedSkills || [])];
+      if (result.skill && !usedSkills.includes(result.skill)) {
+        usedSkills.push(result.skill);
+      }
+
+      if (isMontageSuccess(result)) successes += 1;
+      else failures += 1;
+
+      return { ...hero, actedThisRound: true, usedSkills };
+    });
+
+    await setStateReplace({
+      ...latestState,
+      heroes,
+      successes,
+      failures,
+    });
   }
 
   static async #onEndMontage() {

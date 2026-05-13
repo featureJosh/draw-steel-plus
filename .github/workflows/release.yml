@@ -1,8 +1,10 @@
-name: Release to Foundry VTT
+name: Release
 
 on:
-  release:
-    types: [published]
+  push:
+    tags:
+      - "v*.*.*"
+      - "[0-9]+.[0-9]+.[0-9]+"
 
 permissions:
   contents: write
@@ -15,52 +17,129 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Get version from tag
-        id: version
-        run: echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
 
-      - name: Update module.json
+      - name: Validate module
+        run: node scripts/validate-module.mjs
+
+      - name: Stage release files
+        env:
+          TAG_NAME: ${{ github.ref_name }}
+          REPOSITORY: ${{ github.repository }}
         run: |
-          VERSION=${{ steps.version.outputs.VERSION }}
+          set -euo pipefail
+          VERSION="${TAG_NAME#v}"
+          MODULE_ID="$(jq -r .id module.json)"
+          ZIP_NAME="${MODULE_ID}.zip"
+          MANIFEST_URL="https://github.com/${REPOSITORY}/releases/latest/download/module.json"
+          DOWNLOAD_URL="https://github.com/${REPOSITORY}/releases/download/${TAG_NAME}/${ZIP_NAME}"
+
+          rm -rf dist
+          mkdir -p dist
           jq \
-            --arg version "$VERSION" \
-            --arg download "https://github.com/${{ github.repository }}/archive/refs/tags/${VERSION}.zip" \
-            --arg manifest "https://github.com/${{ github.repository }}/releases/latest/download/module.json" \
-            '.version = $version | .download = $download | .manifest = $manifest' \
-            module.json > module.json.tmp
-          mv module.json.tmp module.json
+            --arg ver "$VERSION" \
+            --arg manifest "$MANIFEST_URL" \
+            --arg download "$DOWNLOAD_URL" \
+            '.version = $ver | .manifest = $manifest | .download = $download' \
+            module.json > dist/module.json
+
+          # Whitelist: only ship runtime files.
+          for d in assets lang scripts styles templates; do
+            rsync -a --exclude='.DS_Store' "$d/" "dist/$d/"
+          done
+          # Exclude dev-only scripts from scripts/.
+          rm -f dist/scripts/validate-module.mjs
+
+          echo "ZIP_NAME=${ZIP_NAME}" >> "$GITHUB_ENV"
+          echo "MODULE_ID=${MODULE_ID}" >> "$GITHUB_ENV"
+          echo "VERSION=${VERSION}" >> "$GITHUB_ENV"
 
       - name: Create release archive
         run: |
-          zip -r draw-steel-plus.zip . \
-            -x "*.git*" "*.github*" "*.DS_Store*" "node_modules/*" "*.md"
+          set -euo pipefail
+          (cd dist && zip -rq "../${ZIP_NAME}" .)
 
-      - name: Upload release assets
-        uses: softprops/action-gh-release@v2
-        with:
-          files: |
-            module.json
-            draw-steel-plus.zip
+      - name: Publish GitHub Release
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ github.token }}
+          TAG_NAME: ${{ github.ref_name }}
+        run: |
+          set -euo pipefail
+          NOTES="${RUNNER_TEMP}/release-notes.md"
+          CLIP="${RUNNER_TEMP}/changelog-snippet.md"
+
+          TAG_HEADING="## ${TAG_NAME}"
+          if [ -f CHANGELOG.md ]; then
+            awk -v h="$TAG_HEADING" '$0 == h {f=1; next} /^## / && f {exit} f' CHANGELOG.md > "${CLIP}"
+          fi
+          if [ -f "${CLIP:-}" ] && [ -s "${CLIP}" ]; then
+            mv "${CLIP}" "${NOTES}"
+          else
+            rm -f "${CLIP:-}"
+            printf 'Release `%s`.\n' "${TAG_NAME}" > "${NOTES}"
+          fi
+
+          gh release create "${TAG_NAME}" "${ZIP_NAME}" "dist/module.json#module.json" \
+            --title "Release ${TAG_NAME}" \
+            --notes-file "${NOTES}"
 
       - name: Publish to Foundry VTT
         env:
           FOUNDRY_TOKEN: ${{ secrets.FOUNDRY_RELEASE_TOKEN }}
+          TAG_NAME: ${{ github.ref_name }}
+          REPOSITORY: ${{ github.repository }}
         run: |
-          curl -X POST "https://foundryvtt.com/_api/packages/release_version/" \
-            -H "Content-Type: application/json" \
-            -H "Authorization: $FOUNDRY_TOKEN" \
-            -d '{
-              "id": "draw-steel-plus",
-              "release": {
-                "version": "${{ steps.version.outputs.VERSION }}",
-                "manifest": "https://github.com/${{ github.repository }}/releases/latest/download/module.json",
-                "notes": "https://github.com/${{ github.repository }}/releases/tag/${{ steps.version.outputs.VERSION }}",
-                "compatibility": {
-                  "minimum": "14",
-                  "verified": "14",
-                  "maximum": ""
+          set -euo pipefail
+
+          if [ -z "${FOUNDRY_TOKEN}" ]; then
+            echo "FOUNDRY_RELEASE_TOKEN secret is not configured." >&2
+            exit 1
+          fi
+
+          MODULE_ID="$(jq -r .id dist/module.json)"
+          MINIMUM="$(jq -r '.compatibility.minimum // ""' dist/module.json)"
+          VERIFIED="$(jq -r '.compatibility.verified // ""' dist/module.json)"
+          MAXIMUM="$(jq -r '.compatibility.maximum // ""' dist/module.json)"
+          MANIFEST_URL="$(jq -r .manifest dist/module.json)"
+          NOTES_URL="https://github.com/${REPOSITORY}/releases/tag/${TAG_NAME}"
+          PAYLOAD="${RUNNER_TEMP}/foundry-release.json"
+          RESPONSE="${RUNNER_TEMP}/foundry-response.json"
+
+          jq -n \
+            --arg id "$MODULE_ID" \
+            --arg version "$VERSION" \
+            --arg manifest "$MANIFEST_URL" \
+            --arg notes "$NOTES_URL" \
+            --arg minimum "$MINIMUM" \
+            --arg verified "$VERIFIED" \
+            --arg maximum "$MAXIMUM" \
+            '{
+              id: $id,
+              release: {
+                version: $version,
+                manifest: $manifest,
+                notes: $notes,
+                compatibility: {
+                  minimum: $minimum,
+                  verified: $verified,
+                  maximum: $maximum
                 }
               }
-            }'
+            }' > "$PAYLOAD"
+
+          STATUS="$(
+            curl -sS -o "$RESPONSE" -w "%{http_code}" \
+              -X POST "https://foundryvtt.com/_api/packages/release_version/" \
+              -H "Content-Type: application/json" \
+              -H "Authorization: ${FOUNDRY_TOKEN}" \
+              --data @"$PAYLOAD"
+          )"
+
+          if [ "$STATUS" -lt 200 ] || [ "$STATUS" -ge 300 ]; then
+            echo "Foundry release failed with HTTP ${STATUS}." >&2
+            cat "$RESPONSE" >&2
+            exit 1
+          fi
