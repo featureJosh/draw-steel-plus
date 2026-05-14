@@ -87,6 +87,11 @@
     </div>
 
     {{#if isGM}}
+    <div class="dsp-mt-action-row">
+      <button class="dsp-mt-group-roll-action" type="button" data-action="groupRoll" {{#unless rollsModuleActive}}disabled aria-disabled="true"{{/unless}} data-tooltip="{{#if rollsModuleActive}}{{localize 'DRAW_STEEL_PLUS.MontageTest.groupRollTooltip'}}{{else}}{{localize 'DRAW_STEEL_PLUS.MontageTest.groupRollDisabledTooltip'}}{{/if}}">
+        <i class="fa-solid fa-dice" inert></i> {{localize "DRAW_STEEL_PLUS.MontageTest.groupRoll"}}
+      </button>
+    </div>
     <div class="dsp-mt-toolbar-row">
       <button class="dsp-mt-popup-btn" type="button" data-action="openDifficultyPopup">
         <i class="fa-solid fa-shield-halved" inert></i> {{difficultyLabel}}
@@ -96,9 +101,6 @@
       </button>
       <button class="dsp-mt-popup-btn" type="button" data-action="openOutcomePopup">
         <i class="fa-solid fa-scroll" inert></i> {{localize "DRAW_STEEL_PLUS.MontageTest.outcome"}}
-      </button>
-      <button class="dsp-mt-popup-btn dsp-mt-group-roll-btn" type="button" data-action="groupRoll" {{#unless rollsModuleActive}}disabled aria-disabled="true"{{/unless}} data-tooltip="{{#if rollsModuleActive}}{{localize 'DRAW_STEEL_PLUS.MontageTest.groupRollTooltip'}}{{else}}{{localize 'DRAW_STEEL_PLUS.MontageTest.groupRollDisabledTooltip'}}{{/if}}">
-        <i class="fa-solid fa-dice" inert></i> {{localize "DRAW_STEEL_PLUS.MontageTest.groupRoll"}}
       </button>
     </div>
 
