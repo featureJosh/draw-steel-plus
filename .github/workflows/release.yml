@@ -29,13 +29,19 @@ jobs:
         env:
           TAG_NAME: ${{ github.ref_name }}
           REPOSITORY: ${{ github.repository }}
+          RELEASE_ZIP_NAME: draw-steel-plus.zip
         run: |
           set -euo pipefail
           VERSION="${TAG_NAME#v}"
           MODULE_ID="$(jq -r .id module.json)"
-          ZIP_NAME="${MODULE_ID}.zip"
+          ZIP_NAME="${RELEASE_ZIP_NAME}"
           MANIFEST_URL="https://github.com/${REPOSITORY}/releases/latest/download/module.json"
           DOWNLOAD_URL="https://github.com/${REPOSITORY}/releases/download/${TAG_NAME}/${ZIP_NAME}"
+
+          if [ "${MODULE_ID}" != "draw-steel-plus" ]; then
+            echo "Expected module id draw-steel-plus, got ${MODULE_ID}." >&2
+            exit 1
+          fi
 
           rm -rf dist
           mkdir -p dist
@@ -56,6 +62,26 @@ jobs:
           echo "ZIP_NAME=${ZIP_NAME}" >> "$GITHUB_ENV"
           echo "MODULE_ID=${MODULE_ID}" >> "$GITHUB_ENV"
           echo "VERSION=${VERSION}" >> "$GITHUB_ENV"
+
+      - name: Verify release manifest
+        env:
+          TAG_NAME: ${{ github.ref_name }}
+          REPOSITORY: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          EXPECTED_DOWNLOAD="https://github.com/${REPOSITORY}/releases/download/${TAG_NAME}/${ZIP_NAME}"
+          ACTUAL_DOWNLOAD="$(jq -r .download dist/module.json)"
+
+          if [ "${ACTUAL_DOWNLOAD}" != "${EXPECTED_DOWNLOAD}" ]; then
+            echo "dist/module.json download must point to ${EXPECTED_DOWNLOAD}." >&2
+            echo "Actual: ${ACTUAL_DOWNLOAD}" >&2
+            exit 1
+          fi
+
+          if echo "${ACTUAL_DOWNLOAD}" | grep -Eq '/v?[0-9]+\.[0-9]+\.[0-9]+\.zip$'; then
+            echo "dist/module.json download must not point to a version-named source archive." >&2
+            exit 1
+          fi
 
       - name: Create release archive
         run: |
