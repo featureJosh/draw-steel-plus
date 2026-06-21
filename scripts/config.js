@@ -42,6 +42,41 @@ export const SHEET_SIZE_DEFAULTS = {
   },
 };
 
+export const COMPACT_SHEET_SIZE_DEFAULTS = {
+  hero: {
+    width: 640,
+    height: 760,
+    minWidth: 0,
+    minHeight: 0,
+  },
+
+  npc: {
+    width: 580,
+    height: 720,
+    minWidth: 0,
+    minHeight: 0,
+  },
+};
+
+/* Additional sheet sets ("variants") registered alongside the default DS+ sheets.
+   Each variant produces extra user-selectable sheets per actor type by extending
+   the DS+ sheet classes — see scripts/compact-sheets.js for the registration side.
+   - cssClass: added to the sheet root element; scopes the variant's stylesheet
+   - titleSuffix: appended to the window title
+   - labels: sheet registration label i18n keys, keyed by actor type
+   - sizes: default window sizes, keyed by actor type */
+export const SHEET_VARIANTS = {
+  compact: {
+    cssClass: "dsp-compact",
+    titleSuffix: "[DS+ Compact]",
+    labels: {
+      hero: "DRAW_STEEL_PLUS.Sheet.CompactHero",
+      npc: "DRAW_STEEL_PLUS.Sheet.CompactNPC",
+    },
+    sizes: COMPACT_SHEET_SIZE_DEFAULTS,
+  },
+};
+
 export const FLOATING_TAB_ICONS = {
   favorites: "fas fa-star",
   abilities: "fas fa-hand-fist",

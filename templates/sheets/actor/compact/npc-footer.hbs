@@ -1,0 +1,50 @@
+<footer class="compact-footer">
+  {{#if isPlay}}
+  <div class="compact-footer-row">
+
+    <div class="compact-footer-group compact-footer-stamina">
+      <span class="compact-footer-label">{{systemFields.stamina.label}}</span>
+      <span class="compact-stam-bar" style="--stam-current: {{system.stamina.value}}; --stam-max: {{system.stamina.max}};">
+        <span class="compact-stam-fill"></span>
+      </span>
+      {{#if isSingleSquadMinion}}
+      <input type="number" name="squadStaminaValue" value="{{combatGroup.system.staminaValue}}">
+      <span class="compact-footer-sep">/</span>
+      <span class="compact-footer-static">{{combatGroup.system.staminaMax}}</span>
+      {{else}}
+      <input type="number" name="system.stamina.value" value="{{system.stamina.value}}">
+      <span class="compact-footer-sep">/</span>
+      <span class="compact-footer-static">{{system.stamina.max}}</span>
+      {{/if}}
+      <span class="compact-footer-sub">Temp</span>
+      <input type="number" name="system.stamina.temporary" value="{{system.stamina.temporary}}">
+    </div>
+
+    <div class="compact-footer-group">
+      {{#if gm}}
+      <button type="button" class="compact-footer-btn" data-action="freeStrike">{{systemFields.monster.fields.freeStrike.label}}</button>
+      {{else}}
+      <span class="compact-footer-label">{{systemFields.monster.fields.freeStrike.label}}</span>
+      {{/if}}
+      <span class="compact-footer-static">{{system.monster.freeStrike}}</span>
+    </div>
+
+  </div>
+  {{else}}
+  <div class="compact-footer-edit">
+    <div class="compact-footer-group">
+      <span class="compact-footer-label">{{systemFields.stamina.label}}</span>
+      {{formInput systemFields.stamina.fields.max value=systemSource.stamina.max dataset=datasets.isSource}}
+    </div>
+    <div class="compact-footer-group">
+      <span class="compact-footer-label">{{systemFields.monster.fields.freeStrike.label}}</span>
+      {{formInput systemFields.monster.fields.freeStrike value=systemSource.monster.freeStrike dataset=datasets.isSource}}
+    </div>
+    <div class="compact-footer-edit-section">
+      {{> "systems/draw-steel/templates/sheets/actor/shared/partials/stats/combat.hbs"}}
+      {{> "systems/draw-steel/templates/sheets/actor/shared/partials/stats/movement.hbs"}}
+      {{> "systems/draw-steel/templates/sheets/actor/shared/partials/stats/immunities-weaknesses.hbs"}}
+    </div>
+  </div>
+  {{/if}}
+</footer>

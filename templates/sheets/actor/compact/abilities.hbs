@@ -1,0 +1,26 @@
+<section class="tab abilities {{tab.cssClass}}" data-group="primary" data-tab="abilities">
+  {{> "modules/draw-steel-plus/templates/sheets/actor/shared/partials/search-filter.hbs"}}
+  {{#each abilities as |abilityType typeKey|}}
+  {{#if abilityType.showHeader}}
+  <section class="item-list-container ability-list-container compact-group" data-ability-type="{{typeKey}}">
+    <div class="item-header compact-group-header">
+      <div class="item-column item-name">{{abilityType.label}}</div>
+      <div class="item-column item-controls">
+        {{#if abilityType.showAdd}}
+        {{#with (localize "DRAW_STEEL.SHEET.Add" itemName=(localize "TYPES.Item.ability")) as |addItemTooltip|}}
+        <a class="createDoc" data-action="createDoc" data-document-class="Item" data-type="ability" data-render-sheet="true" data-system.type="{{typeKey}}" data-tooltip-text="{{addItemTooltip}}">
+          <i class="fa-solid fa-plus"></i>
+        </a>
+        {{/with}}
+        {{/if}}
+      </div>
+    </div>
+    <ol class="item-list abilities-list">
+      {{#each abilityType.abilities as |abilityContext|}}
+      {{> "modules/draw-steel-plus/templates/sheets/actor/compact/partials/ability-entry.hbs" ctx=abilityContext typeKey=typeKey typeLabel=abilityType.label}}
+      {{/each}}
+    </ol>
+  </section>
+  {{/if}}
+  {{/each}}
+</section>

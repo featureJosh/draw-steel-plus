@@ -9,6 +9,8 @@
 @import url("./tab-config.css");
 @import url("./chat.css");
 
+@import url("./compact-sheets.css");
+
 @import url("./npc-overrides.css");
 @import url("./item-overrides.css");
 @import url("./floating-ui.css");

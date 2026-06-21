@@ -1,0 +1,108 @@
+<section class="tab favorites {{tab.cssClass}}" data-group="primary" data-tab="favorites">
+  {{#unless hasFavorites}}
+  <div class="dsp-favorites-empty">
+    <p>{{localize "DRAW_STEEL_PLUS.Favorites.Empty"}}</p>
+  </div>
+  {{else}}
+
+  {{#each favAbilities as |abilityType typeKey|}}
+  {{#if abilityType.showHeader}}
+  <section class="item-list-container ability-list-container compact-group" data-ability-type="{{typeKey}}">
+    <div class="item-header compact-group-header">
+      <div class="item-column item-name">{{abilityType.label}}</div>
+      <div class="item-column item-controls"></div>
+    </div>
+    <ol class="item-list abilities-list">
+      {{#each abilityType.abilities as |abilityContext|}}
+      {{> "modules/draw-steel-plus/templates/sheets/actor/compact/partials/ability-entry.hbs" ctx=abilityContext typeKey=typeKey typeLabel=abilityType.label}}
+      {{/each}}
+    </ol>
+  </section>
+  {{/if}}
+  {{/each}}
+
+  {{#if favFeatures.length}}
+  <section class="item-list-container feature-list-container compact-group">
+    <div class="item-header compact-group-header">
+      <div class="item-column item-name">{{localize "TYPES.Item.feature"}}</div>
+      <div class="item-column item-controls"></div>
+    </div>
+    <ol class="item-list feature-list">
+      {{#each favFeatures as |featureContext|}}
+      {{> "modules/draw-steel-plus/templates/sheets/actor/compact/partials/simple-entry.hbs" ctx=featureContext metaText=(localize featureContext.typeLabel) forceFavorited=true}}
+      {{/each}}
+    </ol>
+  </section>
+  {{/if}}
+
+  {{#if favComplications.length}}
+  <section class="item-list-container complications-list-container compact-group">
+    <div class="item-header compact-group-header">
+      <div class="item-column item-name">{{favComplicationsLabel}}</div>
+      <div class="item-column item-controls"></div>
+    </div>
+    <ol class="item-list complications-list">
+      {{#each favComplications as |complicationContext|}}
+      {{> "modules/draw-steel-plus/templates/sheets/actor/compact/partials/simple-entry.hbs" ctx=complicationContext forceFavorited=true}}
+      {{/each}}
+    </ol>
+  </section>
+  {{/if}}
+
+  {{#if favKits.length}}
+  <section class="item-list-container kit-list-container compact-group">
+    <div class="item-header compact-group-header">
+      <div class="item-column item-name">{{localize "TYPES.Item.kit"}}</div>
+      <div class="item-column item-controls"></div>
+    </div>
+    <ol class="item-list kit-list">
+      {{#each favKits as |kitContext|}}
+      {{> "modules/draw-steel-plus/templates/sheets/actor/compact/partials/simple-entry.hbs" ctx=kitContext preferred=(eq @root.system.hero.preferredKit kitContext.item.id) forceFavorited=true}}
+      {{/each}}
+    </ol>
+  </section>
+  {{/if}}
+
+  {{#each favTreasure as |treasureType|}}
+  <section class="item-list-container treasure-list-container compact-group">
+    <div class="item-header compact-group-header">
+      <div class="item-column item-name">{{treasureType.label}}</div>
+      <div class="item-column item-controls"></div>
+    </div>
+    <ol class="item-list treasure-list">
+      {{#each treasureType.treasure as |treasureContext|}}
+      {{> "modules/draw-steel-plus/templates/sheets/actor/compact/partials/simple-entry.hbs" ctx=treasureContext metaText=(localize (concat "DRAW_STEEL.ECHELON." treasureContext.item.system.echelon)) quantity=true forceFavorited=true}}
+      {{/each}}
+    </ol>
+  </section>
+  {{/each}}
+
+  {{#if favProjects.length}}
+  <section class="item-list-container project-list-container compact-group">
+    <div class="item-header compact-group-header">
+      <div class="item-column item-name">{{localize "TYPES.Item.project"}}</div>
+      <div class="item-column item-controls"></div>
+    </div>
+    <ol class="item-list project-list">
+      {{#each favProjects as |projectContext|}}
+      {{> "modules/draw-steel-plus/templates/sheets/actor/compact/partials/simple-entry.hbs" ctx=projectContext playAction="rollProject" forceFavorited=true metaText=(concat (ifThen projectContext.item.system.points projectContext.item.system.points "0") " / " (ifThen projectContext.item.system.goal projectContext.item.system.goal (localize "DRAW_STEEL.Item.project.Varies")) " | " (lookup (lookup @root.config.projects.types projectContext.item.system.type) "label"))}}
+      {{/each}}
+    </ol>
+  </section>
+  {{/if}}
+
+  {{#if favFollowers.length}}
+  <section class="item-list-container follower-container compact-group">
+    <div class="item-header compact-group-header">
+      <div class="item-column item-name">{{localize "TYPES.Item.follower"}}</div>
+      <div class="item-column item-controls"></div>
+    </div>
+    <ol class="item-list follower-list">
+      {{#each favFollowers as |followerContext|}}
+      {{> "modules/draw-steel-plus/templates/sheets/actor/compact/partials/simple-entry.hbs" ctx=followerContext metaText=followerContext.item.system.followerType forceFavorited=true}}
+      {{/each}}
+    </ol>
+  </section>
+  {{/if}}
+  {{/unless}}
+</section>

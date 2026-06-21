@@ -1,0 +1,150 @@
+
+{{#*inline "headerTag"}}
+{{#if originDoc}}
+<span class="tag-content" data-document-uuid="{{lookup originDoc "uuid"}}">
+  <a class="filled" data-action="viewDoc">
+    {{lookup originDoc "name"}}
+  </a>
+  {{#unless (or @root.isPlay noEdit)}}
+  <a data-action="deleteDoc" class="delete-icon">
+    <i class="fa-solid fa-trash-can"></i>
+  </a>
+  {{/unless}}
+</span>
+{{else}}
+{{#if @root.isPlay}}
+<span class="unfilled">
+  {{localize "DRAW_STEEL.SHEET.NoDocument" documentName=(localize (concat "TYPES.Item." originType))}}
+</span>
+{{else}}
+{{#unless noEdit}}
+<a class="unfilled add-icon" data-action="addOrigin" data-type="{{originType}}">
+  {{localize "DRAW_STEEL.SHEET.Add" itemName=(localize (concat "TYPES.Item." originType))}}
+</a>
+{{/unless}}
+{{/if}}
+{{/if}}
+{{/inline}}
+
+<header class="sheet-header compact-header">
+
+  <img class="header-bg-art" src="modules/draw-steel-plus/assets/sketch-images/s1.jpg" aria-hidden="true">
+  <div class="header-bg-overlay"></div>
+
+  <div class="compact-title-row">
+    <div class="portrait-frame compact-portrait-frame">
+      <img
+        class="profile-img compact-portrait"
+        src="{{document.img}}"
+        alt="{{document.name}}"
+        data-action="{{ifThen isPlay "showPortraitArtwork" "editImage"}}"
+        data-edit="img"
+        title="{{document.name}}"
+      >
+    </div>
+
+    {{#if isPlay}}
+    <h1 class="char-name">{{document.name}}</h1>
+    {{else}}
+    {{formInput fields.name value=source.name placeholder=(localize "Name") class="char-name-input"}}
+    {{/if}}
+
+    <div class="compact-corner-tag" title="{{localize "DRAW_STEEL.Item.class.FIELDS.level.label"}}">
+      {{#if system.advancementReady}}
+      <a data-action="levelUp" data-tooltip="DRAW_STEEL.SHEET.LevelUp">
+        {{localize "DRAW_STEEL.Item.class.FIELDS.level.label"}} {{system.level}}
+        <i class="fa-solid fa-arrow-up"></i>
+      </a>
+      {{else}}
+      {{localize "DRAW_STEEL.Item.class.FIELDS.level.label"}} {{system.level}}
+      {{/if}}
+    </div>
+  </div>
+
+  <div class="origins-row compact-meta-row">
+    <div class="ancestry tag">
+      {{> headerTag originDoc=document.system.ancestry originType="ancestry"}}
+    </div>
+    <div class="culture tag">
+      {{> headerTag originDoc=document.system.culture originType="culture"}}
+    </div>
+    <div class="career tag">
+      {{> headerTag originDoc=document.system.career originType="career"}}
+    </div>
+    <div class="class tag">
+      {{> headerTag originDoc=document.system.class originType="class"}}
+    </div>
+    {{#each document.system.subclasses as |subclass|}}
+    <div class="subclass tag">
+      {{> headerTag originDoc=subclass originType="subclass" noEdit=true}}
+    </div>
+    {{/each}}
+  </div>
+
+  {{#if isPlay}}
+  <div class="compact-stat-line compact-progress-row">
+    <span class="compact-stat"><b>{{system.hero.xp}}</b> XP</span>
+    <span class="compact-sep">|</span>
+    <span class="compact-stat"><b>{{system.hero.victories}}</b> Victories</span>
+    <a class="compact-respite" data-action="takeRespite" data-tooltip="DRAW_STEEL.Actor.hero.TakeRespite">
+      <i class="fa-solid fa-bed"></i>
+    </a>
+  </div>
+  {{else}}
+  <div class="progression-edit compact-progress-row">
+    {{formGroup systemFields.hero.fields.xp value=systemSource.hero.xp classes="xp-edit"}}
+    {{formGroup systemFields.hero.fields.victories value=systemSource.hero.victories classes="victories-edit"}}
+  </div>
+  {{/if}}
+
+  <div class="header-characteristics compact-characteristics">
+    {{#unless isPlay}}
+    <button type="button" class="char-edit-btn fa-solid fa-cog" data-action="editCharacteristics"></button>
+    {{/unless}}
+    {{#each system.characteristics as |chr key|}}
+    <a
+      class="char-badge {{disabled (not @root.owner)}}"
+      data-action="roll"
+      data-roll-type="characteristic"
+      data-characteristic="{{key}}"
+      {{disabled (not @root.isPlay)}}
+    >
+      <span class="char-label">{{key}}</span>
+      <span class="char-value">{{numberFormat chr.value sign=true}}</span>
+    </a>
+    {{/each}}
+  </div>
+
+  <div class="compact-stat-line compact-combat-row">
+    <span class="compact-stat"><span class="compact-label">Size</span> <b>{{system.combat.size}}</b></span>
+    <span class="compact-sep">|</span>
+    <span class="compact-stat"><span class="compact-label">{{movement.list}}</span> <b>{{system.movement.value}}</b></span>
+    <span class="compact-sep">|</span>
+    <span class="compact-stat"><span class="compact-label">Stability</span> <b>{{system.combat.stability}}</b></span>
+    <span class="compact-sep">|</span>
+    <span class="compact-stat"><span class="compact-label">Disengage</span> <b>{{system.movement.disengage}}</b></span>
+  </div>
+
+  <div class="compact-stat-line compact-iw-row">
+    <span class="compact-stat">
+      <span class="compact-label">{{systemFields.damage.fields.immunities.label}}</span>
+      {{#if damageIW.immunities}}<span class="compact-iw">{{{damageIW.immunities}}}</span>{{else}}<span class="compact-none">None</span>{{/if}}
+    </span>
+    <span class="compact-sep">|</span>
+    <span class="compact-stat">
+      <span class="compact-label">{{systemFields.damage.fields.weaknesses.label}}</span>
+      {{#if damageIW.weaknesses}}<span class="compact-iw">{{{damageIW.weaknesses}}}</span>{{else}}<span class="compact-none">None</span>{{/if}}
+    </span>
+  </div>
+
+  <div class="compact-stat-line compact-skills-row">
+    <span class="compact-stat">
+      <span class="compact-label">{{systemFields.skills.fields.value.label}}</span>
+      {{#if skills.list}}<span class="compact-skills">{{skills.list}}</span>{{else}}<span class="compact-none">None</span>{{/if}}
+      {{#if unfilledSkill}}
+      <button type="button" class="icon fa-solid fa-clipboard-question compact-fill-trait" data-tooltip-text="{{localize "DRAW_STEEL.ADVANCEMENT.FillTrait.button" type=(localize "TYPES.Advancement.skill")}}" data-tooltip-direction="UP" data-action="fillTrait" data-type="skill"></button>
+      {{/if}}
+    </span>
+  </div>
+
+</header>

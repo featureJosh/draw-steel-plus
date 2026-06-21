@@ -1,6 +1,7 @@
 import { MODULE_CONFIG } from "./config.js";
 import { getFontScale } from "./scale-settings.js";
 import { TabConfigDialog } from "./tab-config.js";
+import { registerCompactSheets } from "./compact-sheets.js";
 import {
   applyItemTooltips,
   setupItemListCollapse,
@@ -236,20 +237,32 @@ export function registerSheets(SHEET_SIZES) {
 
   console.log(`${MODULE_ID} | Available sheets:`, Object.keys(sheets));
 
-  _registerHeroSheet(sheets, SHEET_SIZES);
-  _registerNPCSheet(sheets, SHEET_SIZES);
-  _registerObjectSheet(sheets, SHEET_SIZES);
-  _registerRetainerSheet(sheets, SHEET_SIZES);
-  _registerPartySheet(sheets, SHEET_SIZES);
-  _registerItemSheet(sheets, SHEET_SIZES);
+  /* Each _registerXSheet builds, registers, and returns the DS+ sheet class.
+     The built classes double as bases for additional sheet sets (variants) —
+     see SHEET_VARIANTS in config.js and registerCompactSheets. */
+  const baseSheets = {
+    hero: _registerHeroSheet(sheets, SHEET_SIZES),
+    npc: _registerNPCSheet(sheets, SHEET_SIZES),
+    object: _registerObjectSheet(sheets, SHEET_SIZES),
+    retainer: _registerRetainerSheet(sheets, SHEET_SIZES),
+    party: _registerPartySheet(sheets, SHEET_SIZES),
+    item: _registerItemSheet(sheets, SHEET_SIZES),
+  };
+
+  registerCompactSheets(baseSheets);
 
   console.log(`${MODULE_ID} | Sheet registration complete`);
 }
 
 function _registerHeroSheet(sheets, SHEET_SIZES) {
-  if (!sheets.DrawSteelHeroSheet) return;
+  if (!sheets.DrawSteelHeroSheet) return null;
 
   const DrawSteelPlusHeroSheet = class extends sheets.DrawSteelHeroSheet {
+    /* Window size config for this sheet — read via this.constructor.SHEET_SIZE
+       so variant subclasses can swap in their own sizes without re-overriding
+       the render hooks below. */
+    static SHEET_SIZE = SHEET_SIZES.hero;
+
     static DEFAULT_OPTIONS = {
       ...super.DEFAULT_OPTIONS,
       classes: [...super.DEFAULT_OPTIONS.classes, "draw-steel-plus"],
@@ -550,16 +563,17 @@ function _registerHeroSheet(sheets, SHEET_SIZES) {
     _onFirstRender(context, options) {
       super._onFirstRender(context, options);
       const scale = getFontScale();
+      const size = this.constructor.SHEET_SIZE;
       if (scale !== 1)
         this.setPosition({
-          width: Math.round(SHEET_SIZES.hero.width * scale),
-          height: Math.round(SHEET_SIZES.hero.height * scale),
+          width: Math.round(size.width * scale),
+          height: Math.round(size.height * scale),
         });
     }
 
     _onRender(context, options) {
       super._onRender(context, options);
-      applyMinSize(this.element, SHEET_SIZES.hero);
+      applyMinSize(this.element, this.constructor.SHEET_SIZE);
       setupScrollbarAutoHide(this.element);
       applyHeaderArt(this.element, "hero");
       applyParallaxHeader(this.element);
@@ -580,12 +594,15 @@ function _registerHeroSheet(sheets, SHEET_SIZES) {
   );
 
   console.log(`${MODULE_ID} | Registered DS+ Hero Sheet`);
+  return DrawSteelPlusHeroSheet;
 }
 
 function _registerNPCSheet(sheets, SHEET_SIZES) {
-  if (!sheets.DrawSteelNPCSheet) return;
+  if (!sheets.DrawSteelNPCSheet) return null;
 
   const DrawSteelPlusNPCSheet = class extends sheets.DrawSteelNPCSheet {
+    static SHEET_SIZE = SHEET_SIZES.npc;
+
     static DEFAULT_OPTIONS = {
       ...super.DEFAULT_OPTIONS,
       classes: [...super.DEFAULT_OPTIONS.classes, "draw-steel-plus", "dsp-npc"],
@@ -774,16 +791,17 @@ function _registerNPCSheet(sheets, SHEET_SIZES) {
     _onFirstRender(context, options) {
       super._onFirstRender(context, options);
       const scale = getFontScale();
+      const size = this.constructor.SHEET_SIZE;
       if (scale !== 1)
         this.setPosition({
-          width: Math.round(SHEET_SIZES.npc.width * scale),
-          height: Math.round(SHEET_SIZES.npc.height * scale),
+          width: Math.round(size.width * scale),
+          height: Math.round(size.height * scale),
         });
     }
 
     _onRender(context, options) {
       super._onRender(context, options);
-      applyMinSize(this.element, SHEET_SIZES.npc);
+      applyMinSize(this.element, this.constructor.SHEET_SIZE);
       setupScrollbarAutoHide(this.element);
       applyHeaderArt(this.element, "npc");
       applyParallaxHeader(this.element);
@@ -804,12 +822,15 @@ function _registerNPCSheet(sheets, SHEET_SIZES) {
   );
 
   console.log(`${MODULE_ID} | Registered DS+ NPC Sheet`);
+  return DrawSteelPlusNPCSheet;
 }
 
 function _registerObjectSheet(sheets, SHEET_SIZES) {
-  if (!sheets.DrawSteelObjectSheet) return;
+  if (!sheets.DrawSteelObjectSheet) return null;
 
   const DrawSteelPlusObjectSheet = class extends sheets.DrawSteelObjectSheet {
+    static SHEET_SIZE = SHEET_SIZES.object;
+
     static DEFAULT_OPTIONS = {
       ...super.DEFAULT_OPTIONS,
       classes: [
@@ -869,16 +890,17 @@ function _registerObjectSheet(sheets, SHEET_SIZES) {
     _onFirstRender(context, options) {
       super._onFirstRender(context, options);
       const scale = getFontScale();
+      const size = this.constructor.SHEET_SIZE;
       if (scale !== 1)
         this.setPosition({
-          width: Math.round(SHEET_SIZES.object.width * scale),
-          height: Math.round(SHEET_SIZES.object.height * scale),
+          width: Math.round(size.width * scale),
+          height: Math.round(size.height * scale),
         });
     }
 
     _onRender(context, options) {
       super._onRender(context, options);
-      applyMinSize(this.element, SHEET_SIZES.object);
+      applyMinSize(this.element, this.constructor.SHEET_SIZE);
       setupScrollbarAutoHide(this.element);
       applyHeaderArt(this.element, "object");
       applyParallaxHeader(this.element);
@@ -900,14 +922,17 @@ function _registerObjectSheet(sheets, SHEET_SIZES) {
   );
 
   console.log(`${MODULE_ID} | Registered DS+ Object Sheet`);
+  return DrawSteelPlusObjectSheet;
 }
 
 function _registerRetainerSheet(sheets, SHEET_SIZES) {
-  if (!sheets.DrawSteelRetainerSheet) return;
+  if (!sheets.DrawSteelRetainerSheet) return null;
 
   const DrawSteelPlusRetainerSheet = class
     extends sheets.DrawSteelRetainerSheet
   {
+    static SHEET_SIZE = SHEET_SIZES.retainer;
+
     static DEFAULT_OPTIONS = {
       ...super.DEFAULT_OPTIONS,
       classes: [
@@ -1033,16 +1058,17 @@ function _registerRetainerSheet(sheets, SHEET_SIZES) {
     _onFirstRender(context, options) {
       super._onFirstRender(context, options);
       const scale = getFontScale();
+      const size = this.constructor.SHEET_SIZE;
       if (scale !== 1)
         this.setPosition({
-          width: Math.round(SHEET_SIZES.retainer.width * scale),
-          height: Math.round(SHEET_SIZES.retainer.height * scale),
+          width: Math.round(size.width * scale),
+          height: Math.round(size.height * scale),
         });
     }
 
     _onRender(context, options) {
       super._onRender(context, options);
-      applyMinSize(this.element, SHEET_SIZES.retainer);
+      applyMinSize(this.element, this.constructor.SHEET_SIZE);
       setupScrollbarAutoHide(this.element);
       applyHeaderArt(this.element, "retainer");
       applyParallaxHeader(this.element);
@@ -1063,12 +1089,15 @@ function _registerRetainerSheet(sheets, SHEET_SIZES) {
   );
 
   console.log(`${MODULE_ID} | Registered DS+ Retainer Sheet`);
+  return DrawSteelPlusRetainerSheet;
 }
 
 function _registerPartySheet(sheets, SHEET_SIZES) {
-  if (!sheets.DrawSteelPartySheet) return;
+  if (!sheets.DrawSteelPartySheet) return null;
 
   const DrawSteelPlusPartySheet = class extends sheets.DrawSteelPartySheet {
+    static SHEET_SIZE = SHEET_SIZES.party;
+
     static DEFAULT_OPTIONS = {
       ...super.DEFAULT_OPTIONS,
       classes: [
@@ -1112,16 +1141,17 @@ function _registerPartySheet(sheets, SHEET_SIZES) {
     _onFirstRender(context, options) {
       super._onFirstRender(context, options);
       const scale = getFontScale();
+      const size = this.constructor.SHEET_SIZE;
       if (scale !== 1)
         this.setPosition({
-          width: Math.round(SHEET_SIZES.party.width * scale),
-          height: Math.round(SHEET_SIZES.party.height * scale),
+          width: Math.round(size.width * scale),
+          height: Math.round(size.height * scale),
         });
     }
 
     _onRender(context, options) {
       super._onRender(context, options);
-      applyMinSize(this.element, SHEET_SIZES.party);
+      applyMinSize(this.element, this.constructor.SHEET_SIZE);
       setupScrollbarAutoHide(this.element);
       applyHeaderArt(this.element, "party");
       applyParallaxHeader(this.element);
@@ -1140,17 +1170,20 @@ function _registerPartySheet(sheets, SHEET_SIZES) {
   );
 
   console.log(`${MODULE_ID} | Registered DS+ Party Sheet`);
+  return DrawSteelPlusPartySheet;
 }
 
 function _registerItemSheet(sheets, SHEET_SIZES) {
-  if (!sheets.DrawSteelItemSheet) return;
+  if (!sheets.DrawSteelItemSheet) return null;
 
   const itemTypes = Object.keys(game.system.documentTypes?.Item ?? {}).filter(
     (t) => t !== "base",
   );
-  if (!itemTypes.length) return;
+  if (!itemTypes.length) return null;
 
   const DrawSteelPlusItemSheet = class extends sheets.DrawSteelItemSheet {
+    static SHEET_SIZE = SHEET_SIZES.item;
+
     static DEFAULT_OPTIONS = {
       ...super.DEFAULT_OPTIONS,
       classes: [...super.DEFAULT_OPTIONS.classes, "draw-steel-plus"],
@@ -1180,16 +1213,17 @@ function _registerItemSheet(sheets, SHEET_SIZES) {
     _onFirstRender(context, options) {
       super._onFirstRender(context, options);
       const scale = getFontScale();
+      const size = this.constructor.SHEET_SIZE;
       if (scale !== 1)
         this.setPosition({
-          width: Math.round(SHEET_SIZES.item.width * scale),
-          height: Math.round(SHEET_SIZES.item.height * scale),
+          width: Math.round(size.width * scale),
+          height: Math.round(size.height * scale),
         });
     }
 
     _onRender(context, options) {
       super._onRender(context, options);
-      applyMinSize(this.element, SHEET_SIZES.item);
+      applyMinSize(this.element, this.constructor.SHEET_SIZE);
       setupScrollbarAutoHide(this.element);
       applyFloatingTabs(this);
       applyTooltipPrevent(this.element);
@@ -1207,4 +1241,5 @@ function _registerItemSheet(sheets, SHEET_SIZES) {
   );
 
   console.log(`${MODULE_ID} | Registered DS+ Item Sheet`);
+  return DrawSteelPlusItemSheet;
 }

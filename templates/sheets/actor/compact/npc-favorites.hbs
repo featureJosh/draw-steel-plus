@@ -1,0 +1,38 @@
+<section class="tab favorites {{tab.cssClass}}" data-group="primary" data-tab="favorites">
+  {{#unless hasFavorites}}
+  <div class="dsp-favorites-empty">
+    <p>{{localize "DRAW_STEEL_PLUS.Favorites.Empty"}}</p>
+  </div>
+  {{else}}
+
+  {{#each favAbilities as |abilityType typeKey|}}
+  {{#if abilityType.showHeader}}
+  <section class="item-list-container ability-list-container compact-group" data-ability-type="{{typeKey}}">
+    <div class="item-header compact-group-header">
+      <div class="item-column item-name">{{abilityType.label}}</div>
+      <div class="item-column item-controls"></div>
+    </div>
+    <ol class="item-list abilities-list">
+      {{#each abilityType.abilities as |abilityContext|}}
+      {{> "modules/draw-steel-plus/templates/sheets/actor/compact/partials/ability-entry.hbs" ctx=abilityContext typeKey=typeKey typeLabel=abilityType.label}}
+      {{/each}}
+    </ol>
+  </section>
+  {{/if}}
+  {{/each}}
+
+  {{#if favFeatures.length}}
+  <section class="item-list-container feature-list-container compact-group">
+    <div class="item-header compact-group-header">
+      <div class="item-column item-name">{{localize "TYPES.Item.feature"}}</div>
+      <div class="item-column item-controls"></div>
+    </div>
+    <ol class="item-list feature-list">
+      {{#each favFeatures as |featureContext|}}
+      {{> "modules/draw-steel-plus/templates/sheets/actor/compact/partials/simple-entry.hbs" ctx=featureContext metaText=(localize featureContext.typeLabel) forceFavorited=true}}
+      {{/each}}
+    </ol>
+  </section>
+  {{/if}}
+  {{/unless}}
+</section>

@@ -17,7 +17,9 @@
       "Object": "DS+ Object Sheet",
       "Retainer": "DS+ Retainer Sheet",
       "Party": "DS+ Party Sheet",
-      "Item": "DS+ Item Sheet"
+      "Item": "DS+ Item Sheet",
+      "CompactHero": "DS+ Compact Hero Sheet",
+      "CompactNPC": "DS+ Compact NPC Sheet"
     },
     "Settings": {
       "menus": {
