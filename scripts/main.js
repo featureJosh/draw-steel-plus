@@ -16,7 +16,6 @@ import "./ability-hud-popup-flip.js";
 import { initializeNegotiationUI } from "./negotiation-ui.js";
 import { initializeMontageUI } from "./montage-ui.js";
 import { TooltipsDSP } from "./tooltips.js";
-import { FloatingUIApi } from "./floating-ui/api.js";
 import { FloatingUIManager } from "./floating-ui/manager.js";
 import "./scene-controls.js";
 
@@ -45,10 +44,6 @@ function applyMetaCurrencySetting() {
 Hooks.once("ready", async () => {
   await FloatingUIManager.migrate();
   const mod = game.modules.get(MODULE_ID);
-  if (mod) {
-    mod.api = mod.api ?? {};
-    mod.api.floatingUI = FloatingUIApi;
-  }
   applyColorOverrides();
   applyScaleOverrides();
   applyImprovedChat();

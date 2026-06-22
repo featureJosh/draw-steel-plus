@@ -168,9 +168,7 @@ export function applyStaminaPortraitTint(element, actor) {
   const current = stamina.value ?? 0;
   const max = stamina.max ?? 1;
   const ratio =
-    Math.max(max, 1) > 0
-      ? Math.min(Math.max(current / Math.max(max, 1), 0), 1)
-      : 1;
+    Math.max(max, 1) > 0 ? Math.clamp(current / Math.max(max, 1), 0, 1) : 1;
   const tint = 1 - ratio;
 
   frame.classList.toggle("dsp-dead", current <= 0 && max > 0);
@@ -227,7 +225,7 @@ function _installPositionClamp(sheet) {
       typeof pos.width === "number" ? pos.width : (element.offsetWidth ?? 0);
     const maxLeft = Math.max(clientWidth - sheetWidth - rightOverhang, 0);
     const currentLeft = typeof pos.left === "number" ? pos.left : 0;
-    pos.left = Math.min(Math.max(currentLeft, 0), maxLeft);
+    pos.left = Math.clamp(currentLeft, 0, maxLeft);
     if (typeof pos.width === "number") {
       pos.width = Math.min(
         pos.width,
@@ -399,17 +397,6 @@ function _applySearchFilter(tab, query) {
       query && !name.includes(query) && !keywords.includes(query),
     );
   });
-}
-
-let _renderTimer = null;
-export function debouncedRenderAllSheets(delay = 150) {
-  if (_renderTimer) clearTimeout(_renderTimer);
-  _renderTimer = setTimeout(() => {
-    _renderTimer = null;
-    for (const app of foundry.applications.instances.values()) {
-      if (app.element?.classList.contains("draw-steel-plus")) app.render();
-    }
-  }, delay);
 }
 
 export function processSidebarTags(element) {

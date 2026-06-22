@@ -2,43 +2,31 @@ export const SHEET_SIZE_DEFAULTS = {
   hero: {
     width: 880,
     height: 800,
-    minWidth: 0,
-    minHeight: 0,
   },
 
   npc: {
     width: 880,
     height: 800,
-    minWidth: 0,
-    minHeight: 0,
   },
 
   object: {
     width: 600,
     height: 570,
-    minWidth: 0,
-    minHeight: 0,
   },
 
   retainer: {
     width: 880,
     height: 800,
-    minWidth: 0,
-    minHeight: 0,
   },
 
   party: {
     width: 700,
     height: 600,
-    minWidth: 0,
-    minHeight: 0,
   },
 
   item: {
     width: 600,
     height: 650,
-    minWidth: 0,
-    minHeight: 0,
   },
 };
 
@@ -46,15 +34,11 @@ export const COMPACT_SHEET_SIZE_DEFAULTS = {
   hero: {
     width: 640,
     height: 760,
-    minWidth: 0,
-    minHeight: 0,
   },
 
   npc: {
     width: 580,
     height: 720,
-    minWidth: 0,
-    minHeight: 0,
   },
 };
 
