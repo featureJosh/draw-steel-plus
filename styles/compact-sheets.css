@@ -13,9 +13,15 @@
 .draw-steel-plus.sheet.dsp-compact.application .window-content {
     grid-template-columns: 1fr;
     grid-template-rows: auto auto 1fr auto;
+    /* Lift the body off the flat near-black --dsp-background (#0d0d0d) onto the
+       module's actual surface tone, like the main sheets — never pure black. */
+    background: var(--dsp-surface);
 }
 
 .draw-steel-plus.sheet.dsp-compact .tab {
+    /* Base .tab paints --dsp-background (#0d0d0d, pure near-black). Compact rides
+       the module's real surface tone instead — never flat black. */
+    background: var(--dsp-surface);
     padding: 6px 14px 10px;
 }
 
@@ -27,7 +33,7 @@
     display: block;
     min-height: 0;
     padding: 10px 14px 8px;
-    border-bottom: 2px solid var(--dsp-primary);
+    border-bottom: 1px solid color-mix(in srgb, var(--dsp-primary) 45%, transparent);
 }
 
 .draw-steel-plus.sheet.dsp-compact .sheet-header::after {
@@ -45,8 +51,8 @@
 .draw-steel-plus.sheet.dsp-compact .sheet-header .header-bg-overlay {
     background: linear-gradient(
         to bottom,
-        color-mix(in srgb, var(--dsp-background) 70%, transparent),
-        var(--dsp-background) 96%
+        color-mix(in srgb, var(--dsp-surface) 70%, transparent),
+        var(--dsp-surface) 96%
     );
 }
 
@@ -208,13 +214,19 @@
     font-weight: 700;
 }
 
+/* Inline stat labels read like the mockup: Title-Case bold + colon, near-text
+   colour — not tiny shouting capitals. (Was 10px uppercase letterspaced muted.) */
 .draw-steel-plus.sheet.dsp-compact .compact-label {
-    margin-right: 2px;
-    font-size: 10px;
+    margin-right: 1px;
+    font-size: 11.5px;
     font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.8px;
-    color: var(--dsp-text-muted);
+    color: var(--dsp-text);
+}
+
+.draw-steel-plus.sheet.dsp-compact .compact-label::after {
+    content: ":";
+    color: var(--dsp-text-faint);
+    font-weight: 400;
 }
 
 .draw-steel-plus.sheet.dsp-compact .compact-sep {
@@ -322,11 +334,19 @@
     box-shadow: none;
 }
 
+/* The base sheet draws a clip-path pentagon shield via ::before/::after; in the
+   text layout that collapses into a squished smear behind each value. Drop it. */
+.draw-steel-plus.sheet.dsp-compact .sheet-header .header-characteristics .char-badge::before,
+.draw-steel-plus.sheet.dsp-compact .sheet-header .header-characteristics .char-badge::after {
+    content: none;
+}
+
 .draw-steel-plus.sheet.dsp-compact .sheet-header .header-characteristics .char-badge:hover {
     background: none;
     border: none;
     box-shadow: none;
     transform: none;
+    filter: none;
 }
 
 .draw-steel-plus.sheet.dsp-compact .sheet-header .header-characteristics .char-label {
@@ -445,24 +465,61 @@
     box-shadow: none;
 }
 
+/* Section title as a centred divider with dotted flanking rules, mockup-style:
+   "······ FEATURES ······". The + control floats at the right edge. */
 .draw-steel-plus.sheet.dsp-compact .item-list-container .item-header {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
     background: none;
     border: none;
-    border-bottom: 1px solid var(--dsp-primary);
     padding: 2px 4px;
+    overflow: hidden;
+}
+
+.draw-steel-plus.sheet.dsp-compact .item-list-container .item-header::before,
+.draw-steel-plus.sheet.dsp-compact .item-list-container .item-header::after {
+    /* Base body.css makes ::after a FontAwesome chevron and rotates it -90deg
+       when collapsed — override content, font, and transform so it's a plain
+       horizontal rule on both sides that never rotates. */
+    content: "";
+    font-family: inherit;
+    flex: 1 1 0;
+    min-width: 0;
+    width: auto;
+    height: 0;
+    margin: 0;
+    transform: none;
+    border-top: 1px dotted color-mix(in srgb, var(--dsp-text-faint) 60%, transparent);
+    color: transparent;
+}
+
+/* Don't let the base collapsed-state rotation reach our rule */
+.draw-steel-plus.sheet.dsp-compact .item-list-container.dsp-collapsed .item-header::after {
+    transform: none;
+}
+
+.draw-steel-plus.sheet.dsp-compact .item-list-container .item-header:hover::after {
+    color: transparent;
 }
 
 .draw-steel-plus.sheet.dsp-compact .item-list-container .item-header .item-column {
     font-size: 10px;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 1.5px;
     color: var(--dsp-text-muted);
 }
 
 .draw-steel-plus.sheet.dsp-compact .item-list-container .item-header .item-name {
-    color: var(--dsp-accent-strong);
-    font-size: 11px;
+    flex: 0 0 auto;
+}
+
+.draw-steel-plus.sheet.dsp-compact .item-list-container .item-header .item-controls {
+    position: absolute;
+    right: 4px;
 }
 
 /* Legacy columnar headers (equipment/projects): only the section name remains */
@@ -481,7 +538,9 @@
     background: none;
     border: none;
     border-bottom: 1px solid
-        color-mix(in srgb, var(--dsp-border) 40%, transparent);
+        color-mix(in srgb, var(--dsp-border) 70%, transparent);
+    /* break-inside guard repeated here so a column break can't strip the rule */
+    margin-bottom: 2px;
 }
 
 .draw-steel-plus.sheet.dsp-compact .item-list .item:last-child {
@@ -492,8 +551,9 @@
     background: color-mix(in srgb, var(--dsp-surface-raised) 45%, transparent);
 }
 
+/* Generous breathing room top and bottom so each ability reads as its own block */
 .draw-steel-plus.sheet.dsp-compact .compact-entry {
-    padding: 6px 2px 8px;
+    padding: 10px 2px 14px;
 }
 
 .draw-steel-plus.sheet.dsp-compact .compact-entry-head {
@@ -593,7 +653,13 @@
 }
 
 .draw-steel-plus.sheet.dsp-compact .compact-entry .document-description.expanded {
-    margin-top: 4px;
+    margin-top: 3px;
+}
+
+/* The first body block sits right under the name/keywords — no extra gap */
+.draw-steel-plus.sheet.dsp-compact .item-embed > .draw-steel > :first-child,
+.draw-steel-plus.sheet.dsp-compact .item-embed .metadata:first-child {
+    margin-top: 0 !important;
 }
 
 /* --------------------------------------------------------------------------
@@ -711,22 +777,32 @@
 
 .draw-steel-plus.sheet.dsp-compact .compact-footer {
     grid-column: 1 / -1;
-    padding: 8px 14px;
-    background: var(--dsp-surface);
-    border-top: 2px solid var(--dsp-primary);
+    padding: 7px 14px;
+    background: var(--dsp-surface-raised);
+    border-top: 1px solid color-mix(in srgb, var(--dsp-primary) 45%, transparent);
 }
 
 .draw-steel-plus.sheet.dsp-compact .compact-footer-row {
     display: flex;
     flex-wrap: wrap;
-    align-items: center;
-    gap: 6px 18px;
+    align-items: stretch;
+    gap: 8px;
 }
 
+/* Each resource is a self-contained boxed cell — STAMINA | RECOVERIES | … —
+   so the strip reads as discrete groups instead of scattered loose inputs. */
 .draw-steel-plus.sheet.dsp-compact .compact-footer-group {
     display: inline-flex;
     align-items: center;
-    gap: 5px;
+    gap: 6px;
+    padding: 4px 10px;
+    background: var(--dsp-surface);
+    border: 1px solid color-mix(in srgb, var(--dsp-border) 70%, transparent);
+    border-radius: 4px;
+}
+
+.draw-steel-plus.sheet.dsp-compact .compact-footer-stamina {
+    flex: 1 1 auto;
 }
 
 .draw-steel-plus.sheet.dsp-compact .compact-footer-label,
@@ -743,9 +819,11 @@
     width: auto;
     height: auto;
     padding: 2px 6px;
+    margin: -2px -4px -2px -6px;
     background: none;
-    border: 1px solid var(--dsp-border);
-    border-radius: 2px;
+    border: none;
+    border-right: 1px solid color-mix(in srgb, var(--dsp-border) 60%, transparent);
+    border-radius: 0;
     box-shadow: none;
     cursor: pointer;
     line-height: 1.4;
@@ -778,6 +856,14 @@
 
 .draw-steel-plus.sheet.dsp-compact .compact-footer-sep {
     color: var(--dsp-text-faint);
+}
+
+/* Thin rule between two resources sharing one cell (Surges | Focus) */
+.draw-steel-plus.sheet.dsp-compact .compact-footer-divider {
+    width: 1px;
+    align-self: stretch;
+    margin: -4px 4px;
+    background: color-mix(in srgb, var(--dsp-border) 60%, transparent);
 }
 
 .draw-steel-plus.sheet.dsp-compact .compact-footer-static {
@@ -1067,15 +1153,15 @@
     inset: -10%;
     background:
         linear-gradient(90deg,
-            var(--dsp-background) 0%,
-            color-mix(in srgb, var(--dsp-background) 80%, transparent) 22%,
-            color-mix(in srgb, var(--dsp-background) 20%, transparent) 52%,
+            var(--dsp-surface) 0%,
+            color-mix(in srgb, var(--dsp-surface) 80%, transparent) 22%,
+            color-mix(in srgb, var(--dsp-surface) 20%, transparent) 52%,
             transparent 76%
         ),
         linear-gradient(180deg,
             transparent 0%,
             transparent 62%,
-            var(--dsp-background) 100%
+            var(--dsp-surface) 100%
         );
     pointer-events: none;
 }
@@ -1129,42 +1215,31 @@
 }
 
 /* --------------------------------------------------------------------------
-   Action-type colour coding
-   Each ability carries data-ability-type on its <li>; the .compact-type-label
-   span inside the meta line picks up the accent colour for that type.
+   Action-type label
+   One accent for the whole sheet — the type label ("Action", "Maneuver", …)
+   reads as the italic continuation of the name, not a colour-coded category.
+   The name itself carries the only emphasis. (Was 5 competing accent hues.)
    -------------------------------------------------------------------------- */
 
 .draw-steel-plus.sheet.dsp-compact .compact-dash {
     color: var(--dsp-text-faint);
 }
 
-.draw-steel-plus.sheet.dsp-compact .compact-entry[data-ability-type="action"] .compact-type-label {
-    color: var(--dsp-primary);
-    font-weight: 700;
-}
-
-.draw-steel-plus.sheet.dsp-compact .compact-entry[data-ability-type="maneuver"] .compact-type-label {
-    color: var(--dsp-accent-strong);
-    font-weight: 700;
-}
-
-.draw-steel-plus.sheet.dsp-compact .compact-entry[data-ability-type="trigger"] .compact-type-label {
-    color: var(--dsp-accent-bright);
-    font-weight: 700;
-}
-
-.draw-steel-plus.sheet.dsp-compact .compact-entry[data-ability-type="villain"] .compact-type-label {
-    color: var(--dsp-danger);
-    font-weight: 700;
-}
-
-.draw-steel-plus.sheet.dsp-compact .compact-entry[data-ability-type="free"] .compact-type-label {
+.draw-steel-plus.sheet.dsp-compact .compact-type-label {
     color: var(--dsp-text-muted);
+    font-style: italic;
+    font-weight: 600;
+}
+
+/* Villain order is the one signal worth a colour — it's a turn-order cue */
+.draw-steel-plus.sheet.dsp-compact .compact-entry[data-ability-type="villain"] .compact-type-label {
+    color: var(--dsp-accent-strong);
+    font-style: normal;
     font-weight: 700;
 }
 
 .draw-steel-plus.sheet.dsp-compact .compact-resource-cost {
-    color: var(--dsp-accent-strong);
+    color: var(--dsp-text);
     font-weight: 700;
     font-size: 11px;
 }
@@ -1175,8 +1250,9 @@
    can colour the value without needing media queries or attr() tricks.
    -------------------------------------------------------------------------- */
 
+/* Values just read bold-white; only a penalty (negative) earns a colour. */
 .draw-steel-plus.sheet.dsp-compact .char-badge[data-char-sign="positive"] .char-value {
-    color: var(--dsp-primary);
+    color: var(--dsp-text);
 }
 
 .draw-steel-plus.sheet.dsp-compact .char-badge[data-char-sign="negative"] .char-value {
@@ -1190,12 +1266,22 @@
 /* --------------------------------------------------------------------------
    Ability embed overrides
    ctx.embed.outerHTML renders as <div class="draw-steel ability"> inside our
-   .document-description.item-embed wrapper. The system's metadata <dl> uses a
-   4-column grid and repeats keyword/type/distance/target — all already shown
-   in the compact head line. We hide those and restyle what remains.
+   .document-description.item-embed wrapper. The system's metadata <dl> repeats
+   keyword/type/distance/target — all already shown in the compact head line —
+   so we hide those and rebuild the rest around a shared label gutter so EFFECT
+   labels and tier pills align to one column.
    -------------------------------------------------------------------------- */
 
-/* Reset the system's 4-column metadata grid to a compact inline display */
+/* Shared layout tokens for the expanded body */
+.draw-steel-plus.sheet.dsp-compact .item-embed {
+    --dsp-embed-gutter: 3.5rem;   /* width of the label / tier-pill column */
+    --dsp-embed-gap: 0.7rem;      /* gap between gutter and body text */
+    padding: 0 !important;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+/* Reset the system's metadata grid to a compact inline display */
 .draw-steel-plus.sheet.dsp-compact .item-embed .metadata dl {
     display: flex !important;
     flex-wrap: wrap;
@@ -1223,11 +1309,11 @@
 
 /* Flavor / story text: subtle italic opener */
 .draw-steel-plus.sheet.dsp-compact .item-embed .metadata p.flavor {
-    margin: 0 0 3px;
-    font-size: 11.5px;
+    margin: 0 0 5px;
+    font-size: 12px;
     font-style: italic;
-    color: var(--dsp-text-faint);
-    line-height: 1.4;
+    color: var(--dsp-text-muted);
+    line-height: 1.45;
 }
 
 /* Trigger — not in the head line, render as a compact labeled datum */
@@ -1236,7 +1322,7 @@
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.6px;
-    color: var(--dsp-accent-strong);
+    color: var(--dsp-text-muted);
     display: inline !important;
 }
 
@@ -1248,136 +1334,151 @@
 }
 
 /* --------------------------------------------------------------------------
-   Effect sections (before / after)
-   The system renders these as <section class="effect before|after"><dl>…</dl></section>
+   Shared "label gutter" layout for effect / power-roll / spend sections.
+   Each renders as a <dl> with a label/pill in dt and body text in dd. We lay
+   them on a 2-column grid so every label and tier pill shares one left edge.
    -------------------------------------------------------------------------- */
 
-.draw-steel-plus.sheet.dsp-compact .item-embed section.effect {
-    margin-top: 4px;
-}
-
-.draw-steel-plus.sheet.dsp-compact .item-embed section.effect dl {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 2px 6px;
+.draw-steel-plus.sheet.dsp-compact .item-embed section.effect dl,
+.draw-steel-plus.sheet.dsp-compact .item-embed section.spend dl,
+.draw-steel-plus.sheet.dsp-compact .item-embed .power-roll-display {
+    display: grid !important;
+    grid-template-columns: var(--dsp-embed-gutter) 1fr;
+    gap: 4px var(--dsp-embed-gap);
     align-items: baseline;
     margin: 0;
     padding: 0;
 }
 
-.draw-steel-plus.sheet.dsp-compact .item-embed section.effect dl dt {
-    font-size: 10px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.6px;
-    color: var(--dsp-text-muted);
-    flex-shrink: 0;
-}
-
-.draw-steel-plus.sheet.dsp-compact .item-embed section.effect dl dd {
-    font-size: 12.5px;
+/* Body cell defaults, shared across sections */
+.draw-steel-plus.sheet.dsp-compact .item-embed section.effect dl dd,
+.draw-steel-plus.sheet.dsp-compact .item-embed section.spend dl dd,
+.draw-steel-plus.sheet.dsp-compact .item-embed .power-roll-display dd {
+    font-size: 13px;
+    line-height: 1.5;
     color: var(--dsp-text);
-    line-height: 1.45;
     margin: 0;
 }
 
-.draw-steel-plus.sheet.dsp-compact .item-embed section.effect dl dd p {
-    margin: 0;
+.draw-steel-plus.sheet.dsp-compact .item-embed section.effect dl dd p,
+.draw-steel-plus.sheet.dsp-compact .item-embed section.spend dl dd p,
+.draw-steel-plus.sheet.dsp-compact .item-embed .power-roll-display dd p {
+    margin: 0 0 3px;
     font-size: inherit;
     line-height: inherit;
+}
+
+.draw-steel-plus.sheet.dsp-compact .item-embed section.effect dl dd p:last-child,
+.draw-steel-plus.sheet.dsp-compact .item-embed section.spend dl dd p:last-child,
+.draw-steel-plus.sheet.dsp-compact .item-embed .power-roll-display dd p:last-child {
+    margin-bottom: 0;
+}
+
+/* Text labels in the gutter (EFFECT / SPEND) */
+.draw-steel-plus.sheet.dsp-compact .item-embed section.effect dl dt,
+.draw-steel-plus.sheet.dsp-compact .item-embed section.spend dl dt {
+    font-size: 10px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.7px;
+    line-height: 1.5;
+    align-self: start;
+    padding-top: 1px;
+}
+
+/* --------------------------------------------------------------------------
+   Effect sections (before / after)
+   -------------------------------------------------------------------------- */
+
+.draw-steel-plus.sheet.dsp-compact .item-embed section.effect {
+    margin-top: 7px;
+}
+
+.draw-steel-plus.sheet.dsp-compact .item-embed section.effect dl dt {
+    color: var(--dsp-text-muted);
 }
 
 /* --------------------------------------------------------------------------
    Power roll display
    The system uses a <dl class="power-roll-display"> with dt.tier1/tier2/tier3
-   containing glyphs from the Draw Steel Glyphs font ("!" "@" "#").
-   We override those with readable tier-range labels and colour-code outcomes.
+   containing glyphs from the Draw Steel Glyphs font ("!" "@" "#"). We swap the
+   glyph for a readable, bordered tier-range pill and colour-code outcomes.
    -------------------------------------------------------------------------- */
 
 .draw-steel-plus.sheet.dsp-compact .item-embed section.powerResult {
-    margin-top: 5px;
+    margin-top: 7px;
 }
 
-/* Roll bonus line: "Power Roll + Might:" */
+/* Roll bonus line — system renders "Power Roll + Might or Agility" as one
+   <strong>, with the primary characteristic in <em>. Keep it as plain small
+   text (no banner, no uppercase, no duplicate label). */
 .draw-steel-plus.sheet.dsp-compact .item-embed section.powerResult > p {
-    margin: 0 0 4px;
-    font-size: 11px;
-    font-weight: 700;
-    color: var(--dsp-text-muted);
-    text-transform: uppercase;
-    letter-spacing: 0.4px;
+    margin: 0 0 5px;
+    font-size: 12px;
 }
 
 .draw-steel-plus.sheet.dsp-compact .item-embed section.powerResult > p strong {
-    font-weight: inherit;
-    color: inherit;
-}
-
-/* Two-column grid: label | outcome text */
-.draw-steel-plus.sheet.dsp-compact .item-embed .power-roll-display {
-    display: grid !important;
-    grid-template-columns: 3ch 1fr;
-    gap: 2px 10px;
-    margin: 0;
-    padding: 0;
-}
-
-/* Replace the glyph character with a readable tier range */
-.draw-steel-plus.sheet.dsp-compact .item-embed .power-roll-display dt {
-    font-family: inherit !important;
-    font-size: 0 !important;
     font-weight: 700;
-    line-height: 1.45;
-    align-self: start;
-    padding-top: 1px;
-}
-
-.draw-steel-plus.sheet.dsp-compact .item-embed .power-roll-display dt::before {
-    display: inline-block;
-    font-size: 9px;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 0.3px;
-    line-height: 1.45;
-    white-space: nowrap;
-}
-
-.draw-steel-plus.sheet.dsp-compact .item-embed .power-roll-display dt.tier1::before {
-    content: "≤11";
-    color: var(--dsp-text-faint);
-}
-
-.draw-steel-plus.sheet.dsp-compact .item-embed .power-roll-display dt.tier2::before {
-    content: "12‑16";
     color: var(--dsp-text-muted);
 }
 
-.draw-steel-plus.sheet.dsp-compact .item-embed .power-roll-display dt.tier3::before {
-    content: "17+";
-    color: var(--dsp-primary);
-}
-
-/* Tier dd — outcome text */
-.draw-steel-plus.sheet.dsp-compact .item-embed .power-roll-display dd {
-    font-size: 12.5px;
-    line-height: 1.45;
-    margin: 0;
-}
-
-.draw-steel-plus.sheet.dsp-compact .item-embed .power-roll-display dd p {
-    margin: 0;
-    font-size: inherit;
-    line-height: inherit;
-}
-
-.draw-steel-plus.sheet.dsp-compact .item-embed .power-roll-display dd.tier1 {
-    color: var(--dsp-text-muted);
-}
-
-.draw-steel-plus.sheet.dsp-compact .item-embed .power-roll-display dd.tier2 {
+/* Primary characteristic (the <em>) reads slightly stronger than its alternates */
+.draw-steel-plus.sheet.dsp-compact .item-embed section.powerResult > p em {
+    font-style: normal;
     color: var(--dsp-text);
 }
 
+.draw-steel-plus.sheet.dsp-compact .item-embed .power-roll-display {
+    gap: 6px var(--dsp-embed-gap);
+    align-items: start;
+}
+
+/* Tier pill: hide the glyph, draw a bordered chip filling the gutter */
+.draw-steel-plus.sheet.dsp-compact .item-embed .power-roll-display dt {
+    font-family: inherit !important;
+    font-size: 0 !important;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 1px 0;
+    border: 1px solid;
+    border-radius: 5px;
+    line-height: 1.4;
+    box-sizing: border-box;
+}
+
+.draw-steel-plus.sheet.dsp-compact .item-embed .power-roll-display dt::before {
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.2px;
+    line-height: 1.4;
+    white-space: nowrap;
+}
+
+/* All three range pills share one neutral style — the tier is read from the
+   number, not a colour. (Per-tier colour-coding read as amateur.) */
+.draw-steel-plus.sheet.dsp-compact .item-embed .power-roll-display dt {
+    border-color: color-mix(in srgb, var(--dsp-border) 80%, transparent);
+    background: var(--dsp-surface-raised);
+}
+.draw-steel-plus.sheet.dsp-compact .item-embed .power-roll-display dt::before {
+    color: var(--dsp-text-muted);
+}
+.draw-steel-plus.sheet.dsp-compact .item-embed .power-roll-display dt.tier1::before {
+    content: "≤11";
+}
+.draw-steel-plus.sheet.dsp-compact .item-embed .power-roll-display dt.tier2::before {
+    content: "12‑16";
+}
+.draw-steel-plus.sheet.dsp-compact .item-embed .power-roll-display dt.tier3::before {
+    content: "17+";
+}
+
+/* Outcome text is uniform; only the top-tier result carries the one accent. */
+.draw-steel-plus.sheet.dsp-compact .item-embed .power-roll-display dd {
+    color: var(--dsp-text);
+}
 .draw-steel-plus.sheet.dsp-compact .item-embed .power-roll-display dd.tier3 {
     color: var(--dsp-primary);
     font-weight: 600;
@@ -1388,52 +1489,21 @@
    -------------------------------------------------------------------------- */
 
 .draw-steel-plus.sheet.dsp-compact .item-embed section.spend {
-    margin-top: 5px;
-    padding-top: 4px;
+    margin-top: 7px;
+    padding-top: 6px;
     border-top: 1px solid color-mix(in srgb, var(--dsp-border) 50%, transparent);
 }
 
-.draw-steel-plus.sheet.dsp-compact .item-embed section.spend dl {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 2px 6px;
-    align-items: baseline;
-    margin: 0;
-    padding: 0;
-}
-
 .draw-steel-plus.sheet.dsp-compact .item-embed section.spend dl dt {
-    font-size: 10px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.6px;
-    color: var(--dsp-accent-strong);
-    flex-shrink: 0;
-}
-
-.draw-steel-plus.sheet.dsp-compact .item-embed section.spend dl dd {
-    font-size: 12.5px;
-    color: var(--dsp-text);
-    margin: 0;
-    line-height: 1.45;
-}
-
-.draw-steel-plus.sheet.dsp-compact .item-embed section.spend dl dd p {
-    margin: 0;
-    font-size: inherit;
-    line-height: inherit;
+    color: var(--dsp-text-muted);
 }
 
 /* --------------------------------------------------------------------------
    General embed reset — tighten system defaults inside compact entries
    -------------------------------------------------------------------------- */
 
-.draw-steel-plus.sheet.dsp-compact .item-embed {
-    padding: 0 !important;
-}
-
 .draw-steel-plus.sheet.dsp-compact .compact-entry .document-description.expanded {
-    margin-top: 5px;
+    margin-top: 3px;
     padding: 0 2px;
 }
 
@@ -1461,9 +1531,24 @@
     margin-bottom: 4px;
 }
 
-.draw-steel-plus.sheet.dsp-compact .compact-stat-line .compact-label {
-    font-size: 9px;
-    letter-spacing: 1px;
-    opacity: 0.7;
+/* --------------------------------------------------------------------------
+   Wide layout — features/abilities flow into two columns when the sheet is
+   widened, like the environment-sheet mockup. Native CSS multi-column; entries
+   never split across the gutter. The tab is the query container.
+   -------------------------------------------------------------------------- */
+
+.draw-steel-plus.sheet.dsp-compact .tab {
+    container-type: inline-size;
+}
+
+@container (min-width: 600px) {
+    .draw-steel-plus.sheet.dsp-compact .item-list {
+        column-count: 2;
+        column-gap: 32px;
+    }
+
+    .draw-steel-plus.sheet.dsp-compact .item-list > .item {
+        break-inside: avoid;
+    }
 }
 
