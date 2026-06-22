@@ -171,7 +171,7 @@ export function applyStaminaPortraitTint(element, actor) {
     Math.max(max, 1) > 0 ? Math.clamp(current / Math.max(max, 1), 0, 1) : 1;
   const tint = 1 - ratio;
 
-  frame.classList.toggle("dsp-dead", current <= 0 && max > 0);
+  frame.classList.toggle("dsp-dead", max > 0 && current <= -(max / 2));
   frame.style.setProperty("--dsp-stam-tint", tint.toFixed(3));
 
   if (tint > 0) {
