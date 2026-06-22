@@ -163,8 +163,67 @@ function buildCompactSheet(BaseSheet, type, variant) {
     _onRender(context, options) {
       super._onRender(context, options);
       this.element.classList.remove("has-sidebar");
+      requestAnimationFrame(() => {
+        inlineItemDescriptions(this.element);
+        highlightCharacteristics(this.element);
+      });
     }
   };
+}
+
+function inlineItemDescriptions(element) {
+  if (!element) return;
+  for (const entry of element.querySelectorAll(".compact-entry")) {
+    inlineEntryDescription(entry);
+  }
+}
+
+function inlineEntryDescription(entry) {
+  const nameEl = entry.querySelector(".compact-entry-name");
+  const descEl = entry.querySelector(".document-description");
+  if (!nameEl || !descEl) return;
+
+  if (nameEl.querySelector(".dsp-inline-desc")) return;
+
+  const isAbility = entry.classList.contains("ability");
+
+  // For abilities: only inline the flavor/story text. The head line already
+  // carries type/distance/target; p.resource is redundant; the power roll
+  // section in the embed is the main expand content.
+  const firstP = isAbility
+    ? descEl.querySelector("p.flavor")
+    : descEl.querySelector("p");
+
+  if (!firstP || !firstP.textContent.trim()) return;
+
+  const colon = document.createElement("span");
+  colon.className = "dsp-inline-colon";
+  colon.textContent = ":";
+  colon.setAttribute("aria-hidden", "true");
+
+  const inline = document.createElement("span");
+  inline.className = "dsp-inline-desc";
+  while (firstP.firstChild) inline.append(firstP.firstChild);
+  firstP.remove();
+
+  // For abilities: only collapse expand button when there's no meaningful
+  // mechanical content (no power roll, effects, trigger, or spend).
+  const isInlineOnly = isAbility
+    ? !descEl.querySelector("section.powerResult, section.effect, section.spend, dl dt.trigger")
+    : !descEl.textContent.trim();
+  entry.classList.toggle("dsp-inline-only", isInlineOnly);
+
+  nameEl.append(colon, document.createTextNode(" "), inline);
+}
+
+function highlightCharacteristics(element) {
+  for (const badge of element.querySelectorAll(".char-badge")) {
+    const valueEl = badge.querySelector(".char-value");
+    if (!valueEl) continue;
+    const val = parseInt(valueEl.textContent.replace(/[^-\d]/g, ""), 10);
+    if (isNaN(val)) continue;
+    badge.dataset.charSign = val > 0 ? "positive" : val < 0 ? "negative" : "zero";
+  }
 }
 
 /* baseSheets is the map of built DS+ sheet classes returned by registerSheets.

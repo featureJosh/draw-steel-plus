@@ -3,18 +3,11 @@
   <img class="header-bg-art" src="modules/draw-steel-plus/assets/sketch-images/s2.jpg" aria-hidden="true">
   <div class="header-bg-overlay"></div>
 
-  <div class="compact-title-row">
-    <div class="portrait-frame compact-portrait-frame">
-      <img
-        class="profile-img compact-portrait"
-        src="{{document.img}}"
-        alt="{{document.name}}"
-        data-action="{{ifThen isPlay "showPortraitArtwork" "editImage"}}"
-        data-edit="img"
-        title="{{document.name}}"
-      >
-    </div>
+  <div class="dsp-compact-art" aria-hidden="true">
+    <img class="dsp-compact-art-image" src="{{document.img}}" alt="">
+  </div>
 
+  <div class="compact-title-row">
     {{#if isPlay}}
     <h1 class="char-name">{{document.name}}</h1>
     {{else}}

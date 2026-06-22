@@ -1,4 +1,4 @@
-<li class="item ability draggable expandable-document compact-entry" data-document-uuid="{{ctx.item.uuid}}">
+<li class="item ability draggable expandable-document compact-entry" data-document-uuid="{{ctx.item.uuid}}" data-ability-type="{{typeKey}}">
   <div class="compact-entry-head item-name">
     {{#if ctx.item.system.restricted}}
     <span class="restricted-warning" data-tooltip="DRAW_STEEL.Item.ability.Restricted">
@@ -7,7 +7,7 @@
     {{/if}}
     <span class="label compact-entry-name" data-action="toggleDocumentDescription">{{ctx.item.name}}</span>
     <span class="compact-entry-meta">
-      &mdash; {{typeLabel}}{{#if ctx.formattedLabels.distance}} <span class="compact-pipe">|</span> {{ctx.formattedLabels.distance}}{{/if}}{{#if ctx.formattedLabels.target}} <span class="compact-pipe">|</span> {{ctx.formattedLabels.target}}{{/if}}{{#if (eq typeKey "villain")}} <span class="compact-pipe">|</span> {{localize "DRAW_STEEL.Item.ability.Order"}} {{ctx.order}}{{else}}{{#if ctx.item.system.resource}} <span class="compact-pipe">|</span> {{ctx.item.system.resource}} {{@root.system.coreResource.name}}{{/if}}{{/if}}
+      <span class="compact-dash">&mdash;</span> <span class="compact-type-label">{{typeLabel}}</span>{{#if ctx.formattedLabels.distance}} <span class="compact-pipe">|</span> {{ctx.formattedLabels.distance}}{{/if}}{{#if ctx.formattedLabels.target}} <span class="compact-pipe">|</span> {{ctx.formattedLabels.target}}{{/if}}{{#if (eq typeKey "villain")}} <span class="compact-pipe">|</span> {{localize "DRAW_STEEL.Item.ability.Order"}} {{ctx.order}}{{else}}{{#if ctx.item.system.resource}} <span class="compact-pipe">|</span> <span class="compact-resource-cost">{{ctx.item.system.resource}} {{@root.system.coreResource.name}}</span>{{/if}}{{/if}}
     </span>
     <span class="compact-entry-controls">
       <a class="fa-fw fa-solid fa-play" data-action="useAbility"></a>

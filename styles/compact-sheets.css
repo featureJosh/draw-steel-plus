@@ -50,7 +50,7 @@
     );
 }
 
-.draw-steel-plus.sheet.dsp-compact .sheet-header > div:not(.header-bg-overlay) {
+.draw-steel-plus.sheet.dsp-compact .sheet-header > div:not(.header-bg-overlay):not(.dsp-compact-art) {
     position: relative;
     z-index: 1;
 }
@@ -525,10 +525,10 @@
 }
 
 .draw-steel-plus.sheet.dsp-compact .compact-entry-keywords {
-    margin-top: 1px;
-    font-size: 11.5px;
+    margin-top: 2px;
+    font-size: 11px;
     font-style: italic;
-    color: var(--dsp-text-muted);
+    color: color-mix(in srgb, var(--dsp-text-muted) 80%, var(--dsp-text));
 }
 
 .draw-steel-plus.sheet.dsp-compact .compact-preferred {
@@ -886,3 +886,584 @@
     border: none;
     font-size: 12px;
 }
+
+/* --------------------------------------------------------------------------
+   Window chrome — hidden by default, shown on header hover
+   Removes the ~32px title bar from the layout so it no longer wastes space.
+   -------------------------------------------------------------------------- */
+
+.draw-steel-plus.sheet.dsp-compact .window-header {
+    position: absolute !important;
+    inset: 0 0 auto auto !important;
+    z-index: 10;
+    display: flex !important;
+    align-items: flex-start;
+    justify-content: flex-end !important;
+    width: max-content !important;
+    max-width: 100% !important;
+    padding: 8px 8px 0 !important;
+    background: transparent !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 140ms ease;
+}
+
+.draw-steel-plus.sheet.dsp-compact .window-header .window-title,
+.draw-steel-plus.sheet.dsp-compact .window-header .window-icon {
+    display: none !important;
+}
+
+.draw-steel-plus.sheet.dsp-compact .window-header .header-button,
+.draw-steel-plus.sheet.dsp-compact .window-header button,
+.draw-steel-plus.sheet.dsp-compact .window-header a {
+    width: 24px !important;
+    height: 24px !important;
+    min-width: 24px !important;
+    margin: 0 0 0 4px !important;
+    border: 0 !important;
+    border-radius: 999px !important;
+    background: rgba(0, 0, 0, 0.72) !important;
+    color: #f0ebe0 !important;
+    box-shadow: none !important;
+    line-height: 24px !important;
+}
+
+/* Reveal on hover of the compact header or the window header itself */
+.draw-steel-plus.sheet.dsp-compact:has(.compact-header:hover) .window-header,
+.draw-steel-plus.sheet.dsp-compact .window-header:hover {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* Minimized: restore window header to normal flow so the title bar shows */
+.draw-steel-plus.sheet.dsp-compact.minimized .window-content {
+    display: none !important;
+}
+
+.draw-steel-plus.sheet.dsp-compact.minimized .window-header {
+    position: relative !important;
+    inset: auto !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 0 8px !important;
+    opacity: 1;
+    pointer-events: auto;
+    background: var(--dsp-surface) !important;
+    border-bottom: 1px solid var(--dsp-border) !important;
+    align-items: center;
+}
+
+.draw-steel-plus.sheet.dsp-compact.minimized .window-header .window-title {
+    display: block !important;
+    flex: 1;
+    color: var(--dsp-text);
+    font-size: 13px;
+}
+
+/* --------------------------------------------------------------------------
+   Tab nav — collapsed to a 12px indicator strip, expands on hover
+   Saves ~34px that was always-visible navigation chrome.
+   -------------------------------------------------------------------------- */
+
+.draw-steel-plus.sheet.dsp-compact nav.sheet-tabs {
+    height: 12px;
+    min-height: 12px;
+    overflow: hidden;
+    padding: 0 !important;
+    border-bottom: 0 !important;
+    cursor: pointer;
+    position: relative;
+    transition: height 160ms ease, min-height 160ms ease;
+    background: none;
+    gap: 0;
+    box-shadow: none;
+}
+
+.draw-steel-plus.sheet.dsp-compact nav.sheet-tabs::before {
+    content: "";
+    position: absolute;
+    top: 4px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 46px;
+    height: 3px;
+    border-radius: 999px;
+    background: var(--dsp-border);
+    opacity: 0.8;
+    pointer-events: none;
+    transition: opacity 140ms ease, width 140ms ease;
+}
+
+.draw-steel-plus.sheet.dsp-compact nav.sheet-tabs:hover {
+    height: 34px;
+    min-height: 34px;
+}
+
+.draw-steel-plus.sheet.dsp-compact nav.sheet-tabs:hover::before {
+    width: 32px;
+    opacity: 0;
+}
+
+.draw-steel-plus.sheet.dsp-compact nav.sheet-tabs a {
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-4px);
+    transition: opacity 120ms ease, transform 120ms ease;
+    padding: 6px 10px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--dsp-text-muted);
+    background: none;
+    border: none;
+    text-shadow: none;
+}
+
+.draw-steel-plus.sheet.dsp-compact nav.sheet-tabs a i {
+    display: none;
+}
+
+.draw-steel-plus.sheet.dsp-compact nav.sheet-tabs:hover a {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+}
+
+.draw-steel-plus.sheet.dsp-compact nav.sheet-tabs a:hover {
+    color: var(--dsp-text);
+    text-shadow: none;
+}
+
+.draw-steel-plus.sheet.dsp-compact nav.sheet-tabs a.active {
+    color: var(--dsp-primary);
+    box-shadow: inset 0 -2px 0 var(--dsp-primary);
+}
+
+/* --------------------------------------------------------------------------
+   Ghost art — character portrait faded into the right side of the header
+   -------------------------------------------------------------------------- */
+
+.draw-steel-plus.sheet.dsp-compact .sheet-header {
+    isolation: isolate;
+}
+
+.draw-steel-plus.sheet.dsp-compact .dsp-compact-art {
+    position: absolute;
+    top: 0;
+    right: -16px;
+    z-index: 0;
+    width: 62%;
+    height: auto;
+    pointer-events: none;
+    opacity: 0.42;
+}
+
+.draw-steel-plus.sheet.dsp-compact .dsp-compact-art::after {
+    content: "";
+    position: absolute;
+    inset: -10%;
+    background:
+        linear-gradient(90deg,
+            var(--dsp-background) 0%,
+            color-mix(in srgb, var(--dsp-background) 80%, transparent) 22%,
+            color-mix(in srgb, var(--dsp-background) 20%, transparent) 52%,
+            transparent 76%
+        ),
+        linear-gradient(180deg,
+            transparent 0%,
+            transparent 62%,
+            var(--dsp-background) 100%
+        );
+    pointer-events: none;
+}
+
+.draw-steel-plus.sheet.dsp-compact .dsp-compact-art-image {
+    display: block;
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    object-position: top center;
+    filter: saturate(0.72) contrast(1.06) brightness(1.02);
+    -webkit-mask-image: radial-gradient(circle at 72% 18%, #000 0%, rgba(0, 0, 0, 0.92) 28%, rgba(0, 0, 0, 0.42) 58%, transparent 84%);
+    mask-image: radial-gradient(circle at 72% 18%, #000 0%, rgba(0, 0, 0, 0.92) 28%, rgba(0, 0, 0, 0.42) 58%, transparent 84%);
+    pointer-events: none;
+}
+
+/* --------------------------------------------------------------------------
+   Inline descriptions — first paragraph of each entry rendered inline
+   after the feature name as "Name: first sentence of description..."
+   -------------------------------------------------------------------------- */
+
+.draw-steel-plus.sheet.dsp-compact .dsp-inline-colon {
+    color: var(--dsp-text-faint);
+    font-weight: 400;
+    font-style: normal;
+    margin-right: 2px;
+}
+
+.draw-steel-plus.sheet.dsp-compact .dsp-inline-desc {
+    font-weight: 400;
+    font-style: normal;
+    color: var(--dsp-text-muted);
+    font-size: 12px;
+    line-height: 1.45;
+}
+
+.draw-steel-plus.sheet.dsp-compact .dsp-inline-desc * {
+    font-size: inherit !important;
+    color: inherit !important;
+    line-height: inherit !important;
+}
+
+/* When the inline text IS the whole description, hide the expand chevron */
+.draw-steel-plus.sheet.dsp-compact .compact-entry.dsp-inline-only
+    .compact-entry-controls a[data-action="toggleDocumentDescription"] {
+    display: none;
+}
+
+.draw-steel-plus.sheet.dsp-compact .compact-entry.dsp-inline-only .document-description {
+    display: none;
+}
+
+/* --------------------------------------------------------------------------
+   Action-type colour coding
+   Each ability carries data-ability-type on its <li>; the .compact-type-label
+   span inside the meta line picks up the accent colour for that type.
+   -------------------------------------------------------------------------- */
+
+.draw-steel-plus.sheet.dsp-compact .compact-dash {
+    color: var(--dsp-text-faint);
+}
+
+.draw-steel-plus.sheet.dsp-compact .compact-entry[data-ability-type="action"] .compact-type-label {
+    color: var(--dsp-primary);
+    font-weight: 700;
+}
+
+.draw-steel-plus.sheet.dsp-compact .compact-entry[data-ability-type="maneuver"] .compact-type-label {
+    color: var(--dsp-accent-strong);
+    font-weight: 700;
+}
+
+.draw-steel-plus.sheet.dsp-compact .compact-entry[data-ability-type="trigger"] .compact-type-label {
+    color: var(--dsp-accent-bright);
+    font-weight: 700;
+}
+
+.draw-steel-plus.sheet.dsp-compact .compact-entry[data-ability-type="villain"] .compact-type-label {
+    color: var(--dsp-danger);
+    font-weight: 700;
+}
+
+.draw-steel-plus.sheet.dsp-compact .compact-entry[data-ability-type="free"] .compact-type-label {
+    color: var(--dsp-text-muted);
+    font-weight: 700;
+}
+
+.draw-steel-plus.sheet.dsp-compact .compact-resource-cost {
+    color: var(--dsp-accent-strong);
+    font-weight: 700;
+    font-size: 11px;
+}
+
+/* --------------------------------------------------------------------------
+   Characteristic sign highlighting
+   JS adds data-char-sign="positive|negative|zero" to each .char-badge so CSS
+   can colour the value without needing media queries or attr() tricks.
+   -------------------------------------------------------------------------- */
+
+.draw-steel-plus.sheet.dsp-compact .char-badge[data-char-sign="positive"] .char-value {
+    color: var(--dsp-primary);
+}
+
+.draw-steel-plus.sheet.dsp-compact .char-badge[data-char-sign="negative"] .char-value {
+    color: var(--dsp-danger);
+}
+
+.draw-steel-plus.sheet.dsp-compact .char-badge[data-char-sign="zero"] .char-value {
+    color: var(--dsp-text-muted);
+}
+
+/* --------------------------------------------------------------------------
+   Ability embed overrides
+   ctx.embed.outerHTML renders as <div class="draw-steel ability"> inside our
+   .document-description.item-embed wrapper. The system's metadata <dl> uses a
+   4-column grid and repeats keyword/type/distance/target — all already shown
+   in the compact head line. We hide those and restyle what remains.
+   -------------------------------------------------------------------------- */
+
+/* Reset the system's 4-column metadata grid to a compact inline display */
+.draw-steel-plus.sheet.dsp-compact .item-embed .metadata dl {
+    display: flex !important;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 2px 6px;
+    margin: 2px 0 0;
+    padding: 0;
+}
+
+/* Hide the fields already carried by the head line */
+.draw-steel-plus.sheet.dsp-compact .item-embed .metadata dl dt:is(.keywords, .type, .distance, .target),
+.draw-steel-plus.sheet.dsp-compact .item-embed .metadata dl dd:is(.keywords, .type, .distance, .target) {
+    display: none !important;
+}
+
+/* Resource cost: already in head line */
+.draw-steel-plus.sheet.dsp-compact .item-embed .metadata p.resource {
+    display: none !important;
+}
+
+/* Collapse the extra margin the system gives .metadata */
+.draw-steel-plus.sheet.dsp-compact .item-embed .metadata {
+    margin: 0 !important;
+}
+
+/* Flavor / story text: subtle italic opener */
+.draw-steel-plus.sheet.dsp-compact .item-embed .metadata p.flavor {
+    margin: 0 0 3px;
+    font-size: 11.5px;
+    font-style: italic;
+    color: var(--dsp-text-faint);
+    line-height: 1.4;
+}
+
+/* Trigger — not in the head line, render as a compact labeled datum */
+.draw-steel-plus.sheet.dsp-compact .item-embed .metadata dl dt.trigger {
+    font-size: 10px !important;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    color: var(--dsp-accent-strong);
+    display: inline !important;
+}
+
+.draw-steel-plus.sheet.dsp-compact .item-embed .metadata dl dd.trigger {
+    font-size: 12px !important;
+    color: var(--dsp-text);
+    display: inline !important;
+    font-style: italic;
+}
+
+/* --------------------------------------------------------------------------
+   Effect sections (before / after)
+   The system renders these as <section class="effect before|after"><dl>…</dl></section>
+   -------------------------------------------------------------------------- */
+
+.draw-steel-plus.sheet.dsp-compact .item-embed section.effect {
+    margin-top: 4px;
+}
+
+.draw-steel-plus.sheet.dsp-compact .item-embed section.effect dl {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2px 6px;
+    align-items: baseline;
+    margin: 0;
+    padding: 0;
+}
+
+.draw-steel-plus.sheet.dsp-compact .item-embed section.effect dl dt {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    color: var(--dsp-text-muted);
+    flex-shrink: 0;
+}
+
+.draw-steel-plus.sheet.dsp-compact .item-embed section.effect dl dd {
+    font-size: 12.5px;
+    color: var(--dsp-text);
+    line-height: 1.45;
+    margin: 0;
+}
+
+.draw-steel-plus.sheet.dsp-compact .item-embed section.effect dl dd p {
+    margin: 0;
+    font-size: inherit;
+    line-height: inherit;
+}
+
+/* --------------------------------------------------------------------------
+   Power roll display
+   The system uses a <dl class="power-roll-display"> with dt.tier1/tier2/tier3
+   containing glyphs from the Draw Steel Glyphs font ("!" "@" "#").
+   We override those with readable tier-range labels and colour-code outcomes.
+   -------------------------------------------------------------------------- */
+
+.draw-steel-plus.sheet.dsp-compact .item-embed section.powerResult {
+    margin-top: 5px;
+}
+
+/* Roll bonus line: "Power Roll + Might:" */
+.draw-steel-plus.sheet.dsp-compact .item-embed section.powerResult > p {
+    margin: 0 0 4px;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--dsp-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+}
+
+.draw-steel-plus.sheet.dsp-compact .item-embed section.powerResult > p strong {
+    font-weight: inherit;
+    color: inherit;
+}
+
+/* Two-column grid: label | outcome text */
+.draw-steel-plus.sheet.dsp-compact .item-embed .power-roll-display {
+    display: grid !important;
+    grid-template-columns: 3ch 1fr;
+    gap: 2px 10px;
+    margin: 0;
+    padding: 0;
+}
+
+/* Replace the glyph character with a readable tier range */
+.draw-steel-plus.sheet.dsp-compact .item-embed .power-roll-display dt {
+    font-family: inherit !important;
+    font-size: 0 !important;
+    font-weight: 700;
+    line-height: 1.45;
+    align-self: start;
+    padding-top: 1px;
+}
+
+.draw-steel-plus.sheet.dsp-compact .item-embed .power-roll-display dt::before {
+    display: inline-block;
+    font-size: 9px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    line-height: 1.45;
+    white-space: nowrap;
+}
+
+.draw-steel-plus.sheet.dsp-compact .item-embed .power-roll-display dt.tier1::before {
+    content: "≤11";
+    color: var(--dsp-text-faint);
+}
+
+.draw-steel-plus.sheet.dsp-compact .item-embed .power-roll-display dt.tier2::before {
+    content: "12‑16";
+    color: var(--dsp-text-muted);
+}
+
+.draw-steel-plus.sheet.dsp-compact .item-embed .power-roll-display dt.tier3::before {
+    content: "17+";
+    color: var(--dsp-primary);
+}
+
+/* Tier dd — outcome text */
+.draw-steel-plus.sheet.dsp-compact .item-embed .power-roll-display dd {
+    font-size: 12.5px;
+    line-height: 1.45;
+    margin: 0;
+}
+
+.draw-steel-plus.sheet.dsp-compact .item-embed .power-roll-display dd p {
+    margin: 0;
+    font-size: inherit;
+    line-height: inherit;
+}
+
+.draw-steel-plus.sheet.dsp-compact .item-embed .power-roll-display dd.tier1 {
+    color: var(--dsp-text-muted);
+}
+
+.draw-steel-plus.sheet.dsp-compact .item-embed .power-roll-display dd.tier2 {
+    color: var(--dsp-text);
+}
+
+.draw-steel-plus.sheet.dsp-compact .item-embed .power-roll-display dd.tier3 {
+    color: var(--dsp-primary);
+    font-weight: 600;
+}
+
+/* --------------------------------------------------------------------------
+   Spend section — the "extra effect" you can pay heroic resource for
+   -------------------------------------------------------------------------- */
+
+.draw-steel-plus.sheet.dsp-compact .item-embed section.spend {
+    margin-top: 5px;
+    padding-top: 4px;
+    border-top: 1px solid color-mix(in srgb, var(--dsp-border) 50%, transparent);
+}
+
+.draw-steel-plus.sheet.dsp-compact .item-embed section.spend dl {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2px 6px;
+    align-items: baseline;
+    margin: 0;
+    padding: 0;
+}
+
+.draw-steel-plus.sheet.dsp-compact .item-embed section.spend dl dt {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    color: var(--dsp-accent-strong);
+    flex-shrink: 0;
+}
+
+.draw-steel-plus.sheet.dsp-compact .item-embed section.spend dl dd {
+    font-size: 12.5px;
+    color: var(--dsp-text);
+    margin: 0;
+    line-height: 1.45;
+}
+
+.draw-steel-plus.sheet.dsp-compact .item-embed section.spend dl dd p {
+    margin: 0;
+    font-size: inherit;
+    line-height: inherit;
+}
+
+/* --------------------------------------------------------------------------
+   General embed reset — tighten system defaults inside compact entries
+   -------------------------------------------------------------------------- */
+
+.draw-steel-plus.sheet.dsp-compact .item-embed {
+    padding: 0 !important;
+}
+
+.draw-steel-plus.sheet.dsp-compact .compact-entry .document-description.expanded {
+    margin-top: 5px;
+    padding: 0 2px;
+}
+
+/* Suppress any stray h5 from the embed (includeName: false should prevent it) */
+.draw-steel-plus.sheet.dsp-compact .item-embed .draw-steel h5 {
+    display: none;
+}
+
+/* Potency spans inside tier descriptions: readable in compact context */
+.draw-steel-plus.sheet.dsp-compact .item-embed span.potency {
+    font-family: inherit !important;
+    font-size: inherit !important;
+    font-weight: 700;
+}
+
+/* --------------------------------------------------------------------------
+   Header stat-line polish
+   Make labels more clearly subordinate to values, and add a faint separator
+   between the characteristics row and the stat lines beneath it.
+   -------------------------------------------------------------------------- */
+
+.draw-steel-plus.sheet.dsp-compact .sheet-header .compact-characteristics {
+    padding-bottom: 6px;
+    border-bottom: 1px solid color-mix(in srgb, var(--dsp-border) 60%, transparent);
+    margin-bottom: 4px;
+}
+
+.draw-steel-plus.sheet.dsp-compact .compact-stat-line .compact-label {
+    font-size: 9px;
+    letter-spacing: 1px;
+    opacity: 0.7;
+}
+
