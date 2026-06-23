@@ -580,15 +580,23 @@
     color: var(--dsp-text-muted);
 }
 
-.draw-steel-plus.sheet.dsp-compact .compact-pipe {
+.draw-steel-plus.sheet.dsp-compact .compact-bullet {
     color: var(--dsp-text-faint);
+    margin: 0 1px;
 }
 
-.draw-steel-plus.sheet.dsp-compact .compact-entry-keywords {
+.draw-steel-plus.sheet.dsp-compact .compact-entry-desc {
     margin-top: 2px;
-    font-size: 11px;
+    font-size: 12px;
     font-style: italic;
-    color: color-mix(in srgb, var(--dsp-text-muted) 80%, var(--dsp-text));
+    color: var(--dsp-text-muted);
+    line-height: 1.45;
+}
+
+.draw-steel-plus.sheet.dsp-compact .compact-entry-desc * {
+    font-size: inherit !important;
+    color: inherit !important;
+    line-height: inherit !important;
 }
 
 .draw-steel-plus.sheet.dsp-compact .compact-preferred {
@@ -1221,7 +1229,7 @@
    The name itself carries the only emphasis. (Was 5 competing accent hues.)
    -------------------------------------------------------------------------- */
 
-.draw-steel-plus.sheet.dsp-compact .compact-dash {
+.draw-steel-plus.sheet.dsp-compact .compact-colon {
     color: var(--dsp-text-faint);
 }
 
@@ -1307,13 +1315,31 @@
     margin: 0 !important;
 }
 
-/* Flavor / story text: subtle italic opener */
+/* Flavor text is moved to .compact-entry-desc by JS; hide it inside the embed */
 .draw-steel-plus.sheet.dsp-compact .item-embed .metadata p.flavor {
-    margin: 0 0 5px;
-    font-size: 12px;
-    font-style: italic;
+    display: none !important;
+}
+
+/* Tags in expanded section */
+.draw-steel-plus.sheet.dsp-compact .compact-entry-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 3px;
+    margin-top: 8px;
+    padding-top: 6px;
+    border-top: 1px solid color-mix(in srgb, var(--dsp-border) 40%, transparent);
+}
+
+.draw-steel-plus.sheet.dsp-compact .compact-tag {
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
     color: var(--dsp-text-muted);
-    line-height: 1.45;
+    background: color-mix(in srgb, var(--dsp-surface-raised) 70%, transparent);
+    border: 1px solid color-mix(in srgb, var(--dsp-border) 50%, transparent);
+    border-radius: 2px;
+    padding: 1px 5px;
 }
 
 /* Trigger — not in the head line, render as a compact labeled datum */

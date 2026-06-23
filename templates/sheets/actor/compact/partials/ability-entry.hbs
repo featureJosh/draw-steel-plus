@@ -6,9 +6,7 @@
     </span>
     {{/if}}
     <span class="label compact-entry-name" data-action="toggleDocumentDescription">{{ctx.item.name}}</span>
-    <span class="compact-entry-meta">
-      <span class="compact-dash">&mdash;</span> <span class="compact-type-label">{{typeLabel}}</span>{{#if ctx.formattedLabels.distance}} <span class="compact-pipe">|</span> {{ctx.formattedLabels.distance}}{{/if}}{{#if ctx.formattedLabels.target}} <span class="compact-pipe">|</span> {{ctx.formattedLabels.target}}{{/if}}{{#if (eq typeKey "villain")}} <span class="compact-pipe">|</span> {{localize "DRAW_STEEL.Item.ability.Order"}} {{ctx.order}}{{else}}{{#if ctx.item.system.resource}} <span class="compact-pipe">|</span> <span class="compact-resource-cost">{{ctx.item.system.resource}} {{@root.system.coreResource.name}}</span>{{/if}}{{/if}}
-    </span>
+    <span class="compact-entry-meta"><span class="compact-colon">:</span> <span class="compact-type-label">{{typeLabel}}</span>{{#if (eq typeKey "villain")}} <span class="compact-bullet">&bull;</span> {{localize "DRAW_STEEL.Item.ability.Order"}} {{ctx.order}}{{else}}{{#if ctx.item.system.resource}} <span class="compact-bullet">&bull;</span> <span class="compact-resource-cost">{{ctx.item.system.resource}} {{@root.system.coreResource.name}}</span>{{/if}}{{/if}}{{#if ctx.formattedLabels.distance}} <span class="compact-bullet">&bull;</span> {{ctx.formattedLabels.distance}}{{/if}}{{#if ctx.formattedLabels.target}} <span class="compact-bullet">&bull;</span> {{ctx.formattedLabels.target}}{{/if}}</span>
     <span class="compact-entry-controls">
       <a class="fa-fw fa-solid fa-play" data-action="useAbility"></a>
       <a class="fa-fw fa-solid fa-comment" data-action="documentListShare"></a>
@@ -19,10 +17,7 @@
       <a class="fa-fw fa-solid fa-angle-{{ifThen ctx.expanded "down" "right"}}" data-action="toggleDocumentDescription"></a>
     </span>
   </div>
-  {{#if ctx.formattedLabels.keywords}}
-  <div class="keywords compact-entry-keywords">{{ctx.formattedLabels.keywords}}</div>
-  {{/if}}
   <div class="document-description item-embed content-embed {{#if ctx.expanded}}expanded{{/if}}">
-    {{#if ctx.expanded}}{{{ctx.embed.outerHTML}}}{{/if}}
+    {{#if ctx.expanded}}{{{ctx.embed.outerHTML}}}{{/if}}{{#if ctx.formattedLabels.keywords}}<div class="compact-entry-tags">{{ctx.formattedLabels.keywords}}</div>{{/if}}
   </div>
 </li>

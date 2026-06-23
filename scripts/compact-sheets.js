@@ -175,6 +175,7 @@ function inlineItemDescriptions(element) {
   if (!element) return;
   for (const entry of element.querySelectorAll(".compact-entry")) {
     inlineEntryDescription(entry);
+    buildKeywordPills(entry);
   }
 }
 
@@ -183,17 +184,31 @@ function inlineEntryDescription(entry) {
   const descEl = entry.querySelector(".document-description");
   if (!nameEl || !descEl) return;
 
-  if (nameEl.querySelector(".dsp-inline-desc")) return;
-
   const isAbility = entry.classList.contains("ability");
 
-  // For abilities: only inline the flavor/story text. The head line already
-  // carries type/distance/target; p.resource is redundant; the power roll
-  // section in the embed is the main expand content.
-  const firstP = isAbility
-    ? descEl.querySelector("p.flavor")
-    : descEl.querySelector("p");
+  if (isAbility) {
+    if (entry.querySelector(".compact-entry-desc")) return;
 
+    const flavorP = descEl.querySelector("p.flavor");
+    if (flavorP?.textContent.trim()) {
+      const descDiv = document.createElement("div");
+      descDiv.className = "compact-entry-desc";
+      while (flavorP.firstChild) descDiv.append(flavorP.firstChild);
+      flavorP.remove();
+      entry.querySelector(".compact-entry-head")?.after(descDiv);
+    }
+
+    const hasKeywords = !!descEl.querySelector(".compact-entry-tags");
+    const isInlineOnly =
+      !descEl.querySelector("section.powerResult, section.effect, section.spend, dl dt.trigger") &&
+      !hasKeywords;
+    entry.classList.toggle("dsp-inline-only", isInlineOnly);
+    return;
+  }
+
+  if (nameEl.querySelector(".dsp-inline-desc")) return;
+
+  const firstP = descEl.querySelector("p");
   if (!firstP || !firstP.textContent.trim()) return;
 
   const colon = document.createElement("span");
@@ -206,14 +221,24 @@ function inlineEntryDescription(entry) {
   while (firstP.firstChild) inline.append(firstP.firstChild);
   firstP.remove();
 
-  // For abilities: only collapse expand button when there's no meaningful
-  // mechanical content (no power roll, effects, trigger, or spend).
-  const isInlineOnly = isAbility
-    ? !descEl.querySelector("section.powerResult, section.effect, section.spend, dl dt.trigger")
-    : !descEl.textContent.trim();
-  entry.classList.toggle("dsp-inline-only", isInlineOnly);
-
+  entry.classList.toggle("dsp-inline-only", !descEl.textContent.trim());
   nameEl.append(colon, document.createTextNode(" "), inline);
+}
+
+function buildKeywordPills(entry) {
+  const tagsEl = entry.querySelector(".compact-entry-tags");
+  if (!tagsEl || tagsEl.dataset.built) return;
+  tagsEl.dataset.built = "1";
+  const text = tagsEl.textContent.trim();
+  if (!text) { tagsEl.remove(); return; }
+  tagsEl.replaceChildren(
+    ...text.split(", ").map(k => {
+      const s = document.createElement("span");
+      s.className = "compact-tag";
+      s.textContent = k;
+      return s;
+    })
+  );
 }
 
 function highlightCharacteristics(element) {
