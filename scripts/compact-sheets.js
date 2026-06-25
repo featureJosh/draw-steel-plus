@@ -166,6 +166,7 @@ function buildCompactSheet(BaseSheet, type, variant) {
       requestAnimationFrame(() => {
         inlineItemDescriptions(this.element);
         highlightCharacteristics(this.element);
+        dotSeparate(this.element);
       });
     }
   };
@@ -195,7 +196,9 @@ function inlineEntryDescription(entry) {
       descDiv.className = "compact-entry-desc";
       while (flavorP.firstChild) descDiv.append(flavorP.firstChild);
       flavorP.remove();
-      entry.querySelector(".compact-entry-head")?.after(descDiv);
+      // Sits below the uppercase meta line, above the power-roll body (reference order)
+      (entry.querySelector(".compact-entry-metaline") ??
+        entry.querySelector(".compact-entry-head"))?.after(descDiv);
     }
 
     const hasKeywords = !!descEl.querySelector(".compact-entry-tags");
@@ -239,6 +242,20 @@ function buildKeywordPills(entry) {
       return s;
     })
   );
+}
+
+/* The system renders the skills list comma-separated; the reference ledger uses
+   middot separators. Swap them in place (idempotent — skips if already done). */
+function dotSeparate(element) {
+  const line = element.querySelector(".compact-skills-line");
+  if (line && !line.dataset.dotted && line.textContent.includes(",")) {
+    line.dataset.dotted = "1";
+    line.textContent = line.textContent
+      .split(/,\s*(?:and\s+)?|\s+and\s+/)
+      .map(s => s.trim())
+      .filter(Boolean)
+      .join("  ·  ");
+  }
 }
 
 function highlightCharacteristics(element) {

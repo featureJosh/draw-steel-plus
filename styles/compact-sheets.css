@@ -799,6 +799,14 @@
 
 .draw-steel-plus.sheet.dsp-compact .compact-footer {
     grid-column: 1 / -1;
+    /* Bare in play mode (resources now live in the header) so the empty strip
+       collapses; the visible chrome lives on .compact-footer-edit. */
+    padding: 0;
+    background: none;
+    border: none;
+}
+
+.draw-steel-plus.sheet.dsp-compact .compact-footer-edit {
     padding: 7px 14px;
     background: var(--dsp-surface-raised);
     border-top: 1px solid color-mix(in srgb, var(--dsp-primary) 45%, transparent);
@@ -1565,9 +1573,8 @@
    -------------------------------------------------------------------------- */
 
 .draw-steel-plus.sheet.dsp-compact .sheet-header .compact-characteristics {
-    padding-bottom: 6px;
-    border-bottom: 1px solid color-mix(in srgb, var(--dsp-border) 60%, transparent);
-    margin-bottom: 4px;
+    padding-bottom: 2px;
+    margin-bottom: 2px;
 }
 
 /* --------------------------------------------------------------------------
@@ -1591,3 +1598,303 @@
     }
 }
 
+/* ==========================================================================
+   REFERENCE LEDGER SECTIONS
+   The header carries the reference's top sections (Vitals, Combat & Movement,
+   Skills) as labelled bands with an accent left-border, each divided by a thin
+   top rule. Editable resources keep their inputs/actions but read as text.
+   ========================================================================== */
+
+.draw-steel-plus.sheet.dsp-compact .compact-section {
+    position: relative;
+    z-index: 1;
+    margin-top: 11px;
+    padding-top: 10px;
+    border-top: 1px solid color-mix(in srgb, var(--dsp-border) 70%, transparent);
+}
+
+/* Accent left-border label — matches the in-body section headers */
+.draw-steel-plus.sheet.dsp-compact .compact-section-label {
+    display: inline-block;
+    border-left: 3px solid var(--dsp-primary);
+    padding-left: 7px;
+    margin-bottom: 8px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.6px;
+    text-transform: uppercase;
+    color: var(--dsp-text-muted);
+    line-height: 1.1;
+}
+
+/* Reset for label/value buttons that trigger spend/gain actions */
+.draw-steel-plus.sheet.dsp-compact .compact-vitals-btn {
+    width: auto;
+    height: auto;
+    padding: 0;
+    background: none;
+    border: none;
+    box-shadow: none;
+    cursor: pointer;
+    line-height: inherit;
+    font: inherit;
+    letter-spacing: inherit;
+    text-transform: inherit;
+    color: inherit;
+}
+
+.draw-steel-plus.sheet.dsp-compact .compact-vitals-btn:hover {
+    color: var(--dsp-primary);
+    background: none;
+    box-shadow: none;
+}
+
+/* Borderless number inputs that read as bold text but stay editable */
+.draw-steel-plus.sheet.dsp-compact input.compact-num {
+    width: 3ch;
+    min-width: 3ch;
+    height: auto;
+    padding: 0;
+    border: none;
+    background: none;
+    box-shadow: none;
+    color: inherit;
+    font: inherit;
+    font-weight: 800;
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+    -moz-appearance: textfield;
+}
+
+.draw-steel-plus.sheet.dsp-compact input.compact-num.compact-num-sm {
+    width: 2.4ch;
+    min-width: 2.4ch;
+}
+
+.draw-steel-plus.sheet.dsp-compact input.compact-num:focus {
+    outline: none;
+    box-shadow: none;
+    color: var(--dsp-primary);
+}
+
+.draw-steel-plus.sheet.dsp-compact input.compact-num::-webkit-outer-spin-button,
+.draw-steel-plus.sheet.dsp-compact input.compact-num::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Stamina line: key on the left, value/max on the right, then a full-width bar */
+.draw-steel-plus.sheet.dsp-compact .compact-vitals-stamina {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+.draw-steel-plus.sheet.dsp-compact .compact-vitals-key {
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    color: var(--dsp-text-muted);
+}
+
+.draw-steel-plus.sheet.dsp-compact .compact-vitals-stam-val {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 3px;
+    font-size: 14px;
+    font-weight: 800;
+    color: var(--dsp-text);
+    font-variant-numeric: tabular-nums;
+}
+
+.draw-steel-plus.sheet.dsp-compact .compact-vitals-sep {
+    color: var(--dsp-text-faint);
+    font-weight: 400;
+}
+
+.draw-steel-plus.sheet.dsp-compact .compact-vitals-temp-wrap {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 3px;
+    margin-left: 8px;
+}
+
+.draw-steel-plus.sheet.dsp-compact .compact-vitals-sub {
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    color: var(--dsp-text-faint);
+}
+
+.draw-steel-plus.sheet.dsp-compact .compact-stam-bar.compact-stam-bar-wide {
+    display: block;
+    width: 100%;
+    height: 6px;
+    margin-top: 7px;
+    border-radius: 999px;
+    background: var(--dsp-surface-raised);
+}
+
+/* Inline stat run — tiny uppercase key + bold value, wide gaps, wraps */
+.draw-steel-plus.sheet.dsp-compact .compact-run {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    column-gap: 18px;
+    row-gap: 7px;
+    margin-top: 9px;
+}
+
+.draw-steel-plus.sheet.dsp-compact .compact-run-item {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 6px;
+}
+
+.draw-steel-plus.sheet.dsp-compact .compact-run-k {
+    font-size: 9.5px;
+    font-weight: 600;
+    letter-spacing: 0.7px;
+    text-transform: uppercase;
+    color: var(--dsp-text-faint);
+}
+
+.draw-steel-plus.sheet.dsp-compact .compact-run-v {
+    font-size: 13px;
+    font-weight: 800;
+    line-height: 1;
+    color: var(--dsp-text);
+    font-variant-numeric: tabular-nums;
+}
+
+.draw-steel-plus.sheet.dsp-compact .compact-run-accent,
+.draw-steel-plus.sheet.dsp-compact .compact-run-accent input {
+    color: var(--dsp-primary);
+}
+
+/* Immunities / Weaknesses — labelled lines under the combat run */
+.draw-steel-plus.sheet.dsp-compact .compact-defwrap {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.draw-steel-plus.sheet.dsp-compact .compact-defline {
+    display: flex;
+    align-items: baseline;
+    gap: 9px;
+    font-size: 11.5px;
+}
+
+.draw-steel-plus.sheet.dsp-compact .compact-deftag {
+    flex-shrink: 0;
+    min-width: 84px;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    color: var(--dsp-text-faint);
+}
+
+.draw-steel-plus.sheet.dsp-compact .compact-defvals {
+    color: var(--dsp-text-muted);
+}
+
+/* Skills — dot-separated flowing line (JS swaps commas for middots) */
+.draw-steel-plus.sheet.dsp-compact .compact-skills-line {
+    font-size: 11.5px;
+    line-height: 1.7;
+    color: var(--dsp-text-muted);
+    letter-spacing: 0.01em;
+}
+
+/* Ability meta line below the name: TYPE · DISTANCE · TARGET */
+.draw-steel-plus.sheet.dsp-compact .compact-entry-metaline {
+    margin-top: 4px;
+    font-size: 9.5px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    color: var(--dsp-text-muted);
+    font-variant-numeric: tabular-nums;
+}
+
+.draw-steel-plus.sheet.dsp-compact .compact-entry-metaline .compact-type-label {
+    font-style: normal;
+    font-weight: 600;
+    color: var(--dsp-text-muted);
+}
+
+.draw-steel-plus.sheet.dsp-compact .compact-entry-metaline .compact-bullet {
+    color: var(--dsp-text-faint);
+    margin: 0 1px;
+}
+
+/* Resource cost beside the ability name, gold */
+.draw-steel-plus.sheet.dsp-compact .compact-entry-cost {
+    margin-left: 7px;
+    font-size: 9.5px;
+    font-weight: 700;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+    color: var(--dsp-accent);
+    white-space: nowrap;
+}
+
+/* Subline under the name — "5 XP · 0 VICTORIES", small uppercase */
+.draw-steel-plus.sheet.dsp-compact .compact-subline {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 7px;
+    margin-top: 5px;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.9px;
+    text-transform: uppercase;
+    color: var(--dsp-text-muted);
+    font-variant-numeric: tabular-nums;
+}
+
+.draw-steel-plus.sheet.dsp-compact .compact-subline .compact-stat b {
+    color: var(--dsp-text);
+}
+
+.draw-steel-plus.sheet.dsp-compact .compact-subline-sep {
+    color: var(--dsp-text-faint);
+}
+
+.draw-steel-plus.sheet.dsp-compact .compact-subline .compact-respite {
+    margin-left: auto;
+    color: var(--dsp-text-muted);
+}
+
+/* Origin tags as bordered pills (reference), not dotted prose */
+.draw-steel-plus.sheet.dsp-compact .sheet-header .origins-row {
+    gap: 5px;
+    margin-top: 10px;
+}
+
+.draw-steel-plus.sheet.dsp-compact .sheet-header .origins-row .tag {
+    font-style: normal;
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--dsp-text-muted);
+    border: 1px solid color-mix(in srgb, var(--dsp-border-light) 90%, transparent);
+    border-radius: 2px;
+    padding: 2px 6px;
+}
+
+.draw-steel-plus.sheet.dsp-compact .sheet-header .origins-row .tag + .tag::before {
+    content: none;
+}
+
+.draw-steel-plus.sheet.dsp-compact .sheet-header .origins-row .tag a.filled {
+    color: inherit;
+}
