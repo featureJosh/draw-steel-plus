@@ -114,13 +114,14 @@
     margin-left: auto;
     flex-shrink: 0;
     padding: 3px 9px;
-    background: var(--dsp-primary);
-    color: light-dark(#fff, var(--dsp-text));
+    background: none;
+    border: 1px solid var(--dsp-primary);
+    color: var(--dsp-primary);
     font-size: 10px;
-    font-weight: 700;
+    font-weight: 800;
     text-transform: uppercase;
     letter-spacing: 1.2px;
-    border-radius: 2px;
+    border-radius: 3px;
     white-space: nowrap;
 }
 
@@ -204,29 +205,41 @@
     display: flex;
     flex-wrap: wrap;
     align-items: baseline;
-    gap: 6px;
-    margin-top: 5px;
+    column-gap: 16px;
+    row-gap: 6px;
+    margin-top: 6px;
     font-size: 12.5px;
     color: var(--dsp-text);
 }
 
-.draw-steel-plus.sheet.dsp-compact .compact-stat b {
-    font-weight: 700;
+.draw-steel-plus.sheet.dsp-compact .compact-stat {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 5px;
 }
 
-/* Inline stat labels read like the mockup: Title-Case bold + colon, near-text
-   colour — not tiny shouting capitals. (Was 10px uppercase letterspaced muted.) */
+.draw-steel-plus.sheet.dsp-compact .compact-stat b {
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+}
+
+/* Inline stat keys: tiny uppercase faint, like the reference's stat runs.
+   Separation comes from the wide column-gap, so the "|" separators are dropped. */
 .draw-steel-plus.sheet.dsp-compact .compact-label {
-    margin-right: 1px;
-    font-size: 11.5px;
-    font-weight: 700;
-    color: var(--dsp-text);
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    color: var(--dsp-text-faint);
 }
 
 .draw-steel-plus.sheet.dsp-compact .compact-label::after {
-    content: ":";
-    color: var(--dsp-text-faint);
-    font-weight: 400;
+    content: none;
+}
+
+.draw-steel-plus.sheet.dsp-compact .compact-combat-row .compact-sep,
+.draw-steel-plus.sheet.dsp-compact .compact-iw-row .compact-sep {
+    display: none;
 }
 
 .draw-steel-plus.sheet.dsp-compact .compact-sep {
@@ -313,8 +326,8 @@
     position: relative;
     z-index: 1;
     display: flex;
-    align-items: baseline;
-    gap: 16px;
+    align-items: stretch;
+    gap: 4px;
     margin-top: 8px;
     padding-top: 6px;
     border-top: 1px solid var(--dsp-border);
@@ -322,13 +335,16 @@
 
 .draw-steel-plus.sheet.dsp-compact .sheet-header .header-characteristics .char-badge {
     display: inline-flex;
-    flex-direction: row;
-    align-items: baseline;
-    gap: 4px;
+    flex: 1;
+    flex-direction: column-reverse; /* value above key, like the reference cells */
+    align-items: center;
+    justify-content: flex-end;
+    gap: 3px;
     width: auto;
     height: auto;
     min-width: 0;
     padding: 0;
+    text-align: center;
     background: none;
     border: none;
     box-shadow: none;
@@ -350,16 +366,18 @@
 }
 
 .draw-steel-plus.sheet.dsp-compact .sheet-header .header-characteristics .char-label {
-    font-size: 10px;
-    font-weight: 700;
+    font-size: 8px;
+    font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 0.8px;
-    color: var(--dsp-text-muted);
+    letter-spacing: 1px;
+    color: var(--dsp-text-faint);
 }
 
 .draw-steel-plus.sheet.dsp-compact .sheet-header .header-characteristics .char-value {
-    font-size: 14px;
+    font-size: 16px;
     font-weight: 800;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
     color: var(--dsp-text);
 }
 
@@ -465,56 +483,50 @@
     box-shadow: none;
 }
 
-/* Section title as a centred divider with dotted flanking rules, mockup-style:
-   "······ FEATURES ······". The + control floats at the right edge. */
+/* Each section sits in its own band, divided by a thin rule like the reference */
+.draw-steel-plus.sheet.dsp-compact .item-list-container.compact-group + .compact-group {
+    margin-top: 12px;
+    padding-top: 11px;
+    border-top: 1px solid color-mix(in srgb, var(--dsp-border) 70%, transparent);
+}
+
+/* Section title as a left-aligned label with an accent rule down its left edge,
+   like the reference ledger: "▍ FEATURES". The + control floats at the right. */
 .draw-steel-plus.sheet.dsp-compact .item-list-container .item-header {
     position: relative;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     gap: 10px;
     background: none;
     border: none;
-    padding: 2px 4px;
-    overflow: hidden;
+    padding: 0 4px 0 0;
+    margin-bottom: 7px;
+    overflow: visible;
 }
 
+/* Kill the base FontAwesome chevron ::after (and any ::before) entirely */
 .draw-steel-plus.sheet.dsp-compact .item-list-container .item-header::before,
-.draw-steel-plus.sheet.dsp-compact .item-list-container .item-header::after {
-    /* Base body.css makes ::after a FontAwesome chevron and rotates it -90deg
-       when collapsed — override content, font, and transform so it's a plain
-       horizontal rule on both sides that never rotates. */
-    content: "";
-    font-family: inherit;
-    flex: 1 1 0;
-    min-width: 0;
-    width: auto;
-    height: 0;
-    margin: 0;
-    transform: none;
-    border-top: 1px dotted color-mix(in srgb, var(--dsp-text-faint) 60%, transparent);
-    color: transparent;
-}
-
-/* Don't let the base collapsed-state rotation reach our rule */
+.draw-steel-plus.sheet.dsp-compact .item-list-container .item-header::after,
 .draw-steel-plus.sheet.dsp-compact .item-list-container.dsp-collapsed .item-header::after {
+    content: none;
     transform: none;
-}
-
-.draw-steel-plus.sheet.dsp-compact .item-list-container .item-header:hover::after {
-    color: transparent;
 }
 
 .draw-steel-plus.sheet.dsp-compact .item-list-container .item-header .item-column {
     font-size: 10px;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 1.5px;
+    letter-spacing: 1.6px;
     color: var(--dsp-text-muted);
 }
 
+/* The accent left-border bar label */
 .draw-steel-plus.sheet.dsp-compact .item-list-container .item-header .item-name {
     flex: 0 0 auto;
+    border-left: 3px solid var(--dsp-primary);
+    padding-left: 7px;
+    line-height: 1.1;
 }
 
 .draw-steel-plus.sheet.dsp-compact .item-list-container .item-header .item-controls {
@@ -551,9 +563,11 @@
     background: color-mix(in srgb, var(--dsp-surface-raised) 45%, transparent);
 }
 
-/* Generous breathing room top and bottom so each ability reads as its own block */
+/* Each ability reads as its own block, marked by an accent rule down the left
+   edge like the reference ledger's ability list. */
 .draw-steel-plus.sheet.dsp-compact .compact-entry {
-    padding: 10px 2px 14px;
+    padding: 9px 2px 11px 11px;
+    border-left: 2px solid color-mix(in srgb, var(--dsp-primary) 32%, transparent);
 }
 
 .draw-steel-plus.sheet.dsp-compact .compact-entry-head {
@@ -567,7 +581,7 @@
 
 .draw-steel-plus.sheet.dsp-compact .compact-entry-name {
     font-weight: 700;
-    font-style: italic;
+    font-style: normal;
     cursor: pointer;
 }
 
@@ -1247,9 +1261,11 @@
 }
 
 .draw-steel-plus.sheet.dsp-compact .compact-resource-cost {
-    color: var(--dsp-text);
+    color: var(--dsp-accent);
     font-weight: 700;
-    font-size: 11px;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
 }
 
 /* --------------------------------------------------------------------------
@@ -1320,26 +1336,31 @@
     display: none !important;
 }
 
-/* Tags in expanded section */
+/* Keywords render as a single gold, dot-separated run (reference ledger style)
+   rather than bordered pills: "CHARGE · MELEE · STRIKE · WEAPON". */
 .draw-steel-plus.sheet.dsp-compact .compact-entry-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 3px;
-    margin-top: 8px;
-    padding-top: 6px;
-    border-top: 1px solid color-mix(in srgb, var(--dsp-border) 40%, transparent);
+    display: block;
+    margin-top: 6px;
+    font-size: 9.5px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.7px;
+    color: var(--dsp-accent);
 }
 
 .draw-steel-plus.sheet.dsp-compact .compact-tag {
-    font-size: 10px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    color: var(--dsp-text-muted);
-    background: color-mix(in srgb, var(--dsp-surface-raised) 70%, transparent);
-    border: 1px solid color-mix(in srgb, var(--dsp-border) 50%, transparent);
-    border-radius: 2px;
-    padding: 1px 5px;
+    border: none;
+    background: none;
+    padding: 0;
+    border-radius: 0;
+    font: inherit;
+    letter-spacing: inherit;
+    color: inherit;
+}
+
+.draw-steel-plus.sheet.dsp-compact .compact-tag:not(:last-child)::after {
+    content: " · ";
+    opacity: 0.55;
 }
 
 /* Trigger — not in the head line, render as a compact labeled datum */
@@ -1459,37 +1480,29 @@
     align-items: start;
 }
 
-/* Tier pill: hide the glyph, draw a bordered chip filling the gutter */
+/* Tier band: hide the glyph, render the range as plain faint text in the gutter
+   (reference ledger style — no chip border; the number carries the emphasis). */
 .draw-steel-plus.sheet.dsp-compact .item-embed .power-roll-display dt {
     font-family: inherit !important;
     font-size: 0 !important;
     display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    padding: 1px 0;
-    border: 1px solid;
-    border-radius: 5px;
+    align-items: baseline;
+    justify-content: flex-start;
+    width: auto;
+    padding: 0;
+    border: none;
+    background: none;
     line-height: 1.4;
     box-sizing: border-box;
 }
 
 .draw-steel-plus.sheet.dsp-compact .item-embed .power-roll-display dt::before {
-    font-size: 11px;
-    font-weight: 800;
+    font-size: 10.5px;
+    font-weight: 700;
     letter-spacing: 0.2px;
     line-height: 1.4;
     white-space: nowrap;
-}
-
-/* All three range pills share one neutral style — the tier is read from the
-   number, not a colour. (Per-tier colour-coding read as amateur.) */
-.draw-steel-plus.sheet.dsp-compact .item-embed .power-roll-display dt {
-    border-color: color-mix(in srgb, var(--dsp-border) 80%, transparent);
-    background: var(--dsp-surface-raised);
-}
-.draw-steel-plus.sheet.dsp-compact .item-embed .power-roll-display dt::before {
-    color: var(--dsp-text-muted);
+    color: var(--dsp-text-faint);
 }
 .draw-steel-plus.sheet.dsp-compact .item-embed .power-roll-display dt.tier1::before {
     content: "≤11";
