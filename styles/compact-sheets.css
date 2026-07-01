@@ -32,7 +32,7 @@
 .draw-steel-plus.sheet.dsp-compact .sheet-header {
     display: block;
     min-height: 0;
-    padding: 10px 14px 8px;
+    padding: 26px 14px 8px;
     border-bottom: 1px solid color-mix(in srgb, var(--dsp-primary) 45%, transparent);
 }
 
@@ -1008,22 +1008,24 @@
    Removes the ~32px title bar from the layout so it no longer wastes space.
    -------------------------------------------------------------------------- */
 
+/* Full-width drag bar pinned to the top of the sheet. The bar itself stays
+   interactive (so grabbing anywhere along the top drags the window); the tool
+   buttons are hidden + non-interactive until hover so they don't eat clicks. */
 .draw-steel-plus.sheet.dsp-compact .window-header {
     position: absolute !important;
-    inset: 0 0 auto auto !important;
+    inset: 0 0 auto 0 !important;
     z-index: 10;
     display: flex !important;
     align-items: flex-start;
-    justify-content: flex-end !important;
-    width: max-content !important;
+    justify-content: center !important;
+    width: 100% !important;
     max-width: 100% !important;
-    padding: 8px 8px 0 !important;
+    padding: 4px 8px 0 !important;
     background: transparent !important;
     border: 0 !important;
     box-shadow: none !important;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 140ms ease;
+    pointer-events: auto;
+    cursor: move;
 }
 
 .draw-steel-plus.sheet.dsp-compact .window-header .window-title,
@@ -1034,23 +1036,41 @@
 .draw-steel-plus.sheet.dsp-compact .window-header .header-button,
 .draw-steel-plus.sheet.dsp-compact .window-header button,
 .draw-steel-plus.sheet.dsp-compact .window-header a {
-    width: 24px !important;
-    height: 24px !important;
-    min-width: 24px !important;
-    margin: 0 0 0 4px !important;
+    width: 22px !important;
+    height: 22px !important;
+    min-width: 22px !important;
+    margin: 0 2px !important;
     border: 0 !important;
     border-radius: 999px !important;
     background: rgba(0, 0, 0, 0.72) !important;
     color: #f0ebe0 !important;
     box-shadow: none !important;
-    line-height: 24px !important;
+    line-height: 22px !important;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 140ms ease;
 }
 
-/* Reveal on hover of the compact header or the window header itself */
-.draw-steel-plus.sheet.dsp-compact:has(.compact-header:hover) .window-header,
-.draw-steel-plus.sheet.dsp-compact .window-header:hover {
+/* Reveal + enable the buttons on hover of the compact header or the bar itself */
+.draw-steel-plus.sheet.dsp-compact:has(.compact-header:hover) .window-header .header-button,
+.draw-steel-plus.sheet.dsp-compact:has(.compact-header:hover) .window-header button,
+.draw-steel-plus.sheet.dsp-compact:has(.compact-header:hover) .window-header a,
+.draw-steel-plus.sheet.dsp-compact .window-header:hover .header-button,
+.draw-steel-plus.sheet.dsp-compact .window-header:hover button,
+.draw-steel-plus.sheet.dsp-compact .window-header:hover a {
     opacity: 1;
     pointer-events: auto;
+}
+
+/* Close button: always visible, pinned to top-right independent of flex centering */
+.draw-steel-plus.sheet.dsp-compact .window-header [data-action="close"],
+.draw-steel-plus.sheet.dsp-compact .window-header .close {
+    position: absolute !important;
+    top: 4px !important;
+    right: 8px !important;
+    margin: 0 !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
 }
 
 /* Minimized: restore window header to normal flow so the title bar shows */
@@ -1069,6 +1089,15 @@
     background: var(--dsp-surface) !important;
     border-bottom: 1px solid var(--dsp-border) !important;
     align-items: center;
+    justify-content: flex-start !important;
+}
+
+/* Minimized title bar always shows its controls */
+.draw-steel-plus.sheet.dsp-compact.minimized .window-header .header-button,
+.draw-steel-plus.sheet.dsp-compact.minimized .window-header button,
+.draw-steel-plus.sheet.dsp-compact.minimized .window-header a {
+    opacity: 1;
+    pointer-events: auto;
 }
 
 .draw-steel-plus.sheet.dsp-compact.minimized .window-header .window-title {
@@ -1194,6 +1223,34 @@
             var(--dsp-surface) 100%
         );
     pointer-events: none;
+}
+
+/* Portrait edit/view affordance over the decorative art (top-right) */
+.draw-steel-plus.sheet.dsp-compact .compact-art-action {
+    position: absolute;
+    top: 30px;
+    right: 10px;
+    z-index: 12;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    border-radius: 4px;
+    color: var(--dsp-text-muted);
+    background: color-mix(in srgb, var(--dsp-surface) 70%, transparent);
+    opacity: 0;
+    transition: opacity 0.12s ease, color 0.12s ease;
+    cursor: pointer;
+}
+
+.draw-steel-plus.sheet.dsp-compact .sheet-header:hover .compact-art-action {
+    opacity: 0.75;
+}
+
+.draw-steel-plus.sheet.dsp-compact .compact-art-action:hover {
+    opacity: 1;
+    color: var(--dsp-primary);
 }
 
 .draw-steel-plus.sheet.dsp-compact .dsp-compact-art-image {
@@ -1447,6 +1504,8 @@
 
 .draw-steel-plus.sheet.dsp-compact .item-embed section.effect {
     margin-top: 7px;
+    padding-top: 6px;
+    border-top: 1px solid color-mix(in srgb, var(--dsp-border) 50%, transparent);
 }
 
 .draw-steel-plus.sheet.dsp-compact .item-embed section.effect dl dt {
@@ -1462,6 +1521,8 @@
 
 .draw-steel-plus.sheet.dsp-compact .item-embed section.powerResult {
     margin-top: 7px;
+    padding-top: 6px;
+    border-top: 1px solid color-mix(in srgb, var(--dsp-border) 50%, transparent);
 }
 
 /* Roll bonus line — system renders "Power Roll + Might or Agility" as one
@@ -1559,12 +1620,7 @@
     display: none;
 }
 
-/* Potency spans inside tier descriptions: readable in compact context */
-.draw-steel-plus.sheet.dsp-compact .item-embed span.potency {
-    font-family: inherit !important;
-    font-size: inherit !important;
-    font-weight: 700;
-}
+/* Potency spans: let base.css glyph font rule apply unchanged */
 
 /* --------------------------------------------------------------------------
    Header stat-line polish
@@ -1739,6 +1795,25 @@
 }
 
 /* Inline stat run — tiny uppercase key + bold value, wide gaps, wraps */
+/* Combat & Movement (left) + Skills (right) share one row, so the skills list
+   flows into the space beside the short combat run instead of overflowing below
+   the header (which clipped invisibly until a resize forced a reflow). */
+.draw-steel-plus.sheet.dsp-compact .compact-combat-skills {
+    display: flex;
+    align-items: flex-start;
+    gap: 22px;
+}
+
+.draw-steel-plus.sheet.dsp-compact .compact-combat-skills .compact-combat {
+    flex: 1 1 56%;
+    min-width: 0;
+}
+
+.draw-steel-plus.sheet.dsp-compact .compact-combat-skills .compact-skills-section {
+    flex: 1 1 44%;
+    min-width: 0;
+}
+
 .draw-steel-plus.sheet.dsp-compact .compact-run {
     display: flex;
     flex-wrap: wrap;
@@ -1810,6 +1885,22 @@
     line-height: 1.7;
     color: var(--dsp-text-muted);
     letter-spacing: 0.01em;
+}
+
+/* Subline "/ max" suffix on XP / Victories — faint so the current value leads */
+.draw-steel-plus.sheet.dsp-compact .compact-stat-max {
+    color: var(--dsp-text-faint);
+    font-weight: 600;
+}
+
+/* Biography demographics run + breathing room above the shared partials */
+.draw-steel-plus.sheet.dsp-compact .compact-bio-run {
+    margin-bottom: 14px;
+}
+
+/* Effects: status grid sits above the effect sections with a little gap */
+.draw-steel-plus.sheet.dsp-compact .compact-effects .status-effects {
+    margin-bottom: 12px;
 }
 
 /* Ability meta line below the name: TYPE · DISTANCE · TARGET */

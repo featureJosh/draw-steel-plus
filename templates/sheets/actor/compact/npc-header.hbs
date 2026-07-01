@@ -7,6 +7,13 @@
     <img class="dsp-compact-art-image" src="{{document.img}}" alt="">
   </div>
 
+  {{!-- Portrait control: view artwork in play, edit image out of play. --}}
+  <a class="compact-art-action" data-action="{{ifThen isPlay "showPortraitArtwork" "editPortraitImage"}}"
+    {{#unless isPlay}}data-edit="img"{{/unless}}
+    data-tooltip="{{localize (ifThen isPlay "DRAW_STEEL_PLUS.Sheet.ViewArtwork" "DRAW_STEEL_PLUS.Sheet.EditImage")}}">
+    <i class="fa-solid {{ifThen isPlay "fa-expand" "fa-pen"}}"></i>
+  </a>
+
   <div class="compact-title-row">
     {{#if isPlay}}
     <h1 class="char-name">{{document.name}}</h1>

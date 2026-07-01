@@ -43,6 +43,24 @@ const COMPACT_PARTS = {
       templates: ENTRY_PARTIALS,
       scrollable: [""],
     },
+    equipment: {
+      template: `${COMPACT_TPL}/hero-equipment.hbs`,
+      templates: [...ENTRY_PARTIALS, SEARCH_PARTIAL],
+      scrollable: [""],
+    },
+    projects: {
+      template: `${COMPACT_TPL}/hero-projects.hbs`,
+      templates: ENTRY_PARTIALS,
+      scrollable: [""],
+    },
+    biography: {
+      template: `${COMPACT_TPL}/hero-biography.hbs`,
+      scrollable: [""],
+    },
+    effects: {
+      template: `${COMPACT_TPL}/effects.hbs`,
+      scrollable: [""],
+    },
     compactFooter: {
       template: `${COMPACT_TPL}/hero-footer.hbs`,
       templates: STATS_EDIT_PARTIALS,
@@ -65,6 +83,14 @@ const COMPACT_PARTS = {
       templates: ENTRY_PARTIALS,
       scrollable: [""],
     },
+    biography: {
+      template: `${COMPACT_TPL}/npc-biography.hbs`,
+      scrollable: [""],
+    },
+    effects: {
+      template: `${COMPACT_TPL}/effects.hbs`,
+      scrollable: [""],
+    },
     compactFooter: {
       template: `${COMPACT_TPL}/npc-footer.hbs`,
       templates: STATS_EDIT_PARTIALS,
@@ -82,6 +108,23 @@ function buildCompactParts(BaseSheet, type) {
   return parts;
 }
 
+function editPortraitImage(event, target) {
+  const attr = target.dataset.edit;
+  const current = foundry.utils.getProperty(this.document._source, attr);
+  const defaultArtwork = this.document.constructor.getDefaultArtwork?.(this.document._source) ?? {};
+  const defaultImage = foundry.utils.getProperty(defaultArtwork, attr);
+  const sheet = this;
+  const fp = new FilePicker({
+    current,
+    type: "image",
+    redirectToRoot: defaultImage ? [defaultImage] : [],
+    callback: async path => { await sheet.document.update({ [attr]: path }); },
+    position: { top: this.position.top + 40, left: this.position.left + 10 },
+    document: this.document,
+  });
+  return fp.browse();
+}
+
 function buildCompactSheet(BaseSheet, type, variant) {
   const size = variant.sizes[type];
   const parts = buildCompactParts(BaseSheet, type);
@@ -96,6 +139,10 @@ function buildCompactSheet(BaseSheet, type, variant) {
         ...BaseSheet.DEFAULT_OPTIONS.position,
         width: size.width,
         height: size.height,
+      },
+      actions: {
+        ...BaseSheet.DEFAULT_OPTIONS.actions,
+        editPortraitImage,
       },
     };
 

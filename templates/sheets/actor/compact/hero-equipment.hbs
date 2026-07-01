@@ -1,0 +1,47 @@
+<section class="tab equipment {{tab.cssClass}}" data-group="primary" data-tab="equipment">
+  {{> "modules/draw-steel-plus/templates/sheets/actor/shared/partials/search-filter.hbs"}}
+
+  <section class="item-list-container kit-list-container compact-group">
+    <div class="item-header compact-group-header">
+      <div class="item-column item-name">{{localize "TYPES.Item.kit"}}</div>
+      <div class="item-column item-controls">
+        {{#unless isPlay}}
+        {{#with (localize "DRAW_STEEL.SHEET.Add" itemName=(localize "TYPES.Item.kit")) as |addItemTooltip|}}
+        <a class="createDoc" data-action="createDoc" data-document-class="Item" data-type="kit" data-render-sheet="true" data-tooltip-text="{{addItemTooltip}}">
+          <i class="fa-solid fa-plus"></i>
+        </a>
+        {{/with}}
+        {{/unless}}
+      </div>
+    </div>
+    <ol class="item-list kit-list">
+      {{#each kits as |kitContext|}}
+      {{> "modules/draw-steel-plus/templates/sheets/actor/compact/partials/simple-entry.hbs" ctx=kitContext preferred=(eq @root.system.hero.preferredKit kitContext.item.id)}}
+      {{/each}}
+    </ol>
+  </section>
+
+  {{#each treasure as |treasureType|}}
+  {{#if treasureType.showHeader}}
+  <section class="item-list-container treasure-list-container compact-group">
+    <div class="item-header compact-group-header">
+      <div class="item-column item-name">{{treasureType.label}}</div>
+      <div class="item-column item-controls">
+        {{#if treasureType.showAdd}}
+        {{#with (localize "DRAW_STEEL.SHEET.Add" itemName=(localize "TYPES.Item.treasure")) as |addItemTooltip|}}
+        <a class="createDoc" data-action="createDoc" data-document-class="Item" data-type="treasure" data-render-sheet="true" data-system.category="{{@key}}" data-tooltip-text="{{addItemTooltip}}">
+          <i class="fa-solid fa-plus"></i>
+        </a>
+        {{/with}}
+        {{/if}}
+      </div>
+    </div>
+    <ol class="item-list treasure-list">
+      {{#each treasureType.treasure as |treasureContext|}}
+      {{> "modules/draw-steel-plus/templates/sheets/actor/compact/partials/simple-entry.hbs" ctx=treasureContext metaText=(localize (concat "DRAW_STEEL.ECHELON." treasureContext.item.system.echelon)) quantity=true}}
+      {{/each}}
+    </ol>
+  </section>
+  {{/if}}
+  {{/each}}
+</section>

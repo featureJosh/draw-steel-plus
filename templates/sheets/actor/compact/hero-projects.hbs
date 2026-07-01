@@ -1,0 +1,42 @@
+<section class="tab projects {{tab.cssClass}}" data-group="primary" data-tab="projects">
+
+  <section class="item-list-container follower-container compact-group">
+    <div class="item-header compact-group-header">
+      <div class="item-column item-name">{{localize "TYPES.Item.follower"}}</div>
+      <div class="item-column item-controls">
+        {{#unless isPlay}}
+        {{#with (localize "DRAW_STEEL.SHEET.Add" itemName=(localize "TYPES.Item.follower")) as |addItemTooltip|}}
+        <a class="createDoc" data-action="createDoc" data-document-class="Item" data-type="follower" data-render-sheet="true" data-tooltip-text="{{addItemTooltip}}">
+          <i class="fa-solid fa-plus"></i>
+        </a>
+        {{/with}}
+        {{/unless}}
+      </div>
+    </div>
+    <ol class="item-list follower-list">
+      {{#each followers as |followerContext|}}
+      {{> "modules/draw-steel-plus/templates/sheets/actor/compact/partials/simple-entry.hbs" ctx=followerContext metaText=followerContext.item.system.followerType}}
+      {{/each}}
+    </ol>
+  </section>
+
+  <section class="item-list-container project-list-container compact-group">
+    <div class="item-header compact-group-header">
+      <div class="item-column item-name">{{localize "TYPES.Item.project"}}</div>
+      <div class="item-column item-controls">
+        {{#unless isPlay}}
+        {{#with (localize "DRAW_STEEL.SHEET.Add" itemName=(localize "TYPES.Item.project")) as |addItemTooltip|}}
+        <a class="createDoc" data-action="createDoc" data-document-class="Item" data-type="project" data-render-sheet="true" data-tooltip-text="{{addItemTooltip}}">
+          <i class="fa-solid fa-plus"></i>
+        </a>
+        {{/with}}
+        {{/unless}}
+      </div>
+    </div>
+    <ol class="item-list project-list">
+      {{#each projects as |projectContext|}}
+      {{> "modules/draw-steel-plus/templates/sheets/actor/compact/partials/simple-entry.hbs" ctx=projectContext playAction="rollProject" metaText=(concat (ifThen projectContext.item.system.points projectContext.item.system.points "0") " / " (ifThen projectContext.item.system.goal projectContext.item.system.goal (localize "DRAW_STEEL.Item.project.Varies")) " | " (lookup (lookup @root.config.projects.types projectContext.item.system.type) "label"))}}
+      {{/each}}
+    </ol>
+  </section>
+</section>

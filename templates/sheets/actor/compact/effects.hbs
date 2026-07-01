@@ -1,0 +1,45 @@
+<section class="tab effects compact-effects {{tab.cssClass}}" data-group="primary" data-tab="effects">
+
+  <fieldset class="status-effects">
+    <legend>{{localize "DRAW_STEEL.ActiveEffect.StatusConditions"}}</legend>
+    <div class="status-container">
+      {{#each statuses as |status id|}}
+      <button type="button" class="status-control {{status.active}}" {{disabled status.disabled}} data-status-id="{{id}}" data-tooltip-html="{{status.tooltip}}" data-action="toggleStatus">
+        <img src="{{status.img}}" alt="{{status.name}}">
+        <span>{{status.name}}</span>
+      </button>
+      {{/each}}
+    </div>
+  </fieldset>
+
+  {{#each effects as |section sid|}}
+  <section class="item-list-container compact-group" data-effect-type="{{section.type}}">
+    <div class="item-header compact-group-header">
+      <div class="item-column item-name">{{section.label}}</div>
+      <div class="item-column item-controls">
+        <a class="effect-control effect-create fa-solid fa-fw fa-plus"
+          {{#if (eq section.type "inactive")}}data-disabled="true"{{else if (eq section.type "temporary")}}data-system.end.type="turn"{{/if}}></a>
+      </div>
+    </div>
+    <ol class="item-list effect-list">
+      {{#each section.effects as |effect|}}
+      <li class="item effect draggable expandable-document compact-entry" data-document-uuid="{{effect.uuid}}">
+        <div class="compact-entry-head item-name">
+          <span class="label compact-entry-name" data-action="toggleDocumentDescription">{{effect.name}}</span>
+          {{#if effect.sourceName}}<span class="compact-entry-meta">&mdash; {{effect.sourceName}}</span>{{/if}}
+          {{#if effect.duration.label}}<span class="compact-entry-cost">{{effect.duration.label}}</span>{{/if}}
+          <span class="compact-entry-controls">
+            <a class="fa-fw fa-solid fa-comment" data-action="documentListShare"></a>
+            <a class="fa-fw fa-solid fa-ellipsis-vertical" data-action="documentListContext"></a>
+            <a class="fa-fw fa-solid fa-angle-{{ifThen effect.expanded "down" "right"}}" data-action="toggleDocumentDescription"></a>
+          </span>
+        </div>
+        <div class="document-description effect-description {{#if effect.expanded}}expanded{{/if}}">
+          {{#if effect.expanded}}{{{effect.enrichedDescription.outerHTML}}}{{/if}}
+        </div>
+      </li>
+      {{/each}}
+    </ol>
+  </section>
+  {{/each}}
+</section>

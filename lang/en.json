@@ -19,7 +19,9 @@
       "Party": "DS+ Party Sheet",
       "Item": "DS+ Item Sheet",
       "CompactHero": "DS+ Compact Hero Sheet",
-      "CompactNPC": "DS+ Compact NPC Sheet"
+      "CompactNPC": "DS+ Compact NPC Sheet",
+      "EditImage": "Edit Image",
+      "ViewArtwork": "View Artwork"
     },
     "Settings": {
       "menus": {

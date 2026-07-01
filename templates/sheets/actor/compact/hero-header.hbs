@@ -35,6 +35,14 @@
     <img class="dsp-compact-art-image" src="{{document.img}}" alt="">
   </div>
 
+  {{!-- Portrait control: view artwork in play, edit image out of play (the art
+       itself is decorative/pointer-events:none, so parity needs this affordance). --}}
+  <a class="compact-art-action" data-action="{{ifThen isPlay "showPortraitArtwork" "editPortraitImage"}}"
+    {{#unless isPlay}}data-edit="img"{{/unless}}
+    data-tooltip="{{localize (ifThen isPlay "DRAW_STEEL_PLUS.Sheet.ViewArtwork" "DRAW_STEEL_PLUS.Sheet.EditImage")}}">
+    <i class="fa-solid {{ifThen isPlay "fa-expand" "fa-pen"}}"></i>
+  </a>
+
   <div class="compact-title-row">
     {{#if isPlay}}
     <h1 class="char-name">{{document.name}}</h1>
@@ -57,9 +65,9 @@
   {{!-- Subline directly under the name, reference-style: "5 XP · 0 VICTORIES" --}}
   {{#if isPlay}}
   <div class="compact-subline compact-progress-row">
-    <span class="compact-stat"><b>{{system.hero.xp}}</b> XP</span>
+    <span class="compact-stat"><b>{{system.hero.xp}}</b>{{#if system.nextLevelXP}}<span class="compact-stat-max"> / {{system.nextLevelXP}}</span>{{/if}} XP</span>
     <span class="compact-subline-sep">&middot;</span>
-    <span class="compact-stat"><b>{{system.hero.victories}}</b> Victories</span>
+    <span class="compact-stat"><b>{{system.hero.victories}}</b>{{#if system.victoriesMax}}<span class="compact-stat-max"> / {{system.victoriesMax}}</span>{{/if}} Victories</span>
     <a class="compact-respite" data-action="takeRespite" data-tooltip="DRAW_STEEL.Actor.hero.TakeRespite">
       <i class="fa-solid fa-bed"></i>
     </a>
@@ -151,39 +159,47 @@
         <span class="compact-run-k">{{system.hero.primary.label}}</span>
         <span class="compact-run-v compact-run-accent"><input type="number" class="compact-num" name="system.hero.primary.value" value="{{system.hero.primary.value}}"></span>
       </span>
-    </div>
-  </div>
-
-  {{!-- COMBAT & MOVEMENT --}}
-  <div class="compact-section compact-combat">
-    <div class="compact-section-label">Combat &amp; Movement</div>
-    <div class="compact-run">
-      <span class="compact-run-item"><span class="compact-run-k">Size</span><span class="compact-run-v">{{system.combat.size}}</span></span>
-      <span class="compact-run-item"><span class="compact-run-k">{{movement.list}}</span><span class="compact-run-v">{{system.movement.value}}</span></span>
-      <span class="compact-run-item"><span class="compact-run-k">Stability</span><span class="compact-run-v">{{system.combat.stability}}</span></span>
-      <span class="compact-run-item"><span class="compact-run-k">Disengage</span><span class="compact-run-v">{{system.movement.disengage}}</span></span>
-    </div>
-    <div class="compact-defwrap">
-      <div class="compact-defline">
-        <span class="compact-deftag">{{systemFields.damage.fields.immunities.label}}</span>
-        {{#if damageIW.immunities}}<span class="compact-defvals">{{{damageIW.immunities}}}</span>{{else}}<span class="compact-none">None</span>{{/if}}
-      </div>
-      <div class="compact-defline">
-        <span class="compact-deftag">{{systemFields.damage.fields.weaknesses.label}}</span>
-        {{#if damageIW.weaknesses}}<span class="compact-defvals">{{{damageIW.weaknesses}}}</span>{{else}}<span class="compact-none">None</span>{{/if}}
-      </div>
-    </div>
-  </div>
-
-  {{!-- SKILLS --}}
-  <div class="compact-section compact-skills-section">
-    <div class="compact-section-label">
-      {{systemFields.skills.fields.value.label}}
-      {{#if unfilledSkill}}
-      <button type="button" class="icon fa-solid fa-clipboard-question compact-fill-trait" data-tooltip-text="{{localize "DRAW_STEEL.ADVANCEMENT.FillTrait.button" type=(localize "TYPES.Advancement.skill")}}" data-tooltip-direction="UP" data-action="fillTrait" data-type="skill"></button>
+      {{#if (gte system.level 10)}}
+      <span class="compact-run-item">
+        <span class="compact-run-k">{{system.hero.epic.label}}</span>
+        <span class="compact-run-v compact-run-accent"><input type="number" class="compact-num" name="system.hero.epic.value" value="{{system.hero.epic.value}}"></span>
+      </span>
       {{/if}}
     </div>
-    {{#if skills.list}}<div class="compact-skills-line">{{skills.list}}</div>{{else}}<div class="compact-none">None</div>{{/if}}
+  </div>
+
+  {{!-- COMBAT & MOVEMENT (left) + SKILLS (right): two columns so skills fills the
+       dead space beside the short combat run instead of overflowing below. --}}
+  <div class="compact-section compact-combat-skills">
+    <div class="compact-col compact-combat">
+      <div class="compact-section-label">Combat &amp; Movement</div>
+      <div class="compact-run">
+        <span class="compact-run-item"><span class="compact-run-k">Size</span><span class="compact-run-v">{{system.combat.size}}</span></span>
+        <span class="compact-run-item"><span class="compact-run-k">{{movement.list}}</span><span class="compact-run-v">{{system.movement.value}}</span></span>
+        <span class="compact-run-item"><span class="compact-run-k">Stability</span><span class="compact-run-v">{{system.combat.stability}}</span></span>
+        <span class="compact-run-item"><span class="compact-run-k">Disengage</span><span class="compact-run-v">{{system.movement.disengage}}</span></span>
+      </div>
+      <div class="compact-defwrap">
+        <div class="compact-defline">
+          <span class="compact-deftag">{{systemFields.damage.fields.immunities.label}}</span>
+          {{#if damageIW.immunities}}<span class="compact-defvals">{{{damageIW.immunities}}}</span>{{else}}<span class="compact-none">None</span>{{/if}}
+        </div>
+        <div class="compact-defline">
+          <span class="compact-deftag">{{systemFields.damage.fields.weaknesses.label}}</span>
+          {{#if damageIW.weaknesses}}<span class="compact-defvals">{{{damageIW.weaknesses}}}</span>{{else}}<span class="compact-none">None</span>{{/if}}
+        </div>
+      </div>
+    </div>
+
+    <div class="compact-col compact-skills-section">
+      <div class="compact-section-label">
+        {{systemFields.skills.fields.value.label}}
+        {{#if unfilledSkill}}
+        <button type="button" class="icon fa-solid fa-clipboard-question compact-fill-trait" data-tooltip-text="{{localize "DRAW_STEEL.ADVANCEMENT.FillTrait.button" type=(localize "TYPES.Advancement.skill")}}" data-tooltip-direction="UP" data-action="fillTrait" data-type="skill"></button>
+        {{/if}}
+      </div>
+      {{#if skills.list}}<div class="compact-skills-line">{{skills.list}}</div>{{else}}<div class="compact-none">None</div>{{/if}}
+    </div>
   </div>
 
 </header>
