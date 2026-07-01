@@ -7,9 +7,6 @@ import {
 import { DspFloatingUI } from "./floating-ui/dsp-floating-ui.js";
 import {
   createSyncedSettingState,
-  emitModuleSocket,
-  renderFloatingInstance,
-  setupModuleSocket,
   syncFloatingVisibility,
 } from "./state-sync.js";
 
@@ -19,7 +16,6 @@ const MODULE_PATH = MODULE_CONFIG.path;
 const negotiationState = createSyncedSettingState(
   "negotiationState",
   DEFAULT_NEGOTIATION_STATE,
-  "negotiationUpdate",
 );
 const getState = negotiationState.get;
 const setState = negotiationState.patch;
@@ -413,24 +409,10 @@ export class NegotiationUI extends DspFloatingUI {
       foundry.utils.deepClone(DEFAULT_NEGOTIATION_STATE),
     );
     await game.settings.set(MODULE_ID, "negotiationUIVisible", false);
-    NegotiationUI.syncVisibility(false);
-    emitModuleSocket("negotiationVisibility", { visible: false });
   }
 }
 
-function setupNegotiationSocket() {
-  setupModuleSocket("negotiation", (data) => {
-    if (data.type === "negotiationVisibility") {
-      NegotiationUI.syncVisibility(data.visible);
-    }
-    if (data.type === "negotiationUpdate") {
-      renderFloatingInstance(NegotiationUI);
-    }
-  });
-}
-
 export function initializeNegotiationUI() {
-  setupNegotiationSocket();
   const visible = game.settings.get(MODULE_ID, "negotiationUIVisible");
   NegotiationUI.syncVisibility(visible);
 }

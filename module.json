@@ -26,6 +26,13 @@
           "verified": "1.0.0"
         }
       }
+    ],
+    "requires": [
+      {
+        "id": "socketlib",
+        "type": "module",
+        "manifest": "https://github.com/farling42/foundryvtt-socketlib/releases/latest/download/module.json"
+      }
     ]
   },
   "socket": true,

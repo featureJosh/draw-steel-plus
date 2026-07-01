@@ -8,11 +8,9 @@ import {
 import { DspFloatingUI } from "./floating-ui/dsp-floating-ui.js";
 import {
   createSyncedSettingState,
-  emitModuleSocket,
-  renderFloatingInstance,
-  setupModuleSocket,
   syncFloatingVisibility,
 } from "./state-sync.js";
+import { registerSocketFunction, executeAsGM } from "./socket.js";
 
 const MODULE_ID = MODULE_CONFIG.id;
 const MODULE_PATH = MODULE_CONFIG.path;
@@ -31,6 +29,20 @@ const montageState = createSyncedSettingState(
 const getState = montageState.get;
 const setState = montageState.patch;
 const setStateReplace = montageState.replace;
+
+function applyMontageRoll({ uuid, isSuccess, skill }) {
+  const state = getState();
+  const heroes = state.heroes.map((h) => {
+    if (h.uuid !== uuid) return h;
+    const usedSkills = [...(h.usedSkills || [])];
+    if (skill && !usedSkills.includes(skill)) usedSkills.push(skill);
+    return { ...h, actedThisRound: true, usedSkills };
+  });
+  const updates = { heroes };
+  if (isSuccess) updates.successes = state.successes + 1;
+  else updates.failures = state.failures + 1;
+  return setStateReplace({ ...state, ...updates });
+}
 
 function computeAdjustedLimits(difficulty, heroCount) {
   const base = MONTAGE_DIFFICULTIES[difficulty];
@@ -603,34 +615,14 @@ export class MontageUI extends DspFloatingUI {
 
     this._rollHeroUuid = null;
     this._rollSkill = "";
+    this._openPopup = "heroes";
 
-    if (game.user.isGM) {
-      const state = getState();
-      const heroes = state.heroes.map((h) => {
-        if (h.uuid !== uuid) return h;
-        const usedSkills = [...(h.usedSkills || [])];
-        if (actualSkill && !usedSkills.includes(actualSkill))
-          usedSkills.push(actualSkill);
-        return { ...h, actedThisRound: true, usedSkills };
-      });
-
-      const updates = { heroes };
-      if (isSuccess) {
-        updates.successes = state.successes + 1;
-      } else {
-        updates.failures = state.failures + 1;
-      }
-
-      this._openPopup = "heroes";
-      await setStateReplace({ ...state, ...updates });
-    } else {
-      emitModuleSocket("montageRollResult", {
-        uuid,
-        isSuccess,
-        skill: actualSkill,
-      });
-      this.render();
-    }
+    await executeAsGM("montage.applyRoll", {
+      uuid,
+      isSuccess,
+      skill: actualSkill,
+    });
+    this.render();
   }
 
   static async #onAwardVictories() {
@@ -754,34 +746,7 @@ export class MontageUI extends DspFloatingUI {
       foundry.utils.deepClone(DEFAULT_MONTAGE_STATE),
     );
     await game.settings.set(MODULE_ID, "montageUIVisible", false);
-    MontageUI.syncVisibility(false);
-    emitModuleSocket("montageVisibility", { visible: false });
   }
-}
-
-function setupMontageSocket() {
-  setupModuleSocket("montage", async (data) => {
-    if (data.type === "montageVisibility") {
-      MontageUI.syncVisibility(data.visible);
-    }
-    if (data.type === "montageUpdate") {
-      renderFloatingInstance(MontageUI);
-    }
-    if (data.type === "montageRollResult" && game.user.isGM) {
-      const { uuid, isSuccess, skill } = data;
-      const state = getState();
-      const heroes = state.heroes.map((h) => {
-        if (h.uuid !== uuid) return h;
-        const usedSkills = [...(h.usedSkills || [])];
-        if (skill && !usedSkills.includes(skill)) usedSkills.push(skill);
-        return { ...h, actedThisRound: true, usedSkills };
-      });
-      const updates = { heroes };
-      if (isSuccess) updates.successes = state.successes + 1;
-      else updates.failures = state.failures + 1;
-      await setStateReplace({ ...state, ...updates });
-    }
-  });
 }
 
 function setupMontageSkillInjection() {
@@ -821,7 +786,7 @@ function setupMontageSkillInjection() {
 }
 
 export function initializeMontageUI() {
-  setupMontageSocket();
+  registerSocketFunction("montage.applyRoll", applyMontageRoll);
   setupMontageSkillInjection();
   const visible = game.settings.get(MODULE_ID, "montageUIVisible");
   MontageUI.syncVisibility(visible);

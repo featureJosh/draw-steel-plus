@@ -2,15 +2,7 @@ import { MODULE_CONFIG } from "./config.js";
 
 const MODULE_ID = MODULE_CONFIG.id;
 
-export const MODULE_SOCKET_EVENT = `module.${MODULE_ID}`;
-
-const _socketSetups = new Set();
-
-export function emitModuleSocket(type, data = {}) {
-  game.socket?.emit?.(MODULE_SOCKET_EVENT, { type, ...data });
-}
-
-export function createSyncedSettingState(settingKey, defaults, updateType) {
+export function createSyncedSettingState(settingKey, defaults) {
   const get = () => {
     const raw = game.settings.get(MODULE_ID, settingKey);
     return foundry.utils.mergeObject(foundry.utils.deepClone(defaults), raw);
@@ -18,7 +10,6 @@ export function createSyncedSettingState(settingKey, defaults, updateType) {
 
   const replace = async (state) => {
     await game.settings.set(MODULE_ID, settingKey, state);
-    emitModuleSocket(updateType);
   };
 
   const patch = async (updates) => {
@@ -58,11 +49,4 @@ export function renderFloatingInstance(AppClass) {
       if (AppClass.instance?.rendered) AppClass.instance.render({ force: true });
     }, 300);
   }
-}
-
-export function setupModuleSocket(key, handler) {
-  if (_socketSetups.has(key)) return;
-  if (typeof game.socket?.on !== "function") return;
-  _socketSetups.add(key);
-  game.socket.on(MODULE_SOCKET_EVENT, handler);
 }
