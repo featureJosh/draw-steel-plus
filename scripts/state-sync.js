@@ -49,7 +49,15 @@ export function syncFloatingVisibility(AppClass, visible) {
 }
 
 export function renderFloatingInstance(AppClass) {
-  if (AppClass.instance?.rendered) AppClass.instance.render();
+  const inst = AppClass.instance;
+  if (!inst) return;
+  if (inst.rendered) {
+    inst.render({ force: true });
+  } else {
+    setTimeout(() => {
+      if (AppClass.instance?.rendered) AppClass.instance.render({ force: true });
+    }, 300);
+  }
 }
 
 export function setupModuleSocket(key, handler) {

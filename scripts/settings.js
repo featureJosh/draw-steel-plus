@@ -16,6 +16,7 @@ import { applyScaleOverrides } from "./scale-settings.js";
 import { MetaCurrencyTracker } from "./meta-currency.js";
 import { NegotiationUI } from "./negotiation-ui.js";
 import { MontageUI } from "./montage-ui.js";
+import { renderFloatingInstance } from "./state-sync.js";
 import { AbilityHudUI } from "./ability-hud-ui.js";
 import ColorSettingsMenu from "./color-settings-menu.js";
 import HeaderSettingsMenu from "./header-settings-menu.js";
@@ -354,9 +355,7 @@ export function registerSettings() {
     config: false,
     type: Object,
     default: foundry.utils.deepClone(DEFAULT_NEGOTIATION_STATE),
-    onChange: () => {
-      if (NegotiationUI.instance?.rendered) NegotiationUI.instance.render();
-    },
+    onChange: () => renderFloatingInstance(NegotiationUI),
   });
 
   game.settings.register(MODULE_ID, "montageUIVisible", {
@@ -372,9 +371,7 @@ export function registerSettings() {
     config: false,
     type: Object,
     default: foundry.utils.deepClone(DEFAULT_MONTAGE_STATE),
-    onChange: () => {
-      if (MontageUI.instance?.rendered) MontageUI.instance.render();
-    },
+    onChange: () => renderFloatingInstance(MontageUI),
   });
 
   game.settings.register(MODULE_ID, "floatingUIGridSize", {
