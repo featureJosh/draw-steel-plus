@@ -243,9 +243,9 @@ function inlineEntryDescription(entry) {
       descDiv.className = "compact-entry-desc";
       while (flavorP.firstChild) descDiv.append(flavorP.firstChild);
       flavorP.remove();
-      // Sits below the uppercase meta line, above the power-roll body (reference order)
-      (entry.querySelector(".compact-entry-metaline") ??
-        entry.querySelector(".compact-entry-head"))?.after(descDiv);
+      // Flavor sits directly under the head line (which now carries the run-in
+      // meta), above the power-roll body — the metaline span lives inside the head.
+      entry.querySelector(".compact-entry-head")?.after(descDiv);
     }
 
     const hasKeywords = !!descEl.querySelector(".compact-entry-tags");

@@ -22,7 +22,7 @@
     /* Base .tab paints --dsp-background (#0d0d0d, pure near-black). Compact rides
        the module's real surface tone instead — never flat black. */
     background: var(--dsp-surface);
-    padding: 6px 14px 10px;
+    padding: 5px 12px 9px;
 }
 
 /* --------------------------------------------------------------------------
@@ -483,55 +483,59 @@
     box-shadow: none;
 }
 
-/* Each section sits in its own band, divided by a thin rule like the reference */
+/* Sections are divided by their own centered dashed headers; no extra band rule */
 .draw-steel-plus.sheet.dsp-compact .item-list-container.compact-group + .compact-group {
-    margin-top: 12px;
-    padding-top: 11px;
-    border-top: 1px solid color-mix(in srgb, var(--dsp-border) 70%, transparent);
+    margin-top: 10px;
 }
 
-/* Section title as a left-aligned label with an accent rule down its left edge,
-   like the reference ledger: "▍ FEATURES". The + control floats at the right. */
+/* Section title as a centered small-caps label flanked by dashed rules, like a
+   printed statblock: "---- FEATURES ----". The + control floats at the right. */
 .draw-steel-plus.sheet.dsp-compact .item-list-container .item-header {
     position: relative;
     display: flex;
     align-items: center;
-    justify-content: flex-start;
+    justify-content: center;
     gap: 10px;
     background: none;
     border: none;
-    padding: 0 4px 0 0;
-    margin-bottom: 7px;
+    padding: 0;
+    margin-bottom: 5px;
     overflow: visible;
 }
 
-/* Kill the base FontAwesome chevron ::after (and any ::before) entirely */
+/* Repurpose the base chevron pseudo-elements as the flanking dashed rules */
 .draw-steel-plus.sheet.dsp-compact .item-list-container .item-header::before,
 .draw-steel-plus.sheet.dsp-compact .item-list-container .item-header::after,
 .draw-steel-plus.sheet.dsp-compact .item-list-container.dsp-collapsed .item-header::after {
-    content: none;
+    content: "";
+    flex: 1 1 0;
+    margin: 0;
+    width: auto;
+    height: 0;
+    font-size: 0;
+    border-top: 1px dashed color-mix(in srgb, var(--dsp-border-light, var(--dsp-border)) 80%, transparent);
     transform: none;
+    transition: none;
 }
 
 .draw-steel-plus.sheet.dsp-compact .item-list-container .item-header .item-column {
     font-size: 10px;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 1.6px;
+    letter-spacing: 2px;
     color: var(--dsp-text-muted);
 }
 
-/* The accent left-border bar label */
 .draw-steel-plus.sheet.dsp-compact .item-list-container .item-header .item-name {
     flex: 0 0 auto;
-    border-left: 3px solid var(--dsp-primary);
-    padding-left: 7px;
     line-height: 1.1;
 }
 
 .draw-steel-plus.sheet.dsp-compact .item-list-container .item-header .item-controls {
     position: absolute;
-    right: 4px;
+    right: 0;
+    padding-left: 6px;
+    background: var(--dsp-surface);
 }
 
 /* Legacy columnar headers (equipment/projects): only the section name remains */
@@ -549,10 +553,10 @@
 .draw-steel-plus.sheet.dsp-compact .item-list .item {
     background: none;
     border: none;
-    border-bottom: 1px solid
-        color-mix(in srgb, var(--dsp-border) 70%, transparent);
+    border-bottom: 1px dashed
+        color-mix(in srgb, var(--dsp-border) 80%, transparent);
     /* break-inside guard repeated here so a column break can't strip the rule */
-    margin-bottom: 2px;
+    margin-bottom: 0;
 }
 
 .draw-steel-plus.sheet.dsp-compact .item-list .item:last-child {
@@ -563,11 +567,9 @@
     background: color-mix(in srgb, var(--dsp-surface-raised) 45%, transparent);
 }
 
-/* Each ability reads as its own block, marked by an accent rule down the left
-   edge like the reference ledger's ability list. */
+/* Each ability reads as a dense prose block — no accent bars, no card chrome */
 .draw-steel-plus.sheet.dsp-compact .compact-entry {
-    padding: 9px 2px 11px 11px;
-    border-left: 2px solid color-mix(in srgb, var(--dsp-primary) 32%, transparent);
+    padding: 6px 2px 8px 0;
 }
 
 .draw-steel-plus.sheet.dsp-compact .compact-entry-head {
@@ -576,12 +578,13 @@
     align-items: baseline;
     gap: 0 6px;
     font-size: 13px;
-    line-height: 1.4;
+    line-height: 1.35;
 }
 
+/* Bold-italic run-in name, like the reference card's feature lead-ins */
 .draw-steel-plus.sheet.dsp-compact .compact-entry-name {
     font-weight: 700;
-    font-style: normal;
+    font-style: italic;
     cursor: pointer;
 }
 
@@ -590,7 +593,8 @@
 }
 
 .draw-steel-plus.sheet.dsp-compact .compact-entry-meta {
-    font-size: 12.5px;
+    font-size: 12px;
+    font-style: italic;
     color: var(--dsp-text-muted);
 }
 
@@ -1361,13 +1365,11 @@
    labels and tier pills align to one column.
    -------------------------------------------------------------------------- */
 
-/* Shared layout tokens for the expanded body */
+/* Expanded body reads as dense print: one body size, tight leading */
 .draw-steel-plus.sheet.dsp-compact .item-embed {
-    --dsp-embed-gutter: 3.5rem;   /* width of the label / tier-pill column */
-    --dsp-embed-gap: 0.7rem;      /* gap between gutter and body text */
     padding: 0 !important;
-    font-size: 13px;
-    line-height: 1.5;
+    font-size: 12.5px;
+    line-height: 1.45;
 }
 
 /* Reset the system's metadata grid to a compact inline display */
@@ -1401,16 +1403,17 @@
     display: none !important;
 }
 
-/* Keywords render as a single gold, dot-separated run (reference ledger style)
-   rather than bordered pills: "CHARGE · MELEE · STRIKE · WEAPON". */
+/* Keywords render as a quiet italic run under the entry, print style:
+   "Charge · Melee · Strike · Weapon". */
 .draw-steel-plus.sheet.dsp-compact .compact-entry-tags {
     display: block;
-    margin-top: 6px;
-    font-size: 9.5px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.7px;
-    color: var(--dsp-accent);
+    margin-top: 3px;
+    font-size: 11px;
+    font-weight: 400;
+    font-style: italic;
+    text-transform: none;
+    letter-spacing: 0;
+    color: var(--dsp-text-muted);
 }
 
 .draw-steel-plus.sheet.dsp-compact .compact-tag {
@@ -1428,88 +1431,93 @@
     opacity: 0.55;
 }
 
-/* Trigger — not in the head line, render as a compact labeled datum */
+/* Trigger — run-in bold-italic lead-in like Effect/Spend: "Trigger: …" */
 .draw-steel-plus.sheet.dsp-compact .item-embed .metadata dl dt.trigger {
-    font-size: 10px !important;
+    font-size: 12.5px !important;
     font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.6px;
-    color: var(--dsp-text-muted);
+    font-style: italic;
+    text-transform: none;
+    letter-spacing: 0;
+    color: var(--dsp-text);
     display: inline !important;
+}
+
+.draw-steel-plus.sheet.dsp-compact .item-embed .metadata dl dt.trigger::after {
+    content: ":";
+    font-style: normal;
 }
 
 .draw-steel-plus.sheet.dsp-compact .item-embed .metadata dl dd.trigger {
-    font-size: 12px !important;
+    font-size: 12.5px !important;
     color: var(--dsp-text);
     display: inline !important;
-    font-style: italic;
 }
 
 /* --------------------------------------------------------------------------
-   Shared "label gutter" layout for effect / power-roll / spend sections.
-   Each renders as a <dl> with a label/pill in dt and body text in dd. We lay
-   them on a 2-column grid so every label and tier pill shares one left edge.
+   Run-in labels for effect / spend sections — printed statblock style:
+   "Effect: The target can use a signature ability…" flows as one paragraph
+   with a bold-italic lead-in, instead of a label column beside a text column.
    -------------------------------------------------------------------------- */
 
 .draw-steel-plus.sheet.dsp-compact .item-embed section.effect dl,
-.draw-steel-plus.sheet.dsp-compact .item-embed section.spend dl,
-.draw-steel-plus.sheet.dsp-compact .item-embed .power-roll-display {
-    display: grid !important;
-    grid-template-columns: var(--dsp-embed-gutter) 1fr;
-    gap: 4px var(--dsp-embed-gap);
-    align-items: baseline;
+.draw-steel-plus.sheet.dsp-compact .item-embed section.spend dl {
+    display: block !important;
     margin: 0;
     padding: 0;
 }
 
-/* Body cell defaults, shared across sections */
-.draw-steel-plus.sheet.dsp-compact .item-embed section.effect dl dd,
-.draw-steel-plus.sheet.dsp-compact .item-embed section.spend dl dd,
-.draw-steel-plus.sheet.dsp-compact .item-embed .power-roll-display dd {
-    font-size: 13px;
-    line-height: 1.5;
+.draw-steel-plus.sheet.dsp-compact .item-embed section.effect dl dt,
+.draw-steel-plus.sheet.dsp-compact .item-embed section.spend dl dt {
+    display: inline;
+    font-size: inherit;
+    font-weight: 700;
+    font-style: italic;
+    text-transform: none;
+    letter-spacing: 0;
     color: var(--dsp-text);
+}
+
+.draw-steel-plus.sheet.dsp-compact .item-embed section.effect dl dt::after,
+.draw-steel-plus.sheet.dsp-compact .item-embed section.spend dl dt::after {
+    content: ": ";
+    font-style: normal;
+}
+
+.draw-steel-plus.sheet.dsp-compact .item-embed section.effect dl dd,
+.draw-steel-plus.sheet.dsp-compact .item-embed section.spend dl dd {
+    display: inline;
     margin: 0;
+    font-size: inherit;
+    line-height: inherit;
+    color: var(--dsp-text);
+}
+
+/* First paragraph continues the run-in line; later paragraphs break normally */
+.draw-steel-plus.sheet.dsp-compact .item-embed section.effect dl dd > p:first-child,
+.draw-steel-plus.sheet.dsp-compact .item-embed section.spend dl dd > p:first-child {
+    display: inline;
 }
 
 .draw-steel-plus.sheet.dsp-compact .item-embed section.effect dl dd p,
-.draw-steel-plus.sheet.dsp-compact .item-embed section.spend dl dd p,
-.draw-steel-plus.sheet.dsp-compact .item-embed .power-roll-display dd p {
-    margin: 0 0 3px;
+.draw-steel-plus.sheet.dsp-compact .item-embed section.spend dl dd p {
+    margin: 0 0 2px;
     font-size: inherit;
     line-height: inherit;
 }
 
 .draw-steel-plus.sheet.dsp-compact .item-embed section.effect dl dd p:last-child,
-.draw-steel-plus.sheet.dsp-compact .item-embed section.spend dl dd p:last-child,
-.draw-steel-plus.sheet.dsp-compact .item-embed .power-roll-display dd p:last-child {
+.draw-steel-plus.sheet.dsp-compact .item-embed section.spend dl dd p:last-child {
     margin-bottom: 0;
 }
 
-/* Text labels in the gutter (EFFECT / SPEND) */
-.draw-steel-plus.sheet.dsp-compact .item-embed section.effect dl dt,
-.draw-steel-plus.sheet.dsp-compact .item-embed section.spend dl dt {
-    font-size: 10px;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 0.7px;
-    line-height: 1.5;
-    align-self: start;
-    padding-top: 1px;
-}
-
 /* --------------------------------------------------------------------------
-   Effect sections (before / after)
+   Effect sections (before / after) — paragraph rhythm, no ruled boxes
    -------------------------------------------------------------------------- */
 
 .draw-steel-plus.sheet.dsp-compact .item-embed section.effect {
-    margin-top: 7px;
-    padding-top: 6px;
-    border-top: 1px solid color-mix(in srgb, var(--dsp-border) 50%, transparent);
-}
-
-.draw-steel-plus.sheet.dsp-compact .item-embed section.effect dl dt {
-    color: var(--dsp-text-muted);
+    margin-top: 4px;
+    padding-top: 0;
+    border-top: none;
 }
 
 /* --------------------------------------------------------------------------
@@ -1520,43 +1528,59 @@
    -------------------------------------------------------------------------- */
 
 .draw-steel-plus.sheet.dsp-compact .item-embed section.powerResult {
-    margin-top: 7px;
-    padding-top: 6px;
-    border-top: 1px solid color-mix(in srgb, var(--dsp-border) 50%, transparent);
+    margin-top: 4px;
+    padding-top: 0;
+    border-top: none;
 }
 
-/* Roll bonus line — system renders "Power Roll + Might or Agility" as one
-   <strong>, with the primary characteristic in <em>. Keep it as plain small
-   text (no banner, no uppercase, no duplicate label). */
+/* Roll bonus line — "Power Roll + Might or Agility:" reads as a bold-italic
+   lead-in at body size, matching the Effect/Spend run-in labels. */
 .draw-steel-plus.sheet.dsp-compact .item-embed section.powerResult > p {
-    margin: 0 0 5px;
-    font-size: 12px;
+    margin: 0 0 2px;
+    font-size: inherit;
 }
 
 .draw-steel-plus.sheet.dsp-compact .item-embed section.powerResult > p strong {
     font-weight: 700;
-    color: var(--dsp-text-muted);
+    font-style: italic;
+    color: var(--dsp-text);
 }
 
 /* Primary characteristic (the <em>) reads slightly stronger than its alternates */
 .draw-steel-plus.sheet.dsp-compact .item-embed section.powerResult > p em {
-    font-style: normal;
     color: var(--dsp-text);
 }
 
+/* Tier table: tight two-column grid, ranges bold in the text colour so the
+   band thresholds scan like a printed damage table. */
 .draw-steel-plus.sheet.dsp-compact .item-embed .power-roll-display {
-    gap: 6px var(--dsp-embed-gap);
-    align-items: start;
+    display: grid !important;
+    grid-template-columns: max-content 1fr;
+    gap: 1px 9px;
+    align-items: baseline;
+    margin: 0 0 0 8px;
+    padding: 0;
 }
 
-/* Tier band: hide the glyph, render the range as plain faint text in the gutter
-   (reference ledger style — no chip border; the number carries the emphasis). */
+.draw-steel-plus.sheet.dsp-compact .item-embed .power-roll-display dd {
+    margin: 0;
+    font-size: inherit;
+    line-height: inherit;
+}
+
+.draw-steel-plus.sheet.dsp-compact .item-embed .power-roll-display dd p {
+    margin: 0;
+    font-size: inherit;
+    line-height: inherit;
+}
+
+/* Tier band: hide the glyph, render the range as bold text */
 .draw-steel-plus.sheet.dsp-compact .item-embed .power-roll-display dt {
     font-family: inherit !important;
     font-size: 0 !important;
     display: inline-flex;
     align-items: baseline;
-    justify-content: flex-start;
+    justify-content: flex-end;
     width: auto;
     padding: 0;
     border: none;
@@ -1566,12 +1590,13 @@
 }
 
 .draw-steel-plus.sheet.dsp-compact .item-embed .power-roll-display dt::before {
-    font-size: 10.5px;
+    font-size: 11px;
     font-weight: 700;
     letter-spacing: 0.2px;
-    line-height: 1.4;
+    line-height: 1.45;
     white-space: nowrap;
-    color: var(--dsp-text-faint);
+    font-variant-numeric: tabular-nums;
+    color: var(--dsp-text);
 }
 .draw-steel-plus.sheet.dsp-compact .item-embed .power-roll-display dt.tier1::before {
     content: "≤11";
@@ -1597,13 +1622,9 @@
    -------------------------------------------------------------------------- */
 
 .draw-steel-plus.sheet.dsp-compact .item-embed section.spend {
-    margin-top: 7px;
-    padding-top: 6px;
-    border-top: 1px solid color-mix(in srgb, var(--dsp-border) 50%, transparent);
-}
-
-.draw-steel-plus.sheet.dsp-compact .item-embed section.spend dl dt {
-    color: var(--dsp-text-muted);
+    margin-top: 4px;
+    padding-top: 0;
+    border-top: none;
 }
 
 /* --------------------------------------------------------------------------
@@ -1664,23 +1685,31 @@
 .draw-steel-plus.sheet.dsp-compact .compact-section {
     position: relative;
     z-index: 1;
-    margin-top: 11px;
-    padding-top: 10px;
-    border-top: 1px solid color-mix(in srgb, var(--dsp-border) 70%, transparent);
+    margin-top: 9px;
+    padding-top: 0;
+    border-top: none;
 }
 
-/* Accent left-border label — matches the in-body section headers */
+/* Centered small-caps label flanked by dashed rules — matches the in-body
+   section headers so the whole sheet reads as one printed block */
 .draw-steel-plus.sheet.dsp-compact .compact-section-label {
-    display: inline-block;
-    border-left: 3px solid var(--dsp-primary);
-    padding-left: 7px;
-    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 6px;
     font-size: 10px;
     font-weight: 700;
-    letter-spacing: 1.6px;
+    letter-spacing: 2px;
     text-transform: uppercase;
     color: var(--dsp-text-muted);
     line-height: 1.1;
+}
+
+.draw-steel-plus.sheet.dsp-compact .compact-section-label::before,
+.draw-steel-plus.sheet.dsp-compact .compact-section-label::after {
+    content: "";
+    flex: 1 1 0;
+    border-top: 1px dashed color-mix(in srgb, var(--dsp-border-light, var(--dsp-border)) 80%, transparent);
 }
 
 /* Reset for label/value buttons that trigger spend/gain actions */
@@ -1903,19 +1932,27 @@
     margin-bottom: 12px;
 }
 
-/* Ability meta line below the name: TYPE · DISTANCE · TARGET */
+/* Ability meta runs in on the name line, statblock style:
+   "Name — Main Action · Melee 2 · 1 creature or object" */
 .draw-steel-plus.sheet.dsp-compact .compact-entry-metaline {
-    margin-top: 4px;
-    font-size: 9.5px;
-    font-weight: 600;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
+    font-size: 12px;
+    font-weight: 400;
+    font-style: italic;
+    letter-spacing: 0;
+    text-transform: none;
     color: var(--dsp-text-muted);
     font-variant-numeric: tabular-nums;
 }
 
-.draw-steel-plus.sheet.dsp-compact .compact-entry-metaline .compact-type-label {
+.draw-steel-plus.sheet.dsp-compact .compact-entry-metaline::before {
+    content: "\2014"; /* em dash tying the meta to the name */
+    margin-right: 6px;
+    color: var(--dsp-text-faint);
     font-style: normal;
+}
+
+.draw-steel-plus.sheet.dsp-compact .compact-entry-metaline .compact-type-label {
+    font-style: inherit;
     font-weight: 600;
     color: var(--dsp-text-muted);
 }

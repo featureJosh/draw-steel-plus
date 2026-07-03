@@ -7,6 +7,9 @@
     {{/if}}
     <span class="label compact-entry-name" data-action="toggleDocumentDescription">{{ctx.item.name}}</span>
     {{#unless (eq typeKey "villain")}}{{#if ctx.item.system.resource}}<span class="compact-entry-cost compact-resource-cost">{{ctx.item.system.resource}} {{@root.system.coreResource.name}}</span>{{/if}}{{/unless}}
+    {{!-- Run-in meta on the same line as the name, statblock style:
+         "Name — Main Action · Melee 2 · 1 creature or object" --}}
+    <span class="compact-entry-metaline"><span class="compact-type-label">{{typeLabel}}</span>{{#if (eq typeKey "villain")}} <span class="compact-bullet">&bull;</span> {{localize "DRAW_STEEL.Item.ability.Order"}} {{ctx.order}}{{/if}}{{#if ctx.formattedLabels.distance}} <span class="compact-bullet">&bull;</span> {{ctx.formattedLabels.distance}}{{/if}}{{#if ctx.formattedLabels.target}} <span class="compact-bullet">&bull;</span> {{ctx.formattedLabels.target}}{{/if}}</span>
     <span class="compact-entry-controls">
       <a class="fa-fw fa-solid fa-play" data-action="useAbility"></a>
       <a class="fa-fw fa-solid fa-comment" data-action="documentListShare"></a>
@@ -16,10 +19,6 @@
       <a class="fa-fw fa-solid fa-ellipsis-vertical" data-action="documentListContext"></a>
       <a class="fa-fw fa-solid fa-angle-{{ifThen ctx.expanded "down" "right"}}" data-action="toggleDocumentDescription"></a>
     </span>
-  </div>
-  {{!-- Meta line below the name, uppercase like the reference: TYPE · DISTANCE · TARGET --}}
-  <div class="compact-entry-metaline">
-    <span class="compact-type-label">{{typeLabel}}</span>{{#if (eq typeKey "villain")}} <span class="compact-bullet">&bull;</span> {{localize "DRAW_STEEL.Item.ability.Order"}} {{ctx.order}}{{/if}}{{#if ctx.formattedLabels.distance}} <span class="compact-bullet">&bull;</span> {{ctx.formattedLabels.distance}}{{/if}}{{#if ctx.formattedLabels.target}} <span class="compact-bullet">&bull;</span> {{ctx.formattedLabels.target}}{{/if}}
   </div>
   <div class="document-description item-embed content-embed {{#if ctx.expanded}}expanded{{/if}}">
     {{#if ctx.expanded}}{{{ctx.embed.outerHTML}}}{{/if}}{{#if ctx.formattedLabels.keywords}}<div class="compact-entry-tags">{{ctx.formattedLabels.keywords}}</div>{{/if}}
