@@ -49,10 +49,9 @@
 .draw-steel-plus.sheet.dsp-compact .sheet-header {
     display: block;
     min-height: 0;
-    /* Minimal top padding so the name row sits level with the flush corner
-       ribbon (top:0) instead of dropping ~10px below it. Hover-only window
-       buttons live in the top-right; the name clears them via margin-right. */
-    padding: 2px 14px 8px;
+    /* Top padding gives the hover-only window toolbar (dots/lock/menu) room to
+       breathe above the name/ribbon row. */
+    padding: 10px 14px 8px;
     border-bottom: 1px dashed color-mix(in srgb, var(--dsp-border-light, var(--dsp-border)) 80%, transparent);
 }
 
@@ -81,17 +80,41 @@
     z-index: 1;
 }
 
-/* Title row: name only — the corner adornment carries level/role. The right
-   margin keeps long names clear of the ribbon. */
+/* Hero headline: name/progress/tags column on the left, class ribbon + level
+   badge column on the right, tops aligned. */
+.draw-steel-plus.sheet.dsp-compact .compact-headline-row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.draw-steel-plus.sheet.dsp-compact .compact-headline-main {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+/* Ribbon+badge become the flowing right column (static), no longer an absolute
+   corner overlay — so the class sits level with the name. */
+.draw-steel-plus.sheet.dsp-compact .compact-headline-row .compact-adornment {
+    position: static;
+    flex: 0 0 auto;
+}
+
+/* Title row: name only. */
 .draw-steel-plus.sheet.dsp-compact .compact-title-row {
     display: flex;
     align-items: center;
     gap: 8px;
-    margin-right: 112px;
 }
 
-/* Rows near the top-right also steer clear of the pentagon badge */
-.draw-steel-plus.sheet.dsp-compact .compact-subline,
+/* NPC header keeps the absolute corner ribbon: clear the top-right badge. */
+.draw-steel-plus.sheet.dsp-compact .compact-title-row {
+    margin-right: 112px;
+}
+.draw-steel-plus.sheet.dsp-compact .compact-headline-main .compact-title-row {
+    margin-right: 0;
+}
 .draw-steel-plus.sheet.dsp-compact .compact-npc-meta {
     margin-right: 44px;
 }
@@ -344,7 +367,6 @@
 }
 
 .draw-steel-plus.sheet.dsp-compact .compact-respite {
-    margin-left: auto;
     color: var(--dsp-text-muted);
     font-size: 12px;
 }
@@ -1834,6 +1856,19 @@
     min-width: 0;
 }
 
+/* Both column labels share a fixed height so the skills lock/fill icon can't
+   inflate its row and drop the skills text below the combat text. */
+.draw-steel-plus.sheet.dsp-compact .compact-combat-skills .compact-section-label {
+    min-height: 16px;
+}
+
+.draw-steel-plus.sheet.dsp-compact .compact-combat-skills .compact-section-label i,
+.draw-steel-plus.sheet.dsp-compact .compact-combat-skills .compact-section-label .icon,
+.draw-steel-plus.sheet.dsp-compact .compact-combat-skills .compact-section-label button {
+    font-size: 11px;
+    line-height: 1;
+}
+
 .draw-steel-plus.sheet.dsp-compact .compact-run {
     display: flex;
     flex-wrap: wrap;
@@ -1997,7 +2032,6 @@
 }
 
 .draw-steel-plus.sheet.dsp-compact .compact-subline .compact-respite {
-    margin-left: auto;
     color: var(--dsp-text-muted);
 }
 
