@@ -56,13 +56,7 @@ body:not(.dsp-custom-meta-currency) #dsp-meta-currency {
 
 .dsp-mc-divider {
     width: 1px;
-    background: linear-gradient(
-        180deg,
-        transparent 0%,
-        var(--dsp-border-light) 20%,
-        var(--dsp-border-light) 80%,
-        transparent 100%
-    );
+    background: var(--dsp-border-light);
     align-self: stretch;
     margin: calc(4px * var(--dsp-scale, 1)) 0;
 }

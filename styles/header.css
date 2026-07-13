@@ -36,13 +36,7 @@
     left: 5%;
     right: 5%;
     height: 1px;
-    background: linear-gradient(
-        90deg,
-        transparent,
-        var(--dsp-accent) 20%,
-        var(--dsp-accent) 80%,
-        transparent
-    );
+    background: var(--dsp-accent);
     opacity: 0.4;
     z-index: 5;
     pointer-events: none;
@@ -246,11 +240,7 @@
 }
 
 .draw-steel-plus.sheet .sheet-header .portrait-frame .respite-btn:hover {
-    background: radial-gradient(
-        circle at 40% 35%,
-        var(--dsp-primary),
-        var(--dsp-primary-light)
-    );
+    background: var(--dsp-primary);
     border-color: var(--dsp-accent-bright);
     transform: translateX(-50%) scale(1.1);
 }
@@ -295,11 +285,7 @@
     top: 0;
     bottom: 0;
     width: calc(100% * var(--stam-current) / var(--stam-max));
-    background: linear-gradient(
-        180deg,
-        var(--dsp-primary-light) 0%,
-        var(--dsp-primary) 100%
-    );
+    background: var(--dsp-primary);
     transition: width 0.4s ease;
     border-radius: var(--dsp-radius-sm) 0 0 var(--dsp-radius-sm);
 }
@@ -310,7 +296,7 @@
     top: 0;
     bottom: 0;
     width: calc(100% * var(--stam-temp) / var(--stam-max));
-    background: linear-gradient(180deg, #d4a017 0%, #b8860b 100%);
+    background: #d4a017;
     transition:
         width 0.4s ease,
         left 0.4s ease;
@@ -958,11 +944,7 @@
 
 .draw-steel-plus.sheet .sheet-header .stats-block .xp-fill {
     height: 100%;
-    background: linear-gradient(
-        90deg,
-        var(--dsp-primary-light),
-        var(--dsp-accent)
-    );
+    background: var(--dsp-accent);
     border-radius: 2px;
     transition: width 0.6s ease;
     min-width: 2px;

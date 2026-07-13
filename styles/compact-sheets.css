@@ -10,15 +10,32 @@
    Window layout — no sidebar column, extra row for the footer strip
    -------------------------------------------------------------------------- */
 
+/* Base .window-content is CSS Grid (header/nav/body as implicit rows sized off
+   content). Compact instead stacks with Flexbox: header/nav/footer keep their
+   natural height, the one visible .tab panel is the sole flexible item and
+   always eats the leftover space — so the footer is guaranteed to sit at the
+   true bottom of the window regardless of how much/little the active tab
+   contains, and a tall tab scrolls internally instead of pushing the footer
+   off-window. flex:1 (making window-content itself fill the window frame)
+   comes from base.css and still applies independent of the display change. */
 .draw-steel-plus.sheet.dsp-compact.application .window-content {
-    grid-template-columns: 1fr;
-    grid-template-rows: auto auto 1fr auto;
+    display: flex;
+    flex-direction: column;
     /* Lift the body off the flat near-black --dsp-background (#0d0d0d) onto the
        module's actual surface tone, like the main sheets — never pure black. */
     background: var(--dsp-surface);
 }
 
+.draw-steel-plus.sheet.dsp-compact .sheet-header,
+.draw-steel-plus.sheet.dsp-compact nav.sheet-tabs,
+.draw-steel-plus.sheet.dsp-compact .compact-footer {
+    flex: 0 0 auto;
+}
+
 .draw-steel-plus.sheet.dsp-compact .tab {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-y: auto;
     /* Base .tab paints --dsp-background (#0d0d0d, pure near-black). Compact rides
        the module's real surface tone instead — never flat black. */
     background: var(--dsp-surface);
@@ -32,8 +49,11 @@
 .draw-steel-plus.sheet.dsp-compact .sheet-header {
     display: block;
     min-height: 0;
-    padding: 26px 14px 8px;
-    border-bottom: 1px solid color-mix(in srgb, var(--dsp-primary) 45%, transparent);
+    /* Minimal top padding so the name row sits level with the flush corner
+       ribbon (top:0) instead of dropping ~10px below it. Hover-only window
+       buttons live in the top-right; the name clears them via margin-right. */
+    padding: 2px 14px 8px;
+    border-bottom: 1px dashed color-mix(in srgb, var(--dsp-border-light, var(--dsp-border)) 80%, transparent);
 }
 
 .draw-steel-plus.sheet.dsp-compact .sheet-header::after {
@@ -61,11 +81,19 @@
     z-index: 1;
 }
 
-/* Title row: thumbnail portrait, name, level/role tag */
+/* Title row: name only — the corner adornment carries level/role. The right
+   margin keeps long names clear of the ribbon. */
 .draw-steel-plus.sheet.dsp-compact .compact-title-row {
     display: flex;
     align-items: center;
     gap: 8px;
+    margin-right: 112px;
+}
+
+/* Rows near the top-right also steer clear of the pentagon badge */
+.draw-steel-plus.sheet.dsp-compact .compact-subline,
+.draw-steel-plus.sheet.dsp-compact .compact-npc-meta {
+    margin-right: 44px;
 }
 
 .draw-steel-plus.sheet.dsp-compact .sheet-header .compact-portrait-frame {
@@ -110,23 +138,76 @@
     background: none;
 }
 
-.draw-steel-plus.sheet.dsp-compact .compact-corner-tag {
-    margin-left: auto;
-    flex-shrink: 0;
-    padding: 3px 9px;
-    background: none;
-    border: 1px solid var(--dsp-primary);
-    color: var(--dsp-primary);
-    font-size: 10px;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 1.2px;
-    border-radius: 3px;
-    white-space: nowrap;
+/* Corner adornment — gradient ribbon (class/role) with a pentagon level badge
+   tucked under it, clipped like the reference card's top-right corner. */
+.draw-steel-plus.sheet.dsp-compact .compact-adornment {
+    position: absolute;
+    top: 0;
+    right: 0;
+    /* Above the transparent window-drag bar so the level badge stays clickable;
+       the container is pointer-events:none, so dragging still works over the
+       ribbon itself. */
+    z-index: 11;
+    display: grid;
+    justify-items: end;
+    gap: 5px;
+    pointer-events: none;
 }
 
-.draw-steel-plus.sheet.dsp-compact .compact-corner-tag a {
-    color: inherit;
+.draw-steel-plus.sheet.dsp-compact .compact-ribbon {
+    padding: 0.55em 0.7em 0.55em 3em;
+    background: linear-gradient(135deg, var(--dsp-primary) 0%, var(--dsp-primary-dark, var(--dsp-primary)) 100%);
+    color: var(--dsp-text-light, #fff);
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    line-height: 1;
+    text-align: right;
+    text-transform: uppercase;
+    white-space: nowrap;
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 28px 100%);
+    box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.18);
+}
+
+.draw-steel-plus.sheet.dsp-compact .compact-tier-badge {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: 26px;
+    height: 26px;
+    margin-right: 8px;
+    padding-top: 2px;
+    color: var(--dsp-text-light, #fff);
+    font-size: 15px;
+    font-weight: 900;
+    line-height: 1;
+    pointer-events: auto;
+}
+
+.draw-steel-plus.sheet.dsp-compact .compact-tier-badge::before,
+.draw-steel-plus.sheet.dsp-compact .compact-tier-badge::after {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%);
+}
+
+.draw-steel-plus.sheet.dsp-compact .compact-tier-badge::before {
+    inset: 0;
+    background: rgba(0, 0, 0, 0.35);
+}
+
+.draw-steel-plus.sheet.dsp-compact .compact-tier-badge::after {
+    inset: 1px;
+    background: linear-gradient(180deg, var(--dsp-primary) 0%, var(--dsp-primary-dark, var(--dsp-primary)) 100%);
+}
+
+.draw-steel-plus.sheet.dsp-compact a.compact-tier-badge {
+    cursor: pointer;
+}
+
+.draw-steel-plus.sheet.dsp-compact .compact-tier-badge.compact-tier-ready::after {
+    background: linear-gradient(180deg, var(--dsp-accent) 0%, var(--dsp-accent-strong) 100%);
 }
 
 /* Meta line: hero origin tags / NPC keywords + level + EV, as italic prose */
@@ -223,18 +304,24 @@
     font-variant-numeric: tabular-nums;
 }
 
-/* Inline stat keys: tiny uppercase faint, like the reference's stat runs.
-   Separation comes from the wide column-gap, so the "|" separators are dropped. */
+/* Inline stat keys, reference prose style: bold label in the text colour with
+   a colon, value in the soft colour — "Size: 1M". Separation comes from the
+   wide column-gap, so the "|" separators are dropped. */
 .draw-steel-plus.sheet.dsp-compact .compact-label {
-    font-size: 9px;
-    font-weight: 600;
-    letter-spacing: 0.8px;
-    text-transform: uppercase;
-    color: var(--dsp-text-faint);
+    font-size: 12.5px;
+    font-weight: 700;
+    letter-spacing: 0;
+    text-transform: none;
+    color: var(--dsp-text);
 }
 
 .draw-steel-plus.sheet.dsp-compact .compact-label::after {
-    content: none;
+    content: ":";
+}
+
+.draw-steel-plus.sheet.dsp-compact .compact-stat-line .compact-stat b {
+    font-weight: 600;
+    color: var(--dsp-text-muted);
 }
 
 .draw-steel-plus.sheet.dsp-compact .compact-combat-row .compact-sep,
@@ -418,44 +505,7 @@
     box-shadow: none;
 }
 
-/* --------------------------------------------------------------------------
-   Tab navigation — text-only small caps, no icons
-   -------------------------------------------------------------------------- */
-
-.draw-steel-plus.sheet.dsp-compact nav.sheet-tabs {
-    background: none;
-    border-top: none;
-    border-bottom: 1px solid var(--dsp-border);
-    padding: 0 8px;
-    gap: 0;
-    box-shadow: none;
-}
-
-.draw-steel-plus.sheet.dsp-compact nav.sheet-tabs a {
-    padding: 6px 10px;
-    font-size: 11px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    color: var(--dsp-text-muted);
-    background: none;
-    border: none;
-    text-shadow: none;
-}
-
-.draw-steel-plus.sheet.dsp-compact nav.sheet-tabs a i {
-    display: none;
-}
-
-.draw-steel-plus.sheet.dsp-compact nav.sheet-tabs a:hover {
-    color: var(--dsp-text);
-    text-shadow: none;
-}
-
-.draw-steel-plus.sheet.dsp-compact nav.sheet-tabs a.active {
-    color: var(--dsp-primary);
-    box-shadow: inset 0 -2px 0 var(--dsp-primary);
-}
+/* Tab navigation lives with the collapsed hover-strip rules further down. */
 
 /* Tab section titles (biography/effects/equipment still use the base h2) */
 .draw-steel-plus.sheet.dsp-compact .tab .dsp-tab-title {
@@ -577,7 +627,7 @@
     flex-wrap: wrap;
     align-items: baseline;
     gap: 0 6px;
-    font-size: 13px;
+    font-size: 13.5px;
     line-height: 1.35;
 }
 
@@ -605,7 +655,7 @@
 
 .draw-steel-plus.sheet.dsp-compact .compact-entry-desc {
     margin-top: 2px;
-    font-size: 12px;
+    font-size: 12.5px;
     font-style: italic;
     color: var(--dsp-text-muted);
     line-height: 1.45;
@@ -674,7 +724,7 @@
     border: none;
     margin: 0;
     padding: 0 2px;
-    font-size: 12.5px;
+    font-size: 13px;
     line-height: 1.5;
 }
 
@@ -798,22 +848,15 @@
 }
 
 /* --------------------------------------------------------------------------
-   Footer strip — the sheet's interactable resources, pinned at the bottom
+   Footer strip — the sheet's interactable resources, pinned at the bottom.
+   Simple boxed cells (label + value), no steppers/tracks — the layout moved
+   here from the header, but the visual stays the plain original style.
    -------------------------------------------------------------------------- */
 
 .draw-steel-plus.sheet.dsp-compact .compact-footer {
-    grid-column: 1 / -1;
-    /* Bare in play mode (resources now live in the header) so the empty strip
-       collapses; the visible chrome lives on .compact-footer-edit. */
     padding: 0;
     background: none;
     border: none;
-}
-
-.draw-steel-plus.sheet.dsp-compact .compact-footer-edit {
-    padding: 7px 14px;
-    background: var(--dsp-surface-raised);
-    border-top: 1px solid color-mix(in srgb, var(--dsp-primary) 45%, transparent);
 }
 
 .draw-steel-plus.sheet.dsp-compact .compact-footer-row {
@@ -821,6 +864,9 @@
     flex-wrap: wrap;
     align-items: stretch;
     gap: 8px;
+    padding: 7px 14px;
+    background: var(--dsp-surface);
+    border-top: 1px dashed color-mix(in srgb, var(--dsp-border-light, var(--dsp-border)) 80%, transparent);
 }
 
 /* Each resource is a self-contained boxed cell — STAMINA | RECOVERIES | … —
@@ -830,13 +876,22 @@
     align-items: center;
     gap: 6px;
     padding: 4px 10px;
-    background: var(--dsp-surface);
+    background: var(--dsp-surface-raised);
     border: 1px solid color-mix(in srgb, var(--dsp-border) 70%, transparent);
     border-radius: 4px;
 }
 
 .draw-steel-plus.sheet.dsp-compact .compact-footer-stamina {
     flex: 1 1 auto;
+}
+
+.draw-steel-plus.sheet.dsp-compact .compact-footer-accent {
+    background: color-mix(in srgb, var(--dsp-accent) 14%, var(--dsp-surface-raised));
+    border-color: var(--dsp-accent-strong);
+}
+
+.draw-steel-plus.sheet.dsp-compact .compact-footer-accent .compact-footer-label {
+    color: var(--dsp-accent-bright, var(--dsp-accent));
 }
 
 .draw-steel-plus.sheet.dsp-compact .compact-footer-label,
@@ -877,7 +932,7 @@
     font-size: 12.5px;
     font-weight: 700;
     color: var(--dsp-text);
-    background: var(--dsp-surface-raised);
+    background: var(--dsp-surface);
     border: 1px solid var(--dsp-border);
     border-radius: 2px;
 }
@@ -892,14 +947,6 @@
     color: var(--dsp-text-faint);
 }
 
-/* Thin rule between two resources sharing one cell (Surges | Focus) */
-.draw-steel-plus.sheet.dsp-compact .compact-footer-divider {
-    width: 1px;
-    align-self: stretch;
-    margin: -4px 4px;
-    background: color-mix(in srgb, var(--dsp-border) 60%, transparent);
-}
-
 .draw-steel-plus.sheet.dsp-compact .compact-footer-static {
     font-size: 12.5px;
     font-weight: 700;
@@ -912,19 +959,28 @@
     color: var(--dsp-text-faint);
 }
 
+/* Thin stamina bar; colour follows the winded/dying state via CSS var --stam-* */
 .draw-steel-plus.sheet.dsp-compact .compact-stam-bar {
-    width: 80px;
+    width: 70px;
     height: 4px;
     border-radius: 2px;
-    background: var(--dsp-surface-raised);
+    background: var(--dsp-background, var(--dsp-surface));
     overflow: hidden;
 }
 
 .draw-steel-plus.sheet.dsp-compact .compact-stam-fill {
     display: block;
     height: 100%;
-    width: calc(100% * var(--stam-current, 0) / max(var(--stam-max, 1), 1));
+    width: calc(100% * max(var(--stam-current, 0), 0) / max(var(--stam-max, 1), 1));
     background: var(--dsp-primary);
+}
+
+.draw-steel-plus.sheet.dsp-compact .compact-stam-bar[data-stam-state="winded"] .compact-stam-fill {
+    background: var(--dsp-accent-strong);
+}
+
+.draw-steel-plus.sheet.dsp-compact .compact-stam-bar[data-stam-state="dying"] .compact-stam-fill {
+    background: var(--dsp-danger);
 }
 
 /* Edit mode: the system's combat/movement/immunities editors move down here */
@@ -933,6 +989,9 @@
     flex-direction: column;
     gap: 8px;
     max-height: 280px;
+    padding: 7px 14px;
+    background: var(--dsp-surface-raised);
+    border-top: 1px solid color-mix(in srgb, var(--dsp-primary) 45%, transparent);
     overflow-y: auto;
 }
 
@@ -979,10 +1038,25 @@
 }
 
 .draw-steel-plus.sheet.dsp-compact .compact-footer-edit input,
-.draw-steel-plus.sheet.dsp-compact .compact-footer-edit select,
-.draw-steel-plus.sheet.dsp-compact .compact-footer-edit multi-select {
+.draw-steel-plus.sheet.dsp-compact .compact-footer-edit select {
     height: 22px;
     font-size: 12px;
+    background: var(--dsp-surface-raised);
+    border: 1px solid var(--dsp-border);
+    border-radius: 2px;
+    color: var(--dsp-text);
+}
+
+/* multi-select is a flex column (tags row + native <select> dropdown below) —
+   forcing a fixed height on the whole element collapses that column and
+   displaces the dropdown's chevron. Size only the inner <select>. */
+.draw-steel-plus.sheet.dsp-compact .compact-footer-edit multi-select {
+    font-size: 12px;
+    color: var(--dsp-text);
+}
+
+.draw-steel-plus.sheet.dsp-compact .compact-footer-edit multi-select select {
+    height: 22px;
     background: var(--dsp-surface-raised);
     border: 1px solid var(--dsp-border);
     border-radius: 2px;
@@ -1066,15 +1140,14 @@
     pointer-events: auto;
 }
 
-/* Close button: always visible, pinned to top-right independent of flex centering */
+/* Close button: pinned to top-right, but hover-revealed like the rest so it
+   doesn't sit on the corner ribbon at rest. */
 .draw-steel-plus.sheet.dsp-compact .window-header [data-action="close"],
 .draw-steel-plus.sheet.dsp-compact .window-header .close {
     position: absolute !important;
     top: 4px !important;
     right: 8px !important;
     margin: 0 !important;
-    opacity: 1 !important;
-    pointer-events: auto !important;
 }
 
 /* Minimized: restore window header to normal flow so the title bar shows */
@@ -1146,8 +1219,8 @@
 }
 
 .draw-steel-plus.sheet.dsp-compact nav.sheet-tabs:hover {
-    height: 34px;
-    min-height: 34px;
+    height: 40px;
+    min-height: 40px;
 }
 
 .draw-steel-plus.sheet.dsp-compact nav.sheet-tabs:hover::before {
@@ -1155,24 +1228,35 @@
     opacity: 0;
 }
 
+/* Tabs are circular icon buttons (label moves to a tooltip), reference style */
 .draw-steel-plus.sheet.dsp-compact nav.sheet-tabs a {
     opacity: 0;
     pointer-events: none;
     transform: translateY(-4px);
-    transition: opacity 120ms ease, transform 120ms ease;
-    padding: 6px 10px;
-    font-size: 11px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1px;
+    transition: opacity 120ms ease, transform 120ms ease,
+        border-color 120ms ease, color 120ms ease, background-color 120ms ease;
+    display: grid;
+    place-items: center;
+    width: 28px;
+    height: 28px;
+    min-width: 28px;
+    margin: 6px 3px 0;
+    padding: 0;
+    font-size: 0;
+    letter-spacing: 0;
     color: var(--dsp-text-muted);
-    background: none;
-    border: none;
+    background: var(--dsp-surface-raised);
+    border: 1px solid var(--dsp-border);
+    border-radius: 999px;
     text-shadow: none;
+    box-shadow: none;
 }
 
 .draw-steel-plus.sheet.dsp-compact nav.sheet-tabs a i {
-    display: none;
+    display: block;
+    font-size: 12px;
+    line-height: 1;
+    margin: 0;
 }
 
 .draw-steel-plus.sheet.dsp-compact nav.sheet-tabs:hover a {
@@ -1183,12 +1267,15 @@
 
 .draw-steel-plus.sheet.dsp-compact nav.sheet-tabs a:hover {
     color: var(--dsp-text);
+    border-color: var(--dsp-border-light, var(--dsp-border));
     text-shadow: none;
 }
 
 .draw-steel-plus.sheet.dsp-compact nav.sheet-tabs a.active {
     color: var(--dsp-primary);
-    box-shadow: inset 0 -2px 0 var(--dsp-primary);
+    border-color: var(--dsp-primary);
+    background: color-mix(in srgb, var(--dsp-primary) 14%, var(--dsp-surface-raised));
+    box-shadow: none;
 }
 
 /* --------------------------------------------------------------------------
@@ -1210,6 +1297,20 @@
     opacity: 0.42;
 }
 
+/* Warm glow behind the art, like the reference's ember radial */
+.draw-steel-plus.sheet.dsp-compact .dsp-compact-art::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background: radial-gradient(circle at 64% 20%,
+        color-mix(in srgb, var(--dsp-primary) 34%, transparent) 0%,
+        color-mix(in srgb, var(--dsp-primary) 12%, transparent) 34%,
+        transparent 74%);
+    filter: blur(6px);
+}
+
 .draw-steel-plus.sheet.dsp-compact .dsp-compact-art::after {
     content: "";
     position: absolute;
@@ -1229,10 +1330,11 @@
     pointer-events: none;
 }
 
-/* Portrait edit/view affordance over the decorative art (top-right) */
+/* Portrait edit/view affordance over the decorative art — sits below the
+   corner adornment (ribbon + level badge) */
 .draw-steel-plus.sheet.dsp-compact .compact-art-action {
     position: absolute;
-    top: 30px;
+    top: 64px;
     right: 10px;
     z-index: 12;
     display: flex;
@@ -1285,7 +1387,7 @@
     font-weight: 400;
     font-style: normal;
     color: var(--dsp-text-muted);
-    font-size: 12px;
+    font-size: 12.5px;
     line-height: 1.45;
 }
 
@@ -1368,8 +1470,8 @@
 /* Expanded body reads as dense print: one body size, tight leading */
 .draw-steel-plus.sheet.dsp-compact .item-embed {
     padding: 0 !important;
-    font-size: 12.5px;
-    line-height: 1.45;
+    font-size: 13px;
+    line-height: 1.48;
 }
 
 /* Reset the system's metadata grid to a compact inline display */
@@ -1712,118 +1814,7 @@
     border-top: 1px dashed color-mix(in srgb, var(--dsp-border-light, var(--dsp-border)) 80%, transparent);
 }
 
-/* Reset for label/value buttons that trigger spend/gain actions */
-.draw-steel-plus.sheet.dsp-compact .compact-vitals-btn {
-    width: auto;
-    height: auto;
-    padding: 0;
-    background: none;
-    border: none;
-    box-shadow: none;
-    cursor: pointer;
-    line-height: inherit;
-    font: inherit;
-    letter-spacing: inherit;
-    text-transform: inherit;
-    color: inherit;
-}
-
-.draw-steel-plus.sheet.dsp-compact .compact-vitals-btn:hover {
-    color: var(--dsp-primary);
-    background: none;
-    box-shadow: none;
-}
-
-/* Borderless number inputs that read as bold text but stay editable */
-.draw-steel-plus.sheet.dsp-compact input.compact-num {
-    width: 3ch;
-    min-width: 3ch;
-    height: auto;
-    padding: 0;
-    border: none;
-    background: none;
-    box-shadow: none;
-    color: inherit;
-    font: inherit;
-    font-weight: 800;
-    text-align: right;
-    font-variant-numeric: tabular-nums;
-    -moz-appearance: textfield;
-}
-
-.draw-steel-plus.sheet.dsp-compact input.compact-num.compact-num-sm {
-    width: 2.4ch;
-    min-width: 2.4ch;
-}
-
-.draw-steel-plus.sheet.dsp-compact input.compact-num:focus {
-    outline: none;
-    box-shadow: none;
-    color: var(--dsp-primary);
-}
-
-.draw-steel-plus.sheet.dsp-compact input.compact-num::-webkit-outer-spin-button,
-.draw-steel-plus.sheet.dsp-compact input.compact-num::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-}
-
-/* Stamina line: key on the left, value/max on the right, then a full-width bar */
-.draw-steel-plus.sheet.dsp-compact .compact-vitals-stamina {
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    gap: 8px;
-}
-
-.draw-steel-plus.sheet.dsp-compact .compact-vitals-key {
-    font-size: 10.5px;
-    font-weight: 600;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
-    color: var(--dsp-text-muted);
-}
-
-.draw-steel-plus.sheet.dsp-compact .compact-vitals-stam-val {
-    display: inline-flex;
-    align-items: baseline;
-    gap: 3px;
-    font-size: 14px;
-    font-weight: 800;
-    color: var(--dsp-text);
-    font-variant-numeric: tabular-nums;
-}
-
-.draw-steel-plus.sheet.dsp-compact .compact-vitals-sep {
-    color: var(--dsp-text-faint);
-    font-weight: 400;
-}
-
-.draw-steel-plus.sheet.dsp-compact .compact-vitals-temp-wrap {
-    display: inline-flex;
-    align-items: baseline;
-    gap: 3px;
-    margin-left: 8px;
-}
-
-.draw-steel-plus.sheet.dsp-compact .compact-vitals-sub {
-    font-size: 9px;
-    font-weight: 600;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
-    color: var(--dsp-text-faint);
-}
-
-.draw-steel-plus.sheet.dsp-compact .compact-stam-bar.compact-stam-bar-wide {
-    display: block;
-    width: 100%;
-    height: 6px;
-    margin-top: 7px;
-    border-radius: 999px;
-    background: var(--dsp-surface-raised);
-}
-
-/* Inline stat run — tiny uppercase key + bold value, wide gaps, wraps */
+/* Inline stat run — prose key/value pairs, wide gaps, wraps */
 /* Combat & Movement (left) + Skills (right) share one row, so the skills list
    flows into the space beside the short combat run instead of overflowing below
    the header (which clipped invisibly until a resize forced a reflow). */
@@ -1858,19 +1849,24 @@
     gap: 6px;
 }
 
+/* Reference prose style: "Size: 1M" — bold bright key with colon, soft value */
 .draw-steel-plus.sheet.dsp-compact .compact-run-k {
-    font-size: 9.5px;
-    font-weight: 600;
-    letter-spacing: 0.7px;
-    text-transform: uppercase;
-    color: var(--dsp-text-faint);
+    font-size: 12.5px;
+    font-weight: 700;
+    letter-spacing: 0;
+    text-transform: none;
+    color: var(--dsp-text);
+}
+
+.draw-steel-plus.sheet.dsp-compact .compact-run-k::after {
+    content: ":";
 }
 
 .draw-steel-plus.sheet.dsp-compact .compact-run-v {
-    font-size: 13px;
-    font-weight: 800;
-    line-height: 1;
-    color: var(--dsp-text);
+    font-size: 12.5px;
+    font-weight: 600;
+    line-height: 1.3;
+    color: var(--dsp-text-muted);
     font-variant-numeric: tabular-nums;
 }
 
@@ -1897,11 +1893,15 @@
 .draw-steel-plus.sheet.dsp-compact .compact-deftag {
     flex-shrink: 0;
     min-width: 84px;
-    font-size: 9px;
+    font-size: 12px;
     font-weight: 700;
-    letter-spacing: 0.8px;
-    text-transform: uppercase;
-    color: var(--dsp-text-faint);
+    letter-spacing: 0;
+    text-transform: none;
+    color: var(--dsp-text);
+}
+
+.draw-steel-plus.sheet.dsp-compact .compact-deftag::after {
+    content: ":";
 }
 
 .draw-steel-plus.sheet.dsp-compact .compact-defvals {

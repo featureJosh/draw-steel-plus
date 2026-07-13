@@ -137,11 +137,7 @@
     top: 0;
     bottom: 0;
     width: calc(100% * var(--stam-current) / var(--stam-max));
-    background: linear-gradient(
-        180deg,
-        var(--dsp-primary-light) 0%,
-        var(--dsp-primary) 100%
-    );
+    background: var(--dsp-primary);
     border-radius: var(--dsp-radius-sm) 0 0 var(--dsp-radius-sm);
     transition: width 0.4s ease;
 }
@@ -152,7 +148,7 @@
     top: 0;
     bottom: 0;
     width: calc(100% * var(--stam-temp) / var(--stam-max));
-    background: linear-gradient(180deg, #d4a017 0%, #b8860b 100%);
+    background: #d4a017;
     opacity: 0.85;
     transition:
         width 0.4s ease,

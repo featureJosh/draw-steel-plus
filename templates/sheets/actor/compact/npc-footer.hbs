@@ -4,7 +4,7 @@
 
     <div class="compact-footer-group compact-footer-stamina">
       <span class="compact-footer-label">{{systemFields.stamina.label}}</span>
-      <span class="compact-stam-bar" style="--stam-current: {{system.stamina.value}}; --stam-max: {{system.stamina.max}};">
+      <span class="compact-stam-bar" data-stam-state="{{compactStamina.state}}" style="--stam-current: {{system.stamina.value}}; --stam-max: {{system.stamina.max}};">
         <span class="compact-stam-fill"></span>
       </span>
       {{#if isSingleSquadMinion}}
@@ -22,7 +22,7 @@
 
     <div class="compact-footer-group">
       {{#if gm}}
-      <button type="button" class="compact-footer-btn" data-action="freeStrike">{{systemFields.monster.fields.freeStrike.label}}</button>
+      <button type="button" class="compact-footer-label compact-footer-btn" data-action="freeStrike">{{systemFields.monster.fields.freeStrike.label}}</button>
       {{else}}
       <span class="compact-footer-label">{{systemFields.monster.fields.freeStrike.label}}</span>
       {{/if}}

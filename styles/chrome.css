@@ -93,13 +93,7 @@
     left: 10%;
     right: 10%;
     height: 1px;
-    background: linear-gradient(
-        90deg,
-        transparent,
-        var(--dsp-border-light) 30%,
-        var(--dsp-border-light) 70%,
-        transparent
-    );
+    background: var(--dsp-border-light);
     pointer-events: none;
 }
 
@@ -142,11 +136,7 @@
 .draw-steel-plus.sheet nav.sheet-tabs a.active {
     color: var(--dsp-text);
     border-bottom-color: var(--dsp-primary-light);
-    background: linear-gradient(
-        180deg,
-        transparent 0%,
-        rgba(122, 27, 27, 0.08) 100%
-    );
+    background: rgba(122, 27, 27, 0.08);
 }
 
 .draw-steel-plus.sheet nav.sheet-tabs a.active::before {
@@ -163,9 +153,5 @@
 }
 
 .draw-steel-plus.sheet nav.sheet-tabs a.active:hover {
-    background: linear-gradient(
-        180deg,
-        transparent 0%,
-        rgba(122, 27, 27, 0.12) 100%
-    );
+    background: rgba(122, 27, 27, 0.12);
 }

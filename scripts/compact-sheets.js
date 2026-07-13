@@ -1,4 +1,4 @@
-import { MODULE_CONFIG, SHEET_VARIANTS } from "./config.js";
+import { MODULE_CONFIG, SHEET_VARIANTS, FLOATING_TAB_ICONS } from "./config.js";
 
 const MODULE_ID = MODULE_CONFIG.id;
 const MODULE_PATH = MODULE_CONFIG.path;
@@ -204,12 +204,31 @@ function buildCompactSheet(BaseSheet, type, variant) {
             !!this.actor.system._unfilledTraits?.skill?.size;
         }
       }
+      if (partId === "compactFooter") {
+        const stamina = this.actor.system.stamina;
+        context.compactStamina = {
+          state: stamina.value <= 0 ? "dying"
+            : stamina.value <= stamina.winded ? "winded" : "ok",
+        };
+      }
       return context;
     }
 
     _onRender(context, options) {
       super._onRender(context, options);
       this.element.classList.remove("has-sidebar");
+      /* Tabs render as icon-only circles: the label text moves to a tooltip and
+         an icon is injected (the system's TABS config defines none). */
+      for (const a of this.element.querySelectorAll("nav.sheet-tabs a[data-tab]")) {
+        const label = a.textContent.trim();
+        if (label && !a.dataset.tooltip) a.dataset.tooltip = label;
+        if (!a.querySelector("i")) {
+          const i = document.createElement("i");
+          i.className = FLOATING_TAB_ICONS[a.dataset.tab] || "fas fa-file";
+          i.setAttribute("inert", "");
+          a.prepend(i);
+        }
+      }
       requestAnimationFrame(() => {
         inlineItemDescriptions(this.element);
         highlightCharacteristics(this.element);

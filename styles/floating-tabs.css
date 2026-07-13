@@ -87,11 +87,7 @@
     border: 1px solid var(--dsp-accent);
     border-left: none;
     opacity: 1;
-    background: linear-gradient(
-        90deg,
-        var(--dsp-primary-strong) 0%,
-        var(--dsp-primary) 100%
-    );
+    background: var(--dsp-primary-strong);
 }
 
 .dsp-floating-tabs > .dsp-float-tab.active::before {
@@ -102,11 +98,7 @@
     transform: translateY(-50%) rotate(45deg);
     width: calc(10px * var(--dsp-scale, 1));
     height: calc(10px * var(--dsp-scale, 1));
-    background: linear-gradient(
-        135deg,
-        var(--dsp-primary-strong) 0%,
-        var(--dsp-primary) 100%
-    );
+    background: var(--dsp-primary-strong);
     border-left: 1px solid var(--dsp-accent);
     border-bottom: 1px solid var(--dsp-accent);
     pointer-events: none;

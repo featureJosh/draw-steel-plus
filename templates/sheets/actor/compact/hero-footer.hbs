@@ -1,7 +1,58 @@
 <footer class="compact-footer">
-  {{!-- Play-mode resources now live in the header VITALS section. The footer is
-       the edit-mode editor strip only, so it collapses away entirely in play. --}}
-  {{#unless isPlay}}
+  {{#if isPlay}}
+  <div class="compact-footer-row">
+
+    <div class="compact-footer-group compact-footer-stamina">
+      {{#if editable}}
+      <button type="button" class="compact-footer-label compact-footer-btn" data-action="spendStaminaHeroToken" data-tooltip="DRAW_STEEL.Setting.HeroTokens.RegainStamina.tooltip">{{systemFields.stamina.label}}</button>
+      {{else}}
+      <span class="compact-footer-label">{{systemFields.stamina.label}}</span>
+      {{/if}}
+      <span class="compact-stam-bar" data-stam-state="{{compactStamina.state}}" style="--stam-current: {{system.stamina.value}}; --stam-max: {{system.stamina.max}};">
+        <span class="compact-stam-fill"></span>
+      </span>
+      <input type="number" name="system.stamina.value" value="{{system.stamina.value}}">
+      <span class="compact-footer-sep">/</span>
+      <span class="compact-footer-static">{{system.stamina.max}}</span>
+      <span class="compact-footer-sub">Temp</span>
+      <input type="number" name="system.stamina.temporary" value="{{system.stamina.temporary}}">
+    </div>
+
+    <div class="compact-footer-group">
+      {{#if editable}}
+      <button type="button" class="compact-footer-label compact-footer-btn" data-action="spendRecovery" data-tooltip="DRAW_STEEL.Actor.base.SpendRecovery.tooltip">{{systemFields.recoveries.label}}</button>
+      {{else}}
+      <span class="compact-footer-label">{{systemFields.recoveries.label}}</span>
+      {{/if}}
+      <input type="number" name="system.recoveries.value" value="{{system.recoveries.value}}">
+      <span class="compact-footer-sep">/</span>
+      <span class="compact-footer-static">{{system.recoveries.max}}</span>
+      <span class="compact-footer-sub" data-tooltip-text="{{systemFields.recoveries.fields.recoveryValue.label}}">({{system.recoveries.recoveryValue}})</span>
+    </div>
+
+    <div class="compact-footer-group">
+      {{#if editable}}
+      <button type="button" class="compact-footer-label compact-footer-btn" data-action="gainSurges" data-tooltip="DRAW_STEEL.Setting.HeroTokens.GainSurges.tooltip">{{systemFields.hero.fields.surges.label}}</button>
+      {{else}}
+      <span class="compact-footer-label">{{systemFields.hero.fields.surges.label}}</span>
+      {{/if}}
+      <input type="number" name="system.hero.surges" value="{{system.hero.surges}}">
+    </div>
+
+    <div class="compact-footer-group compact-footer-accent">
+      <span class="compact-footer-label">{{system.hero.primary.label}}</span>
+      <input type="number" name="system.hero.primary.value" value="{{system.hero.primary.value}}">
+    </div>
+
+    {{#if (gte system.level 10)}}
+    <div class="compact-footer-group compact-footer-accent">
+      <span class="compact-footer-label">{{system.hero.epic.label}}</span>
+      <input type="number" name="system.hero.epic.value" value="{{system.hero.epic.value}}">
+    </div>
+    {{/if}}
+
+  </div>
+  {{else}}
   <div class="compact-footer-edit">
     <div class="compact-footer-group">
       <span class="compact-footer-label">{{systemFields.stamina.label}}</span>
@@ -17,5 +68,5 @@
       {{formInput systemFields.skills.fields.value value=systemSource.skills.value options=skills.options dataset=datasets.isSource}}
     </div>
   </div>
-  {{/unless}}
+  {{/if}}
 </footer>

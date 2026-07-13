@@ -14,15 +14,22 @@
     <i class="fa-solid {{ifThen isPlay "fa-expand" "fa-pen"}}"></i>
   </a>
 
+  {{!-- Corner adornment, reference style: gradient ribbon carrying the role,
+       pentagon level badge tucked under it. --}}
+  <div class="compact-adornment">
+    {{#if system.monster.roleLabel}}
+    <div class="compact-ribbon" aria-hidden="true">{{system.monster.roleLabel}}</div>
+    {{else if system.monster.organizationLabel}}
+    <div class="compact-ribbon" aria-hidden="true">{{system.monster.organizationLabel}}</div>
+    {{/if}}
+    <div class="compact-tier-badge" data-tooltip-text="{{systemFields.monster.fields.level.label}} {{system.monster.level}}">{{system.monster.level}}</div>
+  </div>
+
   <div class="compact-title-row">
     {{#if isPlay}}
     <h1 class="char-name">{{document.name}}</h1>
     {{else}}
     {{formInput fields.name value=source.name placeholder=(localize "Name") class="char-name-input"}}
-    {{/if}}
-
-    {{#if system.monster.roleLabel}}
-    <div class="compact-corner-tag compact-role-tag">{{system.monster.roleLabel}}</div>
     {{/if}}
   </div>
 

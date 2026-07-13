@@ -82,13 +82,7 @@
     left: 10%;
     right: 10%;
     height: 1px;
-    background: linear-gradient(
-        90deg,
-        transparent,
-        var(--dsp-border-light) 30%,
-        var(--dsp-border-light) 70%,
-        transparent
-    );
+    background: var(--dsp-border-light);
     pointer-events: none;
 }
 
@@ -182,7 +176,7 @@
     top: 0;
     bottom: 0;
     width: calc(100% * var(--stam-current, 0) / max(var(--stam-max, 1), 1));
-    background: linear-gradient(180deg, #c03030 0%, #a82828 40%, #7a1b1b 100%);
+    background: #a82828;
     border-radius: var(--dsp-radius-sm) 0 0 var(--dsp-radius-sm);
     transition: width 0.5s ease;
     box-shadow:
@@ -196,7 +190,7 @@
     top: 0;
     bottom: 0;
     width: calc(100% * var(--stam-temp, 0) / max(var(--stam-max, 1), 1));
-    background: linear-gradient(180deg, #e8b82a 0%, #d4a017 40%, #b8860b 100%);
+    background: #d4a017;
     transition:
         width 0.5s ease,
         left 0.5s ease;
