@@ -656,6 +656,10 @@
     padding: 6px 2px 8px 0;
 }
 
+.draw-steel-plus.sheet.dsp-compact .compact-entry.ability {
+    padding-left: 3px;
+}
+
 .draw-steel-plus.sheet.dsp-compact .compact-entry-head {
     display: flex;
     flex-wrap: wrap;
