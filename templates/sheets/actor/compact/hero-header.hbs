@@ -44,7 +44,7 @@
   </a>
 
   {{!-- Two-column headline: left carries name / progress / origin tags, right
-       carries the class ribbon + pentagon level badge, tops aligned. --}}
+       carries the class ribbon, tops aligned. --}}
   <div class="compact-headline-row">
     <div class="compact-headline-main">
 
@@ -56,22 +56,26 @@
         {{/if}}
       </div>
 
-      {{!-- Subline directly under the name, reference-style: "5 XP · 0 VICTORIES" --}}
-      {{#if isPlay}}
-      <div class="compact-subline compact-progress-row">
+      {{!-- Subline directly under the name, reference-style: "LEVEL 1 · 5 XP · 0 VICTORIES" --}}
+      <div class="compact-subline compact-progress-row {{#unless isPlay}}progression-edit{{/unless}}">
+        {{#if system.advancementReady}}
+        <a class="compact-stat" data-action="levelUp" data-tooltip="DRAW_STEEL.SHEET.LevelUp"><b>{{localize "DRAW_STEEL.Item.class.FIELDS.level.label"}} {{system.level}}</b></a>
+        {{else}}
+        <span class="compact-stat"><b>{{localize "DRAW_STEEL.Item.class.FIELDS.level.label"}} {{system.level}}</b></span>
+        {{/if}}
+        {{#if isPlay}}
+        <span class="compact-subline-sep">&middot;</span>
         <span class="compact-stat"><b>{{system.hero.xp}}</b>{{#if system.nextLevelXP}}<span class="compact-stat-max"> / {{system.nextLevelXP}}</span>{{/if}} XP</span>
         <span class="compact-subline-sep">&middot;</span>
         <span class="compact-stat"><b>{{system.hero.victories}}</b>{{#if system.victoriesMax}}<span class="compact-stat-max"> / {{system.victoriesMax}}</span>{{/if}} Victories</span>
         <a class="compact-respite" data-action="takeRespite" data-tooltip="DRAW_STEEL.Actor.hero.TakeRespite">
           <i class="fa-solid fa-bed"></i>
         </a>
-      </div>
-      {{else}}
-      <div class="progression-edit compact-progress-row">
+        {{else}}
         {{formGroup systemFields.hero.fields.xp value=systemSource.hero.xp classes="xp-edit"}}
         {{formGroup systemFields.hero.fields.victories value=systemSource.hero.victories classes="victories-edit"}}
+        {{/if}}
       </div>
-      {{/if}}
 
       <div class="origins-row compact-meta-row">
         <div class="ancestry tag">
@@ -95,14 +99,9 @@
 
     </div>
 
-    {{!-- Right column: gradient ribbon carrying the class, pentagon level badge. --}}
+    {{!-- Right column: gradient ribbon carrying the class. --}}
     <div class="compact-adornment">
       <div class="compact-ribbon" aria-hidden="true">{{#if document.system.class}}{{document.system.class.name}}{{else}}{{localize "TYPES.Actor.hero"}}{{/if}}</div>
-      {{#if system.advancementReady}}
-      <a class="compact-tier-badge compact-tier-ready" data-action="levelUp" data-tooltip="DRAW_STEEL.SHEET.LevelUp">{{system.level}}</a>
-      {{else}}
-      <div class="compact-tier-badge" data-tooltip-text="{{localize "DRAW_STEEL.Item.class.FIELDS.level.label"}} {{system.level}}">{{system.level}}</div>
-      {{/if}}
     </div>
   </div>
 

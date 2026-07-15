@@ -215,10 +215,9 @@ body {
     grid-row: 1 / -1;
 }
 
-.draw-steel-plus.sheet a.button:focus,
-.draw-steel-plus.sheet button:focus {
-    outline: unset;
-    box-shadow: unset;
+.draw-steel-plus.sheet :is(a, button, input, select, textarea):focus-visible {
+    outline: 2px solid var(--dsp-accent-bright);
+    outline-offset: 2px;
 }
 
 .draw-steel-plus.sheet .item-controls > * {

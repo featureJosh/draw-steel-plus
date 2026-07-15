@@ -9,21 +9,21 @@
     {{/if}}
     {{#if quantity}}
     <span class="compact-entry-meta quantity-controls">
-      <a data-action="modifyItemQuantity" data-quantity-modification="decrease"><i class="fa-regular fa-minus"></i></a>
+      <button type="button" data-action="modifyItemQuantity" data-quantity-modification="decrease" data-tooltip="DRAW_STEEL_PLUS.Sheet.DecreaseQuantity" aria-label="{{localize 'DRAW_STEEL_PLUS.Sheet.DecreaseQuantity'}}"><i class="fa-regular fa-minus"></i></button>
       <span class="quantity">{{ctx.item.system.quantity}}</span>
-      <a data-action="modifyItemQuantity" data-quantity-modification="increase"><i class="fa-regular fa-plus"></i></a>
+      <button type="button" data-action="modifyItemQuantity" data-quantity-modification="increase" data-tooltip="DRAW_STEEL_PLUS.Sheet.IncreaseQuantity" aria-label="{{localize 'DRAW_STEEL_PLUS.Sheet.IncreaseQuantity'}}"><i class="fa-regular fa-plus"></i></button>
     </span>
     {{/if}}
     <span class="compact-entry-controls">
       {{#if playAction}}
-      <a class="fa-fw fa-solid fa-play" data-action="{{playAction}}"></a>
+      <button type="button" data-action="{{playAction}}" data-tooltip="DRAW_STEEL_PLUS.Sheet.Use" aria-label="{{localize 'DRAW_STEEL_PLUS.Sheet.Use'}}"><i class="fa-fw fa-solid fa-play" aria-hidden="true"></i></button>
       {{/if}}
-      <a class="fa-fw fa-solid fa-comment" data-action="documentListShare"></a>
+      <button type="button" data-action="documentListShare" data-tooltip="DRAW_STEEL_PLUS.Sheet.Share" aria-label="{{localize 'DRAW_STEEL_PLUS.Sheet.Share'}}"><i class="fa-fw fa-solid fa-comment" aria-hidden="true"></i></button>
       {{#if @root.favoritesEnabled}}
-      <a class="dsp-favorite-btn {{#if (or ctx.isFavorited forceFavorited)}}dsp-favorited{{/if}}" data-action="toggleFavorite" data-tooltip="{{#if (or ctx.isFavorited forceFavorited)}}DRAW_STEEL_PLUS.Favorites.Unfavorite{{else}}DRAW_STEEL_PLUS.Favorites.Favorite{{/if}}"><i class="fa-{{#if (or ctx.isFavorited forceFavorited)}}solid{{else}}regular{{/if}} fa-star"></i></a>
+      <button type="button" class="dsp-favorite-btn {{#if (or ctx.isFavorited forceFavorited)}}dsp-favorited{{/if}}" data-action="toggleFavorite" data-tooltip="{{#if (or ctx.isFavorited forceFavorited)}}DRAW_STEEL_PLUS.Favorites.Unfavorite{{else}}DRAW_STEEL_PLUS.Favorites.Favorite{{/if}}" aria-label="{{localize (ifThen (or ctx.isFavorited forceFavorited) 'DRAW_STEEL_PLUS.Favorites.Unfavorite' 'DRAW_STEEL_PLUS.Favorites.Favorite')}}"><i class="fa-{{#if (or ctx.isFavorited forceFavorited)}}solid{{else}}regular{{/if}} fa-star"></i></button>
       {{/if}}
-      <a class="fa-fw fa-solid fa-ellipsis-vertical" data-action="documentListContext"></a>
-      <a class="fa-fw fa-solid fa-angle-{{ifThen ctx.expanded "down" "right"}}" data-action="toggleDocumentDescription"></a>
+      <button type="button" data-action="documentListContext" data-tooltip="DRAW_STEEL_PLUS.Sheet.MoreActions" aria-label="{{localize 'DRAW_STEEL_PLUS.Sheet.MoreActions'}}"><i class="fa-fw fa-solid fa-ellipsis-vertical" aria-hidden="true"></i></button>
+      <button type="button" data-action="toggleDocumentDescription" data-tooltip="{{ifThen ctx.expanded 'DRAW_STEEL_PLUS.Sheet.Collapse' 'DRAW_STEEL_PLUS.Sheet.Expand'}}" aria-label="{{localize (ifThen ctx.expanded 'DRAW_STEEL_PLUS.Sheet.Collapse' 'DRAW_STEEL_PLUS.Sheet.Expand')}}" aria-expanded="{{ifThen ctx.expanded 'true' 'false'}}"><i class="fa-fw fa-solid fa-angle-{{ifThen ctx.expanded "down" "right"}}" aria-hidden="true"></i></button>
     </span>
   </div>
   <div class="document-description item-embed {{#if ctx.expanded}}expanded{{/if}}">

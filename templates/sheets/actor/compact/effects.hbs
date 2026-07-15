@@ -29,9 +29,9 @@
           {{#if effect.sourceName}}<span class="compact-entry-meta">&mdash; {{effect.sourceName}}</span>{{/if}}
           {{#if effect.duration.label}}<span class="compact-entry-cost">{{effect.duration.label}}</span>{{/if}}
           <span class="compact-entry-controls">
-            <a class="fa-fw fa-solid fa-comment" data-action="documentListShare"></a>
-            <a class="fa-fw fa-solid fa-ellipsis-vertical" data-action="documentListContext"></a>
-            <a class="fa-fw fa-solid fa-angle-{{ifThen effect.expanded "down" "right"}}" data-action="toggleDocumentDescription"></a>
+            <button type="button" data-action="documentListShare" data-tooltip="DRAW_STEEL_PLUS.Sheet.Share" aria-label="{{localize 'DRAW_STEEL_PLUS.Sheet.Share'}}"><i class="fa-fw fa-solid fa-comment" aria-hidden="true"></i></button>
+            <button type="button" data-action="documentListContext" data-tooltip="DRAW_STEEL_PLUS.Sheet.MoreActions" aria-label="{{localize 'DRAW_STEEL_PLUS.Sheet.MoreActions'}}"><i class="fa-fw fa-solid fa-ellipsis-vertical" aria-hidden="true"></i></button>
+            <button type="button" data-action="toggleDocumentDescription" data-tooltip="{{ifThen effect.expanded 'DRAW_STEEL_PLUS.Sheet.Collapse' 'DRAW_STEEL_PLUS.Sheet.Expand'}}" aria-label="{{localize (ifThen effect.expanded 'DRAW_STEEL_PLUS.Sheet.Collapse' 'DRAW_STEEL_PLUS.Sheet.Expand')}}" aria-expanded="{{ifThen effect.expanded 'true' 'false'}}"><i class="fa-fw fa-solid fa-angle-{{ifThen effect.expanded "down" "right"}}" aria-hidden="true"></i></button>
           </span>
         </div>
         <div class="document-description effect-description {{#if effect.expanded}}expanded{{/if}}">

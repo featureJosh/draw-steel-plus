@@ -21,7 +21,14 @@
       "CompactHero": "DS+ Compact Hero Sheet",
       "CompactNPC": "DS+ Compact NPC Sheet",
       "EditImage": "Edit Image",
-      "ViewArtwork": "View Artwork"
+      "ViewArtwork": "View Artwork",
+      "Use": "Use",
+      "Share": "Share",
+      "MoreActions": "More actions",
+      "Expand": "Expand",
+      "Collapse": "Collapse",
+      "DecreaseQuantity": "Decrease quantity",
+      "IncreaseQuantity": "Increase quantity"
     },
     "Settings": {
       "menus": {
@@ -263,7 +270,8 @@
       "powerRoll": "Power Roll"
     },
     "Search": {
-      "placeholder": "Search items..."
+      "placeholder": "Search items...",
+      "clear": "Clear search"
     },
     "TabConfig": {
       "title": "Configure Tabs",

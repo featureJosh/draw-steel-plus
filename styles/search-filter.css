@@ -41,6 +41,15 @@
 }
 
 .draw-steel-plus.sheet .dsp-search-clear {
+    width: auto;
+    min-width: 0;
+    height: auto;
+    min-height: 0;
+    margin: 0;
+    padding: 2px;
+    border: 0;
+    background: none;
+    box-shadow: none;
     color: var(--dsp-text-light);
     font-size: calc(12px * var(--dsp-scale, 1));
     cursor: pointer;
@@ -57,5 +66,5 @@
 
 .draw-steel-plus.sheet .dsp-search-clear:hover {
     opacity: 1;
-    color: var(--dsp-primary);
+    color: var(--dsp-accent-strong);
 }

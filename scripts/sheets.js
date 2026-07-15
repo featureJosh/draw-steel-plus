@@ -25,7 +25,7 @@ async function toggleDocumentDescription(event, target) {
   if (!parentElement) return;
   const embedContainer = parentElement.querySelector(".document-description");
   const toggleIcon = parentElement.querySelector(
-    'a[data-action="toggleDocumentDescription"]',
+    '[data-action="toggleDocumentDescription"] :is(.fa-angle-down, .fa-angle-right), [data-action="toggleDocumentDescription"]:is(.fa-angle-down, .fa-angle-right)',
   );
   if (!embedContainer || !toggleIcon) return;
   const { documentUuid } = parentElement.dataset;
@@ -43,7 +43,20 @@ async function toggleDocumentDescription(event, target) {
 
   toggleIcon.classList.toggle("fa-angle-down", !isExpanded);
   toggleIcon.classList.toggle("fa-angle-right", isExpanded);
+  const labelKey = isExpanded
+    ? "DRAW_STEEL_PLUS.Sheet.Expand"
+    : "DRAW_STEEL_PLUS.Sheet.Collapse";
+  const toggleControl = toggleIcon.closest(
+    '[data-action="toggleDocumentDescription"]',
+  );
+  toggleControl.dataset.tooltip = labelKey;
+  toggleControl.setAttribute("aria-label", game.i18n.localize(labelKey));
   embedContainer.classList.toggle("expanded", !isExpanded);
+  for (const control of parentElement.querySelectorAll(
+    '[data-action="toggleDocumentDescription"][aria-expanded]',
+  )) {
+    control.setAttribute("aria-expanded", String(!isExpanded));
+  }
 }
 
 async function toggleFavorite(event, target) {

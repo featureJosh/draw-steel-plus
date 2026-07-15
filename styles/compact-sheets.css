@@ -19,6 +19,14 @@
    off-window. flex:1 (making window-content itself fill the window frame)
    comes from base.css and still applies independent of the display change. */
 .draw-steel-plus.sheet.dsp-compact.application .window-content {
+    --dsp-compact-interactive: light-dark(
+        var(--dsp-primary-strong),
+        color-mix(in srgb, var(--dsp-primary-light) 45%, var(--dsp-text))
+    );
+    --dsp-text-faint: light-dark(
+        var(--dsp-text-muted),
+        color-mix(in srgb, var(--dsp-text) 55%, var(--dsp-surface))
+    );
     display: flex;
     flex-direction: column;
     /* Lift the body off the flat near-black --dsp-background (#0d0d0d) onto the
@@ -180,8 +188,8 @@
 .draw-steel-plus.sheet.dsp-compact .compact-ribbon {
     padding: 0.55em 0.7em 0.55em 3em;
     background: linear-gradient(135deg, var(--dsp-primary) 0%, var(--dsp-primary-dark, var(--dsp-primary)) 100%);
-    color: var(--dsp-text-light, #fff);
-    font-size: 10px;
+    color: #fff;
+    font-size: 11px;
     font-weight: 900;
     letter-spacing: 0.08em;
     line-height: 1;
@@ -200,7 +208,7 @@
     height: 26px;
     margin-right: 8px;
     padding-top: 2px;
-    color: var(--dsp-text-light, #fff);
+    color: #fff;
     font-size: 15px;
     font-weight: 900;
     line-height: 1;
@@ -231,6 +239,10 @@
 
 .draw-steel-plus.sheet.dsp-compact .compact-tier-badge.compact-tier-ready::after {
     background: linear-gradient(180deg, var(--dsp-accent) 0%, var(--dsp-accent-strong) 100%);
+}
+
+.draw-steel-plus.sheet.dsp-compact .compact-tier-badge.compact-tier-ready {
+    color: #21170c;
 }
 
 /* Meta line: hero origin tags / NPC keywords + level + EV, as italic prose */
@@ -277,7 +289,7 @@
 }
 
 .draw-steel-plus.sheet.dsp-compact .sheet-header .origins-row .tag a.filled:hover {
-    color: var(--dsp-primary);
+    color: var(--dsp-compact-interactive);
     text-shadow: none;
 }
 
@@ -294,7 +306,7 @@
 }
 
 .draw-steel-plus.sheet.dsp-compact .compact-edit-meta:hover {
-    color: var(--dsp-primary);
+    color: var(--dsp-compact-interactive);
 }
 
 .draw-steel-plus.sheet.dsp-compact .compact-attribution {
@@ -372,7 +384,7 @@
 }
 
 .draw-steel-plus.sheet.dsp-compact .compact-respite:hover {
-    color: var(--dsp-primary);
+    color: var(--dsp-compact-interactive);
 }
 
 .draw-steel-plus.sheet.dsp-compact .compact-fill-trait {
@@ -401,7 +413,7 @@
 }
 
 .draw-steel-plus.sheet.dsp-compact .progression-edit.compact-progress-row label {
-    font-size: 10px;
+    font-size: 11px;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.8px;
@@ -475,7 +487,7 @@
 }
 
 .draw-steel-plus.sheet.dsp-compact .sheet-header .header-characteristics .char-label {
-    font-size: 8px;
+    font-size: 10px;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 1px;
@@ -495,7 +507,7 @@
     .header-characteristics
     .char-badge:hover
     .char-value {
-    color: var(--dsp-primary);
+    color: var(--dsp-compact-interactive);
 }
 
 .draw-steel-plus.sheet.dsp-compact .sheet-header .header-characteristics .char-badge.edit input {
@@ -522,7 +534,7 @@
 }
 
 .draw-steel-plus.sheet.dsp-compact .sheet-header .header-characteristics .char-edit-btn:hover {
-    color: var(--dsp-primary);
+    color: var(--dsp-compact-interactive);
     background: none;
     box-shadow: none;
 }
@@ -591,7 +603,7 @@
 }
 
 .draw-steel-plus.sheet.dsp-compact .item-list-container .item-header .item-column {
-    font-size: 10px;
+    font-size: 11px;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 2px;
@@ -655,13 +667,25 @@
 
 /* Bold-italic run-in name, like the reference card's feature lead-ins */
 .draw-steel-plus.sheet.dsp-compact .compact-entry-name {
+    width: auto;
+    min-height: 0;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: none;
+    box-shadow: none;
+    color: var(--dsp-text);
+    font-family: inherit;
+    font-size: inherit;
     font-weight: 700;
     font-style: italic;
+    line-height: inherit;
+    text-align: left;
     cursor: pointer;
 }
 
 .draw-steel-plus.sheet.dsp-compact .compact-entry-name:hover {
-    color: var(--dsp-primary);
+    color: var(--dsp-compact-interactive);
 }
 
 .draw-steel-plus.sheet.dsp-compact .compact-entry-meta {
@@ -691,7 +715,7 @@
 
 .draw-steel-plus.sheet.dsp-compact .compact-preferred {
     color: var(--dsp-accent-strong);
-    font-size: 10px;
+    font-size: 11px;
 }
 
 .draw-steel-plus.sheet.dsp-compact .restricted-warning {
@@ -699,7 +723,7 @@
     font-size: 11px;
 }
 
-/* Controls sit at the row's right edge and only appear on hover */
+/* Controls sit at the row's right edge and remain discoverable. */
 .draw-steel-plus.sheet.dsp-compact .compact-entry-controls {
     margin-left: auto;
     display: inline-flex;
@@ -708,36 +732,53 @@
     white-space: nowrap;
 }
 
-.draw-steel-plus.sheet.dsp-compact .compact-entry-controls a {
-    opacity: 0;
+.draw-steel-plus.sheet.dsp-compact .compact-entry-controls :is(a, button),
+.draw-steel-plus.sheet.dsp-compact .quantity-controls button {
+    width: auto;
+    min-width: 0;
+    height: auto;
+    min-height: 0;
+    margin: 0;
+    padding: 2px;
+    border: 0;
+    background: none;
+    box-shadow: none;
+    opacity: 0.6;
     font-size: 11px;
     color: var(--dsp-text-muted);
     transition: opacity 0.15s ease;
 }
 
-.draw-steel-plus.sheet.dsp-compact .compact-entry:hover .compact-entry-controls a {
-    opacity: 0.85;
-}
-
-.draw-steel-plus.sheet.dsp-compact .compact-entry-controls a:hover {
-    color: var(--dsp-primary);
+.draw-steel-plus.sheet.dsp-compact .compact-entry:hover .compact-entry-controls :is(a, button) {
     opacity: 1;
 }
 
-.draw-steel-plus.sheet.dsp-compact .compact-entry-controls a.dsp-favorite-btn.dsp-favorited {
+.draw-steel-plus.sheet.dsp-compact .compact-entry-controls button i {
+    display: inline-block;
+    color: inherit;
+    font-size: inherit;
+    line-height: 1;
+}
+
+.draw-steel-plus.sheet.dsp-compact .compact-entry-controls :is(a, button):hover {
+    color: var(--dsp-compact-interactive);
+    opacity: 1;
+}
+
+.draw-steel-plus.sheet.dsp-compact .compact-entry-controls .dsp-favorite-btn.dsp-favorited {
     opacity: 0.9;
     color: var(--dsp-accent-strong);
 }
 
 /* Quantity +/- stays inline and interactive */
-.draw-steel-plus.sheet.dsp-compact .compact-entry .quantity-controls a {
+.draw-steel-plus.sheet.dsp-compact .compact-entry .quantity-controls :is(a, button) {
     color: var(--dsp-text-muted);
-    font-size: 10px;
+    font-size: 11px;
     padding: 0 2px;
 }
 
-.draw-steel-plus.sheet.dsp-compact .compact-entry .quantity-controls a:hover {
-    color: var(--dsp-primary);
+.draw-steel-plus.sheet.dsp-compact .compact-entry .quantity-controls :is(a, button):hover {
+    color: var(--dsp-compact-interactive);
 }
 
 /* Expanded descriptions read as plain paragraphs */
@@ -815,12 +856,12 @@
 }
 
 .draw-steel-plus.sheet.dsp-compact .item-list .item-column.item-controls a {
-    opacity: 0;
+    opacity: 0.6;
     transition: opacity 0.15s ease;
 }
 
 .draw-steel-plus.sheet.dsp-compact .item-list .item:hover .item-column.item-controls a {
-    opacity: 0.85;
+    opacity: 1;
 }
 
 .draw-steel-plus.sheet.dsp-compact
@@ -861,12 +902,12 @@
 }
 
 .draw-steel-plus.sheet.dsp-compact .effect-list .effect .effect-controls a {
-    opacity: 0;
+    opacity: 0.6;
     transition: opacity 0.15s ease;
 }
 
 .draw-steel-plus.sheet.dsp-compact .effect-list .effect:hover .effect-controls a {
-    opacity: 0.85;
+    opacity: 1;
 }
 
 /* --------------------------------------------------------------------------
@@ -918,7 +959,7 @@
 
 .draw-steel-plus.sheet.dsp-compact .compact-footer-label,
 .draw-steel-plus.sheet.dsp-compact .compact-footer-btn {
-    font-size: 10px;
+    font-size: 11px;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.8px;
@@ -941,8 +982,8 @@
 }
 
 .draw-steel-plus.sheet.dsp-compact .compact-footer-btn:hover {
-    color: var(--dsp-primary);
-    border-color: var(--dsp-primary);
+    color: var(--dsp-compact-interactive);
+    border-color: var(--dsp-compact-interactive);
     background: none;
     box-shadow: none;
 }
@@ -960,9 +1001,7 @@
 }
 
 .draw-steel-plus.sheet.dsp-compact .compact-footer input[type="number"]:focus {
-    border-color: var(--dsp-primary);
-    outline: none;
-    box-shadow: none;
+    border-color: var(--dsp-compact-interactive);
 }
 
 .draw-steel-plus.sheet.dsp-compact .compact-footer-sep {
@@ -975,7 +1014,7 @@
 }
 
 .draw-steel-plus.sheet.dsp-compact .compact-footer-sub {
-    font-size: 10px;
+    font-size: 11px;
     text-transform: uppercase;
     letter-spacing: 0.6px;
     color: var(--dsp-text-faint);
@@ -1031,7 +1070,7 @@
 }
 
 .draw-steel-plus.sheet.dsp-compact .compact-footer-edit fieldset legend {
-    font-size: 10px;
+    font-size: 11px;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 1px;
@@ -1155,6 +1194,9 @@
 .draw-steel-plus.sheet.dsp-compact:has(.compact-header:hover) .window-header .header-button,
 .draw-steel-plus.sheet.dsp-compact:has(.compact-header:hover) .window-header button,
 .draw-steel-plus.sheet.dsp-compact:has(.compact-header:hover) .window-header a,
+.draw-steel-plus.sheet.dsp-compact .window-header:focus-within .header-button,
+.draw-steel-plus.sheet.dsp-compact .window-header:focus-within button,
+.draw-steel-plus.sheet.dsp-compact .window-header:focus-within a,
 .draw-steel-plus.sheet.dsp-compact .window-header:hover .header-button,
 .draw-steel-plus.sheet.dsp-compact .window-header:hover button,
 .draw-steel-plus.sheet.dsp-compact .window-header:hover a {
@@ -1207,62 +1249,39 @@
 }
 
 /* --------------------------------------------------------------------------
-   Tab nav — collapsed to a 12px indicator strip, expands on hover
-   Saves ~34px that was always-visible navigation chrome.
+   Tab nav — always visible; icon labels remain available as tooltips.
    -------------------------------------------------------------------------- */
 
 .draw-steel-plus.sheet.dsp-compact nav.sheet-tabs {
-    height: 12px;
-    min-height: 12px;
-    overflow: hidden;
+    height: 36px;
+    min-height: 36px;
+    overflow-x: auto;
+    overflow-y: hidden;
     padding: 0 !important;
-    border-bottom: 0 !important;
-    cursor: pointer;
+    border-bottom: 1px solid var(--dsp-border) !important;
     position: relative;
-    transition: height 160ms ease, min-height 160ms ease;
     background: none;
     gap: 0;
     box-shadow: none;
+    justify-content: center;
 }
 
 .draw-steel-plus.sheet.dsp-compact nav.sheet-tabs::before {
-    content: "";
-    position: absolute;
-    top: 4px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 46px;
-    height: 3px;
-    border-radius: 999px;
-    background: var(--dsp-border);
-    opacity: 0.8;
-    pointer-events: none;
-    transition: opacity 140ms ease, width 140ms ease;
-}
-
-.draw-steel-plus.sheet.dsp-compact nav.sheet-tabs:hover {
-    height: 40px;
-    min-height: 40px;
-}
-
-.draw-steel-plus.sheet.dsp-compact nav.sheet-tabs:hover::before {
-    width: 32px;
-    opacity: 0;
+    content: none;
 }
 
 /* Tabs are circular icon buttons (label moves to a tooltip), reference style */
 .draw-steel-plus.sheet.dsp-compact nav.sheet-tabs a {
-    opacity: 0;
-    pointer-events: none;
-    transform: translateY(-4px);
-    transition: opacity 120ms ease, transform 120ms ease,
-        border-color 120ms ease, color 120ms ease, background-color 120ms ease;
+    opacity: 1;
+    pointer-events: auto;
+    transition: border-color 120ms ease, color 120ms ease,
+        background-color 120ms ease;
     display: grid;
     place-items: center;
     width: 28px;
     height: 28px;
     min-width: 28px;
-    margin: 6px 3px 0;
+    margin: 3px;
     padding: 0;
     font-size: 0;
     letter-spacing: 0;
@@ -1281,12 +1300,6 @@
     margin: 0;
 }
 
-.draw-steel-plus.sheet.dsp-compact nav.sheet-tabs:hover a {
-    opacity: 1;
-    pointer-events: auto;
-    transform: translateY(0);
-}
-
 .draw-steel-plus.sheet.dsp-compact nav.sheet-tabs a:hover {
     color: var(--dsp-text);
     border-color: var(--dsp-border-light, var(--dsp-border));
@@ -1294,8 +1307,8 @@
 }
 
 .draw-steel-plus.sheet.dsp-compact nav.sheet-tabs a.active {
-    color: var(--dsp-primary);
-    border-color: var(--dsp-primary);
+    color: var(--dsp-compact-interactive);
+    border-color: var(--dsp-compact-interactive);
     background: color-mix(in srgb, var(--dsp-primary) 14%, var(--dsp-surface-raised));
     box-shadow: none;
 }
@@ -1367,18 +1380,18 @@
     border-radius: 4px;
     color: var(--dsp-text-muted);
     background: color-mix(in srgb, var(--dsp-surface) 70%, transparent);
-    opacity: 0;
+    opacity: 0.6;
     transition: opacity 0.12s ease, color 0.12s ease;
     cursor: pointer;
 }
 
 .draw-steel-plus.sheet.dsp-compact .sheet-header:hover .compact-art-action {
-    opacity: 0.75;
+    opacity: 0.85;
 }
 
 .draw-steel-plus.sheet.dsp-compact .compact-art-action:hover {
     opacity: 1;
-    color: var(--dsp-primary);
+    color: var(--dsp-compact-interactive);
 }
 
 .draw-steel-plus.sheet.dsp-compact .dsp-compact-art-image {
@@ -1421,7 +1434,7 @@
 
 /* When the inline text IS the whole description, hide the expand chevron */
 .draw-steel-plus.sheet.dsp-compact .compact-entry.dsp-inline-only
-    .compact-entry-controls a[data-action="toggleDocumentDescription"] {
+    .compact-entry-controls [data-action="toggleDocumentDescription"] {
     display: none;
 }
 
@@ -1456,7 +1469,7 @@
 .draw-steel-plus.sheet.dsp-compact .compact-resource-cost {
     color: var(--dsp-accent);
     font-weight: 700;
-    font-size: 10px;
+    font-size: 11px;
     text-transform: uppercase;
     letter-spacing: 0.4px;
 }
@@ -1467,13 +1480,9 @@
    can colour the value without needing media queries or attr() tricks.
    -------------------------------------------------------------------------- */
 
-/* Values just read bold-white; only a penalty (negative) earns a colour. */
+/* Nonzero values use the normal text colour; zero remains visually muted. */
 .draw-steel-plus.sheet.dsp-compact .char-badge[data-char-sign="positive"] .char-value {
     color: var(--dsp-text);
-}
-
-.draw-steel-plus.sheet.dsp-compact .char-badge[data-char-sign="negative"] .char-value {
-    color: var(--dsp-danger);
 }
 
 .draw-steel-plus.sheet.dsp-compact .char-badge[data-char-sign="zero"] .char-value {
@@ -1737,7 +1746,7 @@
     color: var(--dsp-text);
 }
 .draw-steel-plus.sheet.dsp-compact .item-embed .power-roll-display dd.tier3 {
-    color: var(--dsp-primary);
+    color: var(--dsp-accent);
     font-weight: 600;
 }
 
@@ -1821,7 +1830,7 @@
     align-items: center;
     gap: 10px;
     margin-bottom: 6px;
-    font-size: 10px;
+    font-size: 11px;
     font-weight: 700;
     letter-spacing: 2px;
     text-transform: uppercase;
@@ -1907,7 +1916,7 @@
 
 .draw-steel-plus.sheet.dsp-compact .compact-run-accent,
 .draw-steel-plus.sheet.dsp-compact .compact-run-accent input {
-    color: var(--dsp-primary);
+    color: var(--dsp-compact-interactive);
 }
 
 /* Immunities / Weaknesses — labelled lines under the combat run */
@@ -2000,7 +2009,7 @@
 /* Resource cost beside the ability name, gold */
 .draw-steel-plus.sheet.dsp-compact .compact-entry-cost {
     margin-left: 7px;
-    font-size: 9.5px;
+    font-size: 11px;
     font-weight: 700;
     letter-spacing: 0.4px;
     text-transform: uppercase;
@@ -2015,7 +2024,7 @@
     align-items: baseline;
     gap: 7px;
     margin-top: 5px;
-    font-size: 10px;
+    font-size: 11px;
     font-weight: 600;
     letter-spacing: 0.9px;
     text-transform: uppercase;
@@ -2043,9 +2052,9 @@
 
 .draw-steel-plus.sheet.dsp-compact .sheet-header .origins-row .tag {
     font-style: normal;
-    font-size: 9px;
+    font-size: 10.5px;
     font-weight: 600;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.06em;
     text-transform: uppercase;
     color: var(--dsp-text-muted);
     border: 1px solid color-mix(in srgb, var(--dsp-border-light) 90%, transparent);
@@ -2059,4 +2068,33 @@
 
 .draw-steel-plus.sheet.dsp-compact .sheet-header .origins-row .tag a.filled {
     color: inherit;
+}
+
+@container (max-width: 460px) {
+    .draw-steel-plus.sheet.dsp-compact .compact-combat-skills {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .draw-steel-plus.sheet.dsp-compact .compact-combat-skills > * {
+        width: 100%;
+    }
+}
+
+@media (hover: none) {
+    .draw-steel-plus.sheet.dsp-compact .window-header .header-button,
+    .draw-steel-plus.sheet.dsp-compact .window-header button,
+    .draw-steel-plus.sheet.dsp-compact .window-header a {
+        opacity: 1;
+        pointer-events: auto;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .draw-steel-plus.sheet.dsp-compact *,
+    .draw-steel-plus.sheet.dsp-compact *::before,
+    .draw-steel-plus.sheet.dsp-compact *::after {
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+    }
 }

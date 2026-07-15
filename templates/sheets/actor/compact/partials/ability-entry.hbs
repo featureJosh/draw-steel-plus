@@ -11,13 +11,13 @@
          "Name — Main Action · Melee 2 · 1 creature or object" --}}
     <span class="compact-entry-metaline"><span class="compact-type-label">{{typeLabel}}</span>{{#if (eq typeKey "villain")}} <span class="compact-bullet">&bull;</span> {{localize "DRAW_STEEL.Item.ability.Order"}} {{ctx.order}}{{/if}}{{#if ctx.formattedLabels.distance}} <span class="compact-bullet">&bull;</span> {{ctx.formattedLabels.distance}}{{/if}}{{#if ctx.formattedLabels.target}} <span class="compact-bullet">&bull;</span> {{ctx.formattedLabels.target}}{{/if}}</span>
     <span class="compact-entry-controls">
-      <a class="fa-fw fa-solid fa-play" data-action="useAbility"></a>
-      <a class="fa-fw fa-solid fa-comment" data-action="documentListShare"></a>
+      <button type="button" data-action="useAbility" data-tooltip="DRAW_STEEL_PLUS.Sheet.Use" aria-label="{{localize 'DRAW_STEEL_PLUS.Sheet.Use'}}"><i class="fa-fw fa-solid fa-play" aria-hidden="true"></i></button>
+      <button type="button" data-action="documentListShare" data-tooltip="DRAW_STEEL_PLUS.Sheet.Share" aria-label="{{localize 'DRAW_STEEL_PLUS.Sheet.Share'}}"><i class="fa-fw fa-solid fa-comment" aria-hidden="true"></i></button>
       {{#if @root.favoritesEnabled}}
-      <a class="dsp-favorite-btn {{#if ctx.isFavorited}}dsp-favorited{{/if}}" data-action="toggleFavorite" data-tooltip="{{#if ctx.isFavorited}}DRAW_STEEL_PLUS.Favorites.Unfavorite{{else}}DRAW_STEEL_PLUS.Favorites.Favorite{{/if}}"><i class="fa-{{#if ctx.isFavorited}}solid{{else}}regular{{/if}} fa-star"></i></a>
+      <button type="button" class="dsp-favorite-btn {{#if ctx.isFavorited}}dsp-favorited{{/if}}" data-action="toggleFavorite" data-tooltip="{{#if ctx.isFavorited}}DRAW_STEEL_PLUS.Favorites.Unfavorite{{else}}DRAW_STEEL_PLUS.Favorites.Favorite{{/if}}" aria-label="{{localize (ifThen ctx.isFavorited 'DRAW_STEEL_PLUS.Favorites.Unfavorite' 'DRAW_STEEL_PLUS.Favorites.Favorite')}}"><i class="fa-{{#if ctx.isFavorited}}solid{{else}}regular{{/if}} fa-star"></i></button>
       {{/if}}
-      <a class="fa-fw fa-solid fa-ellipsis-vertical" data-action="documentListContext"></a>
-      <a class="fa-fw fa-solid fa-angle-{{ifThen ctx.expanded "down" "right"}}" data-action="toggleDocumentDescription"></a>
+      <button type="button" data-action="documentListContext" data-tooltip="DRAW_STEEL_PLUS.Sheet.MoreActions" aria-label="{{localize 'DRAW_STEEL_PLUS.Sheet.MoreActions'}}"><i class="fa-fw fa-solid fa-ellipsis-vertical" aria-hidden="true"></i></button>
+      <button type="button" data-action="toggleDocumentDescription" data-tooltip="{{ifThen ctx.expanded 'DRAW_STEEL_PLUS.Sheet.Collapse' 'DRAW_STEEL_PLUS.Sheet.Expand'}}" aria-label="{{localize (ifThen ctx.expanded 'DRAW_STEEL_PLUS.Sheet.Collapse' 'DRAW_STEEL_PLUS.Sheet.Expand')}}" aria-expanded="{{ifThen ctx.expanded 'true' 'false'}}"><i class="fa-fw fa-solid fa-angle-{{ifThen ctx.expanded "down" "right"}}" aria-hidden="true"></i></button>
     </span>
   </div>
   <div class="document-description item-embed content-embed {{#if ctx.expanded}}expanded{{/if}}">
