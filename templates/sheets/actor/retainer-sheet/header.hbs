@@ -58,10 +58,23 @@
         {{#if system.retainer.roleLabel}}
         <div class="tag">{{system.retainer.roleLabel}}</div>
         {{/if}}
+        {{#if system.advancementReady}}
+        <button type="button" class="tag" {{disabled (not editable)}} data-action="levelUp" data-tooltip="DRAW_STEEL.SHEET.LevelUp">
+          {{localize "DRAW_STEEL.Item.class.FIELDS.level.label"}} {{system.level}}
+          <i class="fa-solid fa-up-long" inert></i>
+        </button>
+        {{else}}
+        <div class="tag">{{localize "DRAW_STEEL.Item.class.FIELDS.level.label"}} {{system.level}}</div>
+        {{/if}}
         {{#unless isPlay}}
         <div class="tag">
           <a data-action="editRetainerMetadata" class="filled">
             <i class="fa-solid fa-gear"></i>
+          </a>
+        </div>
+        <div class="tag">
+          <a data-action="openAdvancements" class="filled" data-tooltip="{{localize 'DOCUMENT.AdvancementPl'}}">
+            <i class="fa-solid fa-circle-nodes"></i>
           </a>
         </div>
         {{/unless}}

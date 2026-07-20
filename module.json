@@ -2,11 +2,11 @@
   "id": "draw-steel-plus",
   "title": "Draw Steel Plus",
   "description": "A module that improves upon the default Draw Steel system UI/UX",
-  "version": "2.2.8",
+  "version": "2.3.0",
   "url": "https://github.com/featureJosh/draw-steel-plus",
   "bugs": "https://github.com/featureJosh/draw-steel-plus/issues",
   "compatibility": {
-    "minimum": "14.360",
+    "minimum": "14.364",
     "verified": "14",
     "maximum": ""
   },
@@ -22,8 +22,8 @@
         "id": "draw-steel",
         "type": "system",
         "compatibility": {
-          "minimum": "1.0.0",
-          "verified": "1.0.0"
+          "minimum": "1.1.0",
+          "verified": "1.1.1"
         }
       }
     ],

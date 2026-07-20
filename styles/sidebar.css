@@ -152,6 +152,47 @@
     color: var(--dsp-primary-light);
 }
 
+/* With Captain toggle (minion squads) — matches the sidebar resource header button */
+.draw-steel-plus.sheet .with-captain {
+    margin-bottom: calc(12px * var(--dsp-scale, 1));
+}
+
+.draw-steel-plus.sheet .with-captain:last-child {
+    margin-bottom: 0;
+}
+
+.draw-steel-plus.sheet .with-captain button {
+    background: none;
+    border: none;
+    color: var(--dsp-text-light);
+    font-size: var(--dsp-font-size-md);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    cursor: pointer;
+    padding: 2px 4px;
+    border-radius: var(--dsp-radius-sm);
+    display: inline-flex;
+    align-items: center;
+    gap: calc(5px * var(--dsp-scale, 1));
+    transition:
+        color var(--dsp-transition),
+        background var(--dsp-transition);
+}
+
+.draw-steel-plus.sheet .with-captain button:hover {
+    color: var(--dsp-accent);
+    background: rgba(200, 170, 110, 0.08);
+}
+
+.draw-steel-plus.sheet .with-captain label {
+    display: block;
+    padding: 0 4px;
+    margin-top: calc(6px * var(--dsp-scale, 1));
+    font-size: var(--dsp-font-size-sm);
+    color: var(--dsp-text-muted);
+}
+
 .draw-steel-plus.sheet .stam-bar-wrap {
     position: relative;
     margin-bottom: calc(8px * var(--dsp-scale, 1));

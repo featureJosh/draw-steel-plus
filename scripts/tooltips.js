@@ -414,6 +414,11 @@ export class TooltipsDSP {
     if (descValue && doc.type !== "ability") parts.push(descValue);
     if (sys.story) parts.push(`<p><em>${sys.story}</em></p>`);
     if (sys.effect?.before) parts.push(sys.effect.before);
+    // System 1.1 abilities carry SpecialEffect pseudo-documents (system.effects)
+    // instead of effect.before/after + spend; sortedContents keeps their sheet order.
+    const specialEffects = sys.effects?.sortedContents ?? [];
+    for (const fx of specialEffects.filter((e) => e.before))
+      parts.push(fx.description);
     if (doc.type === "ability") {
       const powerRoll = await this._buildFallbackPowerRoll(doc);
       if (powerRoll) parts.push(powerRoll);
@@ -423,6 +428,12 @@ export class TooltipsDSP {
       const spendLabel = await this._getAbilitySpendLabel(doc);
       parts.push(
         `<section class="spend"><dl><dt>${spendLabel}</dt><dd>${sys.spend.text}</dd></dl></section>`,
+      );
+    }
+    // fx.label is pre-localized by the system (e.g. spend effects render "Spend X <resource>").
+    for (const fx of specialEffects.filter((e) => !e.before)) {
+      parts.push(
+        `<section class="spend"><dl><dt>${fx.label}</dt><dd>${fx.description}</dd></dl></section>`,
       );
     }
 

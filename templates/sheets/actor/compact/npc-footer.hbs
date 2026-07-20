@@ -29,6 +29,15 @@
       <span class="compact-footer-static">{{system.monster.freeStrike}}</span>
     </div>
 
+    {{#if withCaptain.exists}}
+    <div class="compact-footer-group">
+      <button type="button" class="compact-footer-label compact-footer-btn" data-action="toggleWithCaptainEffect" data-effect-id="{{withCaptain.effectId}}" data-tooltip="DRAW_STEEL.ActiveEffect.WithCaptainEffects.embedLabel">
+        {{localize "DRAW_STEEL.ActiveEffect.WithCaptainEffects.embedLabel"}}
+        <i class="fa-solid {{ifThen withCaptain.effectEnabled "fa-toggle-on" "fa-toggle-off"}}"></i>
+      </button>
+    </div>
+    {{/if}}
+
   </div>
   {{else}}
   <div class="compact-footer-edit">

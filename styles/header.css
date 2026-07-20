@@ -865,6 +865,19 @@
     color: var(--dsp-danger);
 }
 
+/* Retainer level pill renders as a <button> when an advancement is ready */
+.draw-steel-plus.sheet .sheet-header .origins-row button.tag {
+    font: inherit;
+    cursor: pointer;
+}
+
+.draw-steel-plus.sheet .sheet-header .origins-row button.tag:disabled {
+    cursor: default;
+    opacity: 0.7;
+    transform: none;
+    box-shadow: none;
+}
+
 .draw-steel-plus.sheet .sheet-header .stats-block {
     display: flex;
     flex-direction: column;
