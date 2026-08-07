@@ -1039,6 +1039,7 @@
     font-size: var(--dsp-font-size-xl);
     padding: calc(8px * var(--dsp-scale, 1));
     line-height: 1.5;
+    min-height: calc(5.5em * var(--dsp-scale, 1));
     resize: vertical;
     transition:
         border-color var(--dsp-transition),

@@ -1,6 +1,11 @@
 {{formGroup systemFields.echelon value=system.echelon options=echelons disabled=isPlay}}
-{{formGroup systemFields.story value=system.story disabled=isPlay}}
+<div class="form-group stacked">
+  <label>{{systemFields.story.label}}</label>
+  <textarea name="system.story" rows="3" {{disabled isPlay}}>{{system.story}}</textarea>
+</div>
 <fieldset {{disabled isPlay}}>
   <legend>{{systemFields.prerequisites.label}}</legend>
-  {{formGroup systemFields.prerequisites.fields.value value=system.prerequisites.value}}
+  <div class="form-group stacked">
+    <textarea name="system.prerequisites.value" rows="3">{{system.prerequisites.value}}</textarea>
+  </div>
 </fieldset>

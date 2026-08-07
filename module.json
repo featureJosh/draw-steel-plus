@@ -7,13 +7,13 @@
   "bugs": "https://github.com/featureJosh/draw-steel-plus/issues",
   "compatibility": {
     "minimum": "14.364",
-    "verified": "14",
-    "maximum": ""
+    "verified": "14"
   },
   "authors": [
     {
       "name": "featureJosh",
-      "url": "https://github.com/featureJosh"
+      "url": "https://github.com/featureJosh",
+      "flags": {}
     }
   ],
   "relationships": {
@@ -31,20 +31,29 @@
       {
         "id": "socketlib",
         "type": "module",
-        "manifest": "https://github.com/farling42/foundryvtt-socketlib/releases/latest/download/module.json"
+        "manifest": "https://github.com/farling42/foundryvtt-socketlib/releases/latest/download/module.json",
+        "compatibility": {}
       }
     ]
   },
   "socket": true,
-  "esmodules": ["scripts/main.js"],
-  "styles": ["styles/main.css"],
+  "esmodules": [
+    "scripts/main.js"
+  ],
+  "styles": [
+    {
+      "src": "styles/main.css"
+    }
+  ],
   "languages": [
     {
       "lang": "en",
       "name": "English",
-      "path": "lang/en.json"
+      "path": "lang/en.json",
+      "flags": {}
     }
   ],
   "manifest": "https://github.com/featureJosh/draw-steel-plus/releases/latest/download/module.json",
-  "download": "https://github.com/featureJosh/draw-steel-plus/releases/latest/download/draw-steel-plus.zip"
+  "download": "https://github.com/featureJosh/draw-steel-plus/releases/download/v2.3.2/draw-steel-plus.zip",
+  "flags": {}
 }
