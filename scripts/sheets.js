@@ -1223,6 +1223,10 @@ function _registerItemSheet(sheets, SHEET_SIZES) {
       return `${this.document.name} [DS+]`;
     }
 
+    _getHeaderControls() {
+      return deduplicateHeaderControls(super._getHeaderControls());
+    }
+
     _onFirstRender(context, options) {
       super._onFirstRender(context, options);
       const scale = getFontScale();

@@ -69,7 +69,9 @@ function checkManifest() {
     check(existsSync(absolute(scriptPath)), `module.json: missing ${scriptPath}`);
   }
 
-  for (const stylePath of manifest.styles ?? []) {
+  for (const style of manifest.styles ?? []) {
+    // ponytail: v14 allows both "path" and { src: "path" }
+    const stylePath = typeof style === "string" ? style : style.src;
     check(existsSync(absolute(stylePath)), `module.json: missing ${stylePath}`);
   }
 
