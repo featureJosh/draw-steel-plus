@@ -1,0 +1,223 @@
+/* ==========================================================================
+   DS+ Minion sheet: single-body stat block (Draw Steel 1.2.0 minion sheet).
+   Header is the DS+ NPC header; the body stacks a stat strip, characteristics,
+   features, abilities and effects. Item lists reuse body.css rules.
+   ========================================================================== */
+
+.draw-steel-plus.dsp-minion .window-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.draw-steel-plus.dsp-minion .minion-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: calc(12px * var(--dsp-scale, 1));
+    padding: calc(12px * var(--dsp-scale, 1)) calc(16px * var(--dsp-scale, 1));
+    background: var(--dsp-background);
+    color: var(--dsp-text);
+    overflow-y: auto;
+}
+
+.draw-steel-plus.dsp-minion .minion-stat-strip {
+    display: flex;
+    flex-direction: column;
+    gap: calc(10px * var(--dsp-scale, 1));
+}
+
+.draw-steel-plus.dsp-minion .minion-stat-grid {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
+@container (max-width: 560px) {
+    .draw-steel-plus.dsp-minion .minion-stat-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+.draw-steel-plus.dsp-minion .minion-stat-grid .sidebar-stat-badge {
+    padding: calc(6px * var(--dsp-scale, 1)) calc(8px * var(--dsp-scale, 1));
+    background: var(--dsp-surface);
+}
+
+.draw-steel-plus.dsp-minion .minion-stat-grid .sidebar-stat-badge .stat-val {
+    display: inline-flex;
+    align-items: baseline;
+    gap: calc(4px * var(--dsp-scale, 1));
+    font-size: calc(1.15rem * var(--dsp-scale, 1));
+}
+
+.draw-steel-plus.dsp-minion .minion-stat-grid .sidebar-stat-badge .stat-val i {
+    font-size: var(--dsp-font-size-lg);
+    color: var(--dsp-accent);
+}
+
+.draw-steel-plus.dsp-minion .minion-stat-grid .sidebar-stat-badge .stat-sep {
+    color: var(--dsp-text-faint);
+    font-weight: 400;
+}
+
+.draw-steel-plus.dsp-minion .minion-stamina input {
+    width: calc(44px * var(--dsp-scale, 1));
+    height: auto;
+    padding: 0 2px;
+    margin: 0;
+    text-align: center;
+    font-size: inherit;
+    font-weight: inherit;
+    color: var(--dsp-text);
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid var(--dsp-border);
+    border-radius: var(--dsp-radius-sm);
+}
+
+.draw-steel-plus.dsp-minion .minion-stamina input:focus {
+    outline: none;
+    border-color: var(--dsp-accent);
+    box-shadow: 0 0 0 1px var(--dsp-accent-dim);
+}
+
+.draw-steel-plus.dsp-minion button.minion-free-strike {
+    font: inherit;
+    color: inherit;
+    cursor: pointer;
+    line-height: normal;
+    width: auto;
+    height: auto;
+    margin: 0;
+}
+
+.draw-steel-plus.dsp-minion button.minion-free-strike:hover {
+    border-color: var(--dsp-primary-light);
+    background: rgba(122, 27, 27, 0.25);
+}
+
+.draw-steel-plus.dsp-minion button.minion-free-strike:hover .stat-val {
+    color: var(--dsp-accent-bright);
+}
+
+.draw-steel-plus.dsp-minion .minion-secondary {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: calc(8px * var(--dsp-scale, 1)) calc(16px * var(--dsp-scale, 1));
+}
+
+.draw-steel-plus.dsp-minion .minion-secondary .with-captain {
+    grid-column: 1 / -1;
+}
+
+.draw-steel-plus.dsp-minion .minion-secondary .with-captain label {
+    display: block;
+    padding: 0 4px;
+    font-size: var(--dsp-font-size-base);
+    color: var(--dsp-text-muted);
+}
+
+.draw-steel-plus.dsp-minion .minion-edit {
+    gap: calc(10px * var(--dsp-scale, 1));
+}
+
+.draw-steel-plus.dsp-minion .minion-edit-stats {
+    align-self: flex-start;
+    display: inline-flex;
+    align-items: center;
+    gap: calc(6px * var(--dsp-scale, 1));
+    padding: calc(6px * var(--dsp-scale, 1)) calc(12px * var(--dsp-scale, 1));
+    background: var(--dsp-surface-raised);
+    border: 1px solid var(--dsp-border);
+    border-radius: var(--dsp-radius-sm);
+    color: var(--dsp-text);
+    font-size: var(--dsp-font-size-lg);
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.draw-steel-plus.dsp-minion .minion-edit-stats:hover {
+    border-color: var(--dsp-accent);
+    background: var(--dsp-accent-dim);
+}
+
+.draw-steel-plus.dsp-minion .minion-edit .sidebar-edit-section {
+    display: flex;
+    flex-direction: column;
+    gap: calc(8px * var(--dsp-scale, 1));
+}
+
+.draw-steel-plus.dsp-minion .minion-edit .form-group.slim .form-fields {
+    display: flex;
+    gap: calc(6px * var(--dsp-scale, 1));
+}
+
+/* Characteristics row */
+.draw-steel-plus.dsp-minion .minion-characteristics {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    gap: calc(6px * var(--dsp-scale, 1));
+    padding: calc(6px * var(--dsp-scale, 1)) 0;
+    border-top: 1px solid var(--dsp-border);
+    border-bottom: 1px solid var(--dsp-border);
+}
+
+.draw-steel-plus.dsp-minion .minion-characteristics .char-badge {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: calc(64px * var(--dsp-scale, 1));
+    padding: calc(4px * var(--dsp-scale, 1)) calc(8px * var(--dsp-scale, 1));
+    border: 1px solid transparent;
+    border-radius: var(--dsp-radius-sm);
+    color: var(--dsp-text);
+    text-decoration: none;
+    transition:
+        border-color var(--dsp-transition),
+        background var(--dsp-transition);
+}
+
+.draw-steel-plus.dsp-minion .minion-characteristics a.char-badge:not(.disabled):hover {
+    border-color: var(--dsp-accent);
+    background: var(--dsp-accent-dim);
+}
+
+.draw-steel-plus.dsp-minion .minion-characteristics .char-badge .char-label {
+    font-size: var(--dsp-font-size-2xs);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--dsp-text-faint);
+}
+
+.draw-steel-plus.dsp-minion .minion-characteristics .char-badge .char-value {
+    font-size: var(--dsp-font-size-6xl);
+    font-weight: 800;
+    line-height: 1.1;
+}
+
+.draw-steel-plus.dsp-minion .minion-characteristics .char-badge.edit input {
+    width: calc(48px * var(--dsp-scale, 1));
+    text-align: center;
+    font-size: var(--dsp-font-size-4xl);
+    font-weight: 700;
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid var(--dsp-border);
+    border-radius: var(--dsp-radius-sm);
+    color: var(--dsp-text);
+}
+
+/* Effects list in the body (flat list, no status fieldset) */
+.draw-steel-plus.dsp-minion .effect-list-container {
+    background-color: var(--dsp-surface);
+    border: 1px solid var(--dsp-border);
+    border-radius: var(--dsp-radius-md);
+}
+
+.draw-steel-plus.dsp-minion .effect-list .effect.disabled .effect-name .label {
+    opacity: 0.55;
+    text-decoration: line-through;
+}
+
+/* Search filter sits directly above the lists */
+.draw-steel-plus.dsp-minion .minion-body .dsp-search-filter {
+    margin-bottom: calc(-4px * var(--dsp-scale, 1));
+}

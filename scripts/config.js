@@ -19,6 +19,16 @@ export const SHEET_SIZE_DEFAULTS = {
     height: 800,
   },
 
+  companion: {
+    width: 880,
+    height: 800,
+  },
+
+  minion: {
+    width: 640,
+    height: 720,
+  },
+
   party: {
     width: 700,
     height: 600,
@@ -126,11 +136,13 @@ export const HEADER_DEFAULTS = {
   npcHeaderEnabled: true,
   objectHeaderEnabled: true,
   retainerHeaderEnabled: true,
+  companionHeaderEnabled: true,
   partyHeaderEnabled: true,
   heroHeaderImage: "",
   npcHeaderImage: "",
   objectHeaderImage: "",
   retainerHeaderImage: "",
+  companionHeaderImage: "",
   partyHeaderImage: "",
 };
 
@@ -139,6 +151,7 @@ export const DEFAULT_HEADER_IMAGES = {
   npc: "modules/draw-steel-plus/assets/sketch-images/s2.jpg",
   object: "modules/draw-steel-plus/assets/sketch-images/s3.jpg",
   retainer: "modules/draw-steel-plus/assets/sketch-images/s2.jpg",
+  companion: "modules/draw-steel-plus/assets/sketch-images/s3.jpg",
   party: "modules/draw-steel-plus/assets/sketch-images/s1.jpg",
 };
 

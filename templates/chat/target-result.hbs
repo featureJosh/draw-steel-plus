@@ -1,0 +1,51 @@
+{{!-- Per-target ability result (Draw Steel 1.2.0 TargetResult part): the target's
+     power roll + damage rolls, the effect text that applies to this target, and
+     potency outcomes. Context: ctx.target {owner, uuid, name, img}, ctx.rolls,
+     ctx.foundItem, ctx.tierSymbol, ctx.targetText, ctx.potency [{fail, text}],
+     ctx.buttons. --}}
+<div class="chat-card result-card target-card">
+  <div class="card-target">
+    <img class="target-img" src="{{ctx.target.img}}" alt="{{ctx.target.name}}">
+    {{#if ctx.target.owner}}
+    <a class="target-name" data-uuid="{{ctx.target.uuid}}" data-tooltip="DRAW_STEEL.ROLL.Power.SelectToken" data-action="selectToken">{{ctx.target.name}}</a>
+    {{else}}
+    <span class="target-name" data-uuid="{{ctx.target.uuid}}">{{ctx.target.name}}</span>
+    {{/if}}
+    {{#if ctx.tierSymbol}}
+    <span class="target-tier {{part.tierKey}}" data-tooltip="{{localize "DRAW_STEEL_PLUS.Chat.TierTooltip" tier=part.tier}}">{{ctx.tierSymbol}}</span>
+    {{/if}}
+    <a class="dsp-roll-context fa-fw fa-solid fa-ellipsis-vertical" data-action="resultPartContext" aria-label="{{localize "DRAW_STEEL_PLUS.Sheet.MoreActions"}}"></a>
+  </div>
+  {{#if part.flavor}}
+  <p class="supplement flavor">{{{ctx.flavor}}}</p>
+  {{/if}}
+  <div class="card-rolls">
+    {{#each ctx.rolls}}{{{this}}}{{/each}}
+  </div>
+  {{#unless ctx.foundItem}}
+  <p class="supplement">{{localize "DRAW_STEEL.Item.ability.EmbedFail"}}</p>
+  {{/unless}}
+  {{#if ctx.targetText}}
+  <section class="card-result card-target-text">
+    <dl class="power-roll-display">
+      <dt class="{{part.tierKey}}">{{ctx.tierSymbol}}</dt>
+      <dd>{{{ctx.targetText}}}</dd>
+    </dl>
+  </section>
+  {{/if}}
+  {{#if ctx.potency.length}}
+  <section class="card-result card-potency">
+    {{#each ctx.potency}}
+    <div class="potency-row {{ifThen fail "applies" "resisted"}}" data-tooltip="{{localize (ifThen fail "DRAW_STEEL_PLUS.Chat.PotencyApplies" "DRAW_STEEL_PLUS.Chat.PotencyResisted")}}">
+      <i class="fa-solid {{ifThen fail "fa-circle-check" "fa-circle-xmark"}}" inert></i>
+      <span class="label">{{{text}}}</span>
+    </div>
+    {{/each}}
+  </section>
+  {{/if}}
+  {{#if ctx.buttons.length}}
+  <div class="card-buttons">
+    {{#each ctx.buttons as |button|}}{{{button.outerHTML}}}{{/each}}
+  </div>
+  {{/if}}
+</div>

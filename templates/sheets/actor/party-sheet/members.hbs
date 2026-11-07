@@ -32,12 +32,12 @@
 
       <div class="dsp-member-controls">
         {{#unless @root.isPlay}}
-        <a class="dsp-member-control" data-action="removeMember" data-tooltip="DRAW_STEEL.Actor.party.removeMember">
+        <a class="dsp-member-control" data-action="removeMember" data-tooltip="DRAW_STEEL_PLUS.Sheet.RemoveMember">
           <i class="fa-solid fa-fw fa-trash"></i>
         </a>
         {{/unless}}
         {{#if (and @root.isPlay canView)}}
-        <a class="dsp-member-control" data-action="showMember" data-tooltip="DRAW_STEEL.Actor.party.showMember">
+        <a class="dsp-member-control" data-action="showMember" data-tooltip="DRAW_STEEL_PLUS.Sheet.ShowMember">
           <i class="fa-solid fa-fw fa-arrow-up-right-from-square"></i>
         </a>
         {{/if}}

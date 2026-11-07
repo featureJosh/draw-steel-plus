@@ -8,10 +8,12 @@ const CHAT_TEMPLATES = {
   abilityResult: `${MODULE_PATH}/templates/chat/ability-result.hbs`,
   abilityUse: `${MODULE_PATH}/templates/chat/ability-use.hbs`,
   content: `${MODULE_PATH}/templates/chat/content.hbs`,
+  fall: `${MODULE_PATH}/templates/chat/fall.hbs`,
   heroToken: `${MODULE_PATH}/templates/chat/hero-token.hbs`,
   project: `${MODULE_PATH}/templates/chat/project.hbs`,
   roll: `${MODULE_PATH}/templates/chat/roll.hbs`,
   savingThrow: `${MODULE_PATH}/templates/chat/saving-throw.hbs`,
+  targetResult: `${MODULE_PATH}/templates/chat/target-result.hbs`,
   test: `${MODULE_PATH}/templates/chat/test.hbs`,
   testRequest: `${MODULE_PATH}/templates/chat/test-request.hbs`,
 };
@@ -36,20 +38,29 @@ export async function registerChatTemplates() {
     return;
   }
 
+  /* Keyed by the system's export names in ds.data.pseudoDocuments.messageParts.
+     FallPart and TargetResult are new in Draw Steel 1.2.0 (per-target results
+     and falling damage). */
   const overrides = {
     AbilityResult: CHAT_TEMPLATES.abilityResult,
     AbilityUse: CHAT_TEMPLATES.abilityUse,
     ContentPart: CHAT_TEMPLATES.content,
+    FallPart: CHAT_TEMPLATES.fall,
     HeroTokenPart: CHAT_TEMPLATES.heroToken,
     ProjectPart: CHAT_TEMPLATES.project,
     RollPart: CHAT_TEMPLATES.roll,
     SavingThrowPart: CHAT_TEMPLATES.savingThrow,
+    TargetResult: CHAT_TEMPLATES.targetResult,
     TestPart: CHAT_TEMPLATES.test,
     TestRequestPart: CHAT_TEMPLATES.testRequest,
   };
 
   for (const [cls, template] of Object.entries(overrides)) {
     if (parts[cls]) parts[cls].TEMPLATE = template;
+    else
+      console.warn(
+        `${MODULE_ID} | Draw Steel message part ${cls} not found — template override skipped`,
+      );
   }
 
   console.log(`${MODULE_ID} | Chat template overrides applied`);
@@ -163,6 +174,9 @@ function _initCollapsibleTrays(html) {
 
 function _injectRollContextMenu(html) {
   for (const card of html.querySelectorAll(".chat-card.result-card")) {
+    /* Target and fall cards carry the context handle in their title row. */
+    if (card.querySelector(".card-target [data-action='resultPartContext']"))
+      continue;
     const rolls = card.querySelectorAll(".card-rolls .dice-roll");
     if (rolls.length < 2) continue;
 

@@ -84,6 +84,22 @@ export default class HeaderSettingsMenu extends HandlebarsApplicationMixin(
       retainerSection: game.i18n.localize(
         "DRAW_STEEL_PLUS.Settings.menus.headers.retainerSection",
       ),
+      companionEnabled: booleanSettingContext(
+        MODULE_ID,
+        "companionHeaderEnabled",
+      ),
+      companionImage: {
+        value: game.settings.get(MODULE_ID, "companionHeaderImage"),
+        label: game.i18n.localize(
+          "DRAW_STEEL_PLUS.Settings.companionHeaderImage.name",
+        ),
+        hint: game.i18n.localize(
+          "DRAW_STEEL_PLUS.Settings.companionHeaderImage.hint",
+        ),
+      },
+      companionSection: game.i18n.localize(
+        "DRAW_STEEL_PLUS.Settings.menus.headers.companionSection",
+      ),
       partyEnabled: booleanSettingContext(MODULE_ID, "partyHeaderEnabled"),
       partyImage: {
         value: game.settings.get(MODULE_ID, "partyHeaderImage"),
@@ -159,6 +175,16 @@ export default class HeaderSettingsMenu extends HandlebarsApplicationMixin(
       ),
       game.settings.set(
         MODULE_ID,
+        "companionHeaderEnabled",
+        data.companionHeaderEnabled ?? HEADER_DEFAULTS.companionHeaderEnabled,
+      ),
+      game.settings.set(
+        MODULE_ID,
+        "companionHeaderImage",
+        data.companionHeaderImage ?? HEADER_DEFAULTS.companionHeaderImage,
+      ),
+      game.settings.set(
+        MODULE_ID,
         "partyHeaderEnabled",
         data.partyHeaderEnabled ?? HEADER_DEFAULTS.partyHeaderEnabled,
       ),
@@ -211,6 +237,16 @@ export default class HeaderSettingsMenu extends HandlebarsApplicationMixin(
         MODULE_ID,
         "retainerHeaderImage",
         HEADER_DEFAULTS.retainerHeaderImage,
+      ),
+      game.settings.set(
+        MODULE_ID,
+        "companionHeaderEnabled",
+        HEADER_DEFAULTS.companionHeaderEnabled,
+      ),
+      game.settings.set(
+        MODULE_ID,
+        "companionHeaderImage",
+        HEADER_DEFAULTS.companionHeaderImage,
       ),
       game.settings.set(
         MODULE_ID,

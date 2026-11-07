@@ -157,6 +157,56 @@ function filterHiddenParts(parts, actor) {
   }
 }
 
+/* The system re-renders sheets with `parts: ["stats"]` (and, since 1.2.0, also
+   "body" for the minion sheet). DS+ sheets replace the stats part with a sidebar
+   and have no body part, so remap stats -> sidebar and drop any part this sheet
+   does not define; Foundry warns about unknown part ids otherwise. */
+function remapRenderParts(sheet, options) {
+  if (!Array.isArray(options?.parts)) return options;
+  const known = new Set(Object.keys(sheet.constructor.PARTS ?? {}));
+  const requested = new Set();
+  for (const part of options.parts) {
+    /* DS+ sheets keep the inherited `stats` key in PARTS but never render it
+       (see _configureRenderParts), so a stats refresh always targets the
+       sidebar when the sheet has one. */
+    const id = part === "stats" && known.has("sidebar") ? "sidebar" : part;
+    if (known.has(id)) requested.add(id);
+  }
+  options.parts = [...requested];
+  return options;
+}
+
+/* Free strike damage type label (signature attack type, or the configured
+   `monster.freeStrikeType` on NPCs). Empty when the system has no type. */
+function getFreeStrikeTypeLabel(actor) {
+  const type = actor.system?.freeStrike?.type;
+  if (!type) return "";
+  return ds.CONFIG.damageTypes[type]?.label ?? type;
+}
+
+function getDamageTypeOptions() {
+  return Object.entries(ds.CONFIG.damageTypes).map(([value, { label }]) => ({
+    value,
+    label,
+  }));
+}
+
+/* "With Captain" context for minions. The system moved this off the NPC sheet
+   onto its dedicated Minion sheet in 1.2.0, where the effect is toggled
+   automatically from the squad's captain; DS+ NPC sheets keep showing it
+   read-only so a minion opened with the full sheet still sees the rider. */
+async function getWithCaptainContext(actor) {
+  const effect = actor.system.monster?.withCaptainEffect;
+  const isMinion = actor.system.monster?.organization === "minion";
+  if (!effect || !isMinion) return { exists: false };
+  return {
+    description: await actor.system._getWithCaptainDescription?.(),
+    effectEnabled: !effect.disabled,
+    effectId: effect.id,
+    exists: true,
+  };
+}
+
 function deduplicateHeaderControls(controls) {
   const seen = new Set();
   return controls.filter((c) => {
@@ -256,8 +306,10 @@ export function registerSheets(SHEET_SIZES) {
   const baseSheets = {
     hero: _registerHeroSheet(sheets, SHEET_SIZES),
     npc: _registerNPCSheet(sheets, SHEET_SIZES),
+    minion: _registerMinionSheet(sheets, SHEET_SIZES),
     object: _registerObjectSheet(sheets, SHEET_SIZES),
     retainer: _registerRetainerSheet(sheets, SHEET_SIZES),
+    companion: _registerCompanionSheet(sheets, SHEET_SIZES),
     party: _registerPartySheet(sheets, SHEET_SIZES),
     item: _registerItemSheet(sheets, SHEET_SIZES),
   };
@@ -378,12 +430,7 @@ function _registerHeroSheet(sheets, SHEET_SIZES) {
     };
 
     render(options = {}, _options = {}) {
-      if (options?.parts?.includes("stats")) {
-        options.parts = options.parts.map((p) =>
-          p === "stats" ? "sidebar" : p,
-        );
-      }
-      return super.render(options, _options);
+      return super.render(remapRenderParts(this, options), _options);
     }
 
     _configureRenderParts(options) {
@@ -709,12 +756,7 @@ function _registerNPCSheet(sheets, SHEET_SIZES) {
     }
 
     render(options = {}, _options = {}) {
-      if (options?.parts?.includes("stats")) {
-        options.parts = options.parts.map((p) =>
-          p === "stats" ? "sidebar" : p,
-        );
-      }
-      return super.render(options, _options);
+      return super.render(remapRenderParts(this, options), _options);
     }
 
     _configureRenderParts(options) {
@@ -768,8 +810,14 @@ function _registerNPCSheet(sheets, SHEET_SIZES) {
         for (const at of Object.values(context.abilities || {}))
           at.abilities?.forEach(markFavorited);
         this._partContextCache.abilities = context.abilities;
-      } else if (partId === "sidebar") {
-        await super._preparePartContext("stats", context, options);
+      } else if (partId === "sidebar" || partId === "stats") {
+        /* "stats" is requested by the compact variant, which folds the sidebar
+           into its header and footer. */
+        if (partId === "sidebar")
+          await super._preparePartContext("stats", context, options);
+        context.withCaptain = await getWithCaptainContext(this.actor);
+        context.freeStrikeType = getFreeStrikeTypeLabel(this.actor);
+        context.freeStrikeTypeOptions = getDamageTypeOptions();
       } else if (
         partId === "favorites" &&
         game.settings.get(MODULE_ID, "npcFavoritesEnabled")
@@ -1031,12 +1079,7 @@ function _registerRetainerSheet(sheets, SHEET_SIZES) {
     };
 
     render(options = {}, _options = {}) {
-      if (options?.parts?.includes("stats")) {
-        options.parts = options.parts.map((p) =>
-          p === "stats" ? "sidebar" : p,
-        );
-      }
-      return super.render(options, _options);
+      return super.render(remapRenderParts(this, options), _options);
     }
 
     _configureRenderParts(options) {
@@ -1060,6 +1103,7 @@ function _registerRetainerSheet(sheets, SHEET_SIZES) {
       await super._preparePartContext(partId, context, options);
       if (partId === "sidebar") {
         await super._preparePartContext("stats", context, options);
+        context.freeStrikeType = getFreeStrikeTypeLabel(this.actor);
       }
       return context;
     }
@@ -1103,6 +1147,300 @@ function _registerRetainerSheet(sheets, SHEET_SIZES) {
 
   console.log(`${MODULE_ID} | Registered DS+ Retainer Sheet`);
   return DrawSteelPlusRetainerSheet;
+}
+
+function _registerCompanionSheet(sheets, SHEET_SIZES) {
+  if (!sheets.DrawSteelCompanionSheet) return null;
+
+  const DrawSteelPlusCompanionSheet = class
+    extends sheets.DrawSteelCompanionSheet
+  {
+    static SHEET_SIZE = SHEET_SIZES.companion;
+
+    static DEFAULT_OPTIONS = {
+      ...super.DEFAULT_OPTIONS,
+      classes: [
+        ...super.DEFAULT_OPTIONS.classes,
+        "draw-steel-plus",
+        "dsp-companion",
+      ],
+      position: {
+        ...super.DEFAULT_OPTIONS.position,
+        width: SHEET_SIZES.companion.width,
+        height: SHEET_SIZES.companion.height,
+      },
+      window: {
+        ...super.DEFAULT_OPTIONS.window,
+        controls: [
+          ...(super.DEFAULT_OPTIONS.window?.controls || []),
+          {
+            action: "configureTabVisibility",
+            icon: "fas fa-file-invoice",
+            label: "DRAW_STEEL_PLUS.TabConfig.title",
+            ownership: "OWNER",
+          },
+        ],
+      },
+      actions: {
+        ...super.DEFAULT_OPTIONS.actions,
+        toggleDocumentDescription,
+        documentListShare,
+        configureTabVisibility: openTabConfig,
+      },
+    };
+
+    static PARTS = {
+      ...super.PARTS,
+      header: {
+        ...(super.PARTS?.header || {}),
+        template: `${MODULE_PATH}/templates/sheets/actor/companion-sheet/header.hbs`,
+      },
+      sidebar: {
+        template: `${MODULE_PATH}/templates/sheets/actor/companion-sheet/sidebar.hbs`,
+        templates: [
+          "systems/draw-steel/templates/sheets/actor/shared/partials/stats/combat.hbs",
+          "systems/draw-steel/templates/sheets/actor/shared/partials/stats/movement.hbs",
+          "systems/draw-steel/templates/sheets/actor/shared/partials/stats/immunities-weaknesses.hbs",
+        ],
+      },
+      features: {
+        ...(super.PARTS?.features || {}),
+        template: `${MODULE_PATH}/templates/sheets/actor/companion-sheet/features.hbs`,
+        templates: [
+          `${MODULE_PATH}/templates/sheets/actor/shared/partials/features/features.hbs`,
+          `${MODULE_PATH}/templates/sheets/actor/shared/partials/search-filter.hbs`,
+        ],
+        scrollable: [""],
+      },
+      biography: {
+        ...(super.PARTS?.biography || {}),
+        template: `${MODULE_PATH}/templates/sheets/actor/companion-sheet/biography.hbs`,
+        scrollable: [""],
+      },
+      abilities: {
+        ...(super.PARTS?.abilities || {}),
+        template: `${MODULE_PATH}/templates/sheets/actor/shared/abilities.hbs`,
+        templates: [
+          `${MODULE_PATH}/templates/sheets/actor/shared/partials/search-filter.hbs`,
+        ],
+        scrollable: [""],
+      },
+      effects: {
+        ...(super.PARTS?.effects || {}),
+        template: `${MODULE_PATH}/templates/sheets/actor/shared/effects.hbs`,
+        scrollable: [""],
+      },
+    };
+
+    static TABS = {
+      ...super.TABS,
+      primary: {
+        ...super.TABS?.primary,
+        tabs: (super.TABS?.primary?.tabs || []).filter((t) => t.id !== "stats"),
+        initial: "features",
+      },
+    };
+
+    render(options = {}, _options = {}) {
+      return super.render(remapRenderParts(this, options), _options);
+    }
+
+    _configureRenderParts(options) {
+      const parts = super._configureRenderParts(options);
+      delete parts.stats;
+      filterHiddenParts(parts, this.actor);
+      return parts;
+    }
+
+    _prepareTabs(group) {
+      const tabs = super._prepareTabs(group);
+      if (group === "primary") filterHiddenTabs(tabs, this.actor);
+      return tabs;
+    }
+
+    get title() {
+      return `${this.document.name} [DS+]`;
+    }
+
+    async _preparePartContext(partId, context, options) {
+      await super._preparePartContext(partId, context, options);
+      if (partId === "sidebar") {
+        /* The system prepares the companion's header context (master link,
+           recoveries, hero resource fields) only for the header part; the DS+
+           sidebar shows the same resources, so pull both in. */
+        await super._preparePartContext("header", context, options);
+        await super._preparePartContext("stats", context, options);
+        context.freeStrikeType = getFreeStrikeTypeLabel(this.actor);
+        const master = this.actor.system.companion?.master;
+        context.master = master
+          ? {
+              name: master.name,
+              primary: master.system.hero?.primary,
+              surges: master.system.hero?.surges,
+              epic: master.system.hero?.epic,
+              showEpic: (this.actor.system.level ?? 0) >= 10,
+            }
+          : null;
+        context.skillsList = this.actor.system.skills?.list ?? "";
+      }
+      return context;
+    }
+
+    _getHeaderControls() {
+      return deduplicateHeaderControls(super._getHeaderControls());
+    }
+
+    _onFirstRender(context, options) {
+      super._onFirstRender(context, options);
+      const scale = getFontScale();
+      const size = this.constructor.SHEET_SIZE;
+      if (scale !== 1)
+        this.setPosition({
+          width: Math.round(size.width * scale),
+          height: Math.round(size.height * scale),
+        });
+    }
+
+    _onRender(context, options) {
+      super._onRender(context, options);
+      applyMinSize(this.element, this.constructor.SHEET_SIZE);
+      setupScrollbarAutoHide(this.element);
+      applyHeaderArt(this.element, "companion");
+      applyParallaxHeader(this.element);
+      applyCommonRender(this.element, this.document);
+      applyFloatingTabs(this);
+      applyTooltipPrevent(this.element);
+    }
+  };
+
+  foundry.documents.collections.Actors.registerSheet(
+    MODULE_ID,
+    DrawSteelPlusCompanionSheet,
+    {
+      types: ["companion"],
+      makeDefault: true,
+      label: "DS+ Companion Sheet",
+    },
+  );
+
+  console.log(`${MODULE_ID} | Registered DS+ Companion Sheet`);
+  return DrawSteelPlusCompanionSheet;
+}
+
+/* The system's Minion sheet (new in Draw Steel 1.2.0) is a two-part stat block:
+   header + a single scrolling body with stats, features, abilities and effects.
+   The DS+ version keeps that shape (no tabs, no sidebar) and restyles it with the
+   DS+ header, item lists, tooltips and search. */
+function _registerMinionSheet(sheets, SHEET_SIZES) {
+  if (!sheets.DrawSteelMinionSheet) return null;
+
+  const DrawSteelPlusMinionSheet = class extends sheets.DrawSteelMinionSheet {
+    static SHEET_SIZE = SHEET_SIZES.minion;
+
+    static DEFAULT_OPTIONS = {
+      ...super.DEFAULT_OPTIONS,
+      classes: [
+        ...super.DEFAULT_OPTIONS.classes,
+        "draw-steel-plus",
+        "dsp-npc",
+        "dsp-minion",
+      ],
+      position: {
+        ...super.DEFAULT_OPTIONS.position,
+        width: SHEET_SIZES.minion.width,
+        height: SHEET_SIZES.minion.height,
+      },
+      actions: {
+        ...super.DEFAULT_OPTIONS.actions,
+        toggleDocumentDescription,
+        documentListShare,
+      },
+    };
+
+    static PARTS = {
+      ...super.PARTS,
+      header: {
+        ...(super.PARTS?.header || {}),
+        /* Same header context as the NPC sheet (the minion sheet extends it). */
+        template: `${MODULE_PATH}/templates/sheets/actor/npc-sheet/header.hbs`,
+      },
+      body: {
+        ...(super.PARTS?.body || {}),
+        template: `${MODULE_PATH}/templates/sheets/actor/minion-sheet/body.hbs`,
+        templates: [
+          `${MODULE_PATH}/templates/sheets/actor/shared/partials/features/features.hbs`,
+          `${MODULE_PATH}/templates/sheets/actor/shared/partials/search-filter.hbs`,
+          "systems/draw-steel/templates/sheets/actor/shared/partials/stats/combat.hbs",
+          "systems/draw-steel/templates/sheets/actor/shared/partials/stats/movement.hbs",
+          "systems/draw-steel/templates/sheets/actor/shared/partials/stats/immunities-weaknesses.hbs",
+        ],
+        scrollable: [""],
+      },
+    };
+
+    get title() {
+      return `${this.document.name} [DS+ Minion]`;
+    }
+
+    render(options = {}, _options = {}) {
+      return super.render(remapRenderParts(this, options), _options);
+    }
+
+    async _preparePartContext(partId, context, options) {
+      await super._preparePartContext(partId, context, options);
+      if (partId === "body") {
+        context.freeStrikeType = getFreeStrikeTypeLabel(this.actor);
+        context.freeStrikeTypeOptions = getDamageTypeOptions();
+        context.isSingleSquadMinion =
+          this.actor.isMinion && this.actor.system.combatGroups?.size === 1;
+        if (context.isSingleSquadMinion)
+          context.combatGroup = this.actor.system.combatGroup;
+        context.favoritesEnabled = false;
+      }
+      return context;
+    }
+
+    _getHeaderControls() {
+      return deduplicateHeaderControls(super._getHeaderControls());
+    }
+
+    _onFirstRender(context, options) {
+      super._onFirstRender(context, options);
+      const scale = getFontScale();
+      const size = this.constructor.SHEET_SIZE;
+      if (scale !== 1)
+        this.setPosition({
+          width: Math.round(size.width * scale),
+          height: Math.round(size.height * scale),
+        });
+    }
+
+    _onRender(context, options) {
+      super._onRender(context, options);
+      applyMinSize(this.element, this.constructor.SHEET_SIZE);
+      setupScrollbarAutoHide(this.element);
+      applyHeaderArt(this.element, "npc");
+      applyParallaxHeader(this.element);
+      applyStaminaPortraitTint(this.element, this.document);
+      setupItemListCollapse(this.element);
+      processSidebarTags(this.element);
+      setupItemSearch(this.element);
+      applyTooltipPrevent(this.element);
+    }
+  };
+
+  foundry.documents.collections.Actors.registerSheet(
+    MODULE_ID,
+    DrawSteelPlusMinionSheet,
+    {
+      types: ["npc"],
+      makeDefault: false,
+      label: "DS+ Minion Sheet",
+    },
+  );
+
+  console.log(`${MODULE_ID} | Registered DS+ Minion Sheet`);
+  return DrawSteelPlusMinionSheet;
 }
 
 function _registerPartySheet(sheets, SHEET_SIZES) {

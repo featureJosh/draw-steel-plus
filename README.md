@@ -2,6 +2,8 @@
 
 Improves the UI/UX of the Draw Steel system for character sheets, item sheets, and general UI elements. Adds new sleek custom sheets, item preview tooltips, improved chat styling and new UIs for metacurrency, negotiation, montage tests and etc.
 
+Requires Foundry VTT 14 and Draw Steel **1.2.0** or later. Version 2.4.0 adds DS+ sheets for the new Companion actor type and the single-page Minion stat block, plus Improved Chat styling for 1.2.0's per-target ability results, falling messages and the new roll presentation. See [CHANGELOG.md](CHANGELOG.md).
+
 **Custom Sheets**
 
 ![New custom sheets](https://github.com/user-attachments/assets/d4a379a4-175d-4f6b-9f03-5781c73688e7)

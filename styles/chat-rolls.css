@@ -1,0 +1,390 @@
+/* ==========================================================================
+   Draw Steel 1.2.0 roll presentation inside DS+ Improved Chat
+   - PowerRoll renders as .dice-roll.expanded > .inline-result > .dice-total + .power-result (tier + flavor)
+   - DamageRoll renders its apply button inside the roll: button.dice-total.apply-damage with a typed icon
+   - TargetResult parts (per-target cards) and FallPart cards
+   ========================================================================== */
+
+body.dsp-improved-chat
+    :is(.chat-sidebar, #chat-notifications, .chat-popout)
+    .dice-roll
+    .header {
+    flex-basis: 100%;
+    text-align: center;
+    font-size: var(--dsp-font-size-lg);
+    font-weight: 700;
+    color: var(--dsp-text-secondary);
+    margin-bottom: 0.2rem;
+}
+
+body.dsp-improved-chat
+    :is(.chat-sidebar, #chat-notifications, .chat-popout)
+    .dice-roll
+    a.header:hover {
+    color: var(--dsp-accent);
+}
+
+/* Power roll: total on the left, tier + flavor block on the right */
+body.dsp-improved-chat
+    :is(.chat-sidebar, #chat-notifications, .chat-popout)
+    .dice-roll
+    .inline-result
+    .power-result {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1px;
+    padding: 0.25rem 0.5rem;
+    background: var(--dsp-surface-input);
+    border-left: 2px solid var(--dsp-accent-dim);
+    min-width: 0;
+}
+
+body.dsp-improved-chat
+    :is(.chat-sidebar, #chat-notifications, .chat-popout)
+    .dice-roll
+    .inline-result
+    .power-result
+    .tier {
+    margin: 0;
+    line-height: 1.2;
+}
+
+body.dsp-improved-chat
+    :is(.chat-sidebar, #chat-notifications, .chat-popout)
+    .dice-roll
+    .inline-result
+    .power-result
+    .tier
+    em {
+    color: var(--dsp-text-tertiary);
+    font-style: italic;
+    text-transform: none;
+    letter-spacing: normal;
+    font-weight: 500;
+    margin-left: 0.25rem;
+}
+
+body.dsp-improved-chat
+    :is(.chat-sidebar, #chat-notifications, .chat-popout)
+    .dice-roll
+    .inline-result
+    .power-result
+    .dice-flavor {
+    margin: 0;
+    line-height: 1.2;
+}
+
+body.dsp-improved-chat
+    :is(.chat-sidebar, #chat-notifications, .chat-popout)
+    .dice-roll
+    .inline-result
+    .power-result
+    + .dice-total,
+body.dsp-improved-chat
+    :is(.chat-sidebar, #chat-notifications, .chat-popout)
+    .dice-roll
+    .inline-result
+    .dice-total:has(+ .power-result) {
+    border-left: none;
+    border-right: 1px solid var(--dsp-border);
+}
+
+/* Damage roll: the apply button lives inside the roll as the total */
+body.dsp-improved-chat
+    :is(.chat-sidebar, #chat-notifications, .chat-popout)
+    .dice-roll
+    .inline-result
+    button.dice-total.apply-damage {
+    flex: 0 0 auto;
+    min-width: calc(72px * var(--dsp-scale, 1));
+    height: auto;
+    gap: calc(5px * var(--dsp-scale, 1));
+    background: var(--dsp-primary-dark);
+    border: none;
+    border-left: 1px solid var(--dsp-primary);
+    border-radius: 0;
+    color: #f0d0d0;
+    font-size: var(--dsp-font-size-3xl);
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: none;
+    transition:
+        background 0.15s ease,
+        color 0.15s ease;
+}
+
+body.dsp-improved-chat
+    :is(.chat-sidebar, #chat-notifications, .chat-popout)
+    .dice-roll
+    .inline-result
+    button.dice-total.apply-damage:hover {
+    background: var(--dsp-primary);
+    color: #fff;
+    transform: none;
+}
+
+body.dsp-improved-chat
+    :is(.chat-sidebar, #chat-notifications, .chat-popout)
+    .dice-roll
+    .inline-result
+    button.dice-total.apply-damage:disabled,
+body.dsp-improved-chat
+    :is(.chat-sidebar, #chat-notifications, .chat-popout)
+    .dice-roll
+    .inline-result
+    button.dice-total.apply-damage.disabled {
+    opacity: 0.5;
+    cursor: default;
+}
+
+body.dsp-improved-chat
+    :is(.chat-sidebar, #chat-notifications, .chat-popout)
+    .dice-roll
+    .inline-result
+    button.dice-total.apply-damage
+    i {
+    font-size: var(--dsp-font-size-xl);
+}
+
+body.dsp-improved-chat
+    :is(.chat-sidebar, #chat-notifications, .chat-popout)
+    .damage-type-icon {
+    --damage-type-outline: rgba(0, 0, 0, 0.6);
+    color: var(--damage-type-color, inherit);
+    text-shadow:
+        -1px -1px 0 var(--damage-type-outline),
+        1px -1px 0 var(--damage-type-outline),
+        1px 1px 0 var(--damage-type-outline),
+        -1px 1px 0 var(--damage-type-outline);
+}
+
+/* Heal buttons (same template, no type color) */
+body.dsp-improved-chat
+    :is(.chat-sidebar, #chat-notifications, .chat-popout)
+    .dice-roll
+    .inline-result
+    button.dice-total.apply-damage:has(.fa-heart-pulse) {
+    background: var(--dsp-success-bg);
+    border-left-color: var(--dsp-success);
+    color: var(--dsp-success);
+}
+
+/* Dice tooltip rows: formula on one side, individual dice on the other */
+body.dsp-improved-chat
+    :is(.chat-sidebar, #chat-notifications, .chat-popout)
+    .dice-roll
+    .dice-tooltip
+    .dice {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+    align-items: center;
+    gap: calc(6px * var(--dsp-scale, 1));
+}
+
+body.dsp-improved-chat
+    :is(.chat-sidebar, #chat-notifications, .chat-popout)
+    .dice-roll
+    .dice-tooltip
+    .dice
+    .part-header
+    .part-total {
+    display: none;
+}
+
+/* ===== Per-target result cards ===== */
+
+body.dsp-improved-chat
+    :is(.chat-sidebar, #chat-notifications, .chat-popout)
+    .target-card
+    .card-target,
+body.dsp-improved-chat
+    :is(.chat-sidebar, #chat-notifications, .chat-popout)
+    .fall-card
+    .card-target {
+    display: flex;
+    align-items: center;
+    gap: calc(8px * var(--dsp-scale, 1));
+    padding: 0.2rem 0.25rem 0.3rem;
+    border-bottom: 1px solid var(--dsp-border-gold);
+}
+
+body.dsp-improved-chat
+    :is(.chat-sidebar, #chat-notifications, .chat-popout)
+    .card-target
+    .target-img {
+    width: calc(32px * var(--dsp-scale, 1));
+    height: calc(32px * var(--dsp-scale, 1));
+    flex: none;
+    border: 1px solid var(--dsp-border-gold);
+    border-radius: calc(4px * var(--dsp-scale, 1));
+    object-fit: cover;
+    object-position: top;
+    box-shadow: 0 0 6px rgb(0 0 0 / 70%);
+}
+
+body.dsp-improved-chat
+    :is(.chat-sidebar, #chat-notifications, .chat-popout)
+    .card-target
+    .target-icon {
+    width: calc(32px * var(--dsp-scale, 1));
+    text-align: center;
+    font-size: var(--dsp-font-size-6xl);
+    color: var(--dsp-accent);
+}
+
+body.dsp-improved-chat
+    :is(.chat-sidebar, #chat-notifications, .chat-popout)
+    .card-target
+    .target-name {
+    flex: 1;
+    min-width: 0;
+    font-size: var(--dsp-font-size-3xl);
+    font-weight: 700;
+    color: var(--dsp-text);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+body.dsp-improved-chat
+    :is(.chat-sidebar, #chat-notifications, .chat-popout)
+    .card-target
+    a.target-name {
+    color: var(--dsp-text);
+}
+
+body.dsp-improved-chat
+    :is(.chat-sidebar, #chat-notifications, .chat-popout)
+    .card-target
+    a.target-name:hover {
+    color: var(--dsp-accent-bright);
+}
+
+body.dsp-improved-chat
+    :is(.chat-sidebar, #chat-notifications, .chat-popout)
+    .card-target
+    .target-tier {
+    font-family: "Draw Steel Glyphs", serif;
+    font-size: var(--dsp-font-size-6xl);
+    line-height: 1;
+    color: var(--dsp-accent);
+    flex: none;
+}
+
+body.dsp-improved-chat
+    :is(.chat-sidebar, #chat-notifications, .chat-popout)
+    .card-target
+    .dsp-roll-context {
+    position: static;
+    color: var(--dsp-text-tertiary);
+    font-size: var(--dsp-font-size-base);
+    opacity: 0.6;
+    flex: none;
+}
+
+body.dsp-improved-chat
+    :is(.chat-sidebar, #chat-notifications, .chat-popout)
+    .card-target
+    .dsp-roll-context:hover {
+    opacity: 1;
+    color: var(--dsp-accent);
+}
+
+body.dsp-improved-chat
+    :is(.chat-sidebar, #chat-notifications, .chat-popout)
+    .fall-card
+    .fall-warning {
+    font-style: normal;
+    font-weight: 600;
+    color: var(--dsp-text);
+    font-size: calc(0.78rem * var(--dsp-scale, 1));
+}
+
+/* Potency outcomes */
+body.dsp-improved-chat
+    :is(.chat-sidebar, #chat-notifications, .chat-popout)
+    .card-potency {
+    display: flex;
+    flex-direction: column;
+    gap: calc(3px * var(--dsp-scale, 1));
+}
+
+body.dsp-improved-chat
+    :is(.chat-sidebar, #chat-notifications, .chat-popout)
+    .card-potency
+    .potency-row {
+    display: flex;
+    align-items: baseline;
+    gap: calc(6px * var(--dsp-scale, 1));
+    font-size: calc(0.78rem * var(--dsp-scale, 1));
+    line-height: 1.4;
+    color: var(--dsp-text);
+}
+
+body.dsp-improved-chat
+    :is(.chat-sidebar, #chat-notifications, .chat-popout)
+    .card-potency
+    .potency-row
+    > i {
+    flex: none;
+    font-size: var(--dsp-font-size-lg);
+}
+
+body.dsp-improved-chat
+    :is(.chat-sidebar, #chat-notifications, .chat-popout)
+    .card-potency
+    .potency-row.applies
+    > i {
+    color: var(--dsp-danger);
+}
+
+body.dsp-improved-chat
+    :is(.chat-sidebar, #chat-notifications, .chat-popout)
+    .card-potency
+    .potency-row.resisted {
+    color: var(--dsp-text-secondary);
+}
+
+body.dsp-improved-chat
+    :is(.chat-sidebar, #chat-notifications, .chat-popout)
+    .card-potency
+    .potency-row.resisted
+    > i {
+    color: var(--dsp-success);
+}
+
+body.dsp-improved-chat
+    :is(.chat-sidebar, #chat-notifications, .chat-popout)
+    .card-potency
+    .potency-row
+    span.potency {
+    font-family: "Draw Steel Glyphs", serif;
+    font-size: var(--dsp-font-size-3xl);
+    text-transform: lowercase;
+    line-height: 0.9;
+    color: var(--dsp-accent);
+}
+
+/* Disabled owner-only buttons on target cards (system disables them for non-owners) */
+body.dsp-improved-chat
+    :is(.chat-sidebar, #chat-notifications, .chat-popout)
+    .card-buttons
+    button:disabled,
+body.dsp-improved-chat
+    :is(.chat-sidebar, #chat-notifications, .chat-popout)
+    .card-buttons
+    button.disabled {
+    opacity: 0.45;
+    cursor: default;
+    transform: none;
+}
+
+/* Potency modification dialog uses the glyph font for potency text */
+.modify-potency-dialog p.hint span.potency {
+    font-family: "Draw Steel Glyphs", serif;
+    text-transform: lowercase;
+    line-height: 0.9;
+}

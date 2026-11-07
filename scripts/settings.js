@@ -220,6 +220,27 @@ export function registerSettings() {
     requiresReload: false,
   });
 
+  game.settings.register(MODULE_ID, "companionHeaderEnabled", {
+    name: "DRAW_STEEL_PLUS.Settings.companionHeaderEnabled.name",
+    hint: "DRAW_STEEL_PLUS.Settings.companionHeaderEnabled.hint",
+    scope: "world",
+    config: false,
+    type: Boolean,
+    default: HEADER_DEFAULTS.companionHeaderEnabled,
+    requiresReload: false,
+  });
+
+  game.settings.register(MODULE_ID, "companionHeaderImage", {
+    name: "DRAW_STEEL_PLUS.Settings.companionHeaderImage.name",
+    hint: "DRAW_STEEL_PLUS.Settings.companionHeaderImage.hint",
+    scope: "world",
+    config: false,
+    type: String,
+    default: HEADER_DEFAULTS.companionHeaderImage,
+    filePicker: "image",
+    requiresReload: false,
+  });
+
   game.settings.register(MODULE_ID, "partyHeaderEnabled", {
     name: "DRAW_STEEL_PLUS.Settings.partyHeaderEnabled.name",
     hint: "DRAW_STEEL_PLUS.Settings.partyHeaderEnabled.hint",

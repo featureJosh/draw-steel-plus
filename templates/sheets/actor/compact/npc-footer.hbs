@@ -21,20 +21,20 @@
     </div>
 
     <div class="compact-footer-group">
-      {{#if gm}}
+      {{#if editable}}
       <button type="button" class="compact-footer-label compact-footer-btn" data-action="freeStrike">{{systemFields.monster.fields.freeStrike.label}}</button>
       {{else}}
       <span class="compact-footer-label">{{systemFields.monster.fields.freeStrike.label}}</span>
       {{/if}}
-      <span class="compact-footer-static">{{system.monster.freeStrike}}</span>
+      <span class="compact-footer-static">{{system.freeStrike.value}}{{#if freeStrikeType}} {{freeStrikeType}}{{/if}}</span>
     </div>
 
     {{#if withCaptain.exists}}
-    <div class="compact-footer-group">
-      <button type="button" class="compact-footer-label compact-footer-btn" data-action="toggleWithCaptainEffect" data-effect-id="{{withCaptain.effectId}}" data-tooltip="DRAW_STEEL.ActiveEffect.WithCaptainEffects.embedLabel">
+    <div class="compact-footer-group compact-with-captain {{#unless withCaptain.effectEnabled}}inactive{{/unless}}" data-tooltip="{{localize (ifThen withCaptain.effectEnabled "DRAW_STEEL_PLUS.Sheet.WithCaptainActive" "DRAW_STEEL_PLUS.Sheet.WithCaptainInactive")}}">
+      <span class="compact-footer-label">
+        <i class="fa-solid {{ifThen withCaptain.effectEnabled "fa-toggle-on" "fa-toggle-off"}}" inert></i>
         {{localize "DRAW_STEEL.ActiveEffect.WithCaptainEffects.embedLabel"}}
-        <i class="fa-solid {{ifThen withCaptain.effectEnabled "fa-toggle-on" "fa-toggle-off"}}"></i>
-      </button>
+      </span>
     </div>
     {{/if}}
 
@@ -48,6 +48,10 @@
     <div class="compact-footer-group">
       <span class="compact-footer-label">{{systemFields.monster.fields.freeStrike.label}}</span>
       {{formInput systemFields.monster.fields.freeStrike value=systemSource.monster.freeStrike dataset=datasets.isSource}}
+    </div>
+    <div class="compact-footer-group">
+      <span class="compact-footer-label">{{systemFields.monster.fields.freeStrikeType.label}}</span>
+      {{formInput systemFields.monster.fields.freeStrikeType value=systemSource.monster.freeStrikeType dataset=datasets.isSource options=freeStrikeTypeOptions blank=""}}
     </div>
     <div class="compact-footer-edit-section">
       {{> "systems/draw-steel/templates/sheets/actor/shared/partials/stats/combat.hbs"}}

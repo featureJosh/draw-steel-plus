@@ -90,9 +90,9 @@
       <div class="sidebar-resource">
         <div class="sidebar-resource-header">
           {{#if isPlay}}
-          {{#if gm}}
+          {{#if owner}}
           <button type="button" data-action="freeStrike">
-            <i class="fa-solid fa-burst"></i> {{systemFields.retainer.fields.freeStrike.label}}
+            <i class="fa-solid fa-burst" inert></i> {{systemFields.retainer.fields.freeStrike.label}}
           </button>
           {{else}}
           <span><i class="fa-solid fa-burst"></i> {{systemFields.retainer.fields.freeStrike.label}}</span>
@@ -104,7 +104,7 @@
         {{#if isPlay}}
         <div class="sidebar-resource-fields">
           <div class="sidebar-field">
-            <span class="sidebar-static">{{system.retainer.freeStrike}}</span>
+            <span class="sidebar-static">{{system.freeStrike.value}}{{#if freeStrikeType}} <span class="free-strike-type">{{freeStrikeType}}</span>{{/if}}</span>
           </div>
         </div>
         {{else}}

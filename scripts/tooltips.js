@@ -396,7 +396,7 @@ export class TooltipsDSP {
         const label = document.createElement("p");
         label.classList.add("dsp-reactive-power-roll");
         const strong = document.createElement("strong");
-        const localized = game.i18n.localize("DRAW_STEEL.ROLL.Power.Label");
+        const localized = game.i18n.localize("DRAW_STEEL.Item.ability.FIELDS.power.label");
         strong.textContent =
           localized && !localized.startsWith("DRAW_STEEL.")
             ? localized
@@ -477,7 +477,7 @@ export class TooltipsDSP {
     }
     if (!tiers.length) return "";
 
-    const localized = game.i18n.localize("DRAW_STEEL.ROLL.Power.Label");
+    const localized = game.i18n.localize("DRAW_STEEL.Item.ability.FIELDS.power.label");
     const rollLabel =
       localized && !localized.startsWith("DRAW_STEEL.")
         ? localized
