@@ -61,14 +61,14 @@
       <legend>{{systemFields.monster.fields.freeStrike.label}}</legend>
       <div class="free-strike-body">
         {{#if isPlay}}
-        {{#if gm}}
+        {{#if editable}}
         <button type="button" data-action="freeStrike">
-          <i class="fa-solid fa-burst"></i>
-          {{system.monster.freeStrike}}
+          <i class="fa-solid fa-burst" inert></i>
+          {{system.freeStrike.value}}
         </button>
         {{else}}
         <span>
-          {{system.monster.freeStrike}}
+          {{system.freeStrike.value}}
         </span>
         {{/if}}
         {{else}}

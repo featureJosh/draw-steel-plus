@@ -80,9 +80,9 @@
       <div class="sidebar-resource">
         <div class="sidebar-resource-header">
           {{#if isPlay}}
-          {{#if gm}}
+          {{#if editable}}
           <button type="button" data-action="freeStrike">
-            <i class="fa-solid fa-burst"></i> {{systemFields.monster.fields.freeStrike.label}}
+            <i class="fa-solid fa-burst" inert></i> {{systemFields.monster.fields.freeStrike.label}}
           </button>
           {{else}}
           <span><i class="fa-solid fa-burst"></i> {{systemFields.monster.fields.freeStrike.label}}</span>
@@ -94,7 +94,7 @@
         {{#if isPlay}}
         <div class="sidebar-resource-fields">
           <div class="sidebar-field">
-            <span class="sidebar-static">{{system.monster.freeStrike}}</span>
+            <span class="sidebar-static">{{system.freeStrike.value}}{{#if freeStrikeType}} <span class="free-strike-type">{{freeStrikeType}}</span>{{/if}}</span>
           </div>
         </div>
         {{else}}
@@ -102,18 +102,22 @@
           <div class="sidebar-field">
             {{formInput systemFields.monster.fields.freeStrike value=systemSource.monster.freeStrike dataset=datasets.isSource}}
           </div>
+          <div class="sidebar-field sidebar-field-wide">
+            <label>{{systemFields.monster.fields.freeStrikeType.label}}</label>
+            {{formInput systemFields.monster.fields.freeStrikeType value=systemSource.monster.freeStrikeType dataset=datasets.isSource options=freeStrikeTypeOptions blank=""}}
+          </div>
         </div>
         {{/if}}
       </div>
 
       {{#if (and isPlay withCaptain.exists)}}
-      <div class="with-captain">
-        <button id="{{concat rootId "-withCaptainToggle"}}" type="button" data-action="toggleWithCaptainEffect" data-effect-id="{{withCaptain.effectId}}">
+      <div class="with-captain {{#unless withCaptain.effectEnabled}}inactive{{/unless}}" data-tooltip="{{localize (ifThen withCaptain.effectEnabled "DRAW_STEEL_PLUS.Sheet.WithCaptainActive" "DRAW_STEEL_PLUS.Sheet.WithCaptainInactive")}}">
+        <span class="with-captain-label">
+          <i class="fa-solid {{ifThen withCaptain.effectEnabled "fa-toggle-on" "fa-toggle-off"}}" inert></i>
           {{localize "DRAW_STEEL.ActiveEffect.WithCaptainEffects.embedLabel"}}
-          <i class="fa-solid fa-lg {{ifThen withCaptain.effectEnabled "fa-toggle-on" "fa-toggle-off"}}"></i>
-        </button>
+        </span>
         {{#if withCaptain.description}}
-        <label for="{{concat rootId "-withCaptainToggle"}}">{{{withCaptain.description}}}</label>
+        <label>{{{withCaptain.description}}}</label>
         {{/if}}
       </div>
       {{/if}}

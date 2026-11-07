@@ -1,0 +1,98 @@
+<header class="sheet-header">
+
+  <img class="header-bg-art" src="modules/draw-steel-plus/assets/sketch-images/s3.jpg" aria-hidden="true">
+  <div class="header-bg-overlay"></div>
+
+  <div class="header-portrait">
+    <div class="portrait-frame">
+      <img
+        class="profile-img"
+        src="{{document.img}}"
+        alt="{{document.name}}"
+        data-action="{{ifThen isPlay "showPortraitArtwork" "editImage"}}"
+        data-edit="img"
+        title="{{document.name}}"
+      >
+      <div class="level-badge" title="{{localize "DRAW_STEEL.Item.class.FIELDS.level.label"}}">
+        {{#if system.advancementReady}}
+        <a data-action="levelUp" data-tooltip="DRAW_STEEL.SHEET.LevelUp">
+          <i class="fa-solid fa-arrow-up" inert></i>
+        </a>
+        {{else}}
+        {{system.level}}
+        {{/if}}
+      </div>
+    </div>
+  </div>
+
+  <div class="header-body">
+    <div class="identity-block">
+      <div class="name-row">
+        {{#if isPlay}}
+        <h1 class="char-name">{{document.name}}</h1>
+        {{else}}
+        {{formInput fields.name value=source.name placeholder=(localize "Name") class="char-name-input"}}
+        {{/if}}
+      </div>
+
+      {{#if system.source.label}}
+      <div class="npc-attribution">{{system.source.label}}</div>
+      {{/if}}
+
+      <div class="origins-row">
+        {{#each companionKeywords as |keyword|}}
+        <div class="tag">{{keyword}}</div>
+        {{/each}}
+        {{#if system.advancementReady}}
+        <button type="button" class="tag" {{disabled (not editable)}} data-action="levelUp" data-tooltip="DRAW_STEEL.SHEET.LevelUp">
+          {{localize "DRAW_STEEL.Item.class.FIELDS.level.label"}} {{system.level}}
+          <i class="fa-solid fa-up-long" inert></i>
+        </button>
+        {{else}}
+        <div class="tag">{{localize "DRAW_STEEL.Item.class.FIELDS.level.label"}} {{system.level}}</div>
+        {{/if}}
+        {{#unless isPlay}}
+        <div class="tag">
+          <a data-action="editCompanionMetadata" class="filled" data-tooltip="DRAW_STEEL.Actor.companion.CompanionMetadata.DialogTitle">
+            <i class="fa-solid fa-gear" inert></i>
+          </a>
+        </div>
+        <div class="tag">
+          <a data-action="openAdvancements" class="filled" data-tooltip="{{localize 'DOCUMENT.AdvancementPl'}}">
+            <i class="fa-solid fa-circle-nodes" inert></i>
+          </a>
+        </div>
+        {{/unless}}
+      </div>
+
+      <div class="retainer-mentor companion-master">
+        <span class="mentor-label">{{systemFields.companion.fields.master.label}}:</span>
+        {{#if masterLink}}
+        {{{masterLink.outerHTML}}}
+        {{else}}
+        <span class="unfilled">{{localize "DRAW_STEEL_PLUS.Sheet.NoMaster"}}</span>
+        {{/if}}
+      </div>
+    </div>
+
+    <div class="stats-block"></div>
+
+    <div class="header-characteristics">
+      {{#unless isPlay}}
+      <button type="button" class="char-edit-btn fa-solid fa-cog" data-action="editCharacteristics"></button>
+      {{/unless}}
+      {{#each system.characteristics as |chr key|}}
+      <a
+        class="char-badge {{disabled (not @root.owner)}}"
+        data-action="roll"
+        data-roll-type="characteristic"
+        data-characteristic="{{key}}"
+      >
+        <span class="char-label">{{key}}</span>
+        <span class="char-value">{{numberFormat chr.value sign=true}}</span>
+      </a>
+      {{/each}}
+    </div>
+  </div>
+
+</header>

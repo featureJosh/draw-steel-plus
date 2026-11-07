@@ -1,0 +1,24 @@
+{{!-- Falling part (Draw Steel 1.2.0): warning text, the fall damage roll(s) and a
+     "take the fall" button for the token's owner. Context: ctx.fallWarning,
+     ctx.rolls, ctx.buttons, ctx.flavor. --}}
+<div class="chat-card result-card fall-card">
+  <div class="card-target">
+    <i class="fa-solid fa-person-falling-burst target-icon" inert></i>
+    <span class="target-name">{{localize "DRAW_STEEL.ChatMessage.PARTS.falling.Label"}}</span>
+    <a class="dsp-roll-context fa-fw fa-solid fa-ellipsis-vertical" data-action="resultPartContext" aria-label="{{localize "DRAW_STEEL_PLUS.Sheet.MoreActions"}}"></a>
+  </div>
+  {{#if part.flavor}}
+  <p class="supplement flavor">{{{ctx.flavor}}}</p>
+  {{/if}}
+  {{#if ctx.fallWarning}}
+  <p class="supplement fall-warning">{{ctx.fallWarning}}</p>
+  {{/if}}
+  <div class="card-rolls">
+    {{#each ctx.rolls}}{{{this}}}{{/each}}
+  </div>
+  {{#if ctx.buttons.length}}
+  <div class="card-buttons">
+    {{#each ctx.buttons as |button|}}{{{button.outerHTML}}}{{/each}}
+  </div>
+  {{/if}}
+</div>

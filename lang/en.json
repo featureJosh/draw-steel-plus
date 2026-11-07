@@ -18,8 +18,17 @@
       "Retainer": "DS+ Retainer Sheet",
       "Party": "DS+ Party Sheet",
       "Item": "DS+ Item Sheet",
+      "Companion": "DS+ Companion Sheet",
+      "Minion": "DS+ Minion Sheet",
       "CompactHero": "DS+ Compact Hero Sheet",
       "CompactNPC": "DS+ Compact NPC Sheet",
+      "WithCaptainActive": "With Captain effect is active (the squad has a living captain).",
+      "WithCaptainInactive": "With Captain effect is inactive (no living captain in the squad).",
+      "SquadStamina": "Squad Stamina",
+      "FreeStrikeTooltip": "Roll this creature's free strike.",
+      "NoMaster": "No master linked",
+      "RemoveMember": "Remove from party",
+      "ShowMember": "Open sheet",
       "EditImage": "Edit Image",
       "ViewArtwork": "View Artwork",
       "Use": "Use",
@@ -52,6 +61,7 @@
           "npcSection": "NPC Sheet",
           "objectSection": "Object Sheet",
           "retainerSection": "Retainer Sheet",
+          "companionSection": "Companion Sheet",
           "partySection": "Party Sheet"
         },
         "npc": {
@@ -188,6 +198,14 @@
         "name": "Custom Retainer Header Image",
         "hint": "Upload a custom image for the Retainer sheet header. Leave blank to use the default."
       },
+      "companionHeaderEnabled": {
+        "name": "Companion Header Art",
+        "hint": "Show the background art banner in the Companion sheet header."
+      },
+      "companionHeaderImage": {
+        "name": "Custom Companion Header Image",
+        "hint": "Upload a custom image for the Companion sheet header. Leave blank to use the default."
+      },
       "partyHeaderEnabled": {
         "name": "Party Header Art",
         "hint": "Show the background art banner in the Party sheet header."
@@ -268,6 +286,14 @@
       "appliedBy": "Applied by",
       "description": "Description",
       "powerRoll": "Power Roll"
+    },
+    "Chat": {
+      "TierTooltip": "Tier {tier} result",
+      "PotencyApplies": "The target failed the potency check; this effect applies.",
+      "PotencyResisted": "The target met the potency; this effect does not apply."
+    },
+    "Socket": {
+      "unavailable": "Draw Steel Plus: the socketlib module is not active, so shared UI state cannot be synchronized."
     },
     "Search": {
       "placeholder": "Search items...",

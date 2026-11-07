@@ -1,0 +1,102 @@
+/* ==========================================================================
+   DS+ Companion sheet (Draw Steel 1.2.0 companion actors) and shared bits:
+   master / mentor link row, read-only With Captain rider, free strike type.
+   ========================================================================== */
+
+.draw-steel-plus.sheet .sheet-header .retainer-mentor,
+.draw-steel-plus.sheet .sheet-header .companion-master {
+    display: flex;
+    align-items: center;
+    gap: calc(6px * var(--dsp-scale, 1));
+    font-size: var(--dsp-font-size-lg);
+    color: var(--dsp-text-light);
+    z-index: 1;
+}
+
+.draw-steel-plus.sheet .sheet-header .retainer-mentor .mentor-label,
+.draw-steel-plus.sheet .sheet-header .companion-master .mentor-label {
+    font-size: var(--dsp-font-size-sm);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--dsp-text-faint);
+}
+
+.draw-steel-plus.sheet .sheet-header .companion-master .unfilled {
+    font-style: italic;
+    color: var(--dsp-text-faint);
+}
+
+.draw-steel-plus.sheet .sheet-header .retainer-mentor a.content-link,
+.draw-steel-plus.sheet .sheet-header .companion-master a.content-link {
+    background: rgba(74, 14, 14, 0.6);
+    border: 1px solid var(--dsp-accent);
+    border-radius: var(--dsp-radius-full);
+    color: var(--dsp-accent);
+    padding: 1px calc(8px * var(--dsp-scale, 1));
+    font-size: var(--dsp-font-size-md);
+    font-weight: 600;
+}
+
+.draw-steel-plus.sheet .sheet-header .companion-master a.content-link:hover {
+    color: var(--dsp-text);
+    border-color: var(--dsp-primary-light);
+}
+
+/* Master's resources shown on the companion sidebar */
+.draw-steel-plus.sheet .companion-master-resources .sidebar-resource-header span {
+    color: var(--dsp-accent);
+}
+
+.draw-steel-plus.sheet .sidebar-field-wide {
+    flex: 1 1 100%;
+}
+
+/* Free strike damage type suffix (NPC, retainer, companion sidebars) */
+.draw-steel-plus.sheet .sidebar-static .free-strike-type {
+    font-size: var(--dsp-font-size-sm);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--dsp-accent);
+    margin-left: calc(4px * var(--dsp-scale, 1));
+}
+
+/* With Captain rider: read-only since 1.2.0 toggles it from the squad's captain */
+.draw-steel-plus.sheet .with-captain .with-captain-label {
+    display: flex;
+    align-items: center;
+    gap: calc(6px * var(--dsp-scale, 1));
+    color: var(--dsp-text-light);
+    font-size: var(--dsp-font-size-md);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 2px 4px;
+}
+
+.draw-steel-plus.sheet .with-captain .with-captain-label i {
+    color: var(--dsp-success, #4ade80);
+    font-size: var(--dsp-font-size-xl);
+}
+
+.draw-steel-plus.sheet .with-captain.inactive .with-captain-label i {
+    color: var(--dsp-text-faint);
+}
+
+.draw-steel-plus.sheet .with-captain.inactive label {
+    opacity: 0.6;
+}
+
+.draw-steel-plus.sheet .with-captain label > * {
+    display: inline;
+}
+
+.draw-steel-plus.dsp-compact .compact-with-captain .compact-footer-label i {
+    color: var(--dsp-success, #4ade80);
+    margin-right: 3px;
+}
+
+.draw-steel-plus.dsp-compact .compact-with-captain.inactive .compact-footer-label i {
+    color: var(--dsp-text-faint);
+}

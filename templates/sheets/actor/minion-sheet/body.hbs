@@ -1,0 +1,224 @@
+{{!-- DS+ Minion stat block: one scrolling body (no tabs). Context comes from the
+     system's DrawSteelMinionSheet body part plus DS+ additions (freeStrikeType,
+     freeStrikeTypeOptions, isSingleSquadMinion, combatGroup). data-tab lets the
+     DS+ search filter scope itself to this section. --}}
+<section class="minion-body standard-form scrollable" data-tab="body">
+
+  {{#if isPlay}}
+  <div class="minion-stat-strip">
+    <div class="sidebar-stat-grid minion-stat-grid">
+      <div class="sidebar-stat-badge">
+        <span class="stat-val">{{system.combat.size}}</span>
+        <span class="stat-lbl">{{systemFields.combat.fields.size.label}}</span>
+      </div>
+      <div class="sidebar-stat-badge">
+        <span class="stat-val">{{system.movement.value}}</span>
+        <span class="stat-lbl">{{ifThen movement.list movement.list (localize "DRAW_STEEL.Actor.base.FIELDS.movement.value.label")}}</span>
+      </div>
+      <div class="sidebar-stat-badge">
+        <span class="stat-val">{{system.combat.stability}}</span>
+        <span class="stat-lbl">{{systemFields.combat.fields.stability.label}}</span>
+      </div>
+      <div class="sidebar-stat-badge minion-stamina">
+        {{#if isSingleSquadMinion}}
+        <span class="stat-val">
+          <input type="number" name="squadStaminaValue" value="{{combatGroup.system.staminaValue}}">
+          <span class="stat-sep">/</span>{{combatGroup.system.staminaMax}}
+        </span>
+        <span class="stat-lbl">{{localize "DRAW_STEEL_PLUS.Sheet.SquadStamina"}}</span>
+        {{else}}
+        <span class="stat-val">
+          <input type="number" name="system.stamina.value" value="{{system.stamina.value}}">
+          <span class="stat-sep">/</span>{{system.stamina.max}}
+        </span>
+        <span class="stat-lbl">{{systemFields.stamina.label}}</span>
+        {{/if}}
+      </div>
+      {{#if editable}}
+      <button type="button" class="sidebar-stat-badge minion-free-strike" data-action="freeStrike" data-tooltip="DRAW_STEEL_PLUS.Sheet.FreeStrikeTooltip">
+        <span class="stat-val"><i class="fa-solid fa-burst" inert></i> {{system.freeStrike.value}}</span>
+        <span class="stat-lbl">{{systemFields.monster.fields.freeStrike.label}}{{#if damageOption}} · {{damageOption}}{{/if}}</span>
+      </button>
+      {{else}}
+      <div class="sidebar-stat-badge minion-free-strike">
+        <span class="stat-val"><i class="fa-solid fa-burst" inert></i> {{system.freeStrike.value}}</span>
+        <span class="stat-lbl">{{systemFields.monster.fields.freeStrike.label}}{{#if damageOption}} · {{damageOption}}{{/if}}</span>
+      </div>
+      {{/if}}
+    </div>
+
+    <div class="minion-secondary">
+      <div class="sidebar-tag-section">
+        <div class="sidebar-tag-header"><i class="fa-solid fa-shield-heart" inert></i> {{systemFields.damage.fields.immunities.label}}</div>
+        <div class="sidebar-tags" data-tag-type="immunities">
+          {{#if damageIW.immunities}}{{{damageIW.immunities}}}{{else}}<span class="sidebar-tag sidebar-tag-none">None</span>{{/if}}
+        </div>
+      </div>
+      <div class="sidebar-tag-section">
+        <div class="sidebar-tag-header"><i class="fa-solid fa-heart-crack" inert></i> {{systemFields.damage.fields.weaknesses.label}}</div>
+        <div class="sidebar-tags" data-tag-type="weaknesses">
+          {{#if damageIW.weaknesses}}{{{damageIW.weaknesses}}}{{else}}<span class="sidebar-tag sidebar-tag-none">None</span>{{/if}}
+        </div>
+      </div>
+      {{#if withCaptain.exists}}
+      <div class="sidebar-tag-section with-captain {{#unless withCaptain.effectEnabled}}inactive{{/unless}}" data-tooltip="{{localize (ifThen withCaptain.effectEnabled "DRAW_STEEL_PLUS.Sheet.WithCaptainActive" "DRAW_STEEL_PLUS.Sheet.WithCaptainInactive")}}">
+        <div class="sidebar-tag-header with-captain-label">
+          <i class="fa-solid {{ifThen withCaptain.effectEnabled "fa-toggle-on" "fa-toggle-off"}}" inert></i>
+          {{localize "DRAW_STEEL.ActiveEffect.WithCaptainEffects.embedLabel"}}
+        </div>
+        <label>{{{ifThen withCaptain.description withCaptain.description "—"}}}</label>
+      </div>
+      {{/if}}
+    </div>
+  </div>
+  {{else}}
+  <div class="minion-stat-strip minion-edit">
+    <button type="button" class="minion-edit-stats" data-action="editMinionStats">
+      <i class="fa-solid fa-scroll" inert></i>
+      {{localize "DRAW_STEEL.Actor.npc.MinionStats.DialogTitle"}}
+    </button>
+    <div class="sidebar-edit-section">
+      <div class="form-group slim">
+        <label>{{systemFields.monster.fields.freeStrike.label}}</label>
+        <div class="form-fields">
+          {{formInput systemFields.monster.fields.freeStrike value=systemSource.monster.freeStrike dataset=datasets.isSource}}
+          {{formInput systemFields.monster.fields.freeStrikeType value=systemSource.monster.freeStrikeType dataset=datasets.isSource options=freeStrikeTypeOptions blank=""}}
+        </div>
+      </div>
+      {{> "systems/draw-steel/templates/sheets/actor/shared/partials/stats/combat.hbs"}}
+      {{> "systems/draw-steel/templates/sheets/actor/shared/partials/stats/movement.hbs"}}
+      {{> "systems/draw-steel/templates/sheets/actor/shared/partials/stats/immunities-weaknesses.hbs"}}
+    </div>
+  </div>
+  {{/if}}
+
+  <div class="minion-characteristics">
+    {{#each characteristics as |chr key|}}
+    {{#if @root.isPlay}}
+    <a
+      class="char-badge {{disabled (not @root.owner)}}"
+      data-action="roll"
+      data-roll-type="characteristic"
+      data-characteristic="{{key}}"
+      data-tooltip-text="{{localize "DRAW_STEEL.ROLL.Prompt" prompt=chr.field.label}}"
+    >
+      <span class="char-label">{{key}}</span>
+      <span class="char-value">{{numberFormat chr.value sign=true}}</span>
+    </a>
+    {{else}}
+    <label class="char-badge edit">
+      <span class="char-label">{{key}}</span>
+      <input type="number" name="system.characteristics.{{key}}.value" value="{{chr.value}}" placeholder="0">
+    </label>
+    {{/if}}
+    {{/each}}
+  </div>
+
+  {{> "modules/draw-steel-plus/templates/sheets/actor/shared/partials/search-filter.hbs"}}
+
+  {{> "modules/draw-steel-plus/templates/sheets/actor/shared/partials/features/features.hbs"}}
+
+  {{#each abilities as |abilityType|}}
+  {{#if abilityType.showHeader}}
+  <section class="item-list-container ability-list-container" data-ability-type="{{@key}}">
+    <div class="item-header">
+      <div class="item-column item-name">{{abilityType.label}}</div>
+      {{#if (eq @key "villain")}}
+      <div class="item-column item-order">{{localize "DRAW_STEEL.Item.ability.Order"}}</div>
+      {{/if}}
+      <div class="item-column item-distance">{{@root.abilityFields.distance.label}}</div>
+      <div class="item-column item-target">{{@root.abilityFields.target.label}}</div>
+      <div class="item-column item-controls">
+        {{#if abilityType.showAdd}}
+        {{#with (localize "DRAW_STEEL.SHEET.Add" itemName=(localize "TYPES.Item.ability")) as |addItemTooltip|}}
+        <a class="createDoc" data-action="createDoc" data-document-class="Item" data-type="ability" data-render-sheet="true" data-system.type="{{@key}}" data-tooltip-text="{{addItemTooltip}}">
+          <i class="fa-solid fa-plus" inert></i>
+        </a>
+        {{/with}}
+        {{/if}}
+      </div>
+    </div>
+    <ol class="item-list abilities-list">
+      {{#each abilityType.abilities as |abilityContext|}}
+      <li class="item ability draggable expandable-document" data-document-uuid="{{abilityContext.item.uuid}}">
+        <div class="item-row">
+          <div class="item-column item-name item-tooltip">
+            <div class="item-image-wrapper" data-action="useAbility">
+              <img class="item-image" src="{{abilityContext.item.img}}" alt="{{abilityContext.item.name}}">
+            </div>
+            {{#if abilityContext.item.system.restricted}}
+            <div class="restricted-warning" data-tooltip="DRAW_STEEL.Item.ability.Restricted">
+              <i class="fa-solid fa-triangle-exclamation" inert></i>
+            </div>
+            {{/if}}
+            <div class="name" data-action="toggleDocumentDescription">
+              <div class="label">{{abilityContext.item.name}}</div>
+              {{#unless (eq @../key "villain")}}
+              {{#if abilityContext.item.system.resource}}
+              <div class="resource-cost">{{abilityContext.item.system.resource}} {{@root.system.coreResource.name}}</div>
+              {{/if}}
+              {{/unless}}
+              <div class="keywords">{{abilityContext.formattedLabels.keywords}}</div>
+            </div>
+          </div>
+          {{#if (eq @../key "villain")}}
+          <div class="item-column item-order">{{abilityContext.order}}</div>
+          {{/if}}
+          <div class="item-column item-distance">{{abilityContext.formattedLabels.distance}}</div>
+          <div class="item-column item-target">{{abilityContext.formattedLabels.target}}</div>
+          <div class="item-column item-controls">
+            <a class="fa-fw fa-solid fa-play" data-action="useAbility"></a>
+            <a class="fa-fw fa-solid fa-comment" data-action="documentListShare"></a>
+            <a class="fa-fw fa-solid fa-ellipsis-vertical" data-action="documentListContext"></a>
+            <a class="fa-fw fa-solid fa-angle-{{ifThen abilityContext.expanded "down" "right"}}" data-action="toggleDocumentDescription"></a>
+          </div>
+        </div>
+        <div class="document-description item-embed content-embed {{#if abilityContext.expanded}}expanded{{/if}}">
+          {{#if abilityContext.expanded}}{{{abilityContext.embed.outerHTML}}}{{/if}}
+        </div>
+      </li>
+      {{/each}}
+    </ol>
+  </section>
+  {{/if}}
+  {{/each}}
+
+  <div class="effect-list-container">
+    <ol class="effect-list">
+      <li class="effect-header">
+        <div class="effect-name flexrow">{{localize "DOCUMENT.ActiveEffects"}}</div>
+        <div class="effect-source">{{localize "DRAW_STEEL.ActiveEffect.Source"}}</div>
+        <div class="effect-duration">{{localize "EFFECT.TABS.duration"}}</div>
+        <div class="effect-controls flexrow">
+          <a class="effect-control effect-create fa-solid fa-fw fa-plus"></a>
+        </div>
+      </li>
+      <ol class="effect-list">
+        {{#each effects as |effect|}}
+        <li class="effect draggable expandable-document {{#if effect.disabled}}disabled{{/if}}" data-document-uuid="{{effect.uuid}}">
+          <div class="effect-row">
+            <div class="effect-name item-tooltip">
+              <div class="item-image-wrapper chat-overlay" data-action="documentListShare">
+                <img class="effect-image" src="{{effect.img}}" alt="{{effect.name}}">
+              </div>
+              <div class="name" data-action="toggleDocumentDescription">
+                <div class="label">{{effect.name}}</div>
+              </div>
+            </div>
+            <div class="effect-source">{{effect.sourceName}}</div>
+            <div class="effect-duration">{{effect.durationLabel}}</div>
+            <div class="effect-controls">
+              <a class="fa-fw fa-solid fa-comment" data-action="documentListShare"></a>
+              <a class="fa-fw fa-solid fa-ellipsis-vertical" data-action="documentListContext"></a>
+              <a class="fa-fw fa-solid fa-angle-{{ifThen effect.expanded 'down' 'right'}}" data-action="toggleDocumentDescription"></a>
+            </div>
+          </div>
+          <div class="document-description effect-description {{#if effect.expanded}}expanded{{/if}}">
+            {{#if effect.expanded}}{{{effect.enrichedDescription.outerHTML}}}{{/if}}
+          </div>
+        </li>
+        {{/each}}
+      </ol>
+    </ol>
+  </div>
+</section>
